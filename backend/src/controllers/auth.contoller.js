@@ -125,7 +125,7 @@ export const logout = async (req, res) => {
             message: "User logged out successfully"
         })
     } catch (error) {
-        
+        res.status(500).json({error: "Internal server error"})
     }
 }
 
