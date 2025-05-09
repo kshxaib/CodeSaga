@@ -40,7 +40,6 @@ export const createPlaylist = async (req, res) => {
     return res.status(500).json({ error: "Error while creating playlist" });
   }
 };
-
 export const getAllListDetails = async (req, res) => {
   try {
     const playlists = await db.playlist.findMany({

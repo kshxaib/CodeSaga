@@ -23,11 +23,16 @@ enum Difficulty {
 model User {
   id       String   @id @default(uuid())
   name     String?
+  username String   @unique
+  bio      String?
+  linkedin  String?
+  portfolio  String?
   email    String   @unique
-  image    String?
+  image    String?  @default("https://placehold.co/600x400")
   role     UserRole @default(USER)
   password String
-
+  forgotPasswordOtp String?
+  forgotPasswordOtpExpiry DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

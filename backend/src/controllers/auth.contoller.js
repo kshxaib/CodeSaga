@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import {db} from '../libs/db.js'
 import {UserRole} from '../generated/prisma/index.js'
 import jwt from 'jsonwebtoken'
+import { generateCodeForEmail } from '../libs/generateCode.js';
+import { forgotPasswordGenContent, sendMail } from '../libs/mail.js';
 
 export const register = async (req, res) => {
     const {email, password, name} = req.body
@@ -138,5 +140,52 @@ export const check = async (req, res) => {
         })
     } catch (error) {
         throw new Error("Unauthorized access")
+    }
+}
+
+export const forgotPassword = async (req, res) => {
+    const {email} = req.body
+
+    if(!email){
+        return res.status(400).json({error: "Email is required"})
+    } 
+
+    try {
+        const user = await db.user.findUnique({
+            where: {
+                email
+            }
+        })
+
+        if(!user){
+            return res.status(404).json({error: "User not found"})
+        }
+
+        const code = generateCodeForEmail() 
+        
+         await db.user.update({
+      where: { email },
+      data: {
+        forgotPasswordOtp: code,
+        forgotPasswordOtpExpiry: new Date(Date.now() + 15 * 60 * 1000), 
+      },
+    });
+
+        const mailGenContent = forgotPasswordGenContent(user.name, code)
+
+        //sending email
+        await sendMail({
+            email: user.email,
+            subject: "Password Reset Code",
+            mailGenContent
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Password reset code sent to your email",
+        })
+    } catch (error) {
+        console.error("Error sending email:", error)
+        return res.status(500).json({error: "Error sending email"})
     }
 }

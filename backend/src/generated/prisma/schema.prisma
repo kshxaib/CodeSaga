@@ -20,15 +20,20 @@ enum Difficulty {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  name     String?
-  email    String   @unique
-  image    String?
-  role     UserRole @default(USER)
-  password String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                      String    @id @default(uuid())
+  name                    String?
+  username                String    @unique
+  bio                     String?
+  linkedin                String?
+  portfolio               String?
+  email                   String    @unique
+  image                   String?   @default("https://placehold.co/600x400")
+  role                    UserRole  @default(USER)
+  password                String
+  forgotPasswordOtp       String?
+  forgotPasswordOtpExpiry DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 
   problems      Problem[]
   submission    Submission[]

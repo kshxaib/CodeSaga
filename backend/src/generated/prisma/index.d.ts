@@ -1626,10 +1626,16 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
+    username: string | null
+    bio: string | null
+    linkedin: string | null
+    portfolio: string | null
     email: string | null
     image: string | null
     role: $Enums.UserRole | null
     password: string | null
+    forgotPasswordOtp: string | null
+    forgotPasswordOtpExpiry: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1637,10 +1643,16 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    username: string | null
+    bio: string | null
+    linkedin: string | null
+    portfolio: string | null
     email: string | null
     image: string | null
     role: $Enums.UserRole | null
     password: string | null
+    forgotPasswordOtp: string | null
+    forgotPasswordOtpExpiry: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1648,10 +1660,16 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    username: number
+    bio: number
+    linkedin: number
+    portfolio: number
     email: number
     image: number
     role: number
     password: number
+    forgotPasswordOtp: number
+    forgotPasswordOtpExpiry: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1661,10 +1679,16 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    username?: true
+    bio?: true
+    linkedin?: true
+    portfolio?: true
     email?: true
     image?: true
     role?: true
     password?: true
+    forgotPasswordOtp?: true
+    forgotPasswordOtpExpiry?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1672,10 +1696,16 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    username?: true
+    bio?: true
+    linkedin?: true
+    portfolio?: true
     email?: true
     image?: true
     role?: true
     password?: true
+    forgotPasswordOtp?: true
+    forgotPasswordOtpExpiry?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1683,10 +1713,16 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    username?: true
+    bio?: true
+    linkedin?: true
+    portfolio?: true
     email?: true
     image?: true
     role?: true
     password?: true
+    forgotPasswordOtp?: true
+    forgotPasswordOtpExpiry?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1767,10 +1803,16 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string | null
+    username: string
+    bio: string | null
+    linkedin: string | null
+    portfolio: string | null
     email: string
     image: string | null
     role: $Enums.UserRole
     password: string
+    forgotPasswordOtp: string | null
+    forgotPasswordOtpExpiry: Date | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1795,10 +1837,16 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    username?: boolean
+    bio?: boolean
+    linkedin?: boolean
+    portfolio?: boolean
     email?: boolean
     image?: boolean
     role?: boolean
     password?: boolean
+    forgotPasswordOtp?: boolean
+    forgotPasswordOtpExpiry?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     problems?: boolean | User$problemsArgs<ExtArgs>
@@ -1811,10 +1859,16 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    username?: boolean
+    bio?: boolean
+    linkedin?: boolean
+    portfolio?: boolean
     email?: boolean
     image?: boolean
     role?: boolean
     password?: boolean
+    forgotPasswordOtp?: boolean
+    forgotPasswordOtpExpiry?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1822,10 +1876,16 @@ export namespace Prisma {
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    username?: boolean
+    bio?: boolean
+    linkedin?: boolean
+    portfolio?: boolean
     email?: boolean
     image?: boolean
     role?: boolean
     password?: boolean
+    forgotPasswordOtp?: boolean
+    forgotPasswordOtpExpiry?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1833,15 +1893,21 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
+    username?: boolean
+    bio?: boolean
+    linkedin?: boolean
+    portfolio?: boolean
     email?: boolean
     image?: boolean
     role?: boolean
     password?: boolean
+    forgotPasswordOtp?: boolean
+    forgotPasswordOtpExpiry?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "image" | "role" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     problems?: boolean | User$problemsArgs<ExtArgs>
     submission?: boolean | User$submissionArgs<ExtArgs>
@@ -1863,10 +1929,16 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
+      username: string
+      bio: string | null
+      linkedin: string | null
+      portfolio: string | null
       email: string
       image: string | null
       role: $Enums.UserRole
       password: string
+      forgotPasswordOtp: string | null
+      forgotPasswordOtpExpiry: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2298,10 +2370,16 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly username: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly linkedin: FieldRef<"User", 'String'>
+    readonly portfolio: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly password: FieldRef<"User", 'String'>
+    readonly forgotPasswordOtp: FieldRef<"User", 'String'>
+    readonly forgotPasswordOtpExpiry: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -9719,10 +9797,16 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    username: 'username',
+    bio: 'bio',
+    linkedin: 'linkedin',
+    portfolio: 'portfolio',
     email: 'email',
     image: 'image',
     role: 'role',
     password: 'password',
+    forgotPasswordOtp: 'forgotPasswordOtp',
+    forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9983,10 +10067,16 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
+    username?: StringFilter<"User"> | string
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedin?: StringNullableFilter<"User"> | string | null
+    portfolio?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     password?: StringFilter<"User"> | string
+    forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
+    forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     problems?: ProblemListRelationFilter
@@ -9998,10 +10088,16 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
+    username?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    portfolio?: SortOrderInput | SortOrder
     email?: SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
     password?: SortOrder
+    forgotPasswordOtp?: SortOrderInput | SortOrder
+    forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     problems?: ProblemOrderByRelationAggregateInput
@@ -10012,29 +10108,41 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    username?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedin?: StringNullableFilter<"User"> | string | null
+    portfolio?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     password?: StringFilter<"User"> | string
+    forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
+    forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     problems?: ProblemListRelationFilter
     submission?: SubmissionListRelationFilter
     problemSolved?: ProblemSolvedListRelationFilter
     playlists?: PlaylistListRelationFilter
-  }, "id" | "email">
+  }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
+    username?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    portfolio?: SortOrderInput | SortOrder
     email?: SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
     password?: SortOrder
+    forgotPasswordOtp?: SortOrderInput | SortOrder
+    forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -10048,10 +10156,16 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    username?: StringWithAggregatesFilter<"User"> | string
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    linkedin?: StringNullableWithAggregatesFilter<"User"> | string | null
+    portfolio?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     password?: StringWithAggregatesFilter<"User"> | string
+    forgotPasswordOtp?: StringNullableWithAggregatesFilter<"User"> | string | null
+    forgotPasswordOtpExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -10558,10 +10672,16 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemCreateNestedManyWithoutUserInput
@@ -10573,10 +10693,16 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
@@ -10588,10 +10714,16 @@ export namespace Prisma {
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUpdateManyWithoutUserNestedInput
@@ -10603,10 +10735,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
@@ -10618,10 +10756,16 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10629,10 +10773,16 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10640,10 +10790,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11228,6 +11384,17 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -11287,10 +11454,16 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    username?: SortOrder
+    bio?: SortOrder
+    linkedin?: SortOrder
+    portfolio?: SortOrder
     email?: SortOrder
     image?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    forgotPasswordOtp?: SortOrder
+    forgotPasswordOtpExpiry?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11298,10 +11471,16 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    username?: SortOrder
+    bio?: SortOrder
+    linkedin?: SortOrder
+    portfolio?: SortOrder
     email?: SortOrder
     image?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    forgotPasswordOtp?: SortOrder
+    forgotPasswordOtpExpiry?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11309,10 +11488,16 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    username?: SortOrder
+    bio?: SortOrder
+    linkedin?: SortOrder
+    portfolio?: SortOrder
     email?: SortOrder
     image?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    forgotPasswordOtp?: SortOrder
+    forgotPasswordOtpExpiry?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11361,6 +11546,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserRoleFilter<$PrismaModel>
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11838,6 +12037,10 @@ export namespace Prisma {
 
   export type EnumUserRoleFieldUpdateOperationsInput = {
     set?: $Enums.UserRole
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -12352,6 +12555,17 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12427,6 +12641,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserRoleFilter<$PrismaModel>
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -12800,10 +13028,16 @@ export namespace Prisma {
   export type UserCreateWithoutProblemsInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionCreateNestedManyWithoutUserInput
@@ -12814,10 +13048,16 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutProblemsInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -12936,10 +13176,16 @@ export namespace Prisma {
   export type UserUpdateWithoutProblemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUpdateManyWithoutUserNestedInput
@@ -12950,10 +13196,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutProblemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -13023,10 +13275,16 @@ export namespace Prisma {
   export type UserCreateWithoutSubmissionInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemCreateNestedManyWithoutUserInput
@@ -13037,10 +13295,16 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutSubmissionInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
@@ -13152,10 +13416,16 @@ export namespace Prisma {
   export type UserUpdateWithoutSubmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUpdateManyWithoutUserNestedInput
@@ -13166,10 +13436,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutSubmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
@@ -13350,10 +13626,16 @@ export namespace Prisma {
   export type UserCreateWithoutProblemSolvedInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemCreateNestedManyWithoutUserInput
@@ -13364,10 +13646,16 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutProblemSolvedInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
@@ -13439,10 +13727,16 @@ export namespace Prisma {
   export type UserUpdateWithoutProblemSolvedInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUpdateManyWithoutUserNestedInput
@@ -13453,10 +13747,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutProblemSolvedInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
@@ -13542,10 +13842,16 @@ export namespace Prisma {
   export type UserCreateWithoutPlaylistsInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemCreateNestedManyWithoutUserInput
@@ -13556,10 +13862,16 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutPlaylistsInput = {
     id?: string
     name?: string | null
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
     email: string
     image?: string | null
     role?: $Enums.UserRole
     password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
@@ -13602,10 +13914,16 @@ export namespace Prisma {
   export type UserUpdateWithoutPlaylistsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUpdateManyWithoutUserNestedInput
@@ -13616,10 +13934,16 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
