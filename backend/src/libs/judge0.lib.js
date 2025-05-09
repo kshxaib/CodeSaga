@@ -5,10 +5,15 @@ export const getJudge0LangaugeId = (language) => {
         "JAVA": 62, 
         "JAVASCRIPT": 63,
         "C": 50,
-        "CPP": 54
+        "C++": 54,
+        "TYPESCRIPT": 74,
+        "C#": 51,
+        "GO": 60,
+        "RUST": 73,
+        "PHP": 68,
     };
 
-    return languageMap[language.toUpperCase()]
+    return languageMap[language.toUpperCase()] || 63 
 }
 
 const sleep  = (ms)=> new Promise((resolve)=> setTimeout(resolve , ms))
@@ -39,4 +44,21 @@ export const pollBatchResults = async (tokens) => {
         if(isAllDone) return results
         await sleep(1000)
     }
+}
+
+export const getLanguageName = (language_id) => {
+    const languageMap = {
+        71: "PYTHON",
+        62: "JAVA", 
+        63: "JAVASCRIPT",
+        50: "C",
+        54: "C++",
+        74: "TYPESCRIPT",
+        51: "C#",
+        60: "GO",
+        73: "RUST",
+        68: "PHP",
+    };
+
+    return languageMap[language_id] || "Unknown Language"
 }
