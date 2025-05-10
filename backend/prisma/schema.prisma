@@ -39,6 +39,8 @@ model User {
   followerCount  Int      @default(0)
   followingCount Int      @default(0)
 
+  badges   Json     @default("[]") 
+
   problems      Problem[]
   submission    Submission[]
   problemSolved ProblemSolved[]
@@ -162,4 +164,13 @@ model ProblemInPlaylist{
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([playlistId, problemId])
+}
+
+model Badge {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  icon        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

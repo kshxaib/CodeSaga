@@ -108,8 +108,9 @@ export const executeCode = async (req, res) => {
         })
     }
 
-    // Save individual test case results to the database
+    // await checkAndAwardBadges(userId, {problemId, solveTime: submission.time})
 
+    // Save individual test case results to the database
     const testCaseResults = detailResults.map((result, index) => ({
         submissionId: submission.id,
         testCase: result.testCase,
