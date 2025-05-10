@@ -19,37 +19,39 @@ enum Difficulty {
   HARD
 }
 
-
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  username String   @unique
-  bio      String?
-  linkedin  String?
-  portfolio  String?
-  email    String   @unique
-  image    String?  @default("https://placehold.co/600x400")
-  role     UserRole @default(USER)
-  password String
-  forgotPasswordOtp String?
+  id                      String    @id @default(uuid())
+  name                    String
+  username                String    @unique
+  bio                     String?
+  linkedin                String?
+  portfolio               String?
+  email                   String    @unique
+  image                   String?   @default("https://placehold.co/600x400")
+  role                    UserRole  @default(USER)
+  password                String
+  forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
 
-  followers   User[]    @relation("UserFollows") 
-  following   User[]    @relation("UserFollows")
-  followerCount  Int      @default(0)
-  followingCount Int      @default(0)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastSolvedDate DateTime?
 
-  badges   Json     @default("[]") 
+  followers      User[] @relation("UserFollows")
+  following      User[] @relation("UserFollows")
+  followerCount  Int    @default(0)
+  followingCount Int    @default(0)
+
+  badges Json @default("[]")
 
   problems      Problem[]
   submission    Submission[]
   problemSolved ProblemSolved[]
-  playlists Playlist[]
+  playlists     Playlist[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 
 model Problem {
   id                 String     @id @default(uuid())
@@ -66,15 +68,25 @@ model Problem {
   codeSnippets       Json
   referenceSolutions Json
 
+  likes    Int @default(0)
+  dislikes Int @default(0)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  submission Submission[]
-  solvedBy   ProblemSolved[]
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submission        Submission[]
+  solvedBy          ProblemSolved[]
   problemsPlaylists ProblemInPlaylist[]
 }
 
+model ProblemReaction {
+  id        String @id @default(uuid())
+  problemId String
+  userId    String
+  isLike    Boolean 
+  @@unique([problemId, userId])
+}
 
 model Submission {
   id            String  @id @default(uuid())
@@ -99,7 +111,6 @@ model Submission {
   testCases TestCaseResult[]
 }
 
-
 model TestCaseResult {
   id            String   @id @default(uuid())
   submissionId  String
@@ -120,7 +131,6 @@ model TestCaseResult {
   @@index([submissionId])
 }
 
-
 model ProblemSolved {
   id        String   @id @default(uuid())
   userId    String
@@ -134,12 +144,11 @@ model ProblemSolved {
   @@unique([userId, problemId])
 }
 
-
-model Playlist{
-  id        String   @id @default(uuid()) 
-  name String 
+model Playlist {
+  id          String  @id @default(uuid())
+  name        String
   description String?
-  userId String
+  userId      String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -151,17 +160,16 @@ model Playlist{
   @@unique([name, userId])
 }
 
-
-model ProblemInPlaylist{
-  id        String   @id @default(uuid()) 
+model ProblemInPlaylist {
+  id         String @id @default(uuid())
   playlistId String
-  problemId String
+  problemId  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([playlistId, problemId])
 }

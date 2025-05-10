@@ -133,6 +133,9 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   forgotPasswordOtp: 'forgotPasswordOtp',
   forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastSolvedDate: 'lastSolvedDate',
   followerCount: 'followerCount',
   followingCount: 'followingCount',
   badges: 'badges',
@@ -154,8 +157,17 @@ exports.Prisma.ProblemScalarFieldEnum = {
   testcases: 'testcases',
   codeSnippets: 'codeSnippets',
   referenceSolutions: 'referenceSolutions',
+  likes: 'likes',
+  dislikes: 'dislikes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProblemReactionScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  userId: 'userId',
+  isLike: 'isLike'
 };
 
 exports.Prisma.SubmissionScalarFieldEnum = {
@@ -263,6 +275,7 @@ exports.Difficulty = exports.$Enums.Difficulty = {
 exports.Prisma.ModelName = {
   User: 'User',
   Problem: 'Problem',
+  ProblemReaction: 'ProblemReaction',
   Submission: 'Submission',
   TestCaseResult: 'TestCaseResult',
   ProblemSolved: 'ProblemSolved',

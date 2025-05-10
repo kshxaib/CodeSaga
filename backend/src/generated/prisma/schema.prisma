@@ -33,6 +33,10 @@ model User {
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
 
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastSolvedDate DateTime?
+
   followers      User[] @relation("UserFollows")
   following      User[] @relation("UserFollows")
   followerCount  Int    @default(0)
@@ -64,6 +68,9 @@ model Problem {
   codeSnippets       Json
   referenceSolutions Json
 
+  likes    Int @default(0)
+  dislikes Int @default(0)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -71,6 +78,15 @@ model Problem {
   submission        Submission[]
   solvedBy          ProblemSolved[]
   problemsPlaylists ProblemInPlaylist[]
+}
+
+model ProblemReaction {
+  id        String  @id @default(uuid())
+  problemId String
+  userId    String
+  isLike    Boolean
+
+  @@unique([problemId, userId])
 }
 
 model Submission {

@@ -9,6 +9,7 @@ import {
   getAllProblemsSolvedByUser,
   searchProblems,
   getRecommendedProblems,
+  reactToProblem,
 } from "../controllers/problem.controller.js";
 
 const problemRoutes = express.Router();
@@ -22,6 +23,7 @@ problemRoutes.get("/get-solved-problems", authMiddleware, getAllProblemsSolvedBy
 
 problemRoutes.get('/search-problem', authMiddleware, searchProblems)
 problemRoutes.get('/recommendations', authMiddleware, getRecommendedProblems)
+problemRoutes.post('/:problemId/react', authMiddleware, reactToProblem)
 
 export default problemRoutes;
     

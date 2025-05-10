@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Problem = $Result.DefaultSelection<Prisma.$ProblemPayload>
 /**
+ * Model ProblemReaction
+ * 
+ */
+export type ProblemReaction = $Result.DefaultSelection<Prisma.$ProblemReactionPayload>
+/**
  * Model Submission
  * 
  */
@@ -228,6 +233,16 @@ export class PrismaClient<
     * ```
     */
   get problem(): Prisma.ProblemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.problemReaction`: Exposes CRUD operations for the **ProblemReaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProblemReactions
+    * const problemReactions = await prisma.problemReaction.findMany()
+    * ```
+    */
+  get problemReaction(): Prisma.ProblemReactionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.submission`: Exposes CRUD operations for the **Submission** model.
@@ -730,6 +745,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Problem: 'Problem',
+    ProblemReaction: 'ProblemReaction',
     Submission: 'Submission',
     TestCaseResult: 'TestCaseResult',
     ProblemSolved: 'ProblemSolved',
@@ -754,7 +770,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "problem" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemInPlaylist" | "badge"
+      modelProps: "user" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemInPlaylist" | "badge"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -903,6 +919,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProblemCountArgs<ExtArgs>
             result: $Utils.Optional<ProblemCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProblemReaction: {
+        payload: Prisma.$ProblemReactionPayload<ExtArgs>
+        fields: Prisma.ProblemReactionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProblemReactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProblemReactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          findFirst: {
+            args: Prisma.ProblemReactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProblemReactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          findMany: {
+            args: Prisma.ProblemReactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>[]
+          }
+          create: {
+            args: Prisma.ProblemReactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          createMany: {
+            args: Prisma.ProblemReactionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProblemReactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>[]
+          }
+          delete: {
+            args: Prisma.ProblemReactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          update: {
+            args: Prisma.ProblemReactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProblemReactionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProblemReactionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProblemReactionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProblemReactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemReactionPayload>
+          }
+          aggregate: {
+            args: Prisma.ProblemReactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProblemReaction>
+          }
+          groupBy: {
+            args: Prisma.ProblemReactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProblemReactionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProblemReactionCountArgs<ExtArgs>
+            result: $Utils.Optional<ProblemReactionCountAggregateOutputType> | number
           }
         }
       }
@@ -1436,6 +1526,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     problem?: ProblemOmit
+    problemReaction?: ProblemReactionOmit
     submission?: SubmissionOmit
     testCaseResult?: TestCaseResultOmit
     problemSolved?: ProblemSolvedOmit
@@ -1735,11 +1826,15 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
+    currentStreak: number | null
+    longestStreak: number | null
     followerCount: number | null
     followingCount: number | null
   }
 
   export type UserSumAggregateOutputType = {
+    currentStreak: number | null
+    longestStreak: number | null
     followerCount: number | null
     followingCount: number | null
   }
@@ -1757,6 +1852,9 @@ export namespace Prisma {
     password: string | null
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastSolvedDate: Date | null
     followerCount: number | null
     followingCount: number | null
     createdAt: Date | null
@@ -1776,6 +1874,9 @@ export namespace Prisma {
     password: string | null
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastSolvedDate: Date | null
     followerCount: number | null
     followingCount: number | null
     createdAt: Date | null
@@ -1795,6 +1896,9 @@ export namespace Prisma {
     password: number
     forgotPasswordOtp: number
     forgotPasswordOtpExpiry: number
+    currentStreak: number
+    longestStreak: number
+    lastSolvedDate: number
     followerCount: number
     followingCount: number
     badges: number
@@ -1805,11 +1909,15 @@ export namespace Prisma {
 
 
   export type UserAvgAggregateInputType = {
+    currentStreak?: true
+    longestStreak?: true
     followerCount?: true
     followingCount?: true
   }
 
   export type UserSumAggregateInputType = {
+    currentStreak?: true
+    longestStreak?: true
     followerCount?: true
     followingCount?: true
   }
@@ -1827,6 +1935,9 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastSolvedDate?: true
     followerCount?: true
     followingCount?: true
     createdAt?: true
@@ -1846,6 +1957,9 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastSolvedDate?: true
     followerCount?: true
     followingCount?: true
     createdAt?: true
@@ -1865,6 +1979,9 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastSolvedDate?: true
     followerCount?: true
     followingCount?: true
     badges?: true
@@ -1972,6 +2089,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    currentStreak: number
+    longestStreak: number
+    lastSolvedDate: Date | null
     followerCount: number
     followingCount: number
     badges: JsonValue
@@ -2011,6 +2131,9 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastSolvedDate?: boolean
     followerCount?: boolean
     followingCount?: boolean
     badges?: boolean
@@ -2038,6 +2161,9 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastSolvedDate?: boolean
     followerCount?: boolean
     followingCount?: boolean
     badges?: boolean
@@ -2058,6 +2184,9 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastSolvedDate?: boolean
     followerCount?: boolean
     followingCount?: boolean
     badges?: boolean
@@ -2078,6 +2207,9 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastSolvedDate?: boolean
     followerCount?: boolean
     followingCount?: boolean
     badges?: boolean
@@ -2085,7 +2217,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "followerCount" | "followingCount" | "badges" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "followerCount" | "followingCount" | "badges" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     followers?: boolean | User$followersArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
@@ -2121,6 +2253,9 @@ export namespace Prisma {
       password: string
       forgotPasswordOtp: string | null
       forgotPasswordOtpExpiry: Date | null
+      currentStreak: number
+      longestStreak: number
+      lastSolvedDate: Date | null
       followerCount: number
       followingCount: number
       badges: Prisma.JsonValue
@@ -2567,6 +2702,9 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly forgotPasswordOtp: FieldRef<"User", 'String'>
     readonly forgotPasswordOtpExpiry: FieldRef<"User", 'DateTime'>
+    readonly currentStreak: FieldRef<"User", 'Int'>
+    readonly longestStreak: FieldRef<"User", 'Int'>
+    readonly lastSolvedDate: FieldRef<"User", 'DateTime'>
     readonly followerCount: FieldRef<"User", 'Int'>
     readonly followingCount: FieldRef<"User", 'Int'>
     readonly badges: FieldRef<"User", 'Json'>
@@ -3128,8 +3266,20 @@ export namespace Prisma {
 
   export type AggregateProblem = {
     _count: ProblemCountAggregateOutputType | null
+    _avg: ProblemAvgAggregateOutputType | null
+    _sum: ProblemSumAggregateOutputType | null
     _min: ProblemMinAggregateOutputType | null
     _max: ProblemMaxAggregateOutputType | null
+  }
+
+  export type ProblemAvgAggregateOutputType = {
+    likes: number | null
+    dislikes: number | null
+  }
+
+  export type ProblemSumAggregateOutputType = {
+    likes: number | null
+    dislikes: number | null
   }
 
   export type ProblemMinAggregateOutputType = {
@@ -3141,6 +3291,8 @@ export namespace Prisma {
     constraints: string | null
     hints: string | null
     editorial: string | null
+    likes: number | null
+    dislikes: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3154,6 +3306,8 @@ export namespace Prisma {
     constraints: string | null
     hints: string | null
     editorial: string | null
+    likes: number | null
+    dislikes: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3172,11 +3326,23 @@ export namespace Prisma {
     testcases: number
     codeSnippets: number
     referenceSolutions: number
+    likes: number
+    dislikes: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type ProblemAvgAggregateInputType = {
+    likes?: true
+    dislikes?: true
+  }
+
+  export type ProblemSumAggregateInputType = {
+    likes?: true
+    dislikes?: true
+  }
 
   export type ProblemMinAggregateInputType = {
     id?: true
@@ -3187,6 +3353,8 @@ export namespace Prisma {
     constraints?: true
     hints?: true
     editorial?: true
+    likes?: true
+    dislikes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3200,6 +3368,8 @@ export namespace Prisma {
     constraints?: true
     hints?: true
     editorial?: true
+    likes?: true
+    dislikes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3218,6 +3388,8 @@ export namespace Prisma {
     testcases?: true
     codeSnippets?: true
     referenceSolutions?: true
+    likes?: true
+    dislikes?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3261,6 +3433,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ProblemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProblemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ProblemMinAggregateInputType
@@ -3291,6 +3475,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ProblemCountAggregateInputType | true
+    _avg?: ProblemAvgAggregateInputType
+    _sum?: ProblemSumAggregateInputType
     _min?: ProblemMinAggregateInputType
     _max?: ProblemMaxAggregateInputType
   }
@@ -3309,9 +3495,13 @@ export namespace Prisma {
     testcases: JsonValue
     codeSnippets: JsonValue
     referenceSolutions: JsonValue
+    likes: number
+    dislikes: number
     createdAt: Date
     updatedAt: Date
     _count: ProblemCountAggregateOutputType | null
+    _avg: ProblemAvgAggregateOutputType | null
+    _sum: ProblemSumAggregateOutputType | null
     _min: ProblemMinAggregateOutputType | null
     _max: ProblemMaxAggregateOutputType | null
   }
@@ -3344,6 +3534,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    likes?: boolean
+    dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3367,6 +3559,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    likes?: boolean
+    dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3386,6 +3580,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    likes?: boolean
+    dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3405,11 +3601,13 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    likes?: boolean
+    dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
+  export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "likes" | "dislikes" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
   export type ProblemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
@@ -3446,6 +3644,8 @@ export namespace Prisma {
       testcases: Prisma.JsonValue
       codeSnippets: Prisma.JsonValue
       referenceSolutions: Prisma.JsonValue
+      likes: number
+      dislikes: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["problem"]>
@@ -3888,6 +4088,8 @@ export namespace Prisma {
     readonly testcases: FieldRef<"Problem", 'Json'>
     readonly codeSnippets: FieldRef<"Problem", 'Json'>
     readonly referenceSolutions: FieldRef<"Problem", 'Json'>
+    readonly likes: FieldRef<"Problem", 'Int'>
+    readonly dislikes: FieldRef<"Problem", 'Int'>
     readonly createdAt: FieldRef<"Problem", 'DateTime'>
     readonly updatedAt: FieldRef<"Problem", 'DateTime'>
   }
@@ -4373,6 +4575,988 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProblemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProblemReaction
+   */
+
+  export type AggregateProblemReaction = {
+    _count: ProblemReactionCountAggregateOutputType | null
+    _min: ProblemReactionMinAggregateOutputType | null
+    _max: ProblemReactionMaxAggregateOutputType | null
+  }
+
+  export type ProblemReactionMinAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    userId: string | null
+    isLike: boolean | null
+  }
+
+  export type ProblemReactionMaxAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    userId: string | null
+    isLike: boolean | null
+  }
+
+  export type ProblemReactionCountAggregateOutputType = {
+    id: number
+    problemId: number
+    userId: number
+    isLike: number
+    _all: number
+  }
+
+
+  export type ProblemReactionMinAggregateInputType = {
+    id?: true
+    problemId?: true
+    userId?: true
+    isLike?: true
+  }
+
+  export type ProblemReactionMaxAggregateInputType = {
+    id?: true
+    problemId?: true
+    userId?: true
+    isLike?: true
+  }
+
+  export type ProblemReactionCountAggregateInputType = {
+    id?: true
+    problemId?: true
+    userId?: true
+    isLike?: true
+    _all?: true
+  }
+
+  export type ProblemReactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemReaction to aggregate.
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemReactions to fetch.
+     */
+    orderBy?: ProblemReactionOrderByWithRelationInput | ProblemReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProblemReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProblemReactions
+    **/
+    _count?: true | ProblemReactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProblemReactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProblemReactionMaxAggregateInputType
+  }
+
+  export type GetProblemReactionAggregateType<T extends ProblemReactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateProblemReaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProblemReaction[P]>
+      : GetScalarType<T[P], AggregateProblemReaction[P]>
+  }
+
+
+
+
+  export type ProblemReactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemReactionWhereInput
+    orderBy?: ProblemReactionOrderByWithAggregationInput | ProblemReactionOrderByWithAggregationInput[]
+    by: ProblemReactionScalarFieldEnum[] | ProblemReactionScalarFieldEnum
+    having?: ProblemReactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProblemReactionCountAggregateInputType | true
+    _min?: ProblemReactionMinAggregateInputType
+    _max?: ProblemReactionMaxAggregateInputType
+  }
+
+  export type ProblemReactionGroupByOutputType = {
+    id: string
+    problemId: string
+    userId: string
+    isLike: boolean
+    _count: ProblemReactionCountAggregateOutputType | null
+    _min: ProblemReactionMinAggregateOutputType | null
+    _max: ProblemReactionMaxAggregateOutputType | null
+  }
+
+  type GetProblemReactionGroupByPayload<T extends ProblemReactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProblemReactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProblemReactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProblemReactionGroupByOutputType[P]>
+            : GetScalarType<T[P], ProblemReactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProblemReactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    userId?: boolean
+    isLike?: boolean
+  }, ExtArgs["result"]["problemReaction"]>
+
+  export type ProblemReactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    userId?: boolean
+    isLike?: boolean
+  }, ExtArgs["result"]["problemReaction"]>
+
+  export type ProblemReactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    userId?: boolean
+    isLike?: boolean
+  }, ExtArgs["result"]["problemReaction"]>
+
+  export type ProblemReactionSelectScalar = {
+    id?: boolean
+    problemId?: boolean
+    userId?: boolean
+    isLike?: boolean
+  }
+
+  export type ProblemReactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "userId" | "isLike", ExtArgs["result"]["problemReaction"]>
+
+  export type $ProblemReactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProblemReaction"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      problemId: string
+      userId: string
+      isLike: boolean
+    }, ExtArgs["result"]["problemReaction"]>
+    composites: {}
+  }
+
+  type ProblemReactionGetPayload<S extends boolean | null | undefined | ProblemReactionDefaultArgs> = $Result.GetResult<Prisma.$ProblemReactionPayload, S>
+
+  type ProblemReactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProblemReactionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProblemReactionCountAggregateInputType | true
+    }
+
+  export interface ProblemReactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemReaction'], meta: { name: 'ProblemReaction' } }
+    /**
+     * Find zero or one ProblemReaction that matches the filter.
+     * @param {ProblemReactionFindUniqueArgs} args - Arguments to find a ProblemReaction
+     * @example
+     * // Get one ProblemReaction
+     * const problemReaction = await prisma.problemReaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProblemReactionFindUniqueArgs>(args: SelectSubset<T, ProblemReactionFindUniqueArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProblemReaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProblemReactionFindUniqueOrThrowArgs} args - Arguments to find a ProblemReaction
+     * @example
+     * // Get one ProblemReaction
+     * const problemReaction = await prisma.problemReaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProblemReactionFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemReactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemReaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionFindFirstArgs} args - Arguments to find a ProblemReaction
+     * @example
+     * // Get one ProblemReaction
+     * const problemReaction = await prisma.problemReaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProblemReactionFindFirstArgs>(args?: SelectSubset<T, ProblemReactionFindFirstArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemReaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionFindFirstOrThrowArgs} args - Arguments to find a ProblemReaction
+     * @example
+     * // Get one ProblemReaction
+     * const problemReaction = await prisma.problemReaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProblemReactionFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemReactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProblemReactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProblemReactions
+     * const problemReactions = await prisma.problemReaction.findMany()
+     * 
+     * // Get first 10 ProblemReactions
+     * const problemReactions = await prisma.problemReaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const problemReactionWithIdOnly = await prisma.problemReaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProblemReactionFindManyArgs>(args?: SelectSubset<T, ProblemReactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProblemReaction.
+     * @param {ProblemReactionCreateArgs} args - Arguments to create a ProblemReaction.
+     * @example
+     * // Create one ProblemReaction
+     * const ProblemReaction = await prisma.problemReaction.create({
+     *   data: {
+     *     // ... data to create a ProblemReaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProblemReactionCreateArgs>(args: SelectSubset<T, ProblemReactionCreateArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProblemReactions.
+     * @param {ProblemReactionCreateManyArgs} args - Arguments to create many ProblemReactions.
+     * @example
+     * // Create many ProblemReactions
+     * const problemReaction = await prisma.problemReaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProblemReactionCreateManyArgs>(args?: SelectSubset<T, ProblemReactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProblemReactions and returns the data saved in the database.
+     * @param {ProblemReactionCreateManyAndReturnArgs} args - Arguments to create many ProblemReactions.
+     * @example
+     * // Create many ProblemReactions
+     * const problemReaction = await prisma.problemReaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProblemReactions and only return the `id`
+     * const problemReactionWithIdOnly = await prisma.problemReaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProblemReactionCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemReactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProblemReaction.
+     * @param {ProblemReactionDeleteArgs} args - Arguments to delete one ProblemReaction.
+     * @example
+     * // Delete one ProblemReaction
+     * const ProblemReaction = await prisma.problemReaction.delete({
+     *   where: {
+     *     // ... filter to delete one ProblemReaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProblemReactionDeleteArgs>(args: SelectSubset<T, ProblemReactionDeleteArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProblemReaction.
+     * @param {ProblemReactionUpdateArgs} args - Arguments to update one ProblemReaction.
+     * @example
+     * // Update one ProblemReaction
+     * const problemReaction = await prisma.problemReaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProblemReactionUpdateArgs>(args: SelectSubset<T, ProblemReactionUpdateArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProblemReactions.
+     * @param {ProblemReactionDeleteManyArgs} args - Arguments to filter ProblemReactions to delete.
+     * @example
+     * // Delete a few ProblemReactions
+     * const { count } = await prisma.problemReaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProblemReactionDeleteManyArgs>(args?: SelectSubset<T, ProblemReactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemReactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProblemReactions
+     * const problemReaction = await prisma.problemReaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProblemReactionUpdateManyArgs>(args: SelectSubset<T, ProblemReactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemReactions and returns the data updated in the database.
+     * @param {ProblemReactionUpdateManyAndReturnArgs} args - Arguments to update many ProblemReactions.
+     * @example
+     * // Update many ProblemReactions
+     * const problemReaction = await prisma.problemReaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProblemReactions and only return the `id`
+     * const problemReactionWithIdOnly = await prisma.problemReaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProblemReactionUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemReactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProblemReaction.
+     * @param {ProblemReactionUpsertArgs} args - Arguments to update or create a ProblemReaction.
+     * @example
+     * // Update or create a ProblemReaction
+     * const problemReaction = await prisma.problemReaction.upsert({
+     *   create: {
+     *     // ... data to create a ProblemReaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProblemReaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProblemReactionUpsertArgs>(args: SelectSubset<T, ProblemReactionUpsertArgs<ExtArgs>>): Prisma__ProblemReactionClient<$Result.GetResult<Prisma.$ProblemReactionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProblemReactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionCountArgs} args - Arguments to filter ProblemReactions to count.
+     * @example
+     * // Count the number of ProblemReactions
+     * const count = await prisma.problemReaction.count({
+     *   where: {
+     *     // ... the filter for the ProblemReactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProblemReactionCountArgs>(
+      args?: Subset<T, ProblemReactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProblemReactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProblemReaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProblemReactionAggregateArgs>(args: Subset<T, ProblemReactionAggregateArgs>): Prisma.PrismaPromise<GetProblemReactionAggregateType<T>>
+
+    /**
+     * Group by ProblemReaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemReactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProblemReactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProblemReactionGroupByArgs['orderBy'] }
+        : { orderBy?: ProblemReactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProblemReactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemReactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProblemReaction model
+   */
+  readonly fields: ProblemReactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProblemReaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProblemReactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProblemReaction model
+   */
+  interface ProblemReactionFieldRefs {
+    readonly id: FieldRef<"ProblemReaction", 'String'>
+    readonly problemId: FieldRef<"ProblemReaction", 'String'>
+    readonly userId: FieldRef<"ProblemReaction", 'String'>
+    readonly isLike: FieldRef<"ProblemReaction", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProblemReaction findUnique
+   */
+  export type ProblemReactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter, which ProblemReaction to fetch.
+     */
+    where: ProblemReactionWhereUniqueInput
+  }
+
+  /**
+   * ProblemReaction findUniqueOrThrow
+   */
+  export type ProblemReactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter, which ProblemReaction to fetch.
+     */
+    where: ProblemReactionWhereUniqueInput
+  }
+
+  /**
+   * ProblemReaction findFirst
+   */
+  export type ProblemReactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter, which ProblemReaction to fetch.
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemReactions to fetch.
+     */
+    orderBy?: ProblemReactionOrderByWithRelationInput | ProblemReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemReactions.
+     */
+    cursor?: ProblemReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemReactions.
+     */
+    distinct?: ProblemReactionScalarFieldEnum | ProblemReactionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemReaction findFirstOrThrow
+   */
+  export type ProblemReactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter, which ProblemReaction to fetch.
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemReactions to fetch.
+     */
+    orderBy?: ProblemReactionOrderByWithRelationInput | ProblemReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemReactions.
+     */
+    cursor?: ProblemReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemReactions.
+     */
+    distinct?: ProblemReactionScalarFieldEnum | ProblemReactionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemReaction findMany
+   */
+  export type ProblemReactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter, which ProblemReactions to fetch.
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemReactions to fetch.
+     */
+    orderBy?: ProblemReactionOrderByWithRelationInput | ProblemReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProblemReactions.
+     */
+    cursor?: ProblemReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemReactions.
+     */
+    skip?: number
+    distinct?: ProblemReactionScalarFieldEnum | ProblemReactionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemReaction create
+   */
+  export type ProblemReactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ProblemReaction.
+     */
+    data: XOR<ProblemReactionCreateInput, ProblemReactionUncheckedCreateInput>
+  }
+
+  /**
+   * ProblemReaction createMany
+   */
+  export type ProblemReactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProblemReactions.
+     */
+    data: ProblemReactionCreateManyInput | ProblemReactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProblemReaction createManyAndReturn
+   */
+  export type ProblemReactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProblemReactions.
+     */
+    data: ProblemReactionCreateManyInput | ProblemReactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProblemReaction update
+   */
+  export type ProblemReactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ProblemReaction.
+     */
+    data: XOR<ProblemReactionUpdateInput, ProblemReactionUncheckedUpdateInput>
+    /**
+     * Choose, which ProblemReaction to update.
+     */
+    where: ProblemReactionWhereUniqueInput
+  }
+
+  /**
+   * ProblemReaction updateMany
+   */
+  export type ProblemReactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProblemReactions.
+     */
+    data: XOR<ProblemReactionUpdateManyMutationInput, ProblemReactionUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemReactions to update
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * Limit how many ProblemReactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemReaction updateManyAndReturn
+   */
+  export type ProblemReactionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * The data used to update ProblemReactions.
+     */
+    data: XOR<ProblemReactionUpdateManyMutationInput, ProblemReactionUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemReactions to update
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * Limit how many ProblemReactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemReaction upsert
+   */
+  export type ProblemReactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ProblemReaction to update in case it exists.
+     */
+    where: ProblemReactionWhereUniqueInput
+    /**
+     * In case the ProblemReaction found by the `where` argument doesn't exist, create a new ProblemReaction with this data.
+     */
+    create: XOR<ProblemReactionCreateInput, ProblemReactionUncheckedCreateInput>
+    /**
+     * In case the ProblemReaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProblemReactionUpdateInput, ProblemReactionUncheckedUpdateInput>
+  }
+
+  /**
+   * ProblemReaction delete
+   */
+  export type ProblemReactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
+    /**
+     * Filter which ProblemReaction to delete.
+     */
+    where: ProblemReactionWhereUniqueInput
+  }
+
+  /**
+   * ProblemReaction deleteMany
+   */
+  export type ProblemReactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemReactions to delete
+     */
+    where?: ProblemReactionWhereInput
+    /**
+     * Limit how many ProblemReactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemReaction without action
+   */
+  export type ProblemReactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemReaction
+     */
+    select?: ProblemReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemReaction
+     */
+    omit?: ProblemReactionOmit<ExtArgs> | null
   }
 
 
@@ -11053,6 +12237,9 @@ export namespace Prisma {
     password: 'password',
     forgotPasswordOtp: 'forgotPasswordOtp',
     forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
+    currentStreak: 'currentStreak',
+    longestStreak: 'longestStreak',
+    lastSolvedDate: 'lastSolvedDate',
     followerCount: 'followerCount',
     followingCount: 'followingCount',
     badges: 'badges',
@@ -11077,11 +12264,23 @@ export namespace Prisma {
     testcases: 'testcases',
     codeSnippets: 'codeSnippets',
     referenceSolutions: 'referenceSolutions',
+    likes: 'likes',
+    dislikes: 'dislikes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type ProblemScalarFieldEnum = (typeof ProblemScalarFieldEnum)[keyof typeof ProblemScalarFieldEnum]
+
+
+  export const ProblemReactionScalarFieldEnum: {
+    id: 'id',
+    problemId: 'problemId',
+    userId: 'userId',
+    isLike: 'isLike'
+  };
+
+  export type ProblemReactionScalarFieldEnum = (typeof ProblemReactionScalarFieldEnum)[keyof typeof ProblemReactionScalarFieldEnum]
 
 
   export const SubmissionScalarFieldEnum: {
@@ -11338,6 +12537,9 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
     followerCount?: IntFilter<"User"> | number
     followingCount?: IntFilter<"User"> | number
     badges?: JsonFilter<"User">
@@ -11364,6 +12566,9 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastSolvedDate?: SortOrderInput | SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
     badges?: SortOrder
@@ -11393,6 +12598,9 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
     followerCount?: IntFilter<"User"> | number
     followingCount?: IntFilter<"User"> | number
     badges?: JsonFilter<"User">
@@ -11419,6 +12627,9 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastSolvedDate?: SortOrderInput | SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
     badges?: SortOrder
@@ -11447,6 +12658,9 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     forgotPasswordOtp?: StringNullableWithAggregatesFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    currentStreak?: IntWithAggregatesFilter<"User"> | number
+    longestStreak?: IntWithAggregatesFilter<"User"> | number
+    lastSolvedDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     followerCount?: IntWithAggregatesFilter<"User"> | number
     followingCount?: IntWithAggregatesFilter<"User"> | number
     badges?: JsonWithAggregatesFilter<"User">
@@ -11471,6 +12685,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    likes?: IntFilter<"Problem"> | number
+    dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11493,6 +12709,8 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -11518,6 +12736,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    likes?: IntFilter<"Problem"> | number
+    dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11540,11 +12760,15 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProblemCountOrderByAggregateInput
+    _avg?: ProblemAvgOrderByAggregateInput
     _max?: ProblemMaxOrderByAggregateInput
     _min?: ProblemMinOrderByAggregateInput
+    _sum?: ProblemSumOrderByAggregateInput
   }
 
   export type ProblemScalarWhereWithAggregatesInput = {
@@ -11564,8 +12788,58 @@ export namespace Prisma {
     testcases?: JsonWithAggregatesFilter<"Problem">
     codeSnippets?: JsonWithAggregatesFilter<"Problem">
     referenceSolutions?: JsonWithAggregatesFilter<"Problem">
+    likes?: IntWithAggregatesFilter<"Problem"> | number
+    dislikes?: IntWithAggregatesFilter<"Problem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Problem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Problem"> | Date | string
+  }
+
+  export type ProblemReactionWhereInput = {
+    AND?: ProblemReactionWhereInput | ProblemReactionWhereInput[]
+    OR?: ProblemReactionWhereInput[]
+    NOT?: ProblemReactionWhereInput | ProblemReactionWhereInput[]
+    id?: StringFilter<"ProblemReaction"> | string
+    problemId?: StringFilter<"ProblemReaction"> | string
+    userId?: StringFilter<"ProblemReaction"> | string
+    isLike?: BoolFilter<"ProblemReaction"> | boolean
+  }
+
+  export type ProblemReactionOrderByWithRelationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    userId?: SortOrder
+    isLike?: SortOrder
+  }
+
+  export type ProblemReactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    problemId_userId?: ProblemReactionProblemIdUserIdCompoundUniqueInput
+    AND?: ProblemReactionWhereInput | ProblemReactionWhereInput[]
+    OR?: ProblemReactionWhereInput[]
+    NOT?: ProblemReactionWhereInput | ProblemReactionWhereInput[]
+    problemId?: StringFilter<"ProblemReaction"> | string
+    userId?: StringFilter<"ProblemReaction"> | string
+    isLike?: BoolFilter<"ProblemReaction"> | boolean
+  }, "id" | "problemId_userId">
+
+  export type ProblemReactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    userId?: SortOrder
+    isLike?: SortOrder
+    _count?: ProblemReactionCountOrderByAggregateInput
+    _max?: ProblemReactionMaxOrderByAggregateInput
+    _min?: ProblemReactionMinOrderByAggregateInput
+  }
+
+  export type ProblemReactionScalarWhereWithAggregatesInput = {
+    AND?: ProblemReactionScalarWhereWithAggregatesInput | ProblemReactionScalarWhereWithAggregatesInput[]
+    OR?: ProblemReactionScalarWhereWithAggregatesInput[]
+    NOT?: ProblemReactionScalarWhereWithAggregatesInput | ProblemReactionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProblemReaction"> | string
+    problemId?: StringWithAggregatesFilter<"ProblemReaction"> | string
+    userId?: StringWithAggregatesFilter<"ProblemReaction"> | string
+    isLike?: BoolWithAggregatesFilter<"ProblemReaction"> | boolean
   }
 
   export type SubmissionWhereInput = {
@@ -12023,6 +13297,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12049,6 +13326,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12075,6 +13355,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12101,6 +13384,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12127,6 +13413,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12147,6 +13436,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12167,6 +13459,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -12187,6 +13482,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProblemsInput
@@ -12209,6 +13506,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
@@ -12229,6 +13528,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
@@ -12251,6 +13552,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
@@ -12272,6 +13575,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12289,6 +13594,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12307,8 +13614,59 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemReactionCreateInput = {
+    id?: string
+    problemId: string
+    userId: string
+    isLike: boolean
+  }
+
+  export type ProblemReactionUncheckedCreateInput = {
+    id?: string
+    problemId: string
+    userId: string
+    isLike: boolean
+  }
+
+  export type ProblemReactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isLike?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ProblemReactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isLike?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ProblemReactionCreateManyInput = {
+    id?: string
+    problemId: string
+    userId: string
+    isLike: boolean
+  }
+
+  export type ProblemReactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isLike?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ProblemReactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isLike?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SubmissionCreateInput = {
@@ -12941,6 +14299,9 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastSolvedDate?: SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
     badges?: SortOrder
@@ -12949,6 +14310,8 @@ export namespace Prisma {
   }
 
   export type UserAvgOrderByAggregateInput = {
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
   }
@@ -12966,6 +14329,9 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastSolvedDate?: SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
     createdAt?: SortOrder
@@ -12985,6 +14351,9 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastSolvedDate?: SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
     createdAt?: SortOrder
@@ -12992,6 +14361,8 @@ export namespace Prisma {
   }
 
   export type UserSumOrderByAggregateInput = {
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
     followerCount?: SortOrder
     followingCount?: SortOrder
   }
@@ -13156,8 +14527,15 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProblemAvgOrderByAggregateInput = {
+    likes?: SortOrder
+    dislikes?: SortOrder
   }
 
   export type ProblemMaxOrderByAggregateInput = {
@@ -13169,6 +14547,8 @@ export namespace Prisma {
     constraints?: SortOrder
     hints?: SortOrder
     editorial?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13182,8 +14562,15 @@ export namespace Prisma {
     constraints?: SortOrder
     hints?: SortOrder
     editorial?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProblemSumOrderByAggregateInput = {
+    likes?: SortOrder
+    dislikes?: SortOrder
   }
 
   export type EnumDifficultyWithAggregatesFilter<$PrismaModel = never> = {
@@ -13194,6 +14581,45 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDifficultyFilter<$PrismaModel>
     _max?: NestedEnumDifficultyFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ProblemReactionProblemIdUserIdCompoundUniqueInput = {
+    problemId: string
+    userId: string
+  }
+
+  export type ProblemReactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    userId?: SortOrder
+    isLike?: SortOrder
+  }
+
+  export type ProblemReactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    userId?: SortOrder
+    isLike?: SortOrder
+  }
+
+  export type ProblemReactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    userId?: SortOrder
+    isLike?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProblemScalarRelationFilter = {
@@ -13262,11 +14688,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type SubmissionScalarRelationFilter = {
     is?: SubmissionWhereInput
     isNot?: SubmissionWhereInput
@@ -13326,14 +14747,6 @@ export namespace Prisma {
 
   export type TestCaseResultSumOrderByAggregateInput = {
     testCase?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProblemSolvedUserIdProblemIdCompoundUniqueInput = {
@@ -13883,6 +15296,10 @@ export namespace Prisma {
     deleteMany?: ProblemInPlaylistScalarWhereInput | ProblemInPlaylistScalarWhereInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type UserCreateNestedOneWithoutSubmissionInput = {
     create?: XOR<UserCreateWithoutSubmissionInput, UserUncheckedCreateWithoutSubmissionInput>
     connectOrCreate?: UserCreateOrConnectWithoutSubmissionInput
@@ -13957,10 +15374,6 @@ export namespace Prisma {
     create?: XOR<SubmissionCreateWithoutTestCasesInput, SubmissionUncheckedCreateWithoutTestCasesInput>
     connectOrCreate?: SubmissionCreateOrConnectWithoutTestCasesInput
     connect?: SubmissionWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type SubmissionUpdateOneRequiredWithoutTestCasesNestedInput = {
@@ -14327,6 +15740,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14352,6 +15768,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14382,6 +15801,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14407,6 +15829,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14437,6 +15862,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionCreateNestedManyWithoutProblemInput
@@ -14457,6 +15884,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
@@ -14602,6 +16031,9 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
     followerCount?: IntFilter<"User"> | number
     followingCount?: IntFilter<"User"> | number
     badges?: JsonFilter<"User">
@@ -14658,6 +16090,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    likes?: IntFilter<"Problem"> | number
+    dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
   }
@@ -14766,6 +16200,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14791,6 +16228,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14924,6 +16364,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -14949,6 +16392,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15033,6 +16479,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15058,6 +16507,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15088,6 +16540,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProblemsInput
@@ -15109,6 +16563,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
@@ -15184,6 +16640,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15209,6 +16668,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15245,6 +16707,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
@@ -15266,6 +16730,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
@@ -15404,6 +16870,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15429,6 +16898,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15459,6 +16931,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProblemsInput
@@ -15480,6 +16954,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
@@ -15515,6 +16991,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15540,6 +17019,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15576,6 +17058,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
@@ -15597,6 +17081,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
@@ -15640,6 +17126,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15665,6 +17154,9 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     followerCount?: number
     followingCount?: number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15722,6 +17214,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15747,6 +17242,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15795,6 +17293,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProblemsInput
@@ -15816,6 +17316,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
@@ -15880,6 +17382,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
@@ -15901,6 +17405,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
@@ -15920,6 +17426,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15968,6 +17476,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -15993,6 +17504,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -16018,6 +17532,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -16038,6 +17555,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -16063,6 +17583,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -16088,6 +17611,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     followerCount?: IntFieldUpdateOperationsInput | number
     followingCount?: IntFieldUpdateOperationsInput | number
     badges?: JsonNullValueInput | InputJsonValue
@@ -16108,6 +17634,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
@@ -16128,6 +17656,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
@@ -16148,6 +17678,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

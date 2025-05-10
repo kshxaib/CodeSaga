@@ -428,3 +428,76 @@ export const getRecommendedProblems = async (req, res) => {
     });
   }
 };
+
+export const reactToProblem = async (req, res) => {
+  const { problemId } = req.params;
+  const {isLike } = req.body;
+  const userId = req.user.id;
+
+  if(!userId){
+    return res.status(400).json({ error: "Please login to react" });
+  }
+
+  if(!problemId){
+    return res.status(400).json({ error: "Problem ID is required" });
+  }
+
+  if (typeof isLike !== 'boolean') {
+    return res.status(400).json({ error: "Invalid reaction" });
+  }
+
+  try {
+    const existingReaction = await db.problemReaction.findUnique({
+      where: {problemId_userId: { problemId, userId }},
+    });
+    
+    let likeChange = 0
+    let dislikeChange = 0
+
+    if(!existingReaction){
+      await db.problemReaction.create({
+        data: {userId, problemId, isLike}
+      })
+      likeChange = isLike ? 1 : 0
+      dislikeChange = isLike ? 0 : 1
+    } else if(existingReaction.isLike !== isLike){
+      await db.problemReaction.update({
+        where : {id: existingReaction.id},
+        data: {isLike}
+      })
+      likeChange = isLike ? 1 : -1
+      dislikeChange = isLike ? -1 : 1
+    }
+
+    if(likeChange !== 0 || dislikeChange !== 0 ){
+      await db.problem.update({
+        where: {id: problemId},
+        data: {
+          likes: {
+            increment: likeChange
+          },
+          dislikes: {
+            increment: dislikeChange
+          }
+        }
+      })
+    }
+
+    const problem = await db.problem.findUnique({
+      where: {id: problemId},
+      select: {
+        likes: true,
+        dislikes: true,
+      }
+    })
+
+    return res.status(200).json({
+      success: true,
+      message: `${isLike ? 'Liked' : 'Disliked'} successfully`,
+      problem,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+}

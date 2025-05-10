@@ -4,6 +4,7 @@ import {
   submitBatch,
 } from "../libs/judge0.lib.js";
 import {db} from "../libs/db.js";
+import { updateUserStreak } from "../libs/updateUserStreak.js";
 
 export const executeCode = async (req, res) => {
   try {
@@ -93,6 +94,7 @@ export const executeCode = async (req, res) => {
 
     // If all passed, and the problem is not already solved, mark it as solved 
     if(allPassed){
+        await updateUserStreak(userId);
         await db.ProblemSolved.upsert({
             where: {
                 userId_problemId: {
