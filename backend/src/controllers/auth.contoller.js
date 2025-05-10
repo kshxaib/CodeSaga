@@ -143,18 +143,6 @@ export const logout = async (req, res) => {
   }
 };
 
-export const check = async (req, res) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: "User authenticated successfully",
-      user: req.user,
-    });
-  } catch (error) {
-    throw new Error("Unauthorized access");
-  }
-};
-
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -295,91 +283,4 @@ export const changePassword = async (req, res) => {
         error: "Error changing password"
       })
     }
-}
-
-export const updateProfile = async (req, res) => {
-  const {bio, linkedin, portfolio} = req.body
-  const {id} = req.user
-
-  if(!bio && !linkedin && !portfolio){
-    return res.status(400).json({
-      error: "At least one field is required"
-    })
-  }
-
-  if(bio && bio.length > 200){
-    return res.status(400).json({
-      error: "Bio should be less than 200 characters"
-    })
-  }
-
-  if(linkedin && !linkedin.startsWith("https://www.linkedin.com/")){
-    return res.status(400).json({
-      error: "LinkedIn URL is invalid"
-    })
-  }
-
-  if(!id){
-    return res.status(200).json({
-      error: "Unauthorized request"
-    })
-  }
-
-  try {
-    const user = await db.user.findUnique({
-    where: {
-      id
-    }
-    })  
-
-    if(!user){
-    return res.status(404).json({
-      error: "User does not exist"
-    })
-    }
-    console.log("FILES RECEIVED:", req.file);
-
-    const imageLocalPath = req.file?.path
-    const imageUrl = await uploadOnCloudinary(imageLocalPath)
-    console.log("Image URL:", imageUrl)
-
-    if(!imageUrl){
-      return res.status(400).json({
-        error: "Error uploading image"
-      })
-    }
-
-    const updatedUser = await db.user.update({
-      where: {
-        id
-      },
-      data: {
-        bio,
-        linkedin,
-        portfolio,
-        image: imageUrl
-      }
-    })
-
-    return res.status(200).json({
-      success: true,
-      message: "Profile updated successfully",
-      user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        name: updatedUser.name,
-        username: updatedUser.username,
-        role: updatedUser.role,
-        image: updatedUser?.image,
-        bio: updatedUser?.bio,
-        linkedin: updatedUser?.linkedin,
-        portfolio: updatedUser?.portfolio
-      }
-    })
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return res.status(500).json({
-      error: "Error updating profile"
-    })
-  }
 }

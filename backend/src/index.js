@@ -7,6 +7,7 @@ import problemRoutes from "./routes/problem.route.js"
 import executeRoutes from "./routes/execute.routes.js"
 import submissionRoutes from "./routes/submission.route.js"
 import playlistRoutes from "./routes/playlist.route.js"
+import userRoutes from "./routes/user.route.js"
 
 dotenv.config()
 const app = express()
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/problems", problemRoutes)
 app.use("/api/v1/execute-code", executeRoutes)
 app.use("/api/v1/submission", submissionRoutes)

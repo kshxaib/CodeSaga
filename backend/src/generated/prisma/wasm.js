@@ -133,6 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   forgotPasswordOtp: 'forgotPasswordOtp',
   forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
+  followerCount: 'followerCount',
+  followingCount: 'followingCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
