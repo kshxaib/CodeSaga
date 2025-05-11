@@ -1,22 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from 'react-router-dom'
-import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react'
+import { Check, Code, Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react'
 import { SignupSchema } from '../../schema/SignupSchema'
 import AuthImagePattern from './AuthImagePattern'
 import { useAuthStore } from '../../store/useAuthStore'
+import { useDebounce } from '../../libs/useDebounce'
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false)
+  const [uniqueUsernameMessage, setUniqueUsernameMessage] = useState('')
+  
   const { 
     reset, 
     register, 
-    handleSubmit, 
+    handleSubmit,
+    watch, 
     formState: { errors } 
   } = useForm({ resolver: zodResolver(SignupSchema) })
 
-  const { signup, isSigninUp } = useAuthStore()
+  const { signup, isSigninUp, checkUniqueUsername } = useAuthStore()
+
+  const username = watch('username')
+  const debouncedUsername = useDebounce(username)
+
+  useEffect(() => {
+    const checkUsername = async () => {
+      if (!debouncedUsername) return;
+
+      setIsCheckingUsername(true)
+
+      const res = await checkUniqueUsername(debouncedUsername)
+      if(res?.data?.success){
+        setUniqueUsernameMessage(res?.data?.message)
+      }
+
+      if(!res?.data?.success){
+        setUniqueUsernameMessage(res?.data?.message)
+      }
+      setIsCheckingUsername(false)
+    }
+    checkUsername()
+  }, [debouncedUsername])
 
   const onSubmit = async (data) => {
     await signup(data)
@@ -82,8 +109,14 @@ const SignupPage = () => {
                   placeholder="johndoe123"
                 />
               </div>
+                {isCheckingUsername && (
+                  <p><Loader2 className="animate-spin" />Checking...</p>
+                )}
+                {!isCheckingUsername && (
+                  <p className={uniqueUsernameMessage === "Username is available"? "text-success" : "text-error"}>{uniqueUsernameMessage}</p>
+                )}
               {errors.username && (
-                <p className="mt-1 text-sm text-error">{errors.username.message}</p>
+                <p className="mt-2 text-sm text-error">{errors.username.message}</p>
               )}              
             </div>
 

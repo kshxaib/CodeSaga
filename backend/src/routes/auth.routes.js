@@ -9,7 +9,7 @@ authRoutes.post('/login', login)
 authRoutes.post('/logout', authMiddleware, logout)
 authRoutes.post('/forgot-password', forgotPassword)
 authRoutes.post('/verify-otp/:email', verifyOtp)
-authRoutes.post('/change-password/:email', changePassword)
+authRoutes.post('/change-password', changePassword)
 authRoutes.get('/check-username', checkUniqueUsername)
 
 export default authRoutes;

@@ -231,8 +231,8 @@ export const verifyOtp = async (req, res) => {
 }
 
 export const changePassword = async (req, res) => {
-    const {email} = req.params
-    const {newPassword, confirmPassword} = req.body
+    // const {email} = req.params
+    const {newPassword, confirmPassword, email} = req.body
 
     if(!email || !newPassword || !confirmPassword){
       return res.status(400).json({
@@ -286,35 +286,37 @@ export const changePassword = async (req, res) => {
 }
 
 export const checkUniqueUsername = async (req, res) => {
-  const {username} = req.query
+  const { username } = req.query;
 
-  if(!username || username.trim().length < 3){
+  if (!username || username.trim().length < 3) {
     return res.status(400).json({
-      message: "Invalid username"
-    })
+      success: false,
+      message: "Username must be at least 3 characters"
+    });
   }
 
   try {
-    const user = await db.user.findUnique({
-      where: {
-        username
-      }
-    })
+    const existingUser = await db.user.findUnique({
+      where: { username }
+    });
 
-    if(user){
+    if (existingUser) {
       return res.status(200).json({
-        message: "Username already taken"
-      })
+        success: false,
+        message: "Username is already taken"
+      });
     }
 
     return res.status(200).json({
       success: true,
       message: "Username is available"
-    })
+    });
+
   } catch (error) {
-    console.error("Error checking username:", error);
+    console.error("Username check error:", error);
     return res.status(500).json({
-      message: "Error checking username"
-    }) 
+      success: false,
+      message: "Server error during username check"
+    });
   }
-}
+};
