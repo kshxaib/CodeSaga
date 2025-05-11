@@ -8,6 +8,7 @@ import executeRoutes from "./routes/execute.routes.js"
 import submissionRoutes from "./routes/submission.route.js"
 import playlistRoutes from "./routes/playlist.route.js"
 import userRoutes from "./routes/user.route.js"
+import reportRoutes from "./routes/report.route.js"
 
 dotenv.config()
 const app = express()
@@ -28,6 +29,7 @@ app.use("/api/v1/problems", problemRoutes)
 app.use("/api/v1/execute-code", executeRoutes)
 app.use("/api/v1/submission", submissionRoutes)
 app.use("/api/v1/playlist", playlistRoutes)
+app.use("/api/v1/problems/report", reportRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log("Server is running on port 8080")

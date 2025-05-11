@@ -237,6 +237,16 @@ exports.Prisma.BadgeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProblemReportScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  userId: 'userId',
+  reason: 'reason',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -272,6 +282,14 @@ exports.Difficulty = exports.$Enums.Difficulty = {
   HARD: 'HARD'
 };
 
+exports.ReportReason = exports.$Enums.ReportReason = {
+  INCORRECT_TEST_CASES: 'INCORRECT_TEST_CASES',
+  POOR_DESCRIPTION: 'POOR_DESCRIPTION',
+  DUPLICATE: 'DUPLICATE',
+  INAPPROPRIATE: 'INAPPROPRIATE',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Problem: 'Problem',
@@ -281,7 +299,8 @@ exports.Prisma.ModelName = {
   ProblemSolved: 'ProblemSolved',
   Playlist: 'Playlist',
   ProblemInPlaylist: 'ProblemInPlaylist',
-  Badge: 'Badge'
+  Badge: 'Badge',
+  ProblemReport: 'ProblemReport'
 };
 
 /**

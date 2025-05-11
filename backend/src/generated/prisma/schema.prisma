@@ -19,6 +19,14 @@ enum Difficulty {
   HARD
 }
 
+enum ReportReason {
+  INCORRECT_TEST_CASES
+  POOR_DESCRIPTION
+  DUPLICATE
+  INAPPROPRIATE
+  OTHER
+}
+
 model User {
   id                      String    @id @default(uuid())
   name                    String
@@ -44,10 +52,11 @@ model User {
 
   badges Json @default("[]")
 
-  problems      Problem[]
-  submission    Submission[]
-  problemSolved ProblemSolved[]
-  playlists     Playlist[]
+  problems         Problem[]
+  submission       Submission[]
+  problemSolved    ProblemSolved[]
+  playlists        Playlist[]
+  submittedReports ProblemReport[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -78,6 +87,7 @@ model Problem {
   submission        Submission[]
   solvedBy          ProblemSolved[]
   problemsPlaylists ProblemInPlaylist[]
+  reports           ProblemReport[]
 }
 
 model ProblemReaction {
@@ -182,4 +192,17 @@ model Badge {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model ProblemReport {
+  id          String       @id @default(uuid())
+  problemId   String
+  userId      String
+  reason      ReportReason
+  description String? // Additional details (optional)
+  status      String       @default("PENDING") // PENDING/REVIEWED/REJECTED
+  createdAt   DateTime     @default(now())
+
+  problem Problem @relation(fields: [problemId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 }
