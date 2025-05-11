@@ -19,19 +19,6 @@ export const createProblem = async (req, res) => {
     codeSnippets,
     referenceSolutions,
   } = req.body;
-  if (
-    !title ||
-    !description ||
-    !difficulty ||
-    !tags ||
-    !examples ||
-    !constraints ||
-    !testcases ||
-    !codeSnippets ||
-    !referenceSolutions
-  ) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
 
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolutions)) {

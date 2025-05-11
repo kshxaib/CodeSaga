@@ -10,7 +10,7 @@ export const register = async (req, res) => {
   const { email, password, name, username } = req.body;
 
   if ([email, password, name, username].some((filed) => filed?.trim() === "")) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
     });
 
     if (existingEmailUser) {
-      return res.status(409).json({ error: "Email already in use" });
+      return res.status(409).json({ message: "Email already in use" });
     }
 
     // Check if username already exists
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
     });
 
     if (existingUsernameUser) {
-      return res.status(409).json({ error: "Username already taken" });
+      return res.status(409).json({ message: "Username already taken" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,7 +71,7 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
@@ -90,13 +90,13 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -122,7 +122,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -139,7 +139,7 @@ export const logout = async (req, res) => {
       message: "User logged out successfully",
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -147,7 +147,7 @@ export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).json({ error: "Email is required" });
+    return res.status(400).json({ message: "Email is required" });
   }
 
   try {
@@ -158,7 +158,7 @@ export const forgotPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const code = generateCodeForEmail();
@@ -179,7 +179,7 @@ export const forgotPassword = async (req, res) => {
     });
   } catch (error) {
     console.error("Error sending email:", error);
-    return res.status(500).json({ error: "Error sending email" });
+    return res.status(500).json({ message: "Error sending email" });
   }
 };
 
@@ -189,7 +189,7 @@ export const verifyOtp = async (req, res) => {
 
   if(!email || !code){
     return res.status(400).json({
-      error: "Email and code are required"
+      message: "Email and code are required"
     })
   }
 
@@ -202,19 +202,19 @@ export const verifyOtp = async (req, res) => {
 
     if(!user){
       return res.status(404).json({
-        error: "User does not exist"
+        message: "User does not exist"
       })
     }
 
     if(user.forgotPasswordOtp !== code){
       return res.status(400).json({
-        error: "Invalid code"
+        message: "Invalid code"
       })
     }
 
     if(user.forgotPasswordOtpExpiry < new Date()){
       return res.status(400).json({
-        error: "Code expired"
+        message: "Code expired"
       })
     }
 
@@ -225,7 +225,7 @@ export const verifyOtp = async (req, res) => {
 
   } catch(error){
     console.error("Error verifying OTP:", error);
-    return res.status(500).json({ error: "Error verifying OTP" });
+    return res.status(500).json({ message: "Error verifying OTP" });
   }
    
 }
@@ -236,7 +236,7 @@ export const changePassword = async (req, res) => {
 
     if(!email || !newPassword || !confirmPassword){
       return res.status(400).json({
-        error: "All fields are required"
+        message: "All fields are required"
       })
     }
 
@@ -249,13 +249,13 @@ export const changePassword = async (req, res) => {
 
       if(!user){
         return res.status(404).json({
-          error: "User does not exist"
+          message: "User does not exist"
         })
       }
 
       if(newPassword !== confirmPassword){
         return res.status(400).json({
-          error: "Passwords do not match"
+          message: "Passwords do not match"
         })
       }
 
@@ -280,7 +280,41 @@ export const changePassword = async (req, res) => {
     } catch (error) {
       console.error("Error changing password:", error);
       return res.status(500).json({
-        error: "Error changing password"
+        message: "Error changing password"
       })
     }
+}
+
+export const checkUniqueUsername = async (req, res) => {
+  const {username} = req.query
+
+  if(!username || username.trim().length < 3){
+    return res.status(400).json({
+      message: "Invalid username"
+    })
+  }
+
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        username
+      }
+    })
+
+    if(user){
+      return res.status(200).json({
+        message: "Username already taken"
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Username is available"
+    })
+  } catch (error) {
+    console.error("Error checking username:", error);
+    return res.status(500).json({
+      message: "Error checking username"
+    }) 
+  }
 }
