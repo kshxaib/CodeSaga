@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import AuthImagePattern from "../components/AuthImagePattern";
+import AuthImagePattern from "./AuthImagePattern";
 import { Link } from "react-router-dom";
 import {
   Code,
@@ -12,8 +12,8 @@ import {
   Lock,
   Mail,
 } from "lucide-react";
-import { useAuthStore } from "../store/useAuthStore";
-import { loginSchema } from "../schema/LoginSchema";
+import { useAuthStore } from "../../store/useAuthStore";
+import { loginSchema } from "../../schema/LoginSchema";
 
 
 

@@ -1,12 +1,11 @@
-// Updated SignupPage.jsx
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from 'react-router-dom'
 import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react'
-import { SignupSchema } from '../schema/SignupSchema'
-import AuthImagePattern from '../components/AuthImagePattern'
-import { useAuthStore } from '../store/useAuthStore'
+import { SignupSchema } from '../../schema/SignupSchema'
+import AuthImagePattern from './AuthImagePattern'
+import { useAuthStore } from '../../store/useAuthStore'
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false)

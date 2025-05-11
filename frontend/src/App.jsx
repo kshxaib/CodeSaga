@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import SignupPage from "./page/SignupPage";
-import HomePage from "./page/HomePage";
-import LoginPage from "./page/LoginPage";
+import SignupPage from "./components/auth/SignupPage";
+import LoginPage from "./components/auth/LoginPage";
+import HomePage from "./components/HomePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "lucide-react";
 import Layout from "./layout/Layout";
-import AddProblem from "./page/AddProblem";
-import AdminRoute from "./components/AdminRoute";
+import AddProblem from "./components/admin/AddProblem";
+import AdminRoute from "./components/admin/AdminRoute";
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
