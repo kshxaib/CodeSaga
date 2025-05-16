@@ -11,8 +11,6 @@ import { cleanNullBytes } from "../libs/judge0.lib.js";
 export const createProblem = async (req, res) => {
  req.body = cleanNullBytes(req.body);
 
-   console.log("Creating problem with data:", req.body);
-
   const {
     title,
     description,
@@ -52,7 +50,6 @@ export const createProblem = async (req, res) => {
 
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
-        console.log("Result-----", result);
 
         if (result.status.id !== 3) {
           return res
@@ -89,8 +86,8 @@ export const createProblem = async (req, res) => {
         });
     }
   } catch (error) {
-      console.error("Error while creating problem from backend:", error);
-    res.status(500).json({ message: "Error while creating problem from backend" });
+      console.error("Error while creating problem", error);
+    res.status(500).json({ message: "Error while creating problem" });
   }
 };
 
@@ -99,7 +96,7 @@ export const getAllProblems = async (req, res) => {
     const problems = await db.problem.findMany();
 
     if (!problems) {
-      return res.status(404).json({ error: "No problems found" });
+      return res.status(404).json({ message: "No problems found" });
     }
 
     res.status(200).json({
@@ -108,14 +105,14 @@ export const getAllProblems = async (req, res) => {
       problems,
     });
   } catch (error) {
-    return res.status(500).json({ error: "Error while fetching problems" });
+    return res.status(500).json({ message: "Error while fetching problems" });
   }
 };
 
 export const getProblemById = async (req, res) => {
   const { id } = req.params;
   if (!id) {
-    return res.status(400).json({ error: "Problem ID is required" });
+    return res.status(400).json({ message: "Problem ID is required" });
   }
 
   try {
@@ -125,7 +122,7 @@ export const getProblemById = async (req, res) => {
       },
     });
     if (!problem) {
-      return res.status(404).json({ error: "Problem not found" });
+      return res.status(404).json({ message: "Problem not found" });
     }
 
     return res
@@ -136,15 +133,16 @@ export const getProblemById = async (req, res) => {
         problem,
       });
   } catch (error) {
-    return res.status(500).json({ error: "Error while fetching problem" });
+    return res.status(500).json({ message: "Error while fetching problem" });
   }
 };
 
 export const updateProblem = async (req, res) => {
   const { id } = req.params;
+  const cleanedBody = cleanNullBytes(req.body);
 
   if (!id) {
-    return res.status(400).json({ error: "Problem ID is required" });
+    return res.status(400).json({ message: "Problem ID is required" });
   }
 
   try {
@@ -155,13 +153,13 @@ export const updateProblem = async (req, res) => {
     });
 
     if (!problem) {
-      return res.status(404).json({ error: "Problem not found" });
+      return res.status(404).json({ message: "Problem not found" });
     }
 
     if (problem.userId !== req.user.id) {
       return res
         .status(403)
-        .json({ error: "You are not authorized to update this problem" });
+        .json({ message: "You are not authorized to update this problem" });
     }
 
     const {
@@ -174,8 +172,9 @@ export const updateProblem = async (req, res) => {
       hints,
       testcases,
       codeSnippets,
+      editorial,
       referenceSolutions,
-    } = req.body;
+    } = cleanedBody;
 
     if (
       !description ||
@@ -188,7 +187,7 @@ export const updateProblem = async (req, res) => {
       !codeSnippets ||
       !referenceSolutions
     ) {
-      return res.status(400).json({ error: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     // Validate reference solutions with test cases
@@ -216,7 +215,7 @@ export const updateProblem = async (req, res) => {
         const result = results[i];
         if (result.status.id !== 3) {
           return res.status(400).json({
-            error: `Test case ${i + 1} failed for language ${language}`,
+            message: `Test case ${i + 1} failed for language ${language}`,
             details: result,
           });
         }
@@ -248,7 +247,7 @@ export const updateProblem = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating problem:", error);
-    return res.status(500).json({ error: "Error while updating problem" });
+    return res.status(500).json({ message: "Error while updating problem" });
   }
 };
 
@@ -256,7 +255,7 @@ export const deleteProblem = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    return res.status(400).json({ error: "Problem ID is required" });
+    return res.status(400).json({ message: "Problem ID is required" });
   }
 
   try {
@@ -267,13 +266,13 @@ export const deleteProblem = async (req, res) => {
     });
 
     if (!problem) {
-      return res.status(404).json({ error: "Problem not found" });
+      return res.status(404).json({ message: "Problem not found" });
     }
 
     if (problem.userId !== req.user.id) {
       return res
         .status(403)
-        .json({ error: "You are not authorized to delete this problem" });
+        .json({ message: "You are not authorized to delete this problem" });
     }
 
     await db.problem.delete({
@@ -286,7 +285,7 @@ export const deleteProblem = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Problem deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ error: "Error while deleting problem" });
+    return res.status(500).json({ message: "Error while deleting problem" });
   }
 };
 
@@ -310,7 +309,7 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
     });
 
     if (!problems) {
-      return res.status(404).json({ error: "No problems found" });
+      return res.status(404).json({ message: "No problems found" });
     }
 
     return res.status(200).json({
@@ -321,7 +320,7 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      error: "Error while fetching problems",
+      message: "Error while fetching problems",
     });
   }
 };
@@ -368,7 +367,7 @@ export const searchProblems = async (req, res) => {
   } catch (error) {
     console.error("Search error:", error);
     return res.status(500).json({
-      error: "Search failed",
+      message: "Search failed",
     });
   }
 };
@@ -420,7 +419,7 @@ export const getRecommendedProblems = async (req, res) => {
   } catch (error) {
     console.error("Error fetching recommended problems:", error);
     return res.status(500).json({
-      error: "Internal server error while fetching recommended problems",
+      message: "Internal server error while fetching recommended problems",
     });
   }
 };
@@ -431,15 +430,15 @@ export const reactToProblem = async (req, res) => {
   const userId = req.user.id;
 
   if(!userId){
-    return res.status(400).json({ error: "Please login to react" });
+    return res.status(400).json({ message: "Please login to react" });
   }
 
   if(!problemId){
-    return res.status(400).json({ error: "Problem ID is required" });
+    return res.status(400).json({ message: "Problem ID is required" });
   }
 
   if (typeof isLike !== 'boolean') {
-    return res.status(400).json({ error: "Invalid reaction" });
+    return res.status(400).json({ message: "Invalid reaction" });
   }
 
   try {
@@ -494,6 +493,6 @@ export const reactToProblem = async (req, res) => {
     });
   } catch (error) {
     console.error("Error:", error);
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 }

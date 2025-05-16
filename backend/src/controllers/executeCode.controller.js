@@ -1,4 +1,5 @@
 import {
+  cleanNullBytes,
   getLanguageName,
   pollBatchResults,
   submitBatch,
@@ -8,8 +9,9 @@ import { updateUserStreak } from "../libs/updateUserStreak.js";
 
 export const executeCode = async (req, res) => {
   try {
-    const { source_code, language_id, stdin, expected_outputs, problemId } =
-      req.body;
+     const cleanedBody = cleanNullBytes(req.body);
+    const { source_code, language_id, stdin, expected_outputs, problemId } = cleanedBody;
+    
     const userId = req.user.id;
 
     if (!source_code || !language_id || !stdin || !expected_outputs) {
