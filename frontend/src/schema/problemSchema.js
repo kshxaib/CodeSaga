@@ -139,7 +139,7 @@ export const defaultValues = {
 // Sample problem data for pre-filling the form
 export const sampledpData = {
   title: "Climbing Stairs",
-  category: "dp", // Dynamic Programming
+  category: "dp", 
   description: "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
   difficulty: "EASY",
   tags: ["Dynamic Programming", "Math", "Memoization"],
@@ -205,43 +205,273 @@ export const sampledpData = {
   },
   codeSnippets: {
     PYTHON: `class Solution:
-    def climbStairs(self, n: int) -> int:
-        # Write your code here
-        pass
+  def climbStairs(self, n: int) -> int:
+      # Write your code here
+      pass
 
+# Input parsing
 if __name__ == "__main__":
-    import sys
-    n = int(sys.stdin.readline().strip())
-    sol = Solution()
-    result = sol.climbStairs(n)
-    print(result)`,
+  import sys
+
+  # Parse input
+  n = int(sys.stdin.readline().strip())
+
+  # Solve
+  sol = Solution()
+  result = sol.climbStairs(n)
+
+  # Print result
+  print(result)
+`,
 
     JAVA: `import java.util.Scanner;
 
 class Main {
-    public int climbStairs(int n) {
-        // Write your code here
-        return 0;
-    }
-    
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = Integer.parseInt(scanner.nextLine().trim());
-        Main main = new Main();
-        int result = main.climbStairs(n);
-        System.out.println(result);
-        scanner.close();
-    }
-}`,
+  public int climbStairs(int n) {
+      // Write your code here
+      return 0;
+  }
+
+  public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      int n = Integer.parseInt(scanner.nextLine().trim());
+
+      // Use Main class instead of Solution
+      Main main = new Main();
+      int result = main.climbStairs(n);
+
+      System.out.println(result);
+      scanner.close();
+  }
+}
+`,
 
     JAVASCRIPT: `/**
-* @param {number} n
-* @return {number}
-*/
+ * @param {number} n
+ * @return {number}
+ */
 function climbStairs(n) {
-    // Write your code here
+  // Write your code here
 }
 
+// Parse input and execute
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (line) => {
+  const n = parseInt(line.trim());
+  const result = climbStairs(n);
+  console.log(result);
+  rl.close();
+});
+`,
+
+    C: `#include <stdio.h>
+
+int climbStairs(int n) {
+  // Write your code here
+  return 0;
+}
+
+int main() {
+  int n;
+  scanf("%d", &n);
+  int result = climbStairs(n);
+  printf("%d\n", result);
+  return 0;
+}
+`,
+
+    CPP: `#include <iostream>
+using namespace std;
+
+class Solution {
+public:
+  int climbStairs(int n) {
+    // Write your code here
+    return 0;
+  }
+};
+
+int main() {
+  int n;
+  cin >> n;
+  Solution sol;
+  int result = sol.climbStairs(n);
+  cout << result << endl;
+  return 0;
+}
+`,
+
+    TYPESCRIPT: `function climbStairs(n: number): number {
+  // Write your code here
+  return 0;
+}
+
+// Input handling
+import * as readline from 'readline';
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (line: string) => {
+  const n = parseInt(line.trim());
+  const result = climbStairs(n);
+  console.log(result);
+  rl.close();
+});
+`,
+
+    CSHARP: `using System;
+
+class Solution {
+  public int ClimbStairs(int n) {
+    // Write your code here
+    return 0;
+  }
+
+  static void Main() {
+    int n = int.Parse(Console.ReadLine());
+    Solution sol = new Solution();
+    int result = sol.ClimbStairs(n);
+    Console.WriteLine(result);
+  }
+}
+`,
+
+    GO: `package main
+
+import (
+  "fmt"
+)
+
+func climbStairs(n int) int {
+  // Write your code here
+  return 0
+}
+
+func main() {
+  var n int
+  fmt.Scan(&n)
+  result := climbStairs(n)
+  fmt.Println(result)
+}
+`,
+
+    RUST: `use std::io;
+
+fn climb_stairs(n: i32) -> i32 {
+  // Write your code here
+  0
+}
+
+fn main() {
+  let mut input = String::new();
+  io::stdin().read_line(&mut input).unwrap();
+  let n: i32 = input.trim().parse().unwrap();
+  let result = climb_stairs(n);
+  println!("{}", result);
+}
+`,
+
+    PHP: `<?php
+
+function climbStairs($n) {
+  // Write your code here
+  return 0;
+}
+
+$n = intval(trim(fgets(STDIN)));
+$result = climbStairs($n);
+echo $result . "\n";
+?>
+`
+  },
+  referenceSolutions: {
+    PYTHON: `class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n <= 2:
+            return n
+        a, b = 1, 2
+        for _ in range(3, n+1):
+            a, b = b, a + b
+        return b
+        
+if __name__ == "__main__":
+  import sys
+  
+  # Parse input
+  n = int(sys.stdin.readline().strip())
+  
+  sol = Solution()
+  result = sol.climbStairs(n)
+  
+  print(result)`,
+
+    JAVA:  `import java.util.Scanner;
+
+class Main {
+  public int climbStairs(int n) {
+      // Base cases
+      if (n <= 2) {
+          return n;
+      }
+      
+      // Dynamic programming approach
+      int[] dp = new int[n + 1];
+      dp[1] = 1;
+      dp[2] = 2;
+      
+      for (int i = 3; i <= n; i++) {
+          dp[i] = dp[i - 1] + dp[i - 2];
+      }
+      
+      return dp[n];
+      
+      /* Alternative approach with O(1) space
+      int a = 1; // ways to climb 1 step
+      int b = 2; // ways to climb 2 steps
+      
+      for (int i = 3; i <= n; i++) {
+          int temp = a + b;
+          a = b;
+          b = temp;
+      }
+      
+      return n == 1 ? a : b;
+      */
+  }
+  
+  public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      int n = Integer.parseInt(scanner.nextLine().trim());
+      
+      // Use Main class instead of Solution
+      Main main = new Main();
+      int result = main.climbStairs(n);
+      
+      System.out.println(result);
+      scanner.close();
+  }
+}`,
+
+    JAVASCRIPT: `function climbStairs(n) {
+    if (n <= 2) return n;
+    let a = 1, b = 2;
+    for (let i = 3; i <= n; i++) {
+        [a, b] = [b, a + b];
+    }
+    return b;
+}
+
+// Input parsing
 const readline = require('readline');
 const rl = readline.createInterface({
     input: process.stdin,
@@ -254,22 +484,30 @@ rl.on('line', (line) => {
     const result = climbStairs(n);
     console.log(result);
     rl.close();
-});`,
+});
+`,
 
     C: `#include <stdio.h>
 
 int climbStairs(int n) {
-    // Write your code here
-    return 0;
+    if (n <= 2) return n;
+    int a = 1, b = 2;
+    for (int i = 3; i <= n; i++) {
+        int temp = a + b;
+        a = b;
+        b = temp;
+    }
+    return b;
 }
 
 int main() {
     int n;
     scanf("%d", &n);
     int result = climbStairs(n);
-    printf("%d", result);
+    printf("%d\n", result);
     return 0;
-}`,
+}
+`,
 
     CPP: `#include <iostream>
 using namespace std;
@@ -277,8 +515,14 @@ using namespace std;
 class Solution {
 public:
     int climbStairs(int n) {
-        // Write your code here
-        return 0;
+        if (n <= 2) return n;
+        int a = 1, b = 2;
+        for (int i = 3; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
     }
 };
 
@@ -287,16 +531,21 @@ int main() {
     cin >> n;
     Solution sol;
     int result = sol.climbStairs(n);
-    cout << result;
-    return 0;
-}`,
-
-    TYPESCRIPT: `function climbStairs(n: number): number {
-    // Write your code here
+    cout << result << endl;
     return 0;
 }
+`,
 
-// For HackerRank-style input handling
+    TYPESCRIPT: `function climbStairs(n: number): number {
+    if (n <= 2) return n;
+    let a = 1, b = 2;
+    for (let i = 3; i <= n; i++) {
+        [a, b] = [b, a + b];
+    }
+    return b;
+}
+
+// Input/output handling
 import * as readline from 'readline';
 
 const rl = readline.createInterface({
@@ -310,23 +559,31 @@ rl.on('line', (line: string) => {
     const result = climbStairs(n);
     console.log(result);
     rl.close();
-});`,
+});
+`,
 
     CSHARP: `using System;
 
-class Solution {
+public class Solution {
     public int ClimbStairs(int n) {
-        // Write your code here
-        return 0;
+        if (n <= 2) return n;
+        int a = 1, b = 2;
+        for (int i = 3; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
     }
-    
-    static void Main() {
+
+    public static void Main() {
         int n = int.Parse(Console.ReadLine());
         Solution sol = new Solution();
         int result = sol.ClimbStairs(n);
         Console.WriteLine(result);
     }
-}`,
+}
+`,
 
     GO: `package main
 
@@ -335,124 +592,6 @@ import (
 )
 
 func climbStairs(n int) int {
-    // Write your code here
-    return 0
-}
-
-func main() {
-    var n int
-    fmt.Scan(&n)
-    result := climbStairs(n)
-    fmt.Println(result)
-}`,
-
-    RUST: `use std::io;
-
-fn climb_stairs(n: i32) -> i32 {
-    // Write your code here
-    0
-}
-
-fn main() {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    let n: i32 = input.trim().parse().unwrap();
-    let result = climb_stairs(n);
-    println!("{}", result);
-}`,
-
-    PHP: `<?php
-
-function climbStairs($n) {
-    // Write your code here
-    return 0;
-}
-
-$n = intval(trim(fgets(STDIN)));
-$result = climbStairs($n);
-echo $result . "\n";
-?>`
-  },
-  referenceSolutions: {
-    PYTHON: `class Solution:
-    def climbStairs(self, n: int) -> int:
-        if n <= 2:
-            return n
-        a, b = 1, 2
-        for _ in range(3, n+1):
-            a, b = b, a + b
-        return b`,
-
-    JAVA: `class Solution {
-    public int climbStairs(int n) {
-        if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) {
-            int temp = a + b;
-            a = b;
-            b = temp;
-        }
-        return b;
-    }
-}`,
-
-    JAVASCRIPT: `function climbStairs(n) {
-    if (n <= 2) return n;
-    let a = 1, b = 2;
-    for (let i = 3; i <= n; i++) {
-        [a, b] = [b, a + b];
-    }
-    return b;
-}`,
-
-    C: `int climbStairs(int n) {
-    if (n <= 2) return n;
-    int a = 1, b = 2;
-    for (int i = 3; i <= n; i++) {
-        int temp = a + b;
-        a = b;
-        b = temp;
-    }
-    return b;
-}`,
-
-    CPP: `class Solution {
-public:
-    int climbStairs(int n) {
-        if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) {
-            int temp = a + b;
-            a = b;
-            b = temp;
-        }
-        return b;
-    }
-};`,
-
-    TYPESCRIPT: `function climbStairs(n: number): number {
-    if (n <= 2) return n;
-    let a = 1, b = 2;
-    for (let i = 3; i <= n; i++) {
-        [a, b] = [b, a + b];
-    }
-    return b;
-}`,
-
-    CSHARP: `public class Solution {
-    public int ClimbStairs(int n) {
-        if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) {
-            int temp = a + b;
-            a = b;
-            b = temp;
-        }
-        return b;
-    }
-}`,
-
-    GO: `func climbStairs(n int) int {
     if n <= 2 {
         return n
     }
@@ -461,9 +600,19 @@ public:
         a, b = b, a + b
     }
     return b
-}`,
+}
 
-    RUST: `fn climb_stairs(n: i32) -> i32 {
+func main() {
+    var n int
+    fmt.Scan(&n)
+    result := climbStairs(n)
+    fmt.Println(result)
+}
+`,
+
+    RUST: `use std::io;
+
+fn climb_stairs(n: i32) -> i32 {
     if n <= 2 {
         return n;
     }
@@ -474,9 +623,20 @@ public:
         b = temp;
     }
     b
-}`,
+}
 
-    PHP: `function climbStairs($n) {
+fn main() {
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+    let n: i32 = input.trim().parse().unwrap();
+    let result = climb_stairs(n);
+    println!("{}", result);
+}
+`,
+
+    PHP: `<?php
+
+function climbStairs($n) {
     if ($n <= 2) return $n;
     $a = 1; $b = 2;
     for ($i = 3; $i <= $n; $i++) {
@@ -485,8 +645,13 @@ public:
         $b = $temp;
     }
     return $b;
-}`
-  }
+}
+
+$n = intval(trim(fgets(STDIN)));
+$result = climbStairs($n);
+echo $result . "\n";
+?>
+`}
 };
 
 // Sample problem data for another type of question
@@ -572,8 +737,15 @@ if __name__ == "__main__":
 
 public class Main {
     public static boolean isPalindrome(String s) {
-        // Write your code here
-        return false;
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -582,11 +754,11 @@ public class Main {
         boolean result = isPalindrome(input);
         System.out.println(result ? "true" : "false");
     }
-}`,
+}
+`,
 
     JAVASCRIPT: `function isPalindrome(s) {
-    // Write your code here
-    return false;
+    return s === s.split('').reverse().join('');
 }
 
 const readline = require('readline');
@@ -597,10 +769,251 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (line) => {
-    const result = isPalindrome(line);
+    const result = isPalindrome(line.trim());
     console.log(result ? "true" : "false");
     rl.close();
-});`,
+});
+`,
+
+    C: `#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+bool isPalindrome(char* s) {
+    int len = strlen(s);
+    for (int i = 0; i < len / 2; i++) {
+        if (s[i] != s[len - i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    char s[200];
+    fgets(s, sizeof(s), stdin);
+    s[strcspn(s, "\n")] = '\0';  // Remove newline character
+    bool result = isPalindrome(s);
+    printf(result ? "true\n" : "false\n");
+    return 0;
+}
+`,
+
+    CPP: `#include <iostream>
+#include <string>
+using namespace std;
+
+bool isPalindrome(const string& s) {
+    int i = 0, j = s.length() - 1;
+    while (i < j) {
+        if (s[i] != s[j]) {
+            return false;
+        }
+        i++;
+        j--;
+    }
+    return true;
+}
+
+int main() {
+    string s;
+    getline(cin, s);
+    bool result = isPalindrome(s);
+    cout << (result ? "true" : "false") << endl;
+    return 0;
+}
+`,
+
+    TYPESCRIPT: `function isPalindrome(s: string): boolean {
+    return s === s.split('').reverse().join('');
+}
+
+import * as readline from 'readline';
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+rl.on('line', (line: string) => {
+    const result = isPalindrome(line.trim());
+    console.log(result ? "true" : "false");
+    rl.close();
+});
+`,
+
+    CSHARP: `using System;
+
+class Solution {
+    public static bool IsPalindrome(string s) {
+        int i = 0, j = s.Length - 1;
+        while (i < j) {
+            if (s[i] != s[j]) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+    static void Main() {
+        string input = Console.ReadLine();
+        bool result = IsPalindrome(input);
+        Console.WriteLine(result ? "true" : "false");
+    }
+}
+`,
+
+    GO: `package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+    "strings"
+)
+
+func isPalindrome(s string) bool {
+    s = strings.TrimSpace(s)
+    for i := 0; i < len(s)/2; i++ {
+        if s[i] != s[len(s)-i-1] {
+            return false
+        }
+    }
+    return true
+}
+
+func main() {
+    scanner := bufio.NewScanner(os.Stdin)
+    scanner.Scan()
+    input := scanner.Text()
+    result := isPalindrome(input)
+    fmt.Println(result)
+}
+`,
+
+    RUST: `use std::io::{self, Write};
+
+fn is_palindrome(s: &str) -> bool {
+    let s = s.trim();
+    let len = s.len();
+    for i in 0..len / 2 {
+        if s.as_bytes()[i] != s.as_bytes()[len - i - 1] {
+            return false;
+        }
+    }
+    true
+}
+
+fn main() {
+    let mut input = String::new();
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut input).unwrap();
+    let result = is_palindrome(&input);
+    println!("{}", if result { "true" } else { "false" });
+}
+`,
+
+    PHP: `<?php
+
+function isPalindrome($s) {
+    $s = trim($s);
+    return $s === strrev($s);
+}
+
+$s = rtrim(fgets(STDIN));
+$result = isPalindrome($s);
+echo $result ? "true" : "false";
+
+?>
+`
+  },
+  referenceSolutions: {
+    PYTHON: `class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = [c.lower() for c in s if c.isalnum()]
+        return s == s[::-1]
+
+if __name__ == "__main__":
+    import sys
+    s = sys.stdin.readline().strip()
+    sol = Solution()
+    result = sol.isPalindrome(s)
+    print(str(result).lower())
+`,
+
+    JAVA: `import java.util.Scanner;
+
+public class Main {
+    public static String preprocess(String s) {
+        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    }
+
+    public static boolean isPalindrome(String s) {
+        s = preprocess(s);
+        int left = 0, right = s.length() - 1;
+
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) return false;
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+
+        boolean result = isPalindrome(input);
+        System.out.println(result ? "true" : "false");
+    }
+}
+`,
+
+   JAVASCRIPT: `/**
+   * @param {string} s
+   * @return {boolean}
+   */
+  function isPalindrome(s) {
+    // Convert to lowercase and remove non-alphanumeric characters
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    // Check if it's a palindrome
+    let left = 0;
+    let right = s.length - 1;
+    
+    while (left < right) {
+      if (s[left] !== s[right]) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+    
+    return true;
+  }
+  
+  // Add readline for dynamic input handling
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+  });
+  
+  // Process input line
+  rl.on('line', (line) => {
+    // Call solution with the input string
+    const result = isPalindrome(line);
+    
+    // Output the result
+    console.log(result ? "true" : "false");
+    rl.close();
+  });`,
 
     C: `#include <stdio.h>
 #include <ctype.h>
@@ -608,29 +1021,39 @@ rl.on('line', (line) => {
 #include <string.h>
 
 bool isPalindrome(char* s) {
-    // Write your code here
-    return false;
+    int left = 0, right = strlen(s) - 1;
+    while (left < right) {
+        while (left < right && !isalnum(s[left])) left++;
+        while (left < right && !isalnum(s[right])) right--;
+        if (tolower(s[left++]) != tolower(s[right--])) return false;
+    }
+    return true;
 }
 
 int main() {
     char s[200001];
     fgets(s, sizeof(s), stdin);
-    s[strcspn(s, "\n")] = '\0';
-    bool result = isPalindrome(s);
-    printf(result ? "true\n" : "false\n");
+    s[strcspn(s, "\n")] = '\0';  // remove newline
+    printf(isPalindrome(s) ? "true\n" : "false\n");
     return 0;
-}`,
+}
+`,
 
     CPP: `#include <iostream>
-#include <cctype>
 #include <string>
+#include <cctype>
 using namespace std;
 
 class Solution {
 public:
     bool isPalindrome(string s) {
-        // Write your code here
-        return false;
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            while (left < right && !isalnum(s[left])) left++;
+            while (left < right && !isalnum(s[right])) right--;
+            if (tolower(s[left++]) != tolower(s[right--])) return false;
+        }
+        return true;
     }
 };
 
@@ -638,14 +1061,18 @@ int main() {
     string s;
     getline(cin, s);
     Solution sol;
-    bool result = sol.isPalindrome(s);
-    cout << (result ? "true" : "false") << endl;
+    cout << (sol.isPalindrome(s) ? "true" : "false") << endl;
     return 0;
-}`,
+}
+`,
 
     TYPESCRIPT: `function isPalindrome(s: string): boolean {
-    // Write your code here
-    return false;
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    let left = 0, right = s.length - 1;
+    while (left < right) {
+        if (s[left++] !== s[right--]) return false;
+    }
+    return true;
 }
 
 import * as readline from 'readline';
@@ -660,22 +1087,29 @@ rl.on('line', (line: string) => {
     const result = isPalindrome(line);
     console.log(result ? "true" : "false");
     rl.close();
-});`,
+});
+`,
 
     CSHARP: `using System;
+using System.Text.RegularExpressions;
 
-class Solution {
+public class Solution {
     public static bool IsPalindrome(string s) {
-        // Write your code here
-        return false;
+        s = Regex.Replace(s, "[^a-zA-Z0-9]", "").ToLower();
+        int left = 0, right = s.Length - 1;
+        while (left < right) {
+            if (s[left++] != s[right--]) return false;
+        }
+        return true;
     }
-    
-    static void Main() {
+
+    public static void Main() {
         string input = Console.ReadLine();
         bool result = IsPalindrome(input);
         Console.WriteLine(result ? "true" : "false");
     }
-}`,
+}
+`,
 
     GO: `package main
 
@@ -688,126 +1122,13 @@ import (
 )
 
 func isPalindrome(s string) bool {
-    // Write your code here
-    return false
-}
-
-func main() {
-    scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
-    input := scanner.Text()
-    result := isPalindrome(input)
-    fmt.Println(result)
-}`,
-
-    RUST: `use std::io;
-
-fn is_palindrome(s: String) -> bool {
-    // Write your code here
-    false
-}
-
-fn main() {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    let result = is_palindrome(input.trim().to_string());
-    println!("{}", if result { "true" } else { "false" });
-}`,
-
-    PHP: `<?php
-
-function isPalindrome($s) {
-    // Write your code here
-    return false;
-}
-
-$s = rtrim(fgets(STDIN));
-$result = isPalindrome($s);
-echo $result ? "true" : "false";
-?>`
-  },
-  referenceSolutions: {
-    PYTHON: `class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        s = [c.lower() for c in s if c.isalnum()]
-        return s == s[::-1]`,
-
-    JAVA: `public class Solution {
-    public boolean isPalindrome(String s) {
-        s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = s.length() - 1;
-        while (left < right) {
-            if (s.charAt(left++) != s.charAt(right--)) {
-                return false;
-            }
-        }
-        return true;
-    }
-}`,
-
-    JAVASCRIPT: `function isPalindrome(s) {
-    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-    let left = 0, right = s.length - 1;
-    while (left < right) {
-        if (s[left++] !== s[right--]) return false;
-    }
-    return true;
-}`,
-
-    C: `#include <ctype.h>
-#include <stdbool.h>
-#include <string.h>
-
-bool isPalindrome(char* s) {
-    int left = 0, right = strlen(s) - 1;
-    while (left < right) {
-        while (left < right && !isalnum(s[left])) left++;
-        while (left < right && !isalnum(s[right])) right--;
-        if (tolower(s[left++]) != tolower(s[right--])) return false;
-    }
-    return true;
-}`,
-
-    CPP: `class Solution {
-public:
-    bool isPalindrome(string s) {
-        int left = 0, right = s.size() - 1;
-        while (left < right) {
-            while (left < right && !isalnum(s[left])) left++;
-            while (left < right && !isalnum(s[right])) right--;
-            if (tolower(s[left++]) != tolower(s[right--])) return false;
-        }
-        return true;
-    }
-};`,
-
-    TYPESCRIPT: `function isPalindrome(s: string): boolean {
-    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-    let left = 0, right = s.length - 1;
-    while (left < right) {
-        if (s[left++] !== s[right--]) return false;
-    }
-    return true;
-}`,
-
-    CSHARP: `public class Solution {
-    public bool IsPalindrome(string s) {
-        s = System.Text.RegularExpressions.Regex.Replace(s, "[^a-zA-Z0-9]", "").ToLower();
-        int left = 0, right = s.Length - 1;
-        while (left < right) {
-            if (s[left++] != s[right--]) return false;
-        }
-        return true;
-    }
-}`,
-
-    GO: `func isPalindrome(s string) bool {
     s = strings.Map(func(r rune) rune {
         if unicode.IsLetter(r) || unicode.IsNumber(r) {
             return unicode.ToLower(r)
         }
         return -1
     }, s)
+
     left, right := 0, len(s)-1
     for left < right {
         if s[left] != s[right] {
@@ -817,9 +1138,19 @@ public:
         right--
     }
     return true
-}`,
+}
 
-    RUST: `fn is_palindrome(s: String) -> bool {
+func main() {
+    scanner := bufio.NewScanner(os.Stdin)
+    scanner.Scan()
+    input := scanner.Text()
+    fmt.Println(isPalindrome(input))
+}
+`,
+
+    RUST: `use std::io::{self, BufRead};
+
+fn is_palindrome(s: String) -> bool {
     let s: Vec<char> = s.chars()
         .filter(|c| c.is_ascii_alphanumeric())
         .map(|c| c.to_ascii_lowercase())
@@ -834,11 +1165,27 @@ public:
         right -= 1;
     }
     true
-}`,
+}
 
-    PHP: `function isPalindrome($s) {
+fn main() {
+    let stdin = io::stdin();
+    let s = stdin.lock().lines().next().unwrap().unwrap();
+    let result = is_palindrome(s);
+    println!("{}", if result { "true" } else { "false" });
+}
+`,
+
+    PHP: `<?php
+
+function isPalindrome($s) {
     $s = preg_replace('/[^a-z0-9]/i', '', strtolower($s));
     return $s === strrev($s);
-}`
+}
+
+$s = trim(fgets(STDIN));
+$result = isPalindrome($s);
+echo $result ? "true\n" : "false\n";
+?>
+`
   }
 };

@@ -5,6 +5,8 @@ import Editor from '@monaco-editor/react'
 import { useState } from 'react'
 import {defaultValues, problemSchema, sampleStringProblem, sampledpData} from "../../schema/problemSchema"
 import {useNavigate} from 'react-router-dom'
+import { axiosInstance } from '../../libs/axios'
+import {toast} from 'sonner'
 
 const CreateProblemForm = () => {
     const [sampleType, setSampleType] = useState("DP")
@@ -34,7 +36,17 @@ const CreateProblemForm = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const onSubmit = async (value) => {
-        console.log(value)
+        try {
+          setIsLoading(true)
+          const res = await axiosInstance.post("/problems/create-problem", value)
+          toast.success(res.data.message || "Problem created successfully")
+          navigation("/")
+        } catch (error) {
+          console.error(error)
+          toast.error(error?.response?.data?.message || "Error while creating problem from frontend")
+        } finally {
+          setIsLoading(false)
+        }
     }
 
     const loadSampleData = () => {
@@ -287,7 +299,7 @@ const CreateProblemForm = () => {
 
             {/* Code Editor Sections */}
             <div className="space-y-8">
-              {["JAVASCRIPT", "PYTHON", "JAVA"].map((language) => (
+              {["PYTHON", "JAVA", "JAVASCRIPT", "C", "CPP", "TYPESCRIPT", "CSHARP", "GO", "RUST", "PHP"].map((language) => (
                 <div
                   key={language}
                   className="card bg-base-200 p-4 md:p-6 shadow-md"

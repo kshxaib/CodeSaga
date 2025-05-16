@@ -1,63 +1,84 @@
-import axios from "axios"
+import axios from "axios";
 export const getJudge0LangaugeId = (language) => {
-    const languageMap = {
-        "PYTHON": 71,
-        "JAVA": 62, 
-        "JAVASCRIPT": 63,
-        "CPP": 50,
-        "CSHARP": 54,
-        "TYPESCRIPT": 74,
-        "C#": 51,
-        "GO": 60,
-        "RUST": 73,
-        "PHP": 68,
-    };
+  const languageMap = {
+    PYTHON: 71,
+    JAVA: 62,
+    JAVASCRIPT: 63,
+    C: 50,
+    CPP: 54,
+    TYPESCRIPT: 74,
+    CSHARP: 51,
+    GO: 60,
+    RUST: 73,
+    PHP: 68,
+  };
 
-    return languageMap[language.toUpperCase()] || 63 
-}
+  return languageMap[language.toUpperCase()] || 63;
+};
 
-const sleep  = (ms)=> new Promise((resolve)=> setTimeout(resolve , ms))
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const submitBatch = async (submissions) => {
-    const {data} = await axios.post(`${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`,{
-        submissions
-    })
-    return data // [{token}, {token}, ...]
-}
+  const { data } = await axios.post(
+    `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`,
+    {
+      submissions,
+    }
+  );
+  return data; // [{token}, {token}, ...]
+};
 
 export const pollBatchResults = async (tokens) => {
-    while(true){
-        const {data} = await axios.get(`${process.env.JUDGE0_API_URL}/submissions/batch`, {
-            params: {
-                tokens: tokens.join(","),
-                base64_encoded: false,
-            }
-        })
+  while (true) {
+    const { data } = await axios.get(
+      `${process.env.JUDGE0_API_URL}/submissions/batch`,
+      {
+        params: {
+          tokens: tokens.join(","),
+          base64_encoded: false,
+        },
+      }
+    );
 
-        const results = data.submissions
+    const results = data.submissions;
 
-        const isAllDone = results.every(
-            (r)=> r.status.id !== 1 && r.status.id !== 2
-        )
+    const isAllDone = results.every(
+      (r) => r.status.id !== 1 && r.status.id !== 2
+    );
 
-        if(isAllDone) return results
-        await sleep(1000)
-    }
-}
+    if (isAllDone) return results;
+    await sleep(1000);
+  }
+};
 
 export const getLanguageName = (language_id) => {
-    const languageMap = {
-        71: "PYTHON",
-        62: "JAVA", 
-        63: "JAVASCRIPT",
-        50: "C",
-        54: "CPP",
-        74: "TYPESCRIPT",
-        51: "CSHARP",
-        60: "GO",
-        73: "RUST",
-        68: "PHP",
-    };
+  const languageMap = {
+    71: "PYTHON",
+    62: "JAVA",
+    63: "JAVASCRIPT",
+    50: "C",
+    54: "CPP",
+    74: "TYPESCRIPT",
+    51: "CSHARP",
+    60: "GO",
+    73: "RUST",
+    68: "PHP",
+  };
 
-    return languageMap[language_id] || "Unknown Language"
-}   
+  return languageMap[language_id] || "Unknown Language";
+};
+
+export function cleanNullBytes(obj) {
+  if (typeof obj === 'string') {
+    return obj.replace(/\u0000/g, '');
+  } else if (Array.isArray(obj)) {
+    return obj.map(item => cleanNullBytes(item));
+  } else if (obj && typeof obj === 'object') {
+    const cleaned = {};
+    for (const key in obj) {
+      cleaned[key] = cleanNullBytes(obj[key]);
+    }
+    return cleaned;
+  }
+  return obj;
+}

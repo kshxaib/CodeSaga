@@ -5,8 +5,14 @@ import {
   submitBatch,
 } from "../libs/judge0.lib.js";
 import Fuse from "fuse.js";
+import { cleanNullBytes } from "../libs/judge0.lib.js";
+
 
 export const createProblem = async (req, res) => {
+ req.body = cleanNullBytes(req.body);
+
+   console.log("Creating problem with data:", req.body);
+
   const {
     title,
     description,
@@ -18,6 +24,7 @@ export const createProblem = async (req, res) => {
     testcases,
     codeSnippets,
     referenceSolutions,
+    editorial,
   } = req.body;
 
   try {
@@ -27,7 +34,7 @@ export const createProblem = async (req, res) => {
       if (!languageId) {
         return res
           .status(400)
-          .json({ error: `Language ${language} is not supported` });
+          .json({ message: `Language ${language} is not supported` });
       }
 
       const submissions = testcases.map(({ input, output }) => ({
@@ -51,7 +58,7 @@ export const createProblem = async (req, res) => {
           return res
             .status(400)
             .json({
-              error: `Test case ${i + 1} failed for language ${language}`,
+              message: `Test case ${i + 1} failed for language ${language}`,
             });
         }
       }
@@ -68,6 +75,7 @@ export const createProblem = async (req, res) => {
           constraints,
           testcases,
           codeSnippets,
+          editorial,
           referenceSolutions,
           userId: req.user.id,
         },
@@ -81,7 +89,8 @@ export const createProblem = async (req, res) => {
         });
     }
   } catch (error) {
-    res.status(500).json({ error: "Error while creating problem" });
+      console.error("Error while creating problem from backend:", error);
+    res.status(500).json({ message: "Error while creating problem from backend" });
   }
 };
 
