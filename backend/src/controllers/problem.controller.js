@@ -93,7 +93,15 @@ export const createProblem = async (req, res) => {
 
 export const getAllProblems = async (req, res) => {
   try {
-    const problems = await db.problem.findMany();
+    const problems = await db.problem.findMany({
+      include: {
+        solvedBy: {
+          where: {
+            userId: req.user.id,
+          },
+        },
+      },
+    });
 
     if (!problems) {
       return res.status(404).json({ message: "No problems found" });
@@ -328,18 +336,9 @@ export const searchProblems = async (req, res) => {
   const { search } = req.query;
 
   try {
-    if (!search) {
-      const problems = await db.problem.findMany();
-      return res.status(200).json({
-        success: true,
-        message: "Showing all problems",
-        problems,
-      });
-    }
-
     const searchLower = search.toLowerCase();
     const searchUpper = searchLower.toUpperCase();
-    const DIFFICULTY_ENUM = ["EASY", "MEDIUM", "HARD"];
+    const DIFFICULTY_ENUM = ["EASY", "MEDIUM", "HARD"]; 
     const isValidDifficulty = DIFFICULTY_ENUM.includes(searchUpper);
 
     // Get all problems for fuzzy matching

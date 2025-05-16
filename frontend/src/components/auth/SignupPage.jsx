@@ -29,14 +29,12 @@ const SignupPage = () => {
   useEffect(() => {
     const checkUsername = async () => {
       if (!debouncedUsername) return;
-
       setIsCheckingUsername(true)
 
       const res = await checkUniqueUsername(debouncedUsername)
       if(res?.data?.success){
         setUniqueUsernameMessage(res?.data?.message)
       }
-
       if(!res?.data?.success){
         setUniqueUsernameMessage(res?.data?.message)
       }

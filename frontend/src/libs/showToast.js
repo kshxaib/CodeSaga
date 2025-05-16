@@ -1,18 +1,12 @@
 import { toast } from "sonner";
 
 export const showToast = (resOrError) => {
-  const res = resOrError?.response || resOrError;
-
-  if (!res?.data) {
-    toast.error("Unexpected error occurred");
-    return;
-  }
-
-  const { success, message } = res.data;
-
+  console.log(resOrError);
+  const success = resOrError?.data?.success
+  const error = resOrError?.response?.data?.message
   if (success) {
-    toast.success(message || "Success");
-  } else {
-    toast.error(message || "Failed: " + message);
+    toast.success(resOrError?.data?.message);
+  } else if (error) {
+    toast.error(resOrError?.response?.data?.message);
   }
 };

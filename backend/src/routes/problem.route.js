@@ -21,7 +21,7 @@ problemRoutes.put("/update-problem/:id", authMiddleware, isAdmin, updateProblem)
 problemRoutes.delete("/delete-problem/:id", authMiddleware, isAdmin, deleteProblem);
 problemRoutes.get("/get-solved-problems", authMiddleware, getAllProblemsSolvedByUser);
 
-problemRoutes.get('/search-problem', authMiddleware, searchProblems)
+problemRoutes.get('/search-problems', authMiddleware, searchProblems)
 problemRoutes.get('/recommendations', authMiddleware, getRecommendedProblems)
 problemRoutes.post('/:problemId/react', authMiddleware, reactToProblem)
 

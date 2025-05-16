@@ -5,8 +5,7 @@ import Editor from '@monaco-editor/react'
 import { useState } from 'react'
 import {defaultValues, problemSchema, sampleStringProblem, sampledpData} from "../../schema/problemSchema"
 import {useNavigate} from 'react-router-dom'
-import { axiosInstance } from '../../libs/axios'
-import {toast} from 'sonner'
+import { useProblemStore } from '../../store/useProblemStore'
 
 const CreateProblemForm = () => {
     const [sampleType, setSampleType] = useState("DP")
@@ -34,19 +33,10 @@ const CreateProblemForm = () => {
         replace: replaceTags
     } = useFieldArray({control, name: "tags"})
 
-    const [isLoading, setIsLoading] = useState(false)
+    const {isLoading, createProblem} = useProblemStore()
     const onSubmit = async (value) => {
-        try {
-          setIsLoading(true)
-          const res = await axiosInstance.post("/problems/create-problem", value)
-          toast.success(res.data.message || "Problem created successfully")
-          navigation("/")
-        } catch (error) {
-          console.error(error)
-          toast.error(error?.response?.data?.message || "Error while creating problem from frontend")
-        } finally {
-          setIsLoading(false)
-        }
+        const res = await createProblem(value)
+        if(res?.data?.success) navigation('/')
     }
 
     const loadSampleData = () => {
