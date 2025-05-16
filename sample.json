@@ -1,0 +1,117 @@
+{
+  "title": "Add Two Numbers",
+  "description": "Given two numbers a and b, add them up and return the output",
+  "difficulty": "EASY",
+  "tags": ["math", "operators", "addition"],
+  "examples": {
+    "PYTHON": {
+      "input": "3 7",
+      "output": "10",
+      "explanation": "Adding 3 and 7 gives 10."
+    },
+    "JAVASCRIPT": {
+      "input": "-5 12",
+      "output": "7",
+      "explanation": "Adding -5 and 12 gives 7."
+    },
+    "JAVA": {
+      "input": "15 25",
+      "output": "40",
+      "explanation": "Adding 15 and 25 gives 40."
+    },
+    "C": {
+      "input": "100 200",
+      "output": "300",
+      "explanation": "Adding 100 and 200 gives 300."
+    },
+    "CPP": {
+      "input": "-10 30",
+      "output": "20",
+      "explanation": "Adding -10 and 30 gives 20."
+    },
+    "TYPESCRIPT": {
+      "input": "7 3",
+      "output": "10",
+      "explanation": "Adding 7 and 3 gives 10."
+    },
+    "CSHARP": {
+      "input": "50 60",
+      "output": "110",
+      "explanation": "Adding 50 and 60 gives 110."
+    },
+    "GO": {
+      "input": "123 456",
+      "output": "579",
+      "explanation": "Adding 123 and 456 gives 579."
+    },
+    "RUST": {
+      "input": "-100 100",
+      "output": "0",
+      "explanation": "Adding -100 and 100 gives 0."
+    },
+    "PHP": {
+      "input": "999 1",
+      "output": "1000",
+      "explanation": "Adding 999 and 1 gives 1000."
+    }
+  },
+  "constraints": "-10^9 ≤ a, b ≤ 10^9",
+  "testcases": [
+    {
+      "input": "100 200",
+      "output": "300"
+    },
+    {
+      "input": "-500 -600",
+      "output": "-1100"
+    },
+    {
+      "input": "0 0",
+      "output": "0"
+    },
+    {
+      "input": "999999999 1",
+      "output": "1000000000"
+    },
+    {
+      "input": "-123456789 123456789",
+      "output": "0"
+    }
+  ],
+  "codeSnippets": {
+    "JAVASCRIPT": `/**
+    const fs = require('fs');\n\n
+    // Complete the function below\nfunction addTwoNumbers(a, b) {\n    // Write your code here\n    // Return the sum of a and b\n    return a + b;\n}\n\n// Read input from stdin and execute the function\nconst input = fs.readFileSync(0, 'utf-8').trim();\nconst [a, b] = input.split(' ').map(Number);\n\nconsole.log(addTwoNumbers(a, b));
+    // `,
+
+    "PYTHON": "# Complete the function below\ndef add_two_numbers(a, b):\n    # Write your code here\n    # Return the sum of a and b\n    return a + b\n\n# Read input from stdin and execute the function\nimport sys\ninput_line = sys.stdin.read()\na, b = map(int, input_line.split())\nprint(add_two_numbers(a, b))",
+
+    "JAVA": "import java.util.Scanner;\n\npublic class Main {\n    \n    // Complete the method below\n    public static int addTwoNumbers(int a, int b) {\n        // Write your code here\n        // Return the sum of a and b\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(addTwoNumbers(a, b));\n    }\n}",
+
+    "C": "#include <stdio.h>\n\n// Complete the function below\nint addTwoNumbers(int a, int b) {\n    // Write your code here\n    // Return the sum of a and b\n    return a + b;\n}\n\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", addTwoNumbers(a, b));\n    return 0;\n}",
+
+    "CPP": "#include <iostream>\nusing namespace std;\n\n// Complete the function below\nint addTwoNumbers(int a, int b) {\n    // Write your code here\n    // Return the sum of a and b\n    return a + b;\n}\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << addTwoNumbers(a, b);\n    return 0;\n}",
+
+    "TYPESCRIPT": "const fs = require('fs');\n\n// Complete the function below\nfunction addTwoNumbers(a: number, b: number): number {\n    // Write your code here\n    // Return the sum of a and b\n    return a + b;\n}\n\n// Read input from stdin and execute the function\nconst input = fs.readFileSync(0, 'utf-8').trim();\nconst [a, b] = input.split(' ').map(Number);\n\nconsole.log(addTwoNumbers(a, b));",
+
+    "CSHARP": "using System;\n\nclass Program {\n    \n    // Complete the method below\n    static int AddTwoNumbers(int a, int b) {\n        // Write your code here\n        // Return the sum of a and b\n        return a + b;\n    }\n\n    static void Main(string[] args) {\n        string[] input = Console.ReadLine().Split(' ');\n        int a = int.Parse(input[0]);\n        int b = int.Parse(input[1]);\n        Console.WriteLine(AddTwoNumbers(a, b));\n    }\n}",
+
+    "GO": "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n\t\"strings\"\n)\n\n// Complete the function below\nfunc addTwoNumbers(a, b int) int {\n    // Write your code here\n    // Return the sum of a and b\n    return a + b;\n}\n\nfunc main() {\n\tvar input string\n\tfmt.Scanln(&input)\n\tnumbers := strings.Fields(input)\n\ta, _ := strconv.Atoi(numbers[0])\n\tb, _ := strconv.Atoi(numbers[1])\n\tfmt.Println(addTwoNumbers(a, b))\n}",
+
+    "RUST": "use std::io;\n\n// Complete the function below\nfn add_two_numbers(a: i32, b: i32) -> i32 {\n    // Write your code here\n    // Return the sum of a and b\n    a + b\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_line(&mut input).unwrap();\n    let numbers: Vec<i32> = input\n        .trim()\n        .split_whitespace()\n        .map(|x| x.parse().unwrap())\n        .collect();\n    println!(\"{}\", add_two_numbers(numbers[0], numbers[1]));\n}",
+
+    "PHP": "<?php\n\n// Complete the function below\nfunction addTwoNumbers($a, $b) {\n    // Write your code here\n    // Return the sum of a and b\n    return $a + $b;\n}\n\n$input = trim(fgets(STDIN));\nlist($a, $b) = explode(' ', $input);\necho addTwoNumbers($a, $b);\n\n?>"
+  },
+  "referenceSolutions": {
+    "JAVASCRIPT": "const fs = require('fs');\nconst [a, b] = fs.readFileSync(0, 'utf-8').trim().split(' ').map(Number);\nconsole.log(a + b);",
+    "PYTHON": "import sys\na, b = map(int, sys.stdin.read().split())\nprint(a + b)",
+    "JAVA": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(sc.nextInt() + sc.nextInt());\n    }\n}",
+    "C": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+    "CPP": "#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}",
+    "TYPESCRIPT": "const fs = require('fs');\nconst [a, b] = fs.readFileSync(0, 'utf-8').trim().split(' ').map(Number);\nconsole.log(a + b);",
+    "CSHARP": "using System;\nclass Program {\n    static void Main() {\n        string[] input = Console.ReadLine().Split(' ');\n        Console.WriteLine(int.Parse(input[0]) + int.Parse(input[1]));\n    }\n}",
+    "GO": "package main\nimport (\"fmt\"; \"strings\"; \"strconv\")\nfunc main() {\n    var input string\n    fmt.Scanln(&input)\n    nums := strings.Fields(input)\n    a, _ := strconv.Atoi(nums[0])\n    b, _ := strconv.Atoi(nums[1])\n    fmt.Println(a + b)\n}",
+    "RUST": "use std::io;\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_line(&mut input).unwrap();\n    let nums: Vec<i32> = input.trim().split_whitespace()\n        .map(|x| x.parse().unwrap()).collect();\n    println!(\"{}\", nums[0] + nums[1]);\n}",
+    "PHP": "<?php\nlist($a, $b) = explode(' ', trim(fgets(STDIN)));\necho $a + $b;\n?>"
+  }
+}

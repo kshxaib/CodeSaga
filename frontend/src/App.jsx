@@ -10,6 +10,7 @@ import AddProblem from "./components/admin/AddProblem";
 import AdminRoute from "./components/admin/AdminRoute";
 import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import VerifyCodePage from "./components/auth/VerifyCodePage";
+import ProblemPage from "./components/ProblemPage";
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
@@ -41,6 +42,8 @@ const App = () => {
           <Route path="/forgot-password" element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/" />}/>
 
           <Route path="/verify-otp/:email" element={!authUser ? <VerifyCodePage /> : <Navigate to="/" />}/>
+
+          <Route path="/problem/:id" element={authUser ? <ProblemPage/> : <Navigate to="/" />}/>
 
           <Route element={<AdminRoute/>}>
             <Route path="/add-problem" element={authUser ? <AddProblem /> : <Navigate to="/" />}/>
