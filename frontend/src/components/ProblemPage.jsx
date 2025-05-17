@@ -10,7 +10,6 @@ import {
   Share2,
   Clock,
   ChevronRight,
-  BookOpen,
   Terminal,
   Code2,
   Users,
@@ -28,7 +27,7 @@ const ProblemPage = () => {
   const { getProblemById, problem, isLoading } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestcases] = useState([]);
 
@@ -40,7 +39,12 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (problem) {
-      setCode(problem.codeSnippets?.[selectedLanguage] || "");
+      const defaultLang = problem.codeSnippets?.JAVASCRIPT 
+        ? "JAVASCRIPT" 
+        : Object.keys(problem.codeSnippets || {})[0] || "JAVASCRIPT";
+      
+      setSelectedLanguage(defaultLang);
+      setCode(problem.codeSnippets?.[defaultLang] || "");
       setTestcases(
         problem.testcases?.map((tc) => ({
           input: tc.input,
@@ -48,13 +52,14 @@ const ProblemPage = () => {
         })) || []
       );
     }
-  }, [problem, selectedLanguage]);
+  }, [problem]);
 
   const submissionCount = 10;
 
   const handleLanguageChange = (e) => {
-    setSelectedLanguage(e.target.value);
-    setCode(problem?.codeSnippets?.[e.target.value] || "");
+    const newLanguage = e.target.value;
+    setSelectedLanguage(newLanguage);
+    setCode(problem?.codeSnippets?.[newLanguage] || "");
   };
 
   const handleRunCode = async (e) => {
@@ -79,91 +84,97 @@ const ProblemPage = () => {
     );
   }
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "description":
-        return (
-          <div className="prose max-w-none">
-            <p className="text-lg mb-6">{problem.description}</p>
+ const renderTabContent = () => {
+  switch (activeTab) {
+    case "description": {
+      const examples = problem.examples?.[selectedLanguage] || problem.examples?.javascript;
+      return (
+        <div className="prose max-w-none">
+          <p className="text-lg mb-6">{problem.description}</p>
 
-            {problem.examples?.[selectedLanguage] && (
-              <>
-                <h3 className="text-xl font-bold mb-4">Examples:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6 font-mono">
-                  <div className="mb-4">
-                    <div className="text-indigo-300 mb-2 text-base font-semibold">
-                      Input:
-                    </div>
-                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                      {problem.examples[selectedLanguage].input}
-                    </span>
+          {examples && (
+            <>
+              <h3 className="text-xl font-bold mb-4">Examples:</h3>
+              <div className="bg-base-200 p-6 rounded-xl mb-6 font-mono">
+                <div className="mb-4">
+                  <div className="text-indigo-300 mb-2 text-base font-semibold">
+                    Input:
                   </div>
-                  <div className="mb-4">
-                    <div className="text-indigo-300 mb-2 text-base font-semibold">
-                      Output:
-                    </div>
-                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                      {problem.examples[selectedLanguage].output}
-                    </span>
-                  </div>
-                  {problem.examples[selectedLanguage].explanation && (
-                    <div>
-                      <div className="text-emerald-300 mb-2 text-base font-semibold">
-                        Explanation:
-                      </div>
-                      <p className="text-base-content/70 text-lg">
-                        {problem.examples[selectedLanguage].explanation}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-
-            {problem.constraints && (
-              <>
-                <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                    {problem.constraints}
+                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                    {examples.input}
                   </span>
                 </div>
-              </>
-            )}
-          </div>
-        );
-      case "submissions":
-        return (
-          <div className="p-4 text-center text-base-content/70">
-            No submissions yet
-          </div>
-        );
-      case "discussion":
-        return (
-          <div className="p-4 text-center text-base-content/70">
-            No discussions yet
-          </div>
-        );
-      case "hints":
-        return (
-          <div className="p-4">
-            {problem?.hints ? (
-              <div className="bg-base-200 p-6 rounded-xl">
+                <div className="mb-4">
+                  <div className="text-indigo-300 mb-2 text-base font-semibold">
+                    Output:
+                  </div>
+                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                    {examples.output}
+                  </span>
+                </div>
+                {examples.explanation && (
+                  <div>
+                    <div className="text-emerald-300 mb-2 text-base font-semibold">
+                      Explanation:
+                    </div>
+                    <p className="text-base-content/70 text-lg">
+                      {examples.explanation}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {problem.constraints && (
+            <>
+              <h3 className="text-xl font-bold mb-4">Constraints:</h3>
+              <div className="bg-base-200 p-6 rounded-xl mb-6">
                 <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                  {problem.hints}
+                  {problem.constraints}
                 </span>
               </div>
-            ) : (
-              <div className="text-center text-base-content/70">
-                No hints available
-              </div>
-            )}
-          </div>
-        );
-      default:
-        return null;
+            </>
+          )}
+        </div>
+      );
     }
-  };
+    case "submissions": {
+      return (
+        <div className="p-4 text-center text-base-content/70">
+          No submissions yet
+        </div>
+      );
+    }
+    case "discussion": {
+      return (
+        <div className="p-4 text-center text-base-content/70">
+          No discussions yet
+        </div>
+      );
+    }
+    case "hints": {
+      return (
+        <div className="p-4">
+          {problem?.hints ? (
+            <div className="bg-base-200 p-6 rounded-xl">
+              <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                {problem.hints}
+              </span>
+            </div>
+          ) : (
+            <div className="text-center text-base-content/70">
+              No hints available
+            </div>
+          )}
+        </div>
+      );
+    }
+    default: {
+      return null;
+    }
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200">
