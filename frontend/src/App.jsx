@@ -14,6 +14,7 @@ import ProblemPage from "./components/ProblemPage";
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
+  
 
   useEffect(() => {
     checkAuth()
