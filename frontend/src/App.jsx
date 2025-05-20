@@ -11,44 +11,52 @@ import AdminRoute from "./components/admin/AdminRoute";
 import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import VerifyCodePage from "./components/auth/VerifyCodePage";
 import ProblemPage from "./components/ProblemPage";
+import CodeSagaLanding from "./components/CodeSagaLanding ";
 
 const App = () => {
-  const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
-  
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
+    checkAuth();
+  }, [checkAuth]);
 
-  if(isCheckingAuth && !authUser){
+  if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
       </div>
-    )
+    );
   }
 
   return (
     <>
       <div className="flex flex-col items-center justify-start">
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<CodeSagaLanding />} />
+
+          {/* Authenticated routes */}
+          <Route path="/home" element={<Layout />}>
             <Route index element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           </Route>
 
-          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />}/>
+          {/* Auth routes */}
+          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/home" />} />
+          <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/home" />} />
+          <Route path="/forgot-password" element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/home" />} />
+          <Route path="/verify-otp/:email" element={!authUser ? <VerifyCodePage /> : <Navigate to="/home" />} />
 
-          <Route path="/signup" element={!authUser? <SignupPage /> : <Navigate to="/" />}/>
+          {/* Problem routes */}
+          <Route path="/problem/:id" element={authUser ? <ProblemPage /> : <Navigate to="/login" />} />
 
-          <Route path="/forgot-password" element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/" />}/>
-
-          <Route path="/verify-otp/:email" element={!authUser ? <VerifyCodePage /> : <Navigate to="/" />}/>
-
-          <Route path="/problem/:id" element={authUser ? <ProblemPage/> : <Navigate to="/" />}/>
-
-          <Route element={<AdminRoute/>}>
-            <Route path="/add-problem" element={authUser ? <AddProblem /> : <Navigate to="/" />}/>
+          {/* Admin routes */}
+          <Route element={<AdminRoute />}>
+            <Route 
+              path="/add-problem" 
+              element={authUser ? <AddProblem /> : <Navigate to="/login" />} 
+            />
           </Route>
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </>
