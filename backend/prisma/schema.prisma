@@ -53,11 +53,14 @@ model User {
 
   badges Json @default("[]")
 
-  problems      Problem[]
-  submission    Submission[]
-  problemSolved ProblemSolved[]
-  playlists     Playlist[]
-  submittedReports  ProblemReport[]
+  problems           Problem[]
+  submission         Submission[]
+  problemSolved      ProblemSolved[]
+  playlists          Playlist[]
+  submittedReports   ProblemReport[]
+  discussionMessages DiscussionMessage[]
+  discussionReplies  DiscussionReply[]
+  discussionUpvotes  DiscussionUpvote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,14 +91,16 @@ model Problem {
   submission        Submission[]
   solvedBy          ProblemSolved[]
   problemsPlaylists ProblemInPlaylist[]
-  reports ProblemReport[]
+  reports           ProblemReport[]
+  discussions       ProblemDiscussion[]
 }
 
 model ProblemReaction {
-  id        String @id @default(uuid())
+  id        String  @id @default(uuid())
   problemId String
   userId    String
-  isLike    Boolean 
+  isLike    Boolean
+
   @@unique([problemId, userId])
 }
 
@@ -195,14 +200,61 @@ model Badge {
 }
 
 model ProblemReport {
-  id          String      @id @default(uuid())
+  id          String       @id @default(uuid())
   problemId   String
   userId      String
   reason      ReportReason
-  description String?     // Additional details (optional)
-  status      String      @default("PENDING") // PENDING/REVIEWED/REJECTED
-  createdAt   DateTime    @default(now())
-  
-  problem     Problem     @relation(fields: [problemId], references: [id])
-  user        User        @relation(fields: [userId], references: [id])
+  description String? // Additional details (optional)
+  status      String       @default("PENDING") // PENDING/REVIEWED/REJECTED
+  createdAt   DateTime     @default(now())
+
+  problem Problem @relation(fields: [problemId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model ProblemDiscussion {
+  id        String   @id @default(uuid())
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  problem  Problem             @relation(fields: [problemId], references: [id])
+  messages DiscussionMessage[]
+}
+
+model DiscussionMessage {
+  id           String   @id @default(uuid())
+  discussionId String
+  userId       String
+  content      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  discussion ProblemDiscussion  @relation(fields: [discussionId], references: [id])
+  user       User               @relation(fields: [userId], references: [id])
+  replies    DiscussionReply[]
+  upvotes    DiscussionUpvote[]
+}
+
+model DiscussionReply {
+  id        String   @id @default(uuid())
+  messageId String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  message DiscussionMessage @relation(fields: [messageId], references: [id])
+  user    User              @relation(fields: [userId], references: [id])
+}
+
+model DiscussionUpvote {
+  id        String @id @default(uuid())
+  userId    String
+  messageId String
+
+  user    User              @relation(fields: [userId], references: [id])
+  message DiscussionMessage @relation(fields: [messageId], references: [id])
+
+  @@unique([userId, messageId])
 }

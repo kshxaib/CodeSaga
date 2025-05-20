@@ -40,6 +40,7 @@ model User {
   password                String
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
+  provider                String?
 
   currentStreak  Int       @default(0)
   longestStreak  Int       @default(0)
@@ -52,11 +53,14 @@ model User {
 
   badges Json @default("[]")
 
-  problems         Problem[]
-  submission       Submission[]
-  problemSolved    ProblemSolved[]
-  playlists        Playlist[]
-  submittedReports ProblemReport[]
+  problems           Problem[]
+  submission         Submission[]
+  problemSolved      ProblemSolved[]
+  playlists          Playlist[]
+  submittedReports   ProblemReport[]
+  discussionMessages DiscussionMessage[]
+  discussionReplies  DiscussionReply[]
+  discussionUpvotes  DiscussionUpvote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,6 +92,7 @@ model Problem {
   solvedBy          ProblemSolved[]
   problemsPlaylists ProblemInPlaylist[]
   reports           ProblemReport[]
+  discussions       ProblemDiscussion[]
 }
 
 model ProblemReaction {
@@ -205,4 +210,51 @@ model ProblemReport {
 
   problem Problem @relation(fields: [problemId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
+}
+
+model ProblemDiscussion {
+  id        String   @id @default(uuid())
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  problem  Problem             @relation(fields: [problemId], references: [id])
+  messages DiscussionMessage[]
+}
+
+model DiscussionMessage {
+  id           String   @id @default(uuid())
+  discussionId String
+  userId       String
+  content      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  discussion ProblemDiscussion  @relation(fields: [discussionId], references: [id])
+  user       User               @relation(fields: [userId], references: [id])
+  replies    DiscussionReply[]
+  upvotes    DiscussionUpvote[]
+}
+
+model DiscussionReply {
+  id        String   @id @default(uuid())
+  messageId String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  message DiscussionMessage @relation(fields: [messageId], references: [id])
+  user    User              @relation(fields: [userId], references: [id])
+}
+
+model DiscussionUpvote {
+  id        String @id @default(uuid())
+  userId    String
+  messageId String
+
+  user    User              @relation(fields: [userId], references: [id])
+  message DiscussionMessage @relation(fields: [messageId], references: [id])
+
+  @@unique([userId, messageId])
 }

@@ -248,6 +248,37 @@ exports.Prisma.ProblemReportScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ProblemDiscussionScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscussionMessageScalarFieldEnum = {
+  id: 'id',
+  discussionId: 'discussionId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscussionReplyScalarFieldEnum = {
+  id: 'id',
+  messageId: 'messageId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscussionUpvoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  messageId: 'messageId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -301,7 +332,11 @@ exports.Prisma.ModelName = {
   Playlist: 'Playlist',
   ProblemInPlaylist: 'ProblemInPlaylist',
   Badge: 'Badge',
-  ProblemReport: 'ProblemReport'
+  ProblemReport: 'ProblemReport',
+  ProblemDiscussion: 'ProblemDiscussion',
+  DiscussionMessage: 'DiscussionMessage',
+  DiscussionReply: 'DiscussionReply',
+  DiscussionUpvote: 'DiscussionUpvote'
 };
 
 /**

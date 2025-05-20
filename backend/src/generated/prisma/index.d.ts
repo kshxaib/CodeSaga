@@ -63,6 +63,26 @@ export type Badge = $Result.DefaultSelection<Prisma.$BadgePayload>
  * 
  */
 export type ProblemReport = $Result.DefaultSelection<Prisma.$ProblemReportPayload>
+/**
+ * Model ProblemDiscussion
+ * 
+ */
+export type ProblemDiscussion = $Result.DefaultSelection<Prisma.$ProblemDiscussionPayload>
+/**
+ * Model DiscussionMessage
+ * 
+ */
+export type DiscussionMessage = $Result.DefaultSelection<Prisma.$DiscussionMessagePayload>
+/**
+ * Model DiscussionReply
+ * 
+ */
+export type DiscussionReply = $Result.DefaultSelection<Prisma.$DiscussionReplyPayload>
+/**
+ * Model DiscussionUpvote
+ * 
+ */
+export type DiscussionUpvote = $Result.DefaultSelection<Prisma.$DiscussionUpvotePayload>
 
 /**
  * Enums
@@ -333,6 +353,46 @@ export class PrismaClient<
     * ```
     */
   get problemReport(): Prisma.ProblemReportDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.problemDiscussion`: Exposes CRUD operations for the **ProblemDiscussion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProblemDiscussions
+    * const problemDiscussions = await prisma.problemDiscussion.findMany()
+    * ```
+    */
+  get problemDiscussion(): Prisma.ProblemDiscussionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.discussionMessage`: Exposes CRUD operations for the **DiscussionMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DiscussionMessages
+    * const discussionMessages = await prisma.discussionMessage.findMany()
+    * ```
+    */
+  get discussionMessage(): Prisma.DiscussionMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.discussionReply`: Exposes CRUD operations for the **DiscussionReply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DiscussionReplies
+    * const discussionReplies = await prisma.discussionReply.findMany()
+    * ```
+    */
+  get discussionReply(): Prisma.DiscussionReplyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.discussionUpvote`: Exposes CRUD operations for the **DiscussionUpvote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DiscussionUpvotes
+    * const discussionUpvotes = await prisma.discussionUpvote.findMany()
+    * ```
+    */
+  get discussionUpvote(): Prisma.DiscussionUpvoteDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -782,7 +842,11 @@ export namespace Prisma {
     Playlist: 'Playlist',
     ProblemInPlaylist: 'ProblemInPlaylist',
     Badge: 'Badge',
-    ProblemReport: 'ProblemReport'
+    ProblemReport: 'ProblemReport',
+    ProblemDiscussion: 'ProblemDiscussion',
+    DiscussionMessage: 'DiscussionMessage',
+    DiscussionReply: 'DiscussionReply',
+    DiscussionUpvote: 'DiscussionUpvote'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -801,7 +865,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemInPlaylist" | "badge" | "problemReport"
+      modelProps: "user" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemInPlaylist" | "badge" | "problemReport" | "problemDiscussion" | "discussionMessage" | "discussionReply" | "discussionUpvote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1545,6 +1609,302 @@ export namespace Prisma {
           }
         }
       }
+      ProblemDiscussion: {
+        payload: Prisma.$ProblemDiscussionPayload<ExtArgs>
+        fields: Prisma.ProblemDiscussionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProblemDiscussionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProblemDiscussionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          findFirst: {
+            args: Prisma.ProblemDiscussionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProblemDiscussionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          findMany: {
+            args: Prisma.ProblemDiscussionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>[]
+          }
+          create: {
+            args: Prisma.ProblemDiscussionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          createMany: {
+            args: Prisma.ProblemDiscussionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProblemDiscussionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>[]
+          }
+          delete: {
+            args: Prisma.ProblemDiscussionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          update: {
+            args: Prisma.ProblemDiscussionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProblemDiscussionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProblemDiscussionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProblemDiscussionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProblemDiscussionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemDiscussionPayload>
+          }
+          aggregate: {
+            args: Prisma.ProblemDiscussionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProblemDiscussion>
+          }
+          groupBy: {
+            args: Prisma.ProblemDiscussionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProblemDiscussionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProblemDiscussionCountArgs<ExtArgs>
+            result: $Utils.Optional<ProblemDiscussionCountAggregateOutputType> | number
+          }
+        }
+      }
+      DiscussionMessage: {
+        payload: Prisma.$DiscussionMessagePayload<ExtArgs>
+        fields: Prisma.DiscussionMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiscussionMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiscussionMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.DiscussionMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiscussionMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          findMany: {
+            args: Prisma.DiscussionMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>[]
+          }
+          create: {
+            args: Prisma.DiscussionMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          createMany: {
+            args: Prisma.DiscussionMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiscussionMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.DiscussionMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          update: {
+            args: Prisma.DiscussionMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.DiscussionMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiscussionMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DiscussionMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.DiscussionMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.DiscussionMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiscussionMessage>
+          }
+          groupBy: {
+            args: Prisma.DiscussionMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiscussionMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionMessageCountAggregateOutputType> | number
+          }
+        }
+      }
+      DiscussionReply: {
+        payload: Prisma.$DiscussionReplyPayload<ExtArgs>
+        fields: Prisma.DiscussionReplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiscussionReplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiscussionReplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          findFirst: {
+            args: Prisma.DiscussionReplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiscussionReplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          findMany: {
+            args: Prisma.DiscussionReplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>[]
+          }
+          create: {
+            args: Prisma.DiscussionReplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          createMany: {
+            args: Prisma.DiscussionReplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiscussionReplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>[]
+          }
+          delete: {
+            args: Prisma.DiscussionReplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          update: {
+            args: Prisma.DiscussionReplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.DiscussionReplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiscussionReplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DiscussionReplyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>[]
+          }
+          upsert: {
+            args: Prisma.DiscussionReplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionReplyPayload>
+          }
+          aggregate: {
+            args: Prisma.DiscussionReplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiscussionReply>
+          }
+          groupBy: {
+            args: Prisma.DiscussionReplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionReplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiscussionReplyCountArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionReplyCountAggregateOutputType> | number
+          }
+        }
+      }
+      DiscussionUpvote: {
+        payload: Prisma.$DiscussionUpvotePayload<ExtArgs>
+        fields: Prisma.DiscussionUpvoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiscussionUpvoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiscussionUpvoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          findFirst: {
+            args: Prisma.DiscussionUpvoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiscussionUpvoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          findMany: {
+            args: Prisma.DiscussionUpvoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>[]
+          }
+          create: {
+            args: Prisma.DiscussionUpvoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          createMany: {
+            args: Prisma.DiscussionUpvoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiscussionUpvoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>[]
+          }
+          delete: {
+            args: Prisma.DiscussionUpvoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          update: {
+            args: Prisma.DiscussionUpvoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          deleteMany: {
+            args: Prisma.DiscussionUpvoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiscussionUpvoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DiscussionUpvoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>[]
+          }
+          upsert: {
+            args: Prisma.DiscussionUpvoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscussionUpvotePayload>
+          }
+          aggregate: {
+            args: Prisma.DiscussionUpvoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiscussionUpvote>
+          }
+          groupBy: {
+            args: Prisma.DiscussionUpvoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionUpvoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiscussionUpvoteCountArgs<ExtArgs>
+            result: $Utils.Optional<DiscussionUpvoteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1639,6 +1999,10 @@ export namespace Prisma {
     problemInPlaylist?: ProblemInPlaylistOmit
     badge?: BadgeOmit
     problemReport?: ProblemReportOmit
+    problemDiscussion?: ProblemDiscussionOmit
+    discussionMessage?: DiscussionMessageOmit
+    discussionReply?: DiscussionReplyOmit
+    discussionUpvote?: DiscussionUpvoteOmit
   }
 
   /* Types for Logging */
@@ -1740,6 +2104,9 @@ export namespace Prisma {
     problemSolved: number
     playlists: number
     submittedReports: number
+    discussionMessages: number
+    discussionReplies: number
+    discussionUpvotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1750,6 +2117,9 @@ export namespace Prisma {
     problemSolved?: boolean | UserCountOutputTypeCountProblemSolvedArgs
     playlists?: boolean | UserCountOutputTypeCountPlaylistsArgs
     submittedReports?: boolean | UserCountOutputTypeCountSubmittedReportsArgs
+    discussionMessages?: boolean | UserCountOutputTypeCountDiscussionMessagesArgs
+    discussionReplies?: boolean | UserCountOutputTypeCountDiscussionRepliesArgs
+    discussionUpvotes?: boolean | UserCountOutputTypeCountDiscussionUpvotesArgs
   }
 
   // Custom InputTypes
@@ -1812,6 +2182,27 @@ export namespace Prisma {
     where?: ProblemReportWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDiscussionMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionMessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDiscussionRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionReplyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDiscussionUpvotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionUpvoteWhereInput
+  }
+
 
   /**
    * Count Type ProblemCountOutputType
@@ -1822,6 +2213,7 @@ export namespace Prisma {
     solvedBy: number
     problemsPlaylists: number
     reports: number
+    discussions: number
   }
 
   export type ProblemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1829,6 +2221,7 @@ export namespace Prisma {
     solvedBy?: boolean | ProblemCountOutputTypeCountSolvedByArgs
     problemsPlaylists?: boolean | ProblemCountOutputTypeCountProblemsPlaylistsArgs
     reports?: boolean | ProblemCountOutputTypeCountReportsArgs
+    discussions?: boolean | ProblemCountOutputTypeCountDiscussionsArgs
   }
 
   // Custom InputTypes
@@ -1868,6 +2261,13 @@ export namespace Prisma {
    */
   export type ProblemCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProblemReportWhereInput
+  }
+
+  /**
+   * ProblemCountOutputType without action
+   */
+  export type ProblemCountOutputTypeCountDiscussionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemDiscussionWhereInput
   }
 
 
@@ -1930,6 +2330,77 @@ export namespace Prisma {
    */
   export type PlaylistCountOutputTypeCountProblemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProblemInPlaylistWhereInput
+  }
+
+
+  /**
+   * Count Type ProblemDiscussionCountOutputType
+   */
+
+  export type ProblemDiscussionCountOutputType = {
+    messages: number
+  }
+
+  export type ProblemDiscussionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | ProblemDiscussionCountOutputTypeCountMessagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProblemDiscussionCountOutputType without action
+   */
+  export type ProblemDiscussionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussionCountOutputType
+     */
+    select?: ProblemDiscussionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProblemDiscussionCountOutputType without action
+   */
+  export type ProblemDiscussionCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionMessageWhereInput
+  }
+
+
+  /**
+   * Count Type DiscussionMessageCountOutputType
+   */
+
+  export type DiscussionMessageCountOutputType = {
+    replies: number
+    upvotes: number
+  }
+
+  export type DiscussionMessageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | DiscussionMessageCountOutputTypeCountRepliesArgs
+    upvotes?: boolean | DiscussionMessageCountOutputTypeCountUpvotesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DiscussionMessageCountOutputType without action
+   */
+  export type DiscussionMessageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessageCountOutputType
+     */
+    select?: DiscussionMessageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionMessageCountOutputType without action
+   */
+  export type DiscussionMessageCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionReplyWhereInput
+  }
+
+  /**
+   * DiscussionMessageCountOutputType without action
+   */
+  export type DiscussionMessageCountOutputTypeCountUpvotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionUpvoteWhereInput
   }
 
 
@@ -2278,6 +2749,9 @@ export namespace Prisma {
     problemSolved?: boolean | User$problemSolvedArgs<ExtArgs>
     playlists?: boolean | User$playlistsArgs<ExtArgs>
     submittedReports?: boolean | User$submittedReportsArgs<ExtArgs>
+    discussionMessages?: boolean | User$discussionMessagesArgs<ExtArgs>
+    discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
+    discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2362,6 +2836,9 @@ export namespace Prisma {
     problemSolved?: boolean | User$problemSolvedArgs<ExtArgs>
     playlists?: boolean | User$playlistsArgs<ExtArgs>
     submittedReports?: boolean | User$submittedReportsArgs<ExtArgs>
+    discussionMessages?: boolean | User$discussionMessagesArgs<ExtArgs>
+    discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
+    discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2377,6 +2854,9 @@ export namespace Prisma {
       problemSolved: Prisma.$ProblemSolvedPayload<ExtArgs>[]
       playlists: Prisma.$PlaylistPayload<ExtArgs>[]
       submittedReports: Prisma.$ProblemReportPayload<ExtArgs>[]
+      discussionMessages: Prisma.$DiscussionMessagePayload<ExtArgs>[]
+      discussionReplies: Prisma.$DiscussionReplyPayload<ExtArgs>[]
+      discussionUpvotes: Prisma.$DiscussionUpvotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2801,6 +3281,9 @@ export namespace Prisma {
     problemSolved<T extends User$problemSolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$problemSolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     playlists<T extends User$playlistsArgs<ExtArgs> = {}>(args?: Subset<T, User$playlistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlaylistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submittedReports<T extends User$submittedReportsArgs<ExtArgs> = {}>(args?: Subset<T, User$submittedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    discussionMessages<T extends User$discussionMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    discussionReplies<T extends User$discussionRepliesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    discussionUpvotes<T extends User$discussionUpvotesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionUpvotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3407,6 +3890,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.discussionMessages
+   */
+  export type User$discussionMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    where?: DiscussionMessageWhereInput
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    cursor?: DiscussionMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionMessageScalarFieldEnum | DiscussionMessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.discussionReplies
+   */
+  export type User$discussionRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    where?: DiscussionReplyWhereInput
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    cursor?: DiscussionReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionReplyScalarFieldEnum | DiscussionReplyScalarFieldEnum[]
+  }
+
+  /**
+   * User.discussionUpvotes
+   */
+  export type User$discussionUpvotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    where?: DiscussionUpvoteWhereInput
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionUpvoteScalarFieldEnum | DiscussionUpvoteScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3708,6 +4263,7 @@ export namespace Prisma {
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
     problemsPlaylists?: boolean | Problem$problemsPlaylistsArgs<ExtArgs>
     reports?: boolean | Problem$reportsArgs<ExtArgs>
+    discussions?: boolean | Problem$discussionsArgs<ExtArgs>
     _count?: boolean | ProblemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["problem"]>
 
@@ -3780,6 +4336,7 @@ export namespace Prisma {
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
     problemsPlaylists?: boolean | Problem$problemsPlaylistsArgs<ExtArgs>
     reports?: boolean | Problem$reportsArgs<ExtArgs>
+    discussions?: boolean | Problem$discussionsArgs<ExtArgs>
     _count?: boolean | ProblemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProblemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3797,6 +4354,7 @@ export namespace Prisma {
       solvedBy: Prisma.$ProblemSolvedPayload<ExtArgs>[]
       problemsPlaylists: Prisma.$ProblemInPlaylistPayload<ExtArgs>[]
       reports: Prisma.$ProblemReportPayload<ExtArgs>[]
+      discussions: Prisma.$ProblemDiscussionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4215,6 +4773,7 @@ export namespace Prisma {
     solvedBy<T extends Problem$solvedByArgs<ExtArgs> = {}>(args?: Subset<T, Problem$solvedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problemsPlaylists<T extends Problem$problemsPlaylistsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$problemsPlaylistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInPlaylistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends Problem$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    discussions<T extends Problem$discussionsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$discussionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4750,6 +5309,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProblemReportScalarFieldEnum | ProblemReportScalarFieldEnum[]
+  }
+
+  /**
+   * Problem.discussions
+   */
+  export type Problem$discussionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    where?: ProblemDiscussionWhereInput
+    orderBy?: ProblemDiscussionOrderByWithRelationInput | ProblemDiscussionOrderByWithRelationInput[]
+    cursor?: ProblemDiscussionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemDiscussionScalarFieldEnum | ProblemDiscussionScalarFieldEnum[]
   }
 
   /**
@@ -13496,6 +14079,4337 @@ export namespace Prisma {
 
 
   /**
+   * Model ProblemDiscussion
+   */
+
+  export type AggregateProblemDiscussion = {
+    _count: ProblemDiscussionCountAggregateOutputType | null
+    _min: ProblemDiscussionMinAggregateOutputType | null
+    _max: ProblemDiscussionMaxAggregateOutputType | null
+  }
+
+  export type ProblemDiscussionMinAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemDiscussionMaxAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemDiscussionCountAggregateOutputType = {
+    id: number
+    problemId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProblemDiscussionMinAggregateInputType = {
+    id?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemDiscussionMaxAggregateInputType = {
+    id?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemDiscussionCountAggregateInputType = {
+    id?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProblemDiscussionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemDiscussion to aggregate.
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemDiscussions to fetch.
+     */
+    orderBy?: ProblemDiscussionOrderByWithRelationInput | ProblemDiscussionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProblemDiscussionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemDiscussions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemDiscussions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProblemDiscussions
+    **/
+    _count?: true | ProblemDiscussionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProblemDiscussionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProblemDiscussionMaxAggregateInputType
+  }
+
+  export type GetProblemDiscussionAggregateType<T extends ProblemDiscussionAggregateArgs> = {
+        [P in keyof T & keyof AggregateProblemDiscussion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProblemDiscussion[P]>
+      : GetScalarType<T[P], AggregateProblemDiscussion[P]>
+  }
+
+
+
+
+  export type ProblemDiscussionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemDiscussionWhereInput
+    orderBy?: ProblemDiscussionOrderByWithAggregationInput | ProblemDiscussionOrderByWithAggregationInput[]
+    by: ProblemDiscussionScalarFieldEnum[] | ProblemDiscussionScalarFieldEnum
+    having?: ProblemDiscussionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProblemDiscussionCountAggregateInputType | true
+    _min?: ProblemDiscussionMinAggregateInputType
+    _max?: ProblemDiscussionMaxAggregateInputType
+  }
+
+  export type ProblemDiscussionGroupByOutputType = {
+    id: string
+    problemId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ProblemDiscussionCountAggregateOutputType | null
+    _min: ProblemDiscussionMinAggregateOutputType | null
+    _max: ProblemDiscussionMaxAggregateOutputType | null
+  }
+
+  type GetProblemDiscussionGroupByPayload<T extends ProblemDiscussionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProblemDiscussionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProblemDiscussionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProblemDiscussionGroupByOutputType[P]>
+            : GetScalarType<T[P], ProblemDiscussionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProblemDiscussionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    messages?: boolean | ProblemDiscussion$messagesArgs<ExtArgs>
+    _count?: boolean | ProblemDiscussionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemDiscussion"]>
+
+  export type ProblemDiscussionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemDiscussion"]>
+
+  export type ProblemDiscussionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemDiscussion"]>
+
+  export type ProblemDiscussionSelectScalar = {
+    id?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProblemDiscussionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "createdAt" | "updatedAt", ExtArgs["result"]["problemDiscussion"]>
+  export type ProblemDiscussionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    messages?: boolean | ProblemDiscussion$messagesArgs<ExtArgs>
+    _count?: boolean | ProblemDiscussionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProblemDiscussionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }
+  export type ProblemDiscussionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }
+
+  export type $ProblemDiscussionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProblemDiscussion"
+    objects: {
+      problem: Prisma.$ProblemPayload<ExtArgs>
+      messages: Prisma.$DiscussionMessagePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      problemId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["problemDiscussion"]>
+    composites: {}
+  }
+
+  type ProblemDiscussionGetPayload<S extends boolean | null | undefined | ProblemDiscussionDefaultArgs> = $Result.GetResult<Prisma.$ProblemDiscussionPayload, S>
+
+  type ProblemDiscussionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProblemDiscussionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProblemDiscussionCountAggregateInputType | true
+    }
+
+  export interface ProblemDiscussionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemDiscussion'], meta: { name: 'ProblemDiscussion' } }
+    /**
+     * Find zero or one ProblemDiscussion that matches the filter.
+     * @param {ProblemDiscussionFindUniqueArgs} args - Arguments to find a ProblemDiscussion
+     * @example
+     * // Get one ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProblemDiscussionFindUniqueArgs>(args: SelectSubset<T, ProblemDiscussionFindUniqueArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProblemDiscussion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProblemDiscussionFindUniqueOrThrowArgs} args - Arguments to find a ProblemDiscussion
+     * @example
+     * // Get one ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProblemDiscussionFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemDiscussionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemDiscussion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionFindFirstArgs} args - Arguments to find a ProblemDiscussion
+     * @example
+     * // Get one ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProblemDiscussionFindFirstArgs>(args?: SelectSubset<T, ProblemDiscussionFindFirstArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemDiscussion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionFindFirstOrThrowArgs} args - Arguments to find a ProblemDiscussion
+     * @example
+     * // Get one ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProblemDiscussionFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemDiscussionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProblemDiscussions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProblemDiscussions
+     * const problemDiscussions = await prisma.problemDiscussion.findMany()
+     * 
+     * // Get first 10 ProblemDiscussions
+     * const problemDiscussions = await prisma.problemDiscussion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const problemDiscussionWithIdOnly = await prisma.problemDiscussion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProblemDiscussionFindManyArgs>(args?: SelectSubset<T, ProblemDiscussionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProblemDiscussion.
+     * @param {ProblemDiscussionCreateArgs} args - Arguments to create a ProblemDiscussion.
+     * @example
+     * // Create one ProblemDiscussion
+     * const ProblemDiscussion = await prisma.problemDiscussion.create({
+     *   data: {
+     *     // ... data to create a ProblemDiscussion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProblemDiscussionCreateArgs>(args: SelectSubset<T, ProblemDiscussionCreateArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProblemDiscussions.
+     * @param {ProblemDiscussionCreateManyArgs} args - Arguments to create many ProblemDiscussions.
+     * @example
+     * // Create many ProblemDiscussions
+     * const problemDiscussion = await prisma.problemDiscussion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProblemDiscussionCreateManyArgs>(args?: SelectSubset<T, ProblemDiscussionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProblemDiscussions and returns the data saved in the database.
+     * @param {ProblemDiscussionCreateManyAndReturnArgs} args - Arguments to create many ProblemDiscussions.
+     * @example
+     * // Create many ProblemDiscussions
+     * const problemDiscussion = await prisma.problemDiscussion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProblemDiscussions and only return the `id`
+     * const problemDiscussionWithIdOnly = await prisma.problemDiscussion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProblemDiscussionCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemDiscussionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProblemDiscussion.
+     * @param {ProblemDiscussionDeleteArgs} args - Arguments to delete one ProblemDiscussion.
+     * @example
+     * // Delete one ProblemDiscussion
+     * const ProblemDiscussion = await prisma.problemDiscussion.delete({
+     *   where: {
+     *     // ... filter to delete one ProblemDiscussion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProblemDiscussionDeleteArgs>(args: SelectSubset<T, ProblemDiscussionDeleteArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProblemDiscussion.
+     * @param {ProblemDiscussionUpdateArgs} args - Arguments to update one ProblemDiscussion.
+     * @example
+     * // Update one ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProblemDiscussionUpdateArgs>(args: SelectSubset<T, ProblemDiscussionUpdateArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProblemDiscussions.
+     * @param {ProblemDiscussionDeleteManyArgs} args - Arguments to filter ProblemDiscussions to delete.
+     * @example
+     * // Delete a few ProblemDiscussions
+     * const { count } = await prisma.problemDiscussion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProblemDiscussionDeleteManyArgs>(args?: SelectSubset<T, ProblemDiscussionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemDiscussions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProblemDiscussions
+     * const problemDiscussion = await prisma.problemDiscussion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProblemDiscussionUpdateManyArgs>(args: SelectSubset<T, ProblemDiscussionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemDiscussions and returns the data updated in the database.
+     * @param {ProblemDiscussionUpdateManyAndReturnArgs} args - Arguments to update many ProblemDiscussions.
+     * @example
+     * // Update many ProblemDiscussions
+     * const problemDiscussion = await prisma.problemDiscussion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProblemDiscussions and only return the `id`
+     * const problemDiscussionWithIdOnly = await prisma.problemDiscussion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProblemDiscussionUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemDiscussionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProblemDiscussion.
+     * @param {ProblemDiscussionUpsertArgs} args - Arguments to update or create a ProblemDiscussion.
+     * @example
+     * // Update or create a ProblemDiscussion
+     * const problemDiscussion = await prisma.problemDiscussion.upsert({
+     *   create: {
+     *     // ... data to create a ProblemDiscussion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProblemDiscussion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProblemDiscussionUpsertArgs>(args: SelectSubset<T, ProblemDiscussionUpsertArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProblemDiscussions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionCountArgs} args - Arguments to filter ProblemDiscussions to count.
+     * @example
+     * // Count the number of ProblemDiscussions
+     * const count = await prisma.problemDiscussion.count({
+     *   where: {
+     *     // ... the filter for the ProblemDiscussions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProblemDiscussionCountArgs>(
+      args?: Subset<T, ProblemDiscussionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProblemDiscussionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProblemDiscussion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProblemDiscussionAggregateArgs>(args: Subset<T, ProblemDiscussionAggregateArgs>): Prisma.PrismaPromise<GetProblemDiscussionAggregateType<T>>
+
+    /**
+     * Group by ProblemDiscussion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemDiscussionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProblemDiscussionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProblemDiscussionGroupByArgs['orderBy'] }
+        : { orderBy?: ProblemDiscussionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProblemDiscussionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemDiscussionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProblemDiscussion model
+   */
+  readonly fields: ProblemDiscussionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProblemDiscussion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProblemDiscussionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    messages<T extends ProblemDiscussion$messagesArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDiscussion$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProblemDiscussion model
+   */
+  interface ProblemDiscussionFieldRefs {
+    readonly id: FieldRef<"ProblemDiscussion", 'String'>
+    readonly problemId: FieldRef<"ProblemDiscussion", 'String'>
+    readonly createdAt: FieldRef<"ProblemDiscussion", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProblemDiscussion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProblemDiscussion findUnique
+   */
+  export type ProblemDiscussionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemDiscussion to fetch.
+     */
+    where: ProblemDiscussionWhereUniqueInput
+  }
+
+  /**
+   * ProblemDiscussion findUniqueOrThrow
+   */
+  export type ProblemDiscussionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemDiscussion to fetch.
+     */
+    where: ProblemDiscussionWhereUniqueInput
+  }
+
+  /**
+   * ProblemDiscussion findFirst
+   */
+  export type ProblemDiscussionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemDiscussion to fetch.
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemDiscussions to fetch.
+     */
+    orderBy?: ProblemDiscussionOrderByWithRelationInput | ProblemDiscussionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemDiscussions.
+     */
+    cursor?: ProblemDiscussionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemDiscussions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemDiscussions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemDiscussions.
+     */
+    distinct?: ProblemDiscussionScalarFieldEnum | ProblemDiscussionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemDiscussion findFirstOrThrow
+   */
+  export type ProblemDiscussionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemDiscussion to fetch.
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemDiscussions to fetch.
+     */
+    orderBy?: ProblemDiscussionOrderByWithRelationInput | ProblemDiscussionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemDiscussions.
+     */
+    cursor?: ProblemDiscussionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemDiscussions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemDiscussions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemDiscussions.
+     */
+    distinct?: ProblemDiscussionScalarFieldEnum | ProblemDiscussionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemDiscussion findMany
+   */
+  export type ProblemDiscussionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemDiscussions to fetch.
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemDiscussions to fetch.
+     */
+    orderBy?: ProblemDiscussionOrderByWithRelationInput | ProblemDiscussionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProblemDiscussions.
+     */
+    cursor?: ProblemDiscussionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemDiscussions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemDiscussions.
+     */
+    skip?: number
+    distinct?: ProblemDiscussionScalarFieldEnum | ProblemDiscussionScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemDiscussion create
+   */
+  export type ProblemDiscussionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProblemDiscussion.
+     */
+    data: XOR<ProblemDiscussionCreateInput, ProblemDiscussionUncheckedCreateInput>
+  }
+
+  /**
+   * ProblemDiscussion createMany
+   */
+  export type ProblemDiscussionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProblemDiscussions.
+     */
+    data: ProblemDiscussionCreateManyInput | ProblemDiscussionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProblemDiscussion createManyAndReturn
+   */
+  export type ProblemDiscussionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProblemDiscussions.
+     */
+    data: ProblemDiscussionCreateManyInput | ProblemDiscussionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemDiscussion update
+   */
+  export type ProblemDiscussionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProblemDiscussion.
+     */
+    data: XOR<ProblemDiscussionUpdateInput, ProblemDiscussionUncheckedUpdateInput>
+    /**
+     * Choose, which ProblemDiscussion to update.
+     */
+    where: ProblemDiscussionWhereUniqueInput
+  }
+
+  /**
+   * ProblemDiscussion updateMany
+   */
+  export type ProblemDiscussionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProblemDiscussions.
+     */
+    data: XOR<ProblemDiscussionUpdateManyMutationInput, ProblemDiscussionUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemDiscussions to update
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * Limit how many ProblemDiscussions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemDiscussion updateManyAndReturn
+   */
+  export type ProblemDiscussionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * The data used to update ProblemDiscussions.
+     */
+    data: XOR<ProblemDiscussionUpdateManyMutationInput, ProblemDiscussionUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemDiscussions to update
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * Limit how many ProblemDiscussions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemDiscussion upsert
+   */
+  export type ProblemDiscussionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProblemDiscussion to update in case it exists.
+     */
+    where: ProblemDiscussionWhereUniqueInput
+    /**
+     * In case the ProblemDiscussion found by the `where` argument doesn't exist, create a new ProblemDiscussion with this data.
+     */
+    create: XOR<ProblemDiscussionCreateInput, ProblemDiscussionUncheckedCreateInput>
+    /**
+     * In case the ProblemDiscussion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProblemDiscussionUpdateInput, ProblemDiscussionUncheckedUpdateInput>
+  }
+
+  /**
+   * ProblemDiscussion delete
+   */
+  export type ProblemDiscussionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+    /**
+     * Filter which ProblemDiscussion to delete.
+     */
+    where: ProblemDiscussionWhereUniqueInput
+  }
+
+  /**
+   * ProblemDiscussion deleteMany
+   */
+  export type ProblemDiscussionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemDiscussions to delete
+     */
+    where?: ProblemDiscussionWhereInput
+    /**
+     * Limit how many ProblemDiscussions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemDiscussion.messages
+   */
+  export type ProblemDiscussion$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    where?: DiscussionMessageWhereInput
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    cursor?: DiscussionMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionMessageScalarFieldEnum | DiscussionMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemDiscussion without action
+   */
+  export type ProblemDiscussionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemDiscussion
+     */
+    select?: ProblemDiscussionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemDiscussion
+     */
+    omit?: ProblemDiscussionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemDiscussionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DiscussionMessage
+   */
+
+  export type AggregateDiscussionMessage = {
+    _count: DiscussionMessageCountAggregateOutputType | null
+    _min: DiscussionMessageMinAggregateOutputType | null
+    _max: DiscussionMessageMaxAggregateOutputType | null
+  }
+
+  export type DiscussionMessageMinAggregateOutputType = {
+    id: string | null
+    discussionId: string | null
+    userId: string | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DiscussionMessageMaxAggregateOutputType = {
+    id: string | null
+    discussionId: string | null
+    userId: string | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DiscussionMessageCountAggregateOutputType = {
+    id: number
+    discussionId: number
+    userId: number
+    content: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DiscussionMessageMinAggregateInputType = {
+    id?: true
+    discussionId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DiscussionMessageMaxAggregateInputType = {
+    id?: true
+    discussionId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DiscussionMessageCountAggregateInputType = {
+    id?: true
+    discussionId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DiscussionMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionMessage to aggregate.
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionMessages to fetch.
+     */
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiscussionMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DiscussionMessages
+    **/
+    _count?: true | DiscussionMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiscussionMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiscussionMessageMaxAggregateInputType
+  }
+
+  export type GetDiscussionMessageAggregateType<T extends DiscussionMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiscussionMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiscussionMessage[P]>
+      : GetScalarType<T[P], AggregateDiscussionMessage[P]>
+  }
+
+
+
+
+  export type DiscussionMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionMessageWhereInput
+    orderBy?: DiscussionMessageOrderByWithAggregationInput | DiscussionMessageOrderByWithAggregationInput[]
+    by: DiscussionMessageScalarFieldEnum[] | DiscussionMessageScalarFieldEnum
+    having?: DiscussionMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiscussionMessageCountAggregateInputType | true
+    _min?: DiscussionMessageMinAggregateInputType
+    _max?: DiscussionMessageMaxAggregateInputType
+  }
+
+  export type DiscussionMessageGroupByOutputType = {
+    id: string
+    discussionId: string
+    userId: string
+    content: string
+    createdAt: Date
+    updatedAt: Date
+    _count: DiscussionMessageCountAggregateOutputType | null
+    _min: DiscussionMessageMinAggregateOutputType | null
+    _max: DiscussionMessageMaxAggregateOutputType | null
+  }
+
+  type GetDiscussionMessageGroupByPayload<T extends DiscussionMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiscussionMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiscussionMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiscussionMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], DiscussionMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiscussionMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    discussionId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    replies?: boolean | DiscussionMessage$repliesArgs<ExtArgs>
+    upvotes?: boolean | DiscussionMessage$upvotesArgs<ExtArgs>
+    _count?: boolean | DiscussionMessageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionMessage"]>
+
+  export type DiscussionMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    discussionId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionMessage"]>
+
+  export type DiscussionMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    discussionId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionMessage"]>
+
+  export type DiscussionMessageSelectScalar = {
+    id?: boolean
+    discussionId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DiscussionMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "discussionId" | "userId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["discussionMessage"]>
+  export type DiscussionMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    replies?: boolean | DiscussionMessage$repliesArgs<ExtArgs>
+    upvotes?: boolean | DiscussionMessage$upvotesArgs<ExtArgs>
+    _count?: boolean | DiscussionMessageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DiscussionMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DiscussionMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    discussion?: boolean | ProblemDiscussionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DiscussionMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DiscussionMessage"
+    objects: {
+      discussion: Prisma.$ProblemDiscussionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      replies: Prisma.$DiscussionReplyPayload<ExtArgs>[]
+      upvotes: Prisma.$DiscussionUpvotePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      discussionId: string
+      userId: string
+      content: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["discussionMessage"]>
+    composites: {}
+  }
+
+  type DiscussionMessageGetPayload<S extends boolean | null | undefined | DiscussionMessageDefaultArgs> = $Result.GetResult<Prisma.$DiscussionMessagePayload, S>
+
+  type DiscussionMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DiscussionMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DiscussionMessageCountAggregateInputType | true
+    }
+
+  export interface DiscussionMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DiscussionMessage'], meta: { name: 'DiscussionMessage' } }
+    /**
+     * Find zero or one DiscussionMessage that matches the filter.
+     * @param {DiscussionMessageFindUniqueArgs} args - Arguments to find a DiscussionMessage
+     * @example
+     * // Get one DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiscussionMessageFindUniqueArgs>(args: SelectSubset<T, DiscussionMessageFindUniqueArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DiscussionMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DiscussionMessageFindUniqueOrThrowArgs} args - Arguments to find a DiscussionMessage
+     * @example
+     * // Get one DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiscussionMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, DiscussionMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageFindFirstArgs} args - Arguments to find a DiscussionMessage
+     * @example
+     * // Get one DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiscussionMessageFindFirstArgs>(args?: SelectSubset<T, DiscussionMessageFindFirstArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageFindFirstOrThrowArgs} args - Arguments to find a DiscussionMessage
+     * @example
+     * // Get one DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiscussionMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, DiscussionMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DiscussionMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DiscussionMessages
+     * const discussionMessages = await prisma.discussionMessage.findMany()
+     * 
+     * // Get first 10 DiscussionMessages
+     * const discussionMessages = await prisma.discussionMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const discussionMessageWithIdOnly = await prisma.discussionMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiscussionMessageFindManyArgs>(args?: SelectSubset<T, DiscussionMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DiscussionMessage.
+     * @param {DiscussionMessageCreateArgs} args - Arguments to create a DiscussionMessage.
+     * @example
+     * // Create one DiscussionMessage
+     * const DiscussionMessage = await prisma.discussionMessage.create({
+     *   data: {
+     *     // ... data to create a DiscussionMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiscussionMessageCreateArgs>(args: SelectSubset<T, DiscussionMessageCreateArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DiscussionMessages.
+     * @param {DiscussionMessageCreateManyArgs} args - Arguments to create many DiscussionMessages.
+     * @example
+     * // Create many DiscussionMessages
+     * const discussionMessage = await prisma.discussionMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiscussionMessageCreateManyArgs>(args?: SelectSubset<T, DiscussionMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DiscussionMessages and returns the data saved in the database.
+     * @param {DiscussionMessageCreateManyAndReturnArgs} args - Arguments to create many DiscussionMessages.
+     * @example
+     * // Create many DiscussionMessages
+     * const discussionMessage = await prisma.discussionMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DiscussionMessages and only return the `id`
+     * const discussionMessageWithIdOnly = await prisma.discussionMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiscussionMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, DiscussionMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DiscussionMessage.
+     * @param {DiscussionMessageDeleteArgs} args - Arguments to delete one DiscussionMessage.
+     * @example
+     * // Delete one DiscussionMessage
+     * const DiscussionMessage = await prisma.discussionMessage.delete({
+     *   where: {
+     *     // ... filter to delete one DiscussionMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiscussionMessageDeleteArgs>(args: SelectSubset<T, DiscussionMessageDeleteArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DiscussionMessage.
+     * @param {DiscussionMessageUpdateArgs} args - Arguments to update one DiscussionMessage.
+     * @example
+     * // Update one DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiscussionMessageUpdateArgs>(args: SelectSubset<T, DiscussionMessageUpdateArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DiscussionMessages.
+     * @param {DiscussionMessageDeleteManyArgs} args - Arguments to filter DiscussionMessages to delete.
+     * @example
+     * // Delete a few DiscussionMessages
+     * const { count } = await prisma.discussionMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiscussionMessageDeleteManyArgs>(args?: SelectSubset<T, DiscussionMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DiscussionMessages
+     * const discussionMessage = await prisma.discussionMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiscussionMessageUpdateManyArgs>(args: SelectSubset<T, DiscussionMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionMessages and returns the data updated in the database.
+     * @param {DiscussionMessageUpdateManyAndReturnArgs} args - Arguments to update many DiscussionMessages.
+     * @example
+     * // Update many DiscussionMessages
+     * const discussionMessage = await prisma.discussionMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DiscussionMessages and only return the `id`
+     * const discussionMessageWithIdOnly = await prisma.discussionMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DiscussionMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, DiscussionMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DiscussionMessage.
+     * @param {DiscussionMessageUpsertArgs} args - Arguments to update or create a DiscussionMessage.
+     * @example
+     * // Update or create a DiscussionMessage
+     * const discussionMessage = await prisma.discussionMessage.upsert({
+     *   create: {
+     *     // ... data to create a DiscussionMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DiscussionMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiscussionMessageUpsertArgs>(args: SelectSubset<T, DiscussionMessageUpsertArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DiscussionMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageCountArgs} args - Arguments to filter DiscussionMessages to count.
+     * @example
+     * // Count the number of DiscussionMessages
+     * const count = await prisma.discussionMessage.count({
+     *   where: {
+     *     // ... the filter for the DiscussionMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiscussionMessageCountArgs>(
+      args?: Subset<T, DiscussionMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiscussionMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DiscussionMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiscussionMessageAggregateArgs>(args: Subset<T, DiscussionMessageAggregateArgs>): Prisma.PrismaPromise<GetDiscussionMessageAggregateType<T>>
+
+    /**
+     * Group by DiscussionMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiscussionMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiscussionMessageGroupByArgs['orderBy'] }
+        : { orderBy?: DiscussionMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiscussionMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiscussionMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DiscussionMessage model
+   */
+  readonly fields: DiscussionMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DiscussionMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiscussionMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    discussion<T extends ProblemDiscussionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDiscussionDefaultArgs<ExtArgs>>): Prisma__ProblemDiscussionClient<$Result.GetResult<Prisma.$ProblemDiscussionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    replies<T extends DiscussionMessage$repliesArgs<ExtArgs> = {}>(args?: Subset<T, DiscussionMessage$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    upvotes<T extends DiscussionMessage$upvotesArgs<ExtArgs> = {}>(args?: Subset<T, DiscussionMessage$upvotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DiscussionMessage model
+   */
+  interface DiscussionMessageFieldRefs {
+    readonly id: FieldRef<"DiscussionMessage", 'String'>
+    readonly discussionId: FieldRef<"DiscussionMessage", 'String'>
+    readonly userId: FieldRef<"DiscussionMessage", 'String'>
+    readonly content: FieldRef<"DiscussionMessage", 'String'>
+    readonly createdAt: FieldRef<"DiscussionMessage", 'DateTime'>
+    readonly updatedAt: FieldRef<"DiscussionMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DiscussionMessage findUnique
+   */
+  export type DiscussionMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionMessage to fetch.
+     */
+    where: DiscussionMessageWhereUniqueInput
+  }
+
+  /**
+   * DiscussionMessage findUniqueOrThrow
+   */
+  export type DiscussionMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionMessage to fetch.
+     */
+    where: DiscussionMessageWhereUniqueInput
+  }
+
+  /**
+   * DiscussionMessage findFirst
+   */
+  export type DiscussionMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionMessage to fetch.
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionMessages to fetch.
+     */
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionMessages.
+     */
+    cursor?: DiscussionMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionMessages.
+     */
+    distinct?: DiscussionMessageScalarFieldEnum | DiscussionMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionMessage findFirstOrThrow
+   */
+  export type DiscussionMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionMessage to fetch.
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionMessages to fetch.
+     */
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionMessages.
+     */
+    cursor?: DiscussionMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionMessages.
+     */
+    distinct?: DiscussionMessageScalarFieldEnum | DiscussionMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionMessage findMany
+   */
+  export type DiscussionMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionMessages to fetch.
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionMessages to fetch.
+     */
+    orderBy?: DiscussionMessageOrderByWithRelationInput | DiscussionMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DiscussionMessages.
+     */
+    cursor?: DiscussionMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionMessages.
+     */
+    skip?: number
+    distinct?: DiscussionMessageScalarFieldEnum | DiscussionMessageScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionMessage create
+   */
+  export type DiscussionMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DiscussionMessage.
+     */
+    data: XOR<DiscussionMessageCreateInput, DiscussionMessageUncheckedCreateInput>
+  }
+
+  /**
+   * DiscussionMessage createMany
+   */
+  export type DiscussionMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DiscussionMessages.
+     */
+    data: DiscussionMessageCreateManyInput | DiscussionMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DiscussionMessage createManyAndReturn
+   */
+  export type DiscussionMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many DiscussionMessages.
+     */
+    data: DiscussionMessageCreateManyInput | DiscussionMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionMessage update
+   */
+  export type DiscussionMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DiscussionMessage.
+     */
+    data: XOR<DiscussionMessageUpdateInput, DiscussionMessageUncheckedUpdateInput>
+    /**
+     * Choose, which DiscussionMessage to update.
+     */
+    where: DiscussionMessageWhereUniqueInput
+  }
+
+  /**
+   * DiscussionMessage updateMany
+   */
+  export type DiscussionMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DiscussionMessages.
+     */
+    data: XOR<DiscussionMessageUpdateManyMutationInput, DiscussionMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionMessages to update
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * Limit how many DiscussionMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionMessage updateManyAndReturn
+   */
+  export type DiscussionMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update DiscussionMessages.
+     */
+    data: XOR<DiscussionMessageUpdateManyMutationInput, DiscussionMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionMessages to update
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * Limit how many DiscussionMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionMessage upsert
+   */
+  export type DiscussionMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DiscussionMessage to update in case it exists.
+     */
+    where: DiscussionMessageWhereUniqueInput
+    /**
+     * In case the DiscussionMessage found by the `where` argument doesn't exist, create a new DiscussionMessage with this data.
+     */
+    create: XOR<DiscussionMessageCreateInput, DiscussionMessageUncheckedCreateInput>
+    /**
+     * In case the DiscussionMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiscussionMessageUpdateInput, DiscussionMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * DiscussionMessage delete
+   */
+  export type DiscussionMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+    /**
+     * Filter which DiscussionMessage to delete.
+     */
+    where: DiscussionMessageWhereUniqueInput
+  }
+
+  /**
+   * DiscussionMessage deleteMany
+   */
+  export type DiscussionMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionMessages to delete
+     */
+    where?: DiscussionMessageWhereInput
+    /**
+     * Limit how many DiscussionMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionMessage.replies
+   */
+  export type DiscussionMessage$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    where?: DiscussionReplyWhereInput
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    cursor?: DiscussionReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionReplyScalarFieldEnum | DiscussionReplyScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionMessage.upvotes
+   */
+  export type DiscussionMessage$upvotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    where?: DiscussionUpvoteWhereInput
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussionUpvoteScalarFieldEnum | DiscussionUpvoteScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionMessage without action
+   */
+  export type DiscussionMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionMessage
+     */
+    select?: DiscussionMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionMessage
+     */
+    omit?: DiscussionMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DiscussionReply
+   */
+
+  export type AggregateDiscussionReply = {
+    _count: DiscussionReplyCountAggregateOutputType | null
+    _min: DiscussionReplyMinAggregateOutputType | null
+    _max: DiscussionReplyMaxAggregateOutputType | null
+  }
+
+  export type DiscussionReplyMinAggregateOutputType = {
+    id: string | null
+    messageId: string | null
+    userId: string | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DiscussionReplyMaxAggregateOutputType = {
+    id: string | null
+    messageId: string | null
+    userId: string | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DiscussionReplyCountAggregateOutputType = {
+    id: number
+    messageId: number
+    userId: number
+    content: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DiscussionReplyMinAggregateInputType = {
+    id?: true
+    messageId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DiscussionReplyMaxAggregateInputType = {
+    id?: true
+    messageId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DiscussionReplyCountAggregateInputType = {
+    id?: true
+    messageId?: true
+    userId?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DiscussionReplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionReply to aggregate.
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionReplies to fetch.
+     */
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiscussionReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DiscussionReplies
+    **/
+    _count?: true | DiscussionReplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiscussionReplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiscussionReplyMaxAggregateInputType
+  }
+
+  export type GetDiscussionReplyAggregateType<T extends DiscussionReplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiscussionReply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiscussionReply[P]>
+      : GetScalarType<T[P], AggregateDiscussionReply[P]>
+  }
+
+
+
+
+  export type DiscussionReplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionReplyWhereInput
+    orderBy?: DiscussionReplyOrderByWithAggregationInput | DiscussionReplyOrderByWithAggregationInput[]
+    by: DiscussionReplyScalarFieldEnum[] | DiscussionReplyScalarFieldEnum
+    having?: DiscussionReplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiscussionReplyCountAggregateInputType | true
+    _min?: DiscussionReplyMinAggregateInputType
+    _max?: DiscussionReplyMaxAggregateInputType
+  }
+
+  export type DiscussionReplyGroupByOutputType = {
+    id: string
+    messageId: string
+    userId: string
+    content: string
+    createdAt: Date
+    updatedAt: Date
+    _count: DiscussionReplyCountAggregateOutputType | null
+    _min: DiscussionReplyMinAggregateOutputType | null
+    _max: DiscussionReplyMaxAggregateOutputType | null
+  }
+
+  type GetDiscussionReplyGroupByPayload<T extends DiscussionReplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiscussionReplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiscussionReplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiscussionReplyGroupByOutputType[P]>
+            : GetScalarType<T[P], DiscussionReplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiscussionReplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    messageId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionReply"]>
+
+  export type DiscussionReplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    messageId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionReply"]>
+
+  export type DiscussionReplySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    messageId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionReply"]>
+
+  export type DiscussionReplySelectScalar = {
+    id?: boolean
+    messageId?: boolean
+    userId?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DiscussionReplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "messageId" | "userId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["discussionReply"]>
+  export type DiscussionReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DiscussionReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DiscussionReplyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DiscussionReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DiscussionReply"
+    objects: {
+      message: Prisma.$DiscussionMessagePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      messageId: string
+      userId: string
+      content: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["discussionReply"]>
+    composites: {}
+  }
+
+  type DiscussionReplyGetPayload<S extends boolean | null | undefined | DiscussionReplyDefaultArgs> = $Result.GetResult<Prisma.$DiscussionReplyPayload, S>
+
+  type DiscussionReplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DiscussionReplyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DiscussionReplyCountAggregateInputType | true
+    }
+
+  export interface DiscussionReplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DiscussionReply'], meta: { name: 'DiscussionReply' } }
+    /**
+     * Find zero or one DiscussionReply that matches the filter.
+     * @param {DiscussionReplyFindUniqueArgs} args - Arguments to find a DiscussionReply
+     * @example
+     * // Get one DiscussionReply
+     * const discussionReply = await prisma.discussionReply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiscussionReplyFindUniqueArgs>(args: SelectSubset<T, DiscussionReplyFindUniqueArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DiscussionReply that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DiscussionReplyFindUniqueOrThrowArgs} args - Arguments to find a DiscussionReply
+     * @example
+     * // Get one DiscussionReply
+     * const discussionReply = await prisma.discussionReply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiscussionReplyFindUniqueOrThrowArgs>(args: SelectSubset<T, DiscussionReplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionReply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyFindFirstArgs} args - Arguments to find a DiscussionReply
+     * @example
+     * // Get one DiscussionReply
+     * const discussionReply = await prisma.discussionReply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiscussionReplyFindFirstArgs>(args?: SelectSubset<T, DiscussionReplyFindFirstArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionReply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyFindFirstOrThrowArgs} args - Arguments to find a DiscussionReply
+     * @example
+     * // Get one DiscussionReply
+     * const discussionReply = await prisma.discussionReply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiscussionReplyFindFirstOrThrowArgs>(args?: SelectSubset<T, DiscussionReplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DiscussionReplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DiscussionReplies
+     * const discussionReplies = await prisma.discussionReply.findMany()
+     * 
+     * // Get first 10 DiscussionReplies
+     * const discussionReplies = await prisma.discussionReply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const discussionReplyWithIdOnly = await prisma.discussionReply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiscussionReplyFindManyArgs>(args?: SelectSubset<T, DiscussionReplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DiscussionReply.
+     * @param {DiscussionReplyCreateArgs} args - Arguments to create a DiscussionReply.
+     * @example
+     * // Create one DiscussionReply
+     * const DiscussionReply = await prisma.discussionReply.create({
+     *   data: {
+     *     // ... data to create a DiscussionReply
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiscussionReplyCreateArgs>(args: SelectSubset<T, DiscussionReplyCreateArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DiscussionReplies.
+     * @param {DiscussionReplyCreateManyArgs} args - Arguments to create many DiscussionReplies.
+     * @example
+     * // Create many DiscussionReplies
+     * const discussionReply = await prisma.discussionReply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiscussionReplyCreateManyArgs>(args?: SelectSubset<T, DiscussionReplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DiscussionReplies and returns the data saved in the database.
+     * @param {DiscussionReplyCreateManyAndReturnArgs} args - Arguments to create many DiscussionReplies.
+     * @example
+     * // Create many DiscussionReplies
+     * const discussionReply = await prisma.discussionReply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DiscussionReplies and only return the `id`
+     * const discussionReplyWithIdOnly = await prisma.discussionReply.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiscussionReplyCreateManyAndReturnArgs>(args?: SelectSubset<T, DiscussionReplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DiscussionReply.
+     * @param {DiscussionReplyDeleteArgs} args - Arguments to delete one DiscussionReply.
+     * @example
+     * // Delete one DiscussionReply
+     * const DiscussionReply = await prisma.discussionReply.delete({
+     *   where: {
+     *     // ... filter to delete one DiscussionReply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiscussionReplyDeleteArgs>(args: SelectSubset<T, DiscussionReplyDeleteArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DiscussionReply.
+     * @param {DiscussionReplyUpdateArgs} args - Arguments to update one DiscussionReply.
+     * @example
+     * // Update one DiscussionReply
+     * const discussionReply = await prisma.discussionReply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiscussionReplyUpdateArgs>(args: SelectSubset<T, DiscussionReplyUpdateArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DiscussionReplies.
+     * @param {DiscussionReplyDeleteManyArgs} args - Arguments to filter DiscussionReplies to delete.
+     * @example
+     * // Delete a few DiscussionReplies
+     * const { count } = await prisma.discussionReply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiscussionReplyDeleteManyArgs>(args?: SelectSubset<T, DiscussionReplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DiscussionReplies
+     * const discussionReply = await prisma.discussionReply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiscussionReplyUpdateManyArgs>(args: SelectSubset<T, DiscussionReplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionReplies and returns the data updated in the database.
+     * @param {DiscussionReplyUpdateManyAndReturnArgs} args - Arguments to update many DiscussionReplies.
+     * @example
+     * // Update many DiscussionReplies
+     * const discussionReply = await prisma.discussionReply.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DiscussionReplies and only return the `id`
+     * const discussionReplyWithIdOnly = await prisma.discussionReply.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DiscussionReplyUpdateManyAndReturnArgs>(args: SelectSubset<T, DiscussionReplyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DiscussionReply.
+     * @param {DiscussionReplyUpsertArgs} args - Arguments to update or create a DiscussionReply.
+     * @example
+     * // Update or create a DiscussionReply
+     * const discussionReply = await prisma.discussionReply.upsert({
+     *   create: {
+     *     // ... data to create a DiscussionReply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DiscussionReply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiscussionReplyUpsertArgs>(args: SelectSubset<T, DiscussionReplyUpsertArgs<ExtArgs>>): Prisma__DiscussionReplyClient<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DiscussionReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyCountArgs} args - Arguments to filter DiscussionReplies to count.
+     * @example
+     * // Count the number of DiscussionReplies
+     * const count = await prisma.discussionReply.count({
+     *   where: {
+     *     // ... the filter for the DiscussionReplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiscussionReplyCountArgs>(
+      args?: Subset<T, DiscussionReplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiscussionReplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DiscussionReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiscussionReplyAggregateArgs>(args: Subset<T, DiscussionReplyAggregateArgs>): Prisma.PrismaPromise<GetDiscussionReplyAggregateType<T>>
+
+    /**
+     * Group by DiscussionReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionReplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiscussionReplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiscussionReplyGroupByArgs['orderBy'] }
+        : { orderBy?: DiscussionReplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiscussionReplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiscussionReplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DiscussionReply model
+   */
+  readonly fields: DiscussionReplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DiscussionReply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiscussionReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    message<T extends DiscussionMessageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DiscussionMessageDefaultArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DiscussionReply model
+   */
+  interface DiscussionReplyFieldRefs {
+    readonly id: FieldRef<"DiscussionReply", 'String'>
+    readonly messageId: FieldRef<"DiscussionReply", 'String'>
+    readonly userId: FieldRef<"DiscussionReply", 'String'>
+    readonly content: FieldRef<"DiscussionReply", 'String'>
+    readonly createdAt: FieldRef<"DiscussionReply", 'DateTime'>
+    readonly updatedAt: FieldRef<"DiscussionReply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DiscussionReply findUnique
+   */
+  export type DiscussionReplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionReply to fetch.
+     */
+    where: DiscussionReplyWhereUniqueInput
+  }
+
+  /**
+   * DiscussionReply findUniqueOrThrow
+   */
+  export type DiscussionReplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionReply to fetch.
+     */
+    where: DiscussionReplyWhereUniqueInput
+  }
+
+  /**
+   * DiscussionReply findFirst
+   */
+  export type DiscussionReplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionReply to fetch.
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionReplies to fetch.
+     */
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionReplies.
+     */
+    cursor?: DiscussionReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionReplies.
+     */
+    distinct?: DiscussionReplyScalarFieldEnum | DiscussionReplyScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionReply findFirstOrThrow
+   */
+  export type DiscussionReplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionReply to fetch.
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionReplies to fetch.
+     */
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionReplies.
+     */
+    cursor?: DiscussionReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionReplies.
+     */
+    distinct?: DiscussionReplyScalarFieldEnum | DiscussionReplyScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionReply findMany
+   */
+  export type DiscussionReplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionReplies to fetch.
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionReplies to fetch.
+     */
+    orderBy?: DiscussionReplyOrderByWithRelationInput | DiscussionReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DiscussionReplies.
+     */
+    cursor?: DiscussionReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionReplies.
+     */
+    skip?: number
+    distinct?: DiscussionReplyScalarFieldEnum | DiscussionReplyScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionReply create
+   */
+  export type DiscussionReplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DiscussionReply.
+     */
+    data: XOR<DiscussionReplyCreateInput, DiscussionReplyUncheckedCreateInput>
+  }
+
+  /**
+   * DiscussionReply createMany
+   */
+  export type DiscussionReplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DiscussionReplies.
+     */
+    data: DiscussionReplyCreateManyInput | DiscussionReplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DiscussionReply createManyAndReturn
+   */
+  export type DiscussionReplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * The data used to create many DiscussionReplies.
+     */
+    data: DiscussionReplyCreateManyInput | DiscussionReplyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionReply update
+   */
+  export type DiscussionReplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DiscussionReply.
+     */
+    data: XOR<DiscussionReplyUpdateInput, DiscussionReplyUncheckedUpdateInput>
+    /**
+     * Choose, which DiscussionReply to update.
+     */
+    where: DiscussionReplyWhereUniqueInput
+  }
+
+  /**
+   * DiscussionReply updateMany
+   */
+  export type DiscussionReplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DiscussionReplies.
+     */
+    data: XOR<DiscussionReplyUpdateManyMutationInput, DiscussionReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionReplies to update
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * Limit how many DiscussionReplies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionReply updateManyAndReturn
+   */
+  export type DiscussionReplyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * The data used to update DiscussionReplies.
+     */
+    data: XOR<DiscussionReplyUpdateManyMutationInput, DiscussionReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionReplies to update
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * Limit how many DiscussionReplies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionReply upsert
+   */
+  export type DiscussionReplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DiscussionReply to update in case it exists.
+     */
+    where: DiscussionReplyWhereUniqueInput
+    /**
+     * In case the DiscussionReply found by the `where` argument doesn't exist, create a new DiscussionReply with this data.
+     */
+    create: XOR<DiscussionReplyCreateInput, DiscussionReplyUncheckedCreateInput>
+    /**
+     * In case the DiscussionReply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiscussionReplyUpdateInput, DiscussionReplyUncheckedUpdateInput>
+  }
+
+  /**
+   * DiscussionReply delete
+   */
+  export type DiscussionReplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+    /**
+     * Filter which DiscussionReply to delete.
+     */
+    where: DiscussionReplyWhereUniqueInput
+  }
+
+  /**
+   * DiscussionReply deleteMany
+   */
+  export type DiscussionReplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionReplies to delete
+     */
+    where?: DiscussionReplyWhereInput
+    /**
+     * Limit how many DiscussionReplies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionReply without action
+   */
+  export type DiscussionReplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionReply
+     */
+    select?: DiscussionReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionReply
+     */
+    omit?: DiscussionReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionReplyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DiscussionUpvote
+   */
+
+  export type AggregateDiscussionUpvote = {
+    _count: DiscussionUpvoteCountAggregateOutputType | null
+    _min: DiscussionUpvoteMinAggregateOutputType | null
+    _max: DiscussionUpvoteMaxAggregateOutputType | null
+  }
+
+  export type DiscussionUpvoteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    messageId: string | null
+  }
+
+  export type DiscussionUpvoteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    messageId: string | null
+  }
+
+  export type DiscussionUpvoteCountAggregateOutputType = {
+    id: number
+    userId: number
+    messageId: number
+    _all: number
+  }
+
+
+  export type DiscussionUpvoteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    messageId?: true
+  }
+
+  export type DiscussionUpvoteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    messageId?: true
+  }
+
+  export type DiscussionUpvoteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    messageId?: true
+    _all?: true
+  }
+
+  export type DiscussionUpvoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionUpvote to aggregate.
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionUpvotes to fetch.
+     */
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionUpvotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionUpvotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DiscussionUpvotes
+    **/
+    _count?: true | DiscussionUpvoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiscussionUpvoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiscussionUpvoteMaxAggregateInputType
+  }
+
+  export type GetDiscussionUpvoteAggregateType<T extends DiscussionUpvoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiscussionUpvote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiscussionUpvote[P]>
+      : GetScalarType<T[P], AggregateDiscussionUpvote[P]>
+  }
+
+
+
+
+  export type DiscussionUpvoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussionUpvoteWhereInput
+    orderBy?: DiscussionUpvoteOrderByWithAggregationInput | DiscussionUpvoteOrderByWithAggregationInput[]
+    by: DiscussionUpvoteScalarFieldEnum[] | DiscussionUpvoteScalarFieldEnum
+    having?: DiscussionUpvoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiscussionUpvoteCountAggregateInputType | true
+    _min?: DiscussionUpvoteMinAggregateInputType
+    _max?: DiscussionUpvoteMaxAggregateInputType
+  }
+
+  export type DiscussionUpvoteGroupByOutputType = {
+    id: string
+    userId: string
+    messageId: string
+    _count: DiscussionUpvoteCountAggregateOutputType | null
+    _min: DiscussionUpvoteMinAggregateOutputType | null
+    _max: DiscussionUpvoteMaxAggregateOutputType | null
+  }
+
+  type GetDiscussionUpvoteGroupByPayload<T extends DiscussionUpvoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiscussionUpvoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiscussionUpvoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiscussionUpvoteGroupByOutputType[P]>
+            : GetScalarType<T[P], DiscussionUpvoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiscussionUpvoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    messageId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionUpvote"]>
+
+  export type DiscussionUpvoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    messageId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionUpvote"]>
+
+  export type DiscussionUpvoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    messageId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["discussionUpvote"]>
+
+  export type DiscussionUpvoteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    messageId?: boolean
+  }
+
+  export type DiscussionUpvoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "messageId", ExtArgs["result"]["discussionUpvote"]>
+  export type DiscussionUpvoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }
+  export type DiscussionUpvoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }
+  export type DiscussionUpvoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    message?: boolean | DiscussionMessageDefaultArgs<ExtArgs>
+  }
+
+  export type $DiscussionUpvotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DiscussionUpvote"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      message: Prisma.$DiscussionMessagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      messageId: string
+    }, ExtArgs["result"]["discussionUpvote"]>
+    composites: {}
+  }
+
+  type DiscussionUpvoteGetPayload<S extends boolean | null | undefined | DiscussionUpvoteDefaultArgs> = $Result.GetResult<Prisma.$DiscussionUpvotePayload, S>
+
+  type DiscussionUpvoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DiscussionUpvoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DiscussionUpvoteCountAggregateInputType | true
+    }
+
+  export interface DiscussionUpvoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DiscussionUpvote'], meta: { name: 'DiscussionUpvote' } }
+    /**
+     * Find zero or one DiscussionUpvote that matches the filter.
+     * @param {DiscussionUpvoteFindUniqueArgs} args - Arguments to find a DiscussionUpvote
+     * @example
+     * // Get one DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiscussionUpvoteFindUniqueArgs>(args: SelectSubset<T, DiscussionUpvoteFindUniqueArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DiscussionUpvote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DiscussionUpvoteFindUniqueOrThrowArgs} args - Arguments to find a DiscussionUpvote
+     * @example
+     * // Get one DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiscussionUpvoteFindUniqueOrThrowArgs>(args: SelectSubset<T, DiscussionUpvoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionUpvote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteFindFirstArgs} args - Arguments to find a DiscussionUpvote
+     * @example
+     * // Get one DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiscussionUpvoteFindFirstArgs>(args?: SelectSubset<T, DiscussionUpvoteFindFirstArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DiscussionUpvote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteFindFirstOrThrowArgs} args - Arguments to find a DiscussionUpvote
+     * @example
+     * // Get one DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiscussionUpvoteFindFirstOrThrowArgs>(args?: SelectSubset<T, DiscussionUpvoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DiscussionUpvotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DiscussionUpvotes
+     * const discussionUpvotes = await prisma.discussionUpvote.findMany()
+     * 
+     * // Get first 10 DiscussionUpvotes
+     * const discussionUpvotes = await prisma.discussionUpvote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const discussionUpvoteWithIdOnly = await prisma.discussionUpvote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiscussionUpvoteFindManyArgs>(args?: SelectSubset<T, DiscussionUpvoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DiscussionUpvote.
+     * @param {DiscussionUpvoteCreateArgs} args - Arguments to create a DiscussionUpvote.
+     * @example
+     * // Create one DiscussionUpvote
+     * const DiscussionUpvote = await prisma.discussionUpvote.create({
+     *   data: {
+     *     // ... data to create a DiscussionUpvote
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiscussionUpvoteCreateArgs>(args: SelectSubset<T, DiscussionUpvoteCreateArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DiscussionUpvotes.
+     * @param {DiscussionUpvoteCreateManyArgs} args - Arguments to create many DiscussionUpvotes.
+     * @example
+     * // Create many DiscussionUpvotes
+     * const discussionUpvote = await prisma.discussionUpvote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiscussionUpvoteCreateManyArgs>(args?: SelectSubset<T, DiscussionUpvoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DiscussionUpvotes and returns the data saved in the database.
+     * @param {DiscussionUpvoteCreateManyAndReturnArgs} args - Arguments to create many DiscussionUpvotes.
+     * @example
+     * // Create many DiscussionUpvotes
+     * const discussionUpvote = await prisma.discussionUpvote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DiscussionUpvotes and only return the `id`
+     * const discussionUpvoteWithIdOnly = await prisma.discussionUpvote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiscussionUpvoteCreateManyAndReturnArgs>(args?: SelectSubset<T, DiscussionUpvoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DiscussionUpvote.
+     * @param {DiscussionUpvoteDeleteArgs} args - Arguments to delete one DiscussionUpvote.
+     * @example
+     * // Delete one DiscussionUpvote
+     * const DiscussionUpvote = await prisma.discussionUpvote.delete({
+     *   where: {
+     *     // ... filter to delete one DiscussionUpvote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiscussionUpvoteDeleteArgs>(args: SelectSubset<T, DiscussionUpvoteDeleteArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DiscussionUpvote.
+     * @param {DiscussionUpvoteUpdateArgs} args - Arguments to update one DiscussionUpvote.
+     * @example
+     * // Update one DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiscussionUpvoteUpdateArgs>(args: SelectSubset<T, DiscussionUpvoteUpdateArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DiscussionUpvotes.
+     * @param {DiscussionUpvoteDeleteManyArgs} args - Arguments to filter DiscussionUpvotes to delete.
+     * @example
+     * // Delete a few DiscussionUpvotes
+     * const { count } = await prisma.discussionUpvote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiscussionUpvoteDeleteManyArgs>(args?: SelectSubset<T, DiscussionUpvoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionUpvotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DiscussionUpvotes
+     * const discussionUpvote = await prisma.discussionUpvote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiscussionUpvoteUpdateManyArgs>(args: SelectSubset<T, DiscussionUpvoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscussionUpvotes and returns the data updated in the database.
+     * @param {DiscussionUpvoteUpdateManyAndReturnArgs} args - Arguments to update many DiscussionUpvotes.
+     * @example
+     * // Update many DiscussionUpvotes
+     * const discussionUpvote = await prisma.discussionUpvote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DiscussionUpvotes and only return the `id`
+     * const discussionUpvoteWithIdOnly = await prisma.discussionUpvote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DiscussionUpvoteUpdateManyAndReturnArgs>(args: SelectSubset<T, DiscussionUpvoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DiscussionUpvote.
+     * @param {DiscussionUpvoteUpsertArgs} args - Arguments to update or create a DiscussionUpvote.
+     * @example
+     * // Update or create a DiscussionUpvote
+     * const discussionUpvote = await prisma.discussionUpvote.upsert({
+     *   create: {
+     *     // ... data to create a DiscussionUpvote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DiscussionUpvote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiscussionUpvoteUpsertArgs>(args: SelectSubset<T, DiscussionUpvoteUpsertArgs<ExtArgs>>): Prisma__DiscussionUpvoteClient<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DiscussionUpvotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteCountArgs} args - Arguments to filter DiscussionUpvotes to count.
+     * @example
+     * // Count the number of DiscussionUpvotes
+     * const count = await prisma.discussionUpvote.count({
+     *   where: {
+     *     // ... the filter for the DiscussionUpvotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiscussionUpvoteCountArgs>(
+      args?: Subset<T, DiscussionUpvoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiscussionUpvoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DiscussionUpvote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiscussionUpvoteAggregateArgs>(args: Subset<T, DiscussionUpvoteAggregateArgs>): Prisma.PrismaPromise<GetDiscussionUpvoteAggregateType<T>>
+
+    /**
+     * Group by DiscussionUpvote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscussionUpvoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiscussionUpvoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiscussionUpvoteGroupByArgs['orderBy'] }
+        : { orderBy?: DiscussionUpvoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiscussionUpvoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiscussionUpvoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DiscussionUpvote model
+   */
+  readonly fields: DiscussionUpvoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DiscussionUpvote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiscussionUpvoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    message<T extends DiscussionMessageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DiscussionMessageDefaultArgs<ExtArgs>>): Prisma__DiscussionMessageClient<$Result.GetResult<Prisma.$DiscussionMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DiscussionUpvote model
+   */
+  interface DiscussionUpvoteFieldRefs {
+    readonly id: FieldRef<"DiscussionUpvote", 'String'>
+    readonly userId: FieldRef<"DiscussionUpvote", 'String'>
+    readonly messageId: FieldRef<"DiscussionUpvote", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DiscussionUpvote findUnique
+   */
+  export type DiscussionUpvoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionUpvote to fetch.
+     */
+    where: DiscussionUpvoteWhereUniqueInput
+  }
+
+  /**
+   * DiscussionUpvote findUniqueOrThrow
+   */
+  export type DiscussionUpvoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionUpvote to fetch.
+     */
+    where: DiscussionUpvoteWhereUniqueInput
+  }
+
+  /**
+   * DiscussionUpvote findFirst
+   */
+  export type DiscussionUpvoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionUpvote to fetch.
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionUpvotes to fetch.
+     */
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionUpvotes.
+     */
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionUpvotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionUpvotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionUpvotes.
+     */
+    distinct?: DiscussionUpvoteScalarFieldEnum | DiscussionUpvoteScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionUpvote findFirstOrThrow
+   */
+  export type DiscussionUpvoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionUpvote to fetch.
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionUpvotes to fetch.
+     */
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscussionUpvotes.
+     */
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionUpvotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionUpvotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscussionUpvotes.
+     */
+    distinct?: DiscussionUpvoteScalarFieldEnum | DiscussionUpvoteScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionUpvote findMany
+   */
+  export type DiscussionUpvoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter, which DiscussionUpvotes to fetch.
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscussionUpvotes to fetch.
+     */
+    orderBy?: DiscussionUpvoteOrderByWithRelationInput | DiscussionUpvoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DiscussionUpvotes.
+     */
+    cursor?: DiscussionUpvoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscussionUpvotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscussionUpvotes.
+     */
+    skip?: number
+    distinct?: DiscussionUpvoteScalarFieldEnum | DiscussionUpvoteScalarFieldEnum[]
+  }
+
+  /**
+   * DiscussionUpvote create
+   */
+  export type DiscussionUpvoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DiscussionUpvote.
+     */
+    data: XOR<DiscussionUpvoteCreateInput, DiscussionUpvoteUncheckedCreateInput>
+  }
+
+  /**
+   * DiscussionUpvote createMany
+   */
+  export type DiscussionUpvoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DiscussionUpvotes.
+     */
+    data: DiscussionUpvoteCreateManyInput | DiscussionUpvoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DiscussionUpvote createManyAndReturn
+   */
+  export type DiscussionUpvoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many DiscussionUpvotes.
+     */
+    data: DiscussionUpvoteCreateManyInput | DiscussionUpvoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionUpvote update
+   */
+  export type DiscussionUpvoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DiscussionUpvote.
+     */
+    data: XOR<DiscussionUpvoteUpdateInput, DiscussionUpvoteUncheckedUpdateInput>
+    /**
+     * Choose, which DiscussionUpvote to update.
+     */
+    where: DiscussionUpvoteWhereUniqueInput
+  }
+
+  /**
+   * DiscussionUpvote updateMany
+   */
+  export type DiscussionUpvoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DiscussionUpvotes.
+     */
+    data: XOR<DiscussionUpvoteUpdateManyMutationInput, DiscussionUpvoteUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionUpvotes to update
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * Limit how many DiscussionUpvotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionUpvote updateManyAndReturn
+   */
+  export type DiscussionUpvoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * The data used to update DiscussionUpvotes.
+     */
+    data: XOR<DiscussionUpvoteUpdateManyMutationInput, DiscussionUpvoteUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscussionUpvotes to update
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * Limit how many DiscussionUpvotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DiscussionUpvote upsert
+   */
+  export type DiscussionUpvoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DiscussionUpvote to update in case it exists.
+     */
+    where: DiscussionUpvoteWhereUniqueInput
+    /**
+     * In case the DiscussionUpvote found by the `where` argument doesn't exist, create a new DiscussionUpvote with this data.
+     */
+    create: XOR<DiscussionUpvoteCreateInput, DiscussionUpvoteUncheckedCreateInput>
+    /**
+     * In case the DiscussionUpvote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiscussionUpvoteUpdateInput, DiscussionUpvoteUncheckedUpdateInput>
+  }
+
+  /**
+   * DiscussionUpvote delete
+   */
+  export type DiscussionUpvoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+    /**
+     * Filter which DiscussionUpvote to delete.
+     */
+    where: DiscussionUpvoteWhereUniqueInput
+  }
+
+  /**
+   * DiscussionUpvote deleteMany
+   */
+  export type DiscussionUpvoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscussionUpvotes to delete
+     */
+    where?: DiscussionUpvoteWhereInput
+    /**
+     * Limit how many DiscussionUpvotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DiscussionUpvote without action
+   */
+  export type DiscussionUpvoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscussionUpvote
+     */
+    select?: DiscussionUpvoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DiscussionUpvote
+     */
+    omit?: DiscussionUpvoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussionUpvoteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13665,6 +18579,49 @@ export namespace Prisma {
   };
 
   export type ProblemReportScalarFieldEnum = (typeof ProblemReportScalarFieldEnum)[keyof typeof ProblemReportScalarFieldEnum]
+
+
+  export const ProblemDiscussionScalarFieldEnum: {
+    id: 'id',
+    problemId: 'problemId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProblemDiscussionScalarFieldEnum = (typeof ProblemDiscussionScalarFieldEnum)[keyof typeof ProblemDiscussionScalarFieldEnum]
+
+
+  export const DiscussionMessageScalarFieldEnum: {
+    id: 'id',
+    discussionId: 'discussionId',
+    userId: 'userId',
+    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DiscussionMessageScalarFieldEnum = (typeof DiscussionMessageScalarFieldEnum)[keyof typeof DiscussionMessageScalarFieldEnum]
+
+
+  export const DiscussionReplyScalarFieldEnum: {
+    id: 'id',
+    messageId: 'messageId',
+    userId: 'userId',
+    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DiscussionReplyScalarFieldEnum = (typeof DiscussionReplyScalarFieldEnum)[keyof typeof DiscussionReplyScalarFieldEnum]
+
+
+  export const DiscussionUpvoteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    messageId: 'messageId'
+  };
+
+  export type DiscussionUpvoteScalarFieldEnum = (typeof DiscussionUpvoteScalarFieldEnum)[keyof typeof DiscussionUpvoteScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13866,6 +18823,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedListRelationFilter
     playlists?: PlaylistListRelationFilter
     submittedReports?: ProblemReportListRelationFilter
+    discussionMessages?: DiscussionMessageListRelationFilter
+    discussionReplies?: DiscussionReplyListRelationFilter
+    discussionUpvotes?: DiscussionUpvoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13897,6 +18857,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedOrderByRelationAggregateInput
     playlists?: PlaylistOrderByRelationAggregateInput
     submittedReports?: ProblemReportOrderByRelationAggregateInput
+    discussionMessages?: DiscussionMessageOrderByRelationAggregateInput
+    discussionReplies?: DiscussionReplyOrderByRelationAggregateInput
+    discussionUpvotes?: DiscussionUpvoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13931,6 +18894,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedListRelationFilter
     playlists?: PlaylistListRelationFilter
     submittedReports?: ProblemReportListRelationFilter
+    discussionMessages?: DiscussionMessageListRelationFilter
+    discussionReplies?: DiscussionReplyListRelationFilter
+    discussionUpvotes?: DiscussionUpvoteListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14015,6 +18981,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedListRelationFilter
     problemsPlaylists?: ProblemInPlaylistListRelationFilter
     reports?: ProblemReportListRelationFilter
+    discussions?: ProblemDiscussionListRelationFilter
   }
 
   export type ProblemOrderByWithRelationInput = {
@@ -14040,6 +19007,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedOrderByRelationAggregateInput
     problemsPlaylists?: ProblemInPlaylistOrderByRelationAggregateInput
     reports?: ProblemReportOrderByRelationAggregateInput
+    discussions?: ProblemDiscussionOrderByRelationAggregateInput
   }
 
   export type ProblemWhereUniqueInput = Prisma.AtLeast<{
@@ -14068,6 +19036,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedListRelationFilter
     problemsPlaylists?: ProblemInPlaylistListRelationFilter
     reports?: ProblemReportListRelationFilter
+    discussions?: ProblemDiscussionListRelationFilter
   }, "id">
 
   export type ProblemOrderByWithAggregationInput = {
@@ -14676,6 +19645,240 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ProblemReport"> | Date | string
   }
 
+  export type ProblemDiscussionWhereInput = {
+    AND?: ProblemDiscussionWhereInput | ProblemDiscussionWhereInput[]
+    OR?: ProblemDiscussionWhereInput[]
+    NOT?: ProblemDiscussionWhereInput | ProblemDiscussionWhereInput[]
+    id?: StringFilter<"ProblemDiscussion"> | string
+    problemId?: StringFilter<"ProblemDiscussion"> | string
+    createdAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    messages?: DiscussionMessageListRelationFilter
+  }
+
+  export type ProblemDiscussionOrderByWithRelationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    problem?: ProblemOrderByWithRelationInput
+    messages?: DiscussionMessageOrderByRelationAggregateInput
+  }
+
+  export type ProblemDiscussionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProblemDiscussionWhereInput | ProblemDiscussionWhereInput[]
+    OR?: ProblemDiscussionWhereInput[]
+    NOT?: ProblemDiscussionWhereInput | ProblemDiscussionWhereInput[]
+    problemId?: StringFilter<"ProblemDiscussion"> | string
+    createdAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    messages?: DiscussionMessageListRelationFilter
+  }, "id">
+
+  export type ProblemDiscussionOrderByWithAggregationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProblemDiscussionCountOrderByAggregateInput
+    _max?: ProblemDiscussionMaxOrderByAggregateInput
+    _min?: ProblemDiscussionMinOrderByAggregateInput
+  }
+
+  export type ProblemDiscussionScalarWhereWithAggregatesInput = {
+    AND?: ProblemDiscussionScalarWhereWithAggregatesInput | ProblemDiscussionScalarWhereWithAggregatesInput[]
+    OR?: ProblemDiscussionScalarWhereWithAggregatesInput[]
+    NOT?: ProblemDiscussionScalarWhereWithAggregatesInput | ProblemDiscussionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProblemDiscussion"> | string
+    problemId?: StringWithAggregatesFilter<"ProblemDiscussion"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProblemDiscussion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProblemDiscussion"> | Date | string
+  }
+
+  export type DiscussionMessageWhereInput = {
+    AND?: DiscussionMessageWhereInput | DiscussionMessageWhereInput[]
+    OR?: DiscussionMessageWhereInput[]
+    NOT?: DiscussionMessageWhereInput | DiscussionMessageWhereInput[]
+    id?: StringFilter<"DiscussionMessage"> | string
+    discussionId?: StringFilter<"DiscussionMessage"> | string
+    userId?: StringFilter<"DiscussionMessage"> | string
+    content?: StringFilter<"DiscussionMessage"> | string
+    createdAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+    discussion?: XOR<ProblemDiscussionScalarRelationFilter, ProblemDiscussionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    replies?: DiscussionReplyListRelationFilter
+    upvotes?: DiscussionUpvoteListRelationFilter
+  }
+
+  export type DiscussionMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    discussionId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    discussion?: ProblemDiscussionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    replies?: DiscussionReplyOrderByRelationAggregateInput
+    upvotes?: DiscussionUpvoteOrderByRelationAggregateInput
+  }
+
+  export type DiscussionMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DiscussionMessageWhereInput | DiscussionMessageWhereInput[]
+    OR?: DiscussionMessageWhereInput[]
+    NOT?: DiscussionMessageWhereInput | DiscussionMessageWhereInput[]
+    discussionId?: StringFilter<"DiscussionMessage"> | string
+    userId?: StringFilter<"DiscussionMessage"> | string
+    content?: StringFilter<"DiscussionMessage"> | string
+    createdAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+    discussion?: XOR<ProblemDiscussionScalarRelationFilter, ProblemDiscussionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    replies?: DiscussionReplyListRelationFilter
+    upvotes?: DiscussionUpvoteListRelationFilter
+  }, "id">
+
+  export type DiscussionMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    discussionId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DiscussionMessageCountOrderByAggregateInput
+    _max?: DiscussionMessageMaxOrderByAggregateInput
+    _min?: DiscussionMessageMinOrderByAggregateInput
+  }
+
+  export type DiscussionMessageScalarWhereWithAggregatesInput = {
+    AND?: DiscussionMessageScalarWhereWithAggregatesInput | DiscussionMessageScalarWhereWithAggregatesInput[]
+    OR?: DiscussionMessageScalarWhereWithAggregatesInput[]
+    NOT?: DiscussionMessageScalarWhereWithAggregatesInput | DiscussionMessageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DiscussionMessage"> | string
+    discussionId?: StringWithAggregatesFilter<"DiscussionMessage"> | string
+    userId?: StringWithAggregatesFilter<"DiscussionMessage"> | string
+    content?: StringWithAggregatesFilter<"DiscussionMessage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"DiscussionMessage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DiscussionMessage"> | Date | string
+  }
+
+  export type DiscussionReplyWhereInput = {
+    AND?: DiscussionReplyWhereInput | DiscussionReplyWhereInput[]
+    OR?: DiscussionReplyWhereInput[]
+    NOT?: DiscussionReplyWhereInput | DiscussionReplyWhereInput[]
+    id?: StringFilter<"DiscussionReply"> | string
+    messageId?: StringFilter<"DiscussionReply"> | string
+    userId?: StringFilter<"DiscussionReply"> | string
+    content?: StringFilter<"DiscussionReply"> | string
+    createdAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+    message?: XOR<DiscussionMessageScalarRelationFilter, DiscussionMessageWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DiscussionReplyOrderByWithRelationInput = {
+    id?: SortOrder
+    messageId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    message?: DiscussionMessageOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DiscussionReplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DiscussionReplyWhereInput | DiscussionReplyWhereInput[]
+    OR?: DiscussionReplyWhereInput[]
+    NOT?: DiscussionReplyWhereInput | DiscussionReplyWhereInput[]
+    messageId?: StringFilter<"DiscussionReply"> | string
+    userId?: StringFilter<"DiscussionReply"> | string
+    content?: StringFilter<"DiscussionReply"> | string
+    createdAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+    message?: XOR<DiscussionMessageScalarRelationFilter, DiscussionMessageWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type DiscussionReplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    messageId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DiscussionReplyCountOrderByAggregateInput
+    _max?: DiscussionReplyMaxOrderByAggregateInput
+    _min?: DiscussionReplyMinOrderByAggregateInput
+  }
+
+  export type DiscussionReplyScalarWhereWithAggregatesInput = {
+    AND?: DiscussionReplyScalarWhereWithAggregatesInput | DiscussionReplyScalarWhereWithAggregatesInput[]
+    OR?: DiscussionReplyScalarWhereWithAggregatesInput[]
+    NOT?: DiscussionReplyScalarWhereWithAggregatesInput | DiscussionReplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DiscussionReply"> | string
+    messageId?: StringWithAggregatesFilter<"DiscussionReply"> | string
+    userId?: StringWithAggregatesFilter<"DiscussionReply"> | string
+    content?: StringWithAggregatesFilter<"DiscussionReply"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"DiscussionReply"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DiscussionReply"> | Date | string
+  }
+
+  export type DiscussionUpvoteWhereInput = {
+    AND?: DiscussionUpvoteWhereInput | DiscussionUpvoteWhereInput[]
+    OR?: DiscussionUpvoteWhereInput[]
+    NOT?: DiscussionUpvoteWhereInput | DiscussionUpvoteWhereInput[]
+    id?: StringFilter<"DiscussionUpvote"> | string
+    userId?: StringFilter<"DiscussionUpvote"> | string
+    messageId?: StringFilter<"DiscussionUpvote"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    message?: XOR<DiscussionMessageScalarRelationFilter, DiscussionMessageWhereInput>
+  }
+
+  export type DiscussionUpvoteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    messageId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    message?: DiscussionMessageOrderByWithRelationInput
+  }
+
+  export type DiscussionUpvoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_messageId?: DiscussionUpvoteUserIdMessageIdCompoundUniqueInput
+    AND?: DiscussionUpvoteWhereInput | DiscussionUpvoteWhereInput[]
+    OR?: DiscussionUpvoteWhereInput[]
+    NOT?: DiscussionUpvoteWhereInput | DiscussionUpvoteWhereInput[]
+    userId?: StringFilter<"DiscussionUpvote"> | string
+    messageId?: StringFilter<"DiscussionUpvote"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    message?: XOR<DiscussionMessageScalarRelationFilter, DiscussionMessageWhereInput>
+  }, "id" | "userId_messageId">
+
+  export type DiscussionUpvoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    messageId?: SortOrder
+    _count?: DiscussionUpvoteCountOrderByAggregateInput
+    _max?: DiscussionUpvoteMaxOrderByAggregateInput
+    _min?: DiscussionUpvoteMinOrderByAggregateInput
+  }
+
+  export type DiscussionUpvoteScalarWhereWithAggregatesInput = {
+    AND?: DiscussionUpvoteScalarWhereWithAggregatesInput | DiscussionUpvoteScalarWhereWithAggregatesInput[]
+    OR?: DiscussionUpvoteScalarWhereWithAggregatesInput[]
+    NOT?: DiscussionUpvoteScalarWhereWithAggregatesInput | DiscussionUpvoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DiscussionUpvote"> | string
+    userId?: StringWithAggregatesFilter<"DiscussionUpvote"> | string
+    messageId?: StringWithAggregatesFilter<"DiscussionUpvote"> | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -14705,6 +19908,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14736,6 +19942,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14767,6 +19976,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14798,6 +20010,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14894,6 +20109,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
     reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateInput = {
@@ -14918,6 +20134,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUpdateInput = {
@@ -14942,6 +20159,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateInput = {
@@ -14966,6 +20184,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemCreateManyInput = {
@@ -15613,6 +20832,228 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProblemDiscussionCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutDiscussionsInput
+    messages?: DiscussionMessageCreateNestedManyWithoutDiscussionInput
+  }
+
+  export type ProblemDiscussionUncheckedCreateInput = {
+    id?: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DiscussionMessageUncheckedCreateNestedManyWithoutDiscussionInput
+  }
+
+  export type ProblemDiscussionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutDiscussionsNestedInput
+    messages?: DiscussionMessageUpdateManyWithoutDiscussionNestedInput
+  }
+
+  export type ProblemDiscussionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DiscussionMessageUncheckedUpdateManyWithoutDiscussionNestedInput
+  }
+
+  export type ProblemDiscussionCreateManyInput = {
+    id?: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemDiscussionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemDiscussionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionMessageCreateInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    discussion: ProblemDiscussionCreateNestedOneWithoutMessagesInput
+    user: UserCreateNestedOneWithoutDiscussionMessagesInput
+    replies?: DiscussionReplyCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUncheckedCreateInput = {
+    id?: string
+    discussionId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: DiscussionReplyUncheckedCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discussion?: ProblemDiscussionUpdateOneRequiredWithoutMessagesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussionMessagesNestedInput
+    replies?: DiscussionReplyUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageCreateManyInput = {
+    id?: string
+    discussionId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyCreateInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    message: DiscussionMessageCreateNestedOneWithoutRepliesInput
+    user: UserCreateNestedOneWithoutDiscussionRepliesInput
+  }
+
+  export type DiscussionReplyUncheckedCreateInput = {
+    id?: string
+    messageId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionReplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    message?: DiscussionMessageUpdateOneRequiredWithoutRepliesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussionRepliesNestedInput
+  }
+
+  export type DiscussionReplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyCreateManyInput = {
+    id?: string
+    messageId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionReplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionUpvoteCreateInput = {
+    id?: string
+    user: UserCreateNestedOneWithoutDiscussionUpvotesInput
+    message: DiscussionMessageCreateNestedOneWithoutUpvotesInput
+  }
+
+  export type DiscussionUpvoteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    messageId: string
+  }
+
+  export type DiscussionUpvoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutDiscussionUpvotesNestedInput
+    message?: DiscussionMessageUpdateOneRequiredWithoutUpvotesNestedInput
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DiscussionUpvoteCreateManyInput = {
+    id?: string
+    userId: string
+    messageId: string
+  }
+
+  export type DiscussionUpvoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15742,6 +21183,24 @@ export namespace Prisma {
     none?: ProblemReportWhereInput
   }
 
+  export type DiscussionMessageListRelationFilter = {
+    every?: DiscussionMessageWhereInput
+    some?: DiscussionMessageWhereInput
+    none?: DiscussionMessageWhereInput
+  }
+
+  export type DiscussionReplyListRelationFilter = {
+    every?: DiscussionReplyWhereInput
+    some?: DiscussionReplyWhereInput
+    none?: DiscussionReplyWhereInput
+  }
+
+  export type DiscussionUpvoteListRelationFilter = {
+    every?: DiscussionUpvoteWhereInput
+    some?: DiscussionUpvoteWhereInput
+    none?: DiscussionUpvoteWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15768,6 +21227,18 @@ export namespace Prisma {
   }
 
   export type ProblemReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiscussionMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiscussionReplyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiscussionUpvoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15997,7 +21468,17 @@ export namespace Prisma {
     none?: ProblemInPlaylistWhereInput
   }
 
+  export type ProblemDiscussionListRelationFilter = {
+    every?: ProblemDiscussionWhereInput
+    some?: ProblemDiscussionWhereInput
+    none?: ProblemDiscussionWhereInput
+  }
+
   export type ProblemInPlaylistOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProblemDiscussionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16406,6 +21887,114 @@ export namespace Prisma {
     _max?: NestedEnumReportReasonFilter<$PrismaModel>
   }
 
+  export type ProblemDiscussionCountOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemDiscussionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemDiscussionMinOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemDiscussionScalarRelationFilter = {
+    is?: ProblemDiscussionWhereInput
+    isNot?: ProblemDiscussionWhereInput
+  }
+
+  export type DiscussionMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    discussionId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    discussionId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    discussionId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionMessageScalarRelationFilter = {
+    is?: DiscussionMessageWhereInput
+    isNot?: DiscussionMessageWhereInput
+  }
+
+  export type DiscussionReplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    messageId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionReplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    messageId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionReplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    messageId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DiscussionUpvoteUserIdMessageIdCompoundUniqueInput = {
+    userId: string
+    messageId: string
+  }
+
+  export type DiscussionUpvoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    messageId?: SortOrder
+  }
+
+  export type DiscussionUpvoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    messageId?: SortOrder
+  }
+
+  export type DiscussionUpvoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    messageId?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutFollowingInput = {
     create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
     connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
@@ -16453,6 +22042,27 @@ export namespace Prisma {
     connect?: ProblemReportWhereUniqueInput | ProblemReportWhereUniqueInput[]
   }
 
+  export type DiscussionMessageCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput> | DiscussionMessageCreateWithoutUserInput[] | DiscussionMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUserInput | DiscussionMessageCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionMessageCreateManyUserInputEnvelope
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+  }
+
+  export type DiscussionReplyCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput> | DiscussionReplyCreateWithoutUserInput[] | DiscussionReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutUserInput | DiscussionReplyCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionReplyCreateManyUserInputEnvelope
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+  }
+
+  export type DiscussionUpvoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput> | DiscussionUpvoteCreateWithoutUserInput[] | DiscussionUpvoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutUserInput | DiscussionUpvoteCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionUpvoteCreateManyUserInputEnvelope
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutFollowingInput = {
     create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
     connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
@@ -16498,6 +22108,27 @@ export namespace Prisma {
     connectOrCreate?: ProblemReportCreateOrConnectWithoutUserInput | ProblemReportCreateOrConnectWithoutUserInput[]
     createMany?: ProblemReportCreateManyUserInputEnvelope
     connect?: ProblemReportWhereUniqueInput | ProblemReportWhereUniqueInput[]
+  }
+
+  export type DiscussionMessageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput> | DiscussionMessageCreateWithoutUserInput[] | DiscussionMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUserInput | DiscussionMessageCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionMessageCreateManyUserInputEnvelope
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+  }
+
+  export type DiscussionReplyUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput> | DiscussionReplyCreateWithoutUserInput[] | DiscussionReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutUserInput | DiscussionReplyCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionReplyCreateManyUserInputEnvelope
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+  }
+
+  export type DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput> | DiscussionUpvoteCreateWithoutUserInput[] | DiscussionUpvoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutUserInput | DiscussionUpvoteCreateOrConnectWithoutUserInput[]
+    createMany?: DiscussionUpvoteCreateManyUserInputEnvelope
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16624,6 +22255,48 @@ export namespace Prisma {
     deleteMany?: ProblemReportScalarWhereInput | ProblemReportScalarWhereInput[]
   }
 
+  export type DiscussionMessageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput> | DiscussionMessageCreateWithoutUserInput[] | DiscussionMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUserInput | DiscussionMessageCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionMessageUpsertWithWhereUniqueWithoutUserInput | DiscussionMessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionMessageCreateManyUserInputEnvelope
+    set?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    disconnect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    delete?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    update?: DiscussionMessageUpdateWithWhereUniqueWithoutUserInput | DiscussionMessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionMessageUpdateManyWithWhereWithoutUserInput | DiscussionMessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+  }
+
+  export type DiscussionReplyUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput> | DiscussionReplyCreateWithoutUserInput[] | DiscussionReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutUserInput | DiscussionReplyCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionReplyUpsertWithWhereUniqueWithoutUserInput | DiscussionReplyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionReplyCreateManyUserInputEnvelope
+    set?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    disconnect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    delete?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    update?: DiscussionReplyUpdateWithWhereUniqueWithoutUserInput | DiscussionReplyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionReplyUpdateManyWithWhereWithoutUserInput | DiscussionReplyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+  }
+
+  export type DiscussionUpvoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput> | DiscussionUpvoteCreateWithoutUserInput[] | DiscussionUpvoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutUserInput | DiscussionUpvoteCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionUpvoteUpsertWithWhereUniqueWithoutUserInput | DiscussionUpvoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionUpvoteCreateManyUserInputEnvelope
+    set?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    disconnect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    delete?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    update?: DiscussionUpvoteUpdateWithWhereUniqueWithoutUserInput | DiscussionUpvoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionUpvoteUpdateManyWithWhereWithoutUserInput | DiscussionUpvoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutFollowingNestedInput = {
     create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
     connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
@@ -16720,6 +22393,48 @@ export namespace Prisma {
     deleteMany?: ProblemReportScalarWhereInput | ProblemReportScalarWhereInput[]
   }
 
+  export type DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput> | DiscussionMessageCreateWithoutUserInput[] | DiscussionMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUserInput | DiscussionMessageCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionMessageUpsertWithWhereUniqueWithoutUserInput | DiscussionMessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionMessageCreateManyUserInputEnvelope
+    set?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    disconnect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    delete?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    update?: DiscussionMessageUpdateWithWhereUniqueWithoutUserInput | DiscussionMessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionMessageUpdateManyWithWhereWithoutUserInput | DiscussionMessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+  }
+
+  export type DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput> | DiscussionReplyCreateWithoutUserInput[] | DiscussionReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutUserInput | DiscussionReplyCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionReplyUpsertWithWhereUniqueWithoutUserInput | DiscussionReplyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionReplyCreateManyUserInputEnvelope
+    set?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    disconnect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    delete?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    update?: DiscussionReplyUpdateWithWhereUniqueWithoutUserInput | DiscussionReplyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionReplyUpdateManyWithWhereWithoutUserInput | DiscussionReplyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput> | DiscussionUpvoteCreateWithoutUserInput[] | DiscussionUpvoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutUserInput | DiscussionUpvoteCreateOrConnectWithoutUserInput[]
+    upsert?: DiscussionUpvoteUpsertWithWhereUniqueWithoutUserInput | DiscussionUpvoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiscussionUpvoteCreateManyUserInputEnvelope
+    set?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    disconnect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    delete?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    update?: DiscussionUpvoteUpdateWithWhereUniqueWithoutUserInput | DiscussionUpvoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiscussionUpvoteUpdateManyWithWhereWithoutUserInput | DiscussionUpvoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+  }
+
   export type ProblemCreatetagsInput = {
     set: string[]
   }
@@ -16758,6 +22473,13 @@ export namespace Prisma {
     connect?: ProblemReportWhereUniqueInput | ProblemReportWhereUniqueInput[]
   }
 
+  export type ProblemDiscussionCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput> | ProblemDiscussionCreateWithoutProblemInput[] | ProblemDiscussionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
+    connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+  }
+
   export type SubmissionUncheckedCreateNestedManyWithoutProblemInput = {
     create?: XOR<SubmissionCreateWithoutProblemInput, SubmissionUncheckedCreateWithoutProblemInput> | SubmissionCreateWithoutProblemInput[] | SubmissionUncheckedCreateWithoutProblemInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutProblemInput | SubmissionCreateOrConnectWithoutProblemInput[]
@@ -16784,6 +22506,13 @@ export namespace Prisma {
     connectOrCreate?: ProblemReportCreateOrConnectWithoutProblemInput | ProblemReportCreateOrConnectWithoutProblemInput[]
     createMany?: ProblemReportCreateManyProblemInputEnvelope
     connect?: ProblemReportWhereUniqueInput | ProblemReportWhereUniqueInput[]
+  }
+
+  export type ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput> | ProblemDiscussionCreateWithoutProblemInput[] | ProblemDiscussionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
+    connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
   }
 
   export type EnumDifficultyFieldUpdateOperationsInput = {
@@ -16859,6 +22588,20 @@ export namespace Prisma {
     deleteMany?: ProblemReportScalarWhereInput | ProblemReportScalarWhereInput[]
   }
 
+  export type ProblemDiscussionUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput> | ProblemDiscussionCreateWithoutProblemInput[] | ProblemDiscussionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemDiscussionUpsertWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
+    set?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    disconnect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    delete?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    update?: ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemDiscussionUpdateManyWithWhereWithoutProblemInput | ProblemDiscussionUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
+  }
+
   export type SubmissionUncheckedUpdateManyWithoutProblemNestedInput = {
     create?: XOR<SubmissionCreateWithoutProblemInput, SubmissionUncheckedCreateWithoutProblemInput> | SubmissionCreateWithoutProblemInput[] | SubmissionUncheckedCreateWithoutProblemInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutProblemInput | SubmissionCreateOrConnectWithoutProblemInput[]
@@ -16913,6 +22656,20 @@ export namespace Prisma {
     update?: ProblemReportUpdateWithWhereUniqueWithoutProblemInput | ProblemReportUpdateWithWhereUniqueWithoutProblemInput[]
     updateMany?: ProblemReportUpdateManyWithWhereWithoutProblemInput | ProblemReportUpdateManyWithWhereWithoutProblemInput[]
     deleteMany?: ProblemReportScalarWhereInput | ProblemReportScalarWhereInput[]
+  }
+
+  export type ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput> | ProblemDiscussionCreateWithoutProblemInput[] | ProblemDiscussionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemDiscussionUpsertWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
+    set?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    disconnect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    delete?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+    update?: ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemDiscussionUpdateManyWithWhereWithoutProblemInput | ProblemDiscussionUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -17145,6 +22902,230 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSubmittedReportsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubmittedReportsInput, UserUpdateWithoutSubmittedReportsInput>, UserUncheckedUpdateWithoutSubmittedReportsInput>
+  }
+
+  export type ProblemCreateNestedOneWithoutDiscussionsInput = {
+    create?: XOR<ProblemCreateWithoutDiscussionsInput, ProblemUncheckedCreateWithoutDiscussionsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutDiscussionsInput
+    connect?: ProblemWhereUniqueInput
+  }
+
+  export type DiscussionMessageCreateNestedManyWithoutDiscussionInput = {
+    create?: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput> | DiscussionMessageCreateWithoutDiscussionInput[] | DiscussionMessageUncheckedCreateWithoutDiscussionInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutDiscussionInput | DiscussionMessageCreateOrConnectWithoutDiscussionInput[]
+    createMany?: DiscussionMessageCreateManyDiscussionInputEnvelope
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+  }
+
+  export type DiscussionMessageUncheckedCreateNestedManyWithoutDiscussionInput = {
+    create?: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput> | DiscussionMessageCreateWithoutDiscussionInput[] | DiscussionMessageUncheckedCreateWithoutDiscussionInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutDiscussionInput | DiscussionMessageCreateOrConnectWithoutDiscussionInput[]
+    createMany?: DiscussionMessageCreateManyDiscussionInputEnvelope
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+  }
+
+  export type ProblemUpdateOneRequiredWithoutDiscussionsNestedInput = {
+    create?: XOR<ProblemCreateWithoutDiscussionsInput, ProblemUncheckedCreateWithoutDiscussionsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutDiscussionsInput
+    upsert?: ProblemUpsertWithoutDiscussionsInput
+    connect?: ProblemWhereUniqueInput
+    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutDiscussionsInput, ProblemUpdateWithoutDiscussionsInput>, ProblemUncheckedUpdateWithoutDiscussionsInput>
+  }
+
+  export type DiscussionMessageUpdateManyWithoutDiscussionNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput> | DiscussionMessageCreateWithoutDiscussionInput[] | DiscussionMessageUncheckedCreateWithoutDiscussionInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutDiscussionInput | DiscussionMessageCreateOrConnectWithoutDiscussionInput[]
+    upsert?: DiscussionMessageUpsertWithWhereUniqueWithoutDiscussionInput | DiscussionMessageUpsertWithWhereUniqueWithoutDiscussionInput[]
+    createMany?: DiscussionMessageCreateManyDiscussionInputEnvelope
+    set?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    disconnect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    delete?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    update?: DiscussionMessageUpdateWithWhereUniqueWithoutDiscussionInput | DiscussionMessageUpdateWithWhereUniqueWithoutDiscussionInput[]
+    updateMany?: DiscussionMessageUpdateManyWithWhereWithoutDiscussionInput | DiscussionMessageUpdateManyWithWhereWithoutDiscussionInput[]
+    deleteMany?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+  }
+
+  export type DiscussionMessageUncheckedUpdateManyWithoutDiscussionNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput> | DiscussionMessageCreateWithoutDiscussionInput[] | DiscussionMessageUncheckedCreateWithoutDiscussionInput[]
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutDiscussionInput | DiscussionMessageCreateOrConnectWithoutDiscussionInput[]
+    upsert?: DiscussionMessageUpsertWithWhereUniqueWithoutDiscussionInput | DiscussionMessageUpsertWithWhereUniqueWithoutDiscussionInput[]
+    createMany?: DiscussionMessageCreateManyDiscussionInputEnvelope
+    set?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    disconnect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    delete?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    connect?: DiscussionMessageWhereUniqueInput | DiscussionMessageWhereUniqueInput[]
+    update?: DiscussionMessageUpdateWithWhereUniqueWithoutDiscussionInput | DiscussionMessageUpdateWithWhereUniqueWithoutDiscussionInput[]
+    updateMany?: DiscussionMessageUpdateManyWithWhereWithoutDiscussionInput | DiscussionMessageUpdateManyWithWhereWithoutDiscussionInput[]
+    deleteMany?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+  }
+
+  export type ProblemDiscussionCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutMessagesInput, ProblemDiscussionUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutMessagesInput
+    connect?: ProblemDiscussionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDiscussionMessagesInput = {
+    create?: XOR<UserCreateWithoutDiscussionMessagesInput, UserUncheckedCreateWithoutDiscussionMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionMessagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DiscussionReplyCreateNestedManyWithoutMessageInput = {
+    create?: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput> | DiscussionReplyCreateWithoutMessageInput[] | DiscussionReplyUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutMessageInput | DiscussionReplyCreateOrConnectWithoutMessageInput[]
+    createMany?: DiscussionReplyCreateManyMessageInputEnvelope
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+  }
+
+  export type DiscussionUpvoteCreateNestedManyWithoutMessageInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput> | DiscussionUpvoteCreateWithoutMessageInput[] | DiscussionUpvoteUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutMessageInput | DiscussionUpvoteCreateOrConnectWithoutMessageInput[]
+    createMany?: DiscussionUpvoteCreateManyMessageInputEnvelope
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+  }
+
+  export type DiscussionReplyUncheckedCreateNestedManyWithoutMessageInput = {
+    create?: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput> | DiscussionReplyCreateWithoutMessageInput[] | DiscussionReplyUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutMessageInput | DiscussionReplyCreateOrConnectWithoutMessageInput[]
+    createMany?: DiscussionReplyCreateManyMessageInputEnvelope
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+  }
+
+  export type DiscussionUpvoteUncheckedCreateNestedManyWithoutMessageInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput> | DiscussionUpvoteCreateWithoutMessageInput[] | DiscussionUpvoteUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutMessageInput | DiscussionUpvoteCreateOrConnectWithoutMessageInput[]
+    createMany?: DiscussionUpvoteCreateManyMessageInputEnvelope
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+  }
+
+  export type ProblemDiscussionUpdateOneRequiredWithoutMessagesNestedInput = {
+    create?: XOR<ProblemDiscussionCreateWithoutMessagesInput, ProblemDiscussionUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutMessagesInput
+    upsert?: ProblemDiscussionUpsertWithoutMessagesInput
+    connect?: ProblemDiscussionWhereUniqueInput
+    update?: XOR<XOR<ProblemDiscussionUpdateToOneWithWhereWithoutMessagesInput, ProblemDiscussionUpdateWithoutMessagesInput>, ProblemDiscussionUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDiscussionMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutDiscussionMessagesInput, UserUncheckedCreateWithoutDiscussionMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionMessagesInput
+    upsert?: UserUpsertWithoutDiscussionMessagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDiscussionMessagesInput, UserUpdateWithoutDiscussionMessagesInput>, UserUncheckedUpdateWithoutDiscussionMessagesInput>
+  }
+
+  export type DiscussionReplyUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput> | DiscussionReplyCreateWithoutMessageInput[] | DiscussionReplyUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutMessageInput | DiscussionReplyCreateOrConnectWithoutMessageInput[]
+    upsert?: DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput | DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: DiscussionReplyCreateManyMessageInputEnvelope
+    set?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    disconnect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    delete?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    update?: DiscussionReplyUpdateWithWhereUniqueWithoutMessageInput | DiscussionReplyUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: DiscussionReplyUpdateManyWithWhereWithoutMessageInput | DiscussionReplyUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+  }
+
+  export type DiscussionUpvoteUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput> | DiscussionUpvoteCreateWithoutMessageInput[] | DiscussionUpvoteUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutMessageInput | DiscussionUpvoteCreateOrConnectWithoutMessageInput[]
+    upsert?: DiscussionUpvoteUpsertWithWhereUniqueWithoutMessageInput | DiscussionUpvoteUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: DiscussionUpvoteCreateManyMessageInputEnvelope
+    set?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    disconnect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    delete?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    update?: DiscussionUpvoteUpdateWithWhereUniqueWithoutMessageInput | DiscussionUpvoteUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: DiscussionUpvoteUpdateManyWithWhereWithoutMessageInput | DiscussionUpvoteUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+  }
+
+  export type DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput> | DiscussionReplyCreateWithoutMessageInput[] | DiscussionReplyUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionReplyCreateOrConnectWithoutMessageInput | DiscussionReplyCreateOrConnectWithoutMessageInput[]
+    upsert?: DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput | DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: DiscussionReplyCreateManyMessageInputEnvelope
+    set?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    disconnect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    delete?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    connect?: DiscussionReplyWhereUniqueInput | DiscussionReplyWhereUniqueInput[]
+    update?: DiscussionReplyUpdateWithWhereUniqueWithoutMessageInput | DiscussionReplyUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: DiscussionReplyUpdateManyWithWhereWithoutMessageInput | DiscussionReplyUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput> | DiscussionUpvoteCreateWithoutMessageInput[] | DiscussionUpvoteUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: DiscussionUpvoteCreateOrConnectWithoutMessageInput | DiscussionUpvoteCreateOrConnectWithoutMessageInput[]
+    upsert?: DiscussionUpvoteUpsertWithWhereUniqueWithoutMessageInput | DiscussionUpvoteUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: DiscussionUpvoteCreateManyMessageInputEnvelope
+    set?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    disconnect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    delete?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    connect?: DiscussionUpvoteWhereUniqueInput | DiscussionUpvoteWhereUniqueInput[]
+    update?: DiscussionUpvoteUpdateWithWhereUniqueWithoutMessageInput | DiscussionUpvoteUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: DiscussionUpvoteUpdateManyWithWhereWithoutMessageInput | DiscussionUpvoteUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+  }
+
+  export type DiscussionMessageCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<DiscussionMessageCreateWithoutRepliesInput, DiscussionMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutRepliesInput
+    connect?: DiscussionMessageWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDiscussionRepliesInput = {
+    create?: XOR<UserCreateWithoutDiscussionRepliesInput, UserUncheckedCreateWithoutDiscussionRepliesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionRepliesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DiscussionMessageUpdateOneRequiredWithoutRepliesNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutRepliesInput, DiscussionMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutRepliesInput
+    upsert?: DiscussionMessageUpsertWithoutRepliesInput
+    connect?: DiscussionMessageWhereUniqueInput
+    update?: XOR<XOR<DiscussionMessageUpdateToOneWithWhereWithoutRepliesInput, DiscussionMessageUpdateWithoutRepliesInput>, DiscussionMessageUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDiscussionRepliesNestedInput = {
+    create?: XOR<UserCreateWithoutDiscussionRepliesInput, UserUncheckedCreateWithoutDiscussionRepliesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionRepliesInput
+    upsert?: UserUpsertWithoutDiscussionRepliesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDiscussionRepliesInput, UserUpdateWithoutDiscussionRepliesInput>, UserUncheckedUpdateWithoutDiscussionRepliesInput>
+  }
+
+  export type UserCreateNestedOneWithoutDiscussionUpvotesInput = {
+    create?: XOR<UserCreateWithoutDiscussionUpvotesInput, UserUncheckedCreateWithoutDiscussionUpvotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionUpvotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DiscussionMessageCreateNestedOneWithoutUpvotesInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUpvotesInput, DiscussionMessageUncheckedCreateWithoutUpvotesInput>
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUpvotesInput
+    connect?: DiscussionMessageWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDiscussionUpvotesNestedInput = {
+    create?: XOR<UserCreateWithoutDiscussionUpvotesInput, UserUncheckedCreateWithoutDiscussionUpvotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiscussionUpvotesInput
+    upsert?: UserUpsertWithoutDiscussionUpvotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDiscussionUpvotesInput, UserUpdateWithoutDiscussionUpvotesInput>, UserUncheckedUpdateWithoutDiscussionUpvotesInput>
+  }
+
+  export type DiscussionMessageUpdateOneRequiredWithoutUpvotesNestedInput = {
+    create?: XOR<DiscussionMessageCreateWithoutUpvotesInput, DiscussionMessageUncheckedCreateWithoutUpvotesInput>
+    connectOrCreate?: DiscussionMessageCreateOrConnectWithoutUpvotesInput
+    upsert?: DiscussionMessageUpsertWithoutUpvotesInput
+    connect?: DiscussionMessageWhereUniqueInput
+    update?: XOR<XOR<DiscussionMessageUpdateToOneWithWhereWithoutUpvotesInput, DiscussionMessageUpdateWithoutUpvotesInput>, DiscussionMessageUncheckedUpdateWithoutUpvotesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17423,6 +23404,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -17453,6 +23437,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -17488,6 +23475,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -17518,6 +23508,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -17546,6 +23539,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
     reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutUserInput = {
@@ -17569,6 +23563,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutUserInput = {
@@ -17702,6 +23697,82 @@ export namespace Prisma {
 
   export type ProblemReportCreateManyUserInputEnvelope = {
     data: ProblemReportCreateManyUserInput | ProblemReportCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DiscussionMessageCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    discussion: ProblemDiscussionCreateNestedOneWithoutMessagesInput
+    replies?: DiscussionReplyCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUncheckedCreateWithoutUserInput = {
+    id?: string
+    discussionId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: DiscussionReplyUncheckedCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageCreateOrConnectWithoutUserInput = {
+    where: DiscussionMessageWhereUniqueInput
+    create: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionMessageCreateManyUserInputEnvelope = {
+    data: DiscussionMessageCreateManyUserInput | DiscussionMessageCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DiscussionReplyCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    message: DiscussionMessageCreateNestedOneWithoutRepliesInput
+  }
+
+  export type DiscussionReplyUncheckedCreateWithoutUserInput = {
+    id?: string
+    messageId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionReplyCreateOrConnectWithoutUserInput = {
+    where: DiscussionReplyWhereUniqueInput
+    create: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionReplyCreateManyUserInputEnvelope = {
+    data: DiscussionReplyCreateManyUserInput | DiscussionReplyCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DiscussionUpvoteCreateWithoutUserInput = {
+    id?: string
+    message: DiscussionMessageCreateNestedOneWithoutUpvotesInput
+  }
+
+  export type DiscussionUpvoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    messageId: string
+  }
+
+  export type DiscussionUpvoteCreateOrConnectWithoutUserInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    create: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionUpvoteCreateManyUserInputEnvelope = {
+    data: DiscussionUpvoteCreateManyUserInput | DiscussionUpvoteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -17923,6 +23994,87 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProblemReport"> | Date | string
   }
 
+  export type DiscussionMessageUpsertWithWhereUniqueWithoutUserInput = {
+    where: DiscussionMessageWhereUniqueInput
+    update: XOR<DiscussionMessageUpdateWithoutUserInput, DiscussionMessageUncheckedUpdateWithoutUserInput>
+    create: XOR<DiscussionMessageCreateWithoutUserInput, DiscussionMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionMessageUpdateWithWhereUniqueWithoutUserInput = {
+    where: DiscussionMessageWhereUniqueInput
+    data: XOR<DiscussionMessageUpdateWithoutUserInput, DiscussionMessageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DiscussionMessageUpdateManyWithWhereWithoutUserInput = {
+    where: DiscussionMessageScalarWhereInput
+    data: XOR<DiscussionMessageUpdateManyMutationInput, DiscussionMessageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DiscussionMessageScalarWhereInput = {
+    AND?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+    OR?: DiscussionMessageScalarWhereInput[]
+    NOT?: DiscussionMessageScalarWhereInput | DiscussionMessageScalarWhereInput[]
+    id?: StringFilter<"DiscussionMessage"> | string
+    discussionId?: StringFilter<"DiscussionMessage"> | string
+    userId?: StringFilter<"DiscussionMessage"> | string
+    content?: StringFilter<"DiscussionMessage"> | string
+    createdAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionMessage"> | Date | string
+  }
+
+  export type DiscussionReplyUpsertWithWhereUniqueWithoutUserInput = {
+    where: DiscussionReplyWhereUniqueInput
+    update: XOR<DiscussionReplyUpdateWithoutUserInput, DiscussionReplyUncheckedUpdateWithoutUserInput>
+    create: XOR<DiscussionReplyCreateWithoutUserInput, DiscussionReplyUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionReplyUpdateWithWhereUniqueWithoutUserInput = {
+    where: DiscussionReplyWhereUniqueInput
+    data: XOR<DiscussionReplyUpdateWithoutUserInput, DiscussionReplyUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DiscussionReplyUpdateManyWithWhereWithoutUserInput = {
+    where: DiscussionReplyScalarWhereInput
+    data: XOR<DiscussionReplyUpdateManyMutationInput, DiscussionReplyUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DiscussionReplyScalarWhereInput = {
+    AND?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+    OR?: DiscussionReplyScalarWhereInput[]
+    NOT?: DiscussionReplyScalarWhereInput | DiscussionReplyScalarWhereInput[]
+    id?: StringFilter<"DiscussionReply"> | string
+    messageId?: StringFilter<"DiscussionReply"> | string
+    userId?: StringFilter<"DiscussionReply"> | string
+    content?: StringFilter<"DiscussionReply"> | string
+    createdAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+    updatedAt?: DateTimeFilter<"DiscussionReply"> | Date | string
+  }
+
+  export type DiscussionUpvoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    update: XOR<DiscussionUpvoteUpdateWithoutUserInput, DiscussionUpvoteUncheckedUpdateWithoutUserInput>
+    create: XOR<DiscussionUpvoteCreateWithoutUserInput, DiscussionUpvoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiscussionUpvoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    data: XOR<DiscussionUpvoteUpdateWithoutUserInput, DiscussionUpvoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DiscussionUpvoteUpdateManyWithWhereWithoutUserInput = {
+    where: DiscussionUpvoteScalarWhereInput
+    data: XOR<DiscussionUpvoteUpdateManyMutationInput, DiscussionUpvoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DiscussionUpvoteScalarWhereInput = {
+    AND?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+    OR?: DiscussionUpvoteScalarWhereInput[]
+    NOT?: DiscussionUpvoteScalarWhereInput | DiscussionUpvoteScalarWhereInput[]
+    id?: StringFilter<"DiscussionUpvote"> | string
+    userId?: StringFilter<"DiscussionUpvote"> | string
+    messageId?: StringFilter<"DiscussionUpvote"> | string
+  }
+
   export type UserCreateWithoutProblemsInput = {
     id?: string
     name: string
@@ -17951,6 +24103,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProblemsInput = {
@@ -17981,6 +24136,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProblemsInput = {
@@ -18108,6 +24266,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProblemDiscussionCreateWithoutProblemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DiscussionMessageCreateNestedManyWithoutDiscussionInput
+  }
+
+  export type ProblemDiscussionUncheckedCreateWithoutProblemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: DiscussionMessageUncheckedCreateNestedManyWithoutDiscussionInput
+  }
+
+  export type ProblemDiscussionCreateOrConnectWithoutProblemInput = {
+    where: ProblemDiscussionWhereUniqueInput
+    create: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemDiscussionCreateManyProblemInputEnvelope = {
+    data: ProblemDiscussionCreateManyProblemInput | ProblemDiscussionCreateManyProblemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutProblemsInput = {
     update: XOR<UserUpdateWithoutProblemsInput, UserUncheckedUpdateWithoutProblemsInput>
     create: XOR<UserCreateWithoutProblemsInput, UserUncheckedCreateWithoutProblemsInput>
@@ -18147,6 +24329,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemsInput = {
@@ -18177,6 +24362,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SubmissionUpsertWithWhereUniqueWithoutProblemInput = {
@@ -18254,6 +24442,32 @@ export namespace Prisma {
     data: XOR<ProblemReportUpdateManyMutationInput, ProblemReportUncheckedUpdateManyWithoutProblemInput>
   }
 
+  export type ProblemDiscussionUpsertWithWhereUniqueWithoutProblemInput = {
+    where: ProblemDiscussionWhereUniqueInput
+    update: XOR<ProblemDiscussionUpdateWithoutProblemInput, ProblemDiscussionUncheckedUpdateWithoutProblemInput>
+    create: XOR<ProblemDiscussionCreateWithoutProblemInput, ProblemDiscussionUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput = {
+    where: ProblemDiscussionWhereUniqueInput
+    data: XOR<ProblemDiscussionUpdateWithoutProblemInput, ProblemDiscussionUncheckedUpdateWithoutProblemInput>
+  }
+
+  export type ProblemDiscussionUpdateManyWithWhereWithoutProblemInput = {
+    where: ProblemDiscussionScalarWhereInput
+    data: XOR<ProblemDiscussionUpdateManyMutationInput, ProblemDiscussionUncheckedUpdateManyWithoutProblemInput>
+  }
+
+  export type ProblemDiscussionScalarWhereInput = {
+    AND?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
+    OR?: ProblemDiscussionScalarWhereInput[]
+    NOT?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
+    id?: StringFilter<"ProblemDiscussion"> | string
+    problemId?: StringFilter<"ProblemDiscussion"> | string
+    createdAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemDiscussion"> | Date | string
+  }
+
   export type UserCreateWithoutSubmissionInput = {
     id?: string
     name: string
@@ -18282,6 +24496,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -18312,6 +24529,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -18340,6 +24560,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
     reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutSubmissionInput = {
@@ -18363,6 +24584,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutSubmissionInput = {
@@ -18449,6 +24671,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -18479,6 +24704,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemUpsertWithoutSubmissionInput = {
@@ -18513,6 +24741,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutSubmissionInput = {
@@ -18536,6 +24765,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type TestCaseResultUpsertWithWhereUniqueWithoutSubmissionInput = {
@@ -18685,6 +24915,9 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProblemSolvedInput = {
@@ -18715,6 +24948,9 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProblemSolvedInput = {
@@ -18743,6 +24979,7 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
     reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutSolvedByInput = {
@@ -18766,6 +25003,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutSolvedByInput = {
@@ -18812,6 +25050,9 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemSolvedInput = {
@@ -18842,6 +25083,9 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemUpsertWithoutSolvedByInput = {
@@ -18876,6 +25120,7 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutSolvedByInput = {
@@ -18899,6 +25144,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemInPlaylistCreateWithoutPlaylistInput = {
@@ -18953,6 +25199,9 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistsInput = {
@@ -18983,6 +25232,9 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistsInput = {
@@ -19045,6 +25297,9 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
@@ -19075,6 +25330,9 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlaylistCreateWithoutProblemsInput = {
@@ -19121,6 +25379,7 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutProblemsPlaylistsInput = {
@@ -19144,6 +25403,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutProblemsPlaylistsInput = {
@@ -19212,6 +25472,7 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutProblemsPlaylistsInput = {
@@ -19235,6 +25496,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemCreateWithoutReportsInput = {
@@ -19258,6 +25520,7 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutReportsInput = {
@@ -19281,6 +25544,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutReportsInput = {
@@ -19316,6 +25580,9 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmittedReportsInput = {
@@ -19346,6 +25613,9 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmittedReportsInput = {
@@ -19385,6 +25655,7 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutReportsInput = {
@@ -19408,6 +25679,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type UserUpsertWithoutSubmittedReportsInput = {
@@ -19449,6 +25721,9 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmittedReportsInput = {
@@ -19479,6 +25754,845 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ProblemCreateWithoutDiscussionsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutProblemsInput
+    submission?: SubmissionCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemUncheckedCreateWithoutDiscussionsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    userId: string
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemCreateOrConnectWithoutDiscussionsInput = {
+    where: ProblemWhereUniqueInput
+    create: XOR<ProblemCreateWithoutDiscussionsInput, ProblemUncheckedCreateWithoutDiscussionsInput>
+  }
+
+  export type DiscussionMessageCreateWithoutDiscussionInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDiscussionMessagesInput
+    replies?: DiscussionReplyCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUncheckedCreateWithoutDiscussionInput = {
+    id?: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: DiscussionReplyUncheckedCreateNestedManyWithoutMessageInput
+    upvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageCreateOrConnectWithoutDiscussionInput = {
+    where: DiscussionMessageWhereUniqueInput
+    create: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput>
+  }
+
+  export type DiscussionMessageCreateManyDiscussionInputEnvelope = {
+    data: DiscussionMessageCreateManyDiscussionInput | DiscussionMessageCreateManyDiscussionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProblemUpsertWithoutDiscussionsInput = {
+    update: XOR<ProblemUpdateWithoutDiscussionsInput, ProblemUncheckedUpdateWithoutDiscussionsInput>
+    create: XOR<ProblemCreateWithoutDiscussionsInput, ProblemUncheckedCreateWithoutDiscussionsInput>
+    where?: ProblemWhereInput
+  }
+
+  export type ProblemUpdateToOneWithWhereWithoutDiscussionsInput = {
+    where?: ProblemWhereInput
+    data: XOR<ProblemUpdateWithoutDiscussionsInput, ProblemUncheckedUpdateWithoutDiscussionsInput>
+  }
+
+  export type ProblemUpdateWithoutDiscussionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
+    submission?: SubmissionUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+  }
+
+  export type ProblemUncheckedUpdateWithoutDiscussionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    userId?: StringFieldUpdateOperationsInput | string
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+  }
+
+  export type DiscussionMessageUpsertWithWhereUniqueWithoutDiscussionInput = {
+    where: DiscussionMessageWhereUniqueInput
+    update: XOR<DiscussionMessageUpdateWithoutDiscussionInput, DiscussionMessageUncheckedUpdateWithoutDiscussionInput>
+    create: XOR<DiscussionMessageCreateWithoutDiscussionInput, DiscussionMessageUncheckedCreateWithoutDiscussionInput>
+  }
+
+  export type DiscussionMessageUpdateWithWhereUniqueWithoutDiscussionInput = {
+    where: DiscussionMessageWhereUniqueInput
+    data: XOR<DiscussionMessageUpdateWithoutDiscussionInput, DiscussionMessageUncheckedUpdateWithoutDiscussionInput>
+  }
+
+  export type DiscussionMessageUpdateManyWithWhereWithoutDiscussionInput = {
+    where: DiscussionMessageScalarWhereInput
+    data: XOR<DiscussionMessageUpdateManyMutationInput, DiscussionMessageUncheckedUpdateManyWithoutDiscussionInput>
+  }
+
+  export type ProblemDiscussionCreateWithoutMessagesInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutDiscussionsInput
+  }
+
+  export type ProblemDiscussionUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemDiscussionCreateOrConnectWithoutMessagesInput = {
+    where: ProblemDiscussionWhereUniqueInput
+    create: XOR<ProblemDiscussionCreateWithoutMessagesInput, ProblemDiscussionUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type UserCreateWithoutDiscussionMessagesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserCreateNestedManyWithoutFollowingInput
+    following?: UserCreateNestedManyWithoutFollowersInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDiscussionMessagesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
+    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDiscussionMessagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDiscussionMessagesInput, UserUncheckedCreateWithoutDiscussionMessagesInput>
+  }
+
+  export type DiscussionReplyCreateWithoutMessageInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDiscussionRepliesInput
+  }
+
+  export type DiscussionReplyUncheckedCreateWithoutMessageInput = {
+    id?: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionReplyCreateOrConnectWithoutMessageInput = {
+    where: DiscussionReplyWhereUniqueInput
+    create: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput>
+  }
+
+  export type DiscussionReplyCreateManyMessageInputEnvelope = {
+    data: DiscussionReplyCreateManyMessageInput | DiscussionReplyCreateManyMessageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DiscussionUpvoteCreateWithoutMessageInput = {
+    id?: string
+    user: UserCreateNestedOneWithoutDiscussionUpvotesInput
+  }
+
+  export type DiscussionUpvoteUncheckedCreateWithoutMessageInput = {
+    id?: string
+    userId: string
+  }
+
+  export type DiscussionUpvoteCreateOrConnectWithoutMessageInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    create: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput>
+  }
+
+  export type DiscussionUpvoteCreateManyMessageInputEnvelope = {
+    data: DiscussionUpvoteCreateManyMessageInput | DiscussionUpvoteCreateManyMessageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProblemDiscussionUpsertWithoutMessagesInput = {
+    update: XOR<ProblemDiscussionUpdateWithoutMessagesInput, ProblemDiscussionUncheckedUpdateWithoutMessagesInput>
+    create: XOR<ProblemDiscussionCreateWithoutMessagesInput, ProblemDiscussionUncheckedCreateWithoutMessagesInput>
+    where?: ProblemDiscussionWhereInput
+  }
+
+  export type ProblemDiscussionUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: ProblemDiscussionWhereInput
+    data: XOR<ProblemDiscussionUpdateWithoutMessagesInput, ProblemDiscussionUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type ProblemDiscussionUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutDiscussionsNestedInput
+  }
+
+  export type ProblemDiscussionUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutDiscussionMessagesInput = {
+    update: XOR<UserUpdateWithoutDiscussionMessagesInput, UserUncheckedUpdateWithoutDiscussionMessagesInput>
+    create: XOR<UserCreateWithoutDiscussionMessagesInput, UserUncheckedCreateWithoutDiscussionMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDiscussionMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDiscussionMessagesInput, UserUncheckedUpdateWithoutDiscussionMessagesInput>
+  }
+
+  export type UserUpdateWithoutDiscussionMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUpdateManyWithoutFollowingNestedInput
+    following?: UserUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDiscussionMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput = {
+    where: DiscussionReplyWhereUniqueInput
+    update: XOR<DiscussionReplyUpdateWithoutMessageInput, DiscussionReplyUncheckedUpdateWithoutMessageInput>
+    create: XOR<DiscussionReplyCreateWithoutMessageInput, DiscussionReplyUncheckedCreateWithoutMessageInput>
+  }
+
+  export type DiscussionReplyUpdateWithWhereUniqueWithoutMessageInput = {
+    where: DiscussionReplyWhereUniqueInput
+    data: XOR<DiscussionReplyUpdateWithoutMessageInput, DiscussionReplyUncheckedUpdateWithoutMessageInput>
+  }
+
+  export type DiscussionReplyUpdateManyWithWhereWithoutMessageInput = {
+    where: DiscussionReplyScalarWhereInput
+    data: XOR<DiscussionReplyUpdateManyMutationInput, DiscussionReplyUncheckedUpdateManyWithoutMessageInput>
+  }
+
+  export type DiscussionUpvoteUpsertWithWhereUniqueWithoutMessageInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    update: XOR<DiscussionUpvoteUpdateWithoutMessageInput, DiscussionUpvoteUncheckedUpdateWithoutMessageInput>
+    create: XOR<DiscussionUpvoteCreateWithoutMessageInput, DiscussionUpvoteUncheckedCreateWithoutMessageInput>
+  }
+
+  export type DiscussionUpvoteUpdateWithWhereUniqueWithoutMessageInput = {
+    where: DiscussionUpvoteWhereUniqueInput
+    data: XOR<DiscussionUpvoteUpdateWithoutMessageInput, DiscussionUpvoteUncheckedUpdateWithoutMessageInput>
+  }
+
+  export type DiscussionUpvoteUpdateManyWithWhereWithoutMessageInput = {
+    where: DiscussionUpvoteScalarWhereInput
+    data: XOR<DiscussionUpvoteUpdateManyMutationInput, DiscussionUpvoteUncheckedUpdateManyWithoutMessageInput>
+  }
+
+  export type DiscussionMessageCreateWithoutRepliesInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    discussion: ProblemDiscussionCreateNestedOneWithoutMessagesInput
+    user: UserCreateNestedOneWithoutDiscussionMessagesInput
+    upvotes?: DiscussionUpvoteCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUncheckedCreateWithoutRepliesInput = {
+    id?: string
+    discussionId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    upvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageCreateOrConnectWithoutRepliesInput = {
+    where: DiscussionMessageWhereUniqueInput
+    create: XOR<DiscussionMessageCreateWithoutRepliesInput, DiscussionMessageUncheckedCreateWithoutRepliesInput>
+  }
+
+  export type UserCreateWithoutDiscussionRepliesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserCreateNestedManyWithoutFollowingInput
+    following?: UserCreateNestedManyWithoutFollowersInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDiscussionRepliesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
+    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDiscussionRepliesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDiscussionRepliesInput, UserUncheckedCreateWithoutDiscussionRepliesInput>
+  }
+
+  export type DiscussionMessageUpsertWithoutRepliesInput = {
+    update: XOR<DiscussionMessageUpdateWithoutRepliesInput, DiscussionMessageUncheckedUpdateWithoutRepliesInput>
+    create: XOR<DiscussionMessageCreateWithoutRepliesInput, DiscussionMessageUncheckedCreateWithoutRepliesInput>
+    where?: DiscussionMessageWhereInput
+  }
+
+  export type DiscussionMessageUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: DiscussionMessageWhereInput
+    data: XOR<DiscussionMessageUpdateWithoutRepliesInput, DiscussionMessageUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type DiscussionMessageUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discussion?: ProblemDiscussionUpdateOneRequiredWithoutMessagesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussionMessagesNestedInput
+    upvotes?: DiscussionUpvoteUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type UserUpsertWithoutDiscussionRepliesInput = {
+    update: XOR<UserUpdateWithoutDiscussionRepliesInput, UserUncheckedUpdateWithoutDiscussionRepliesInput>
+    create: XOR<UserCreateWithoutDiscussionRepliesInput, UserUncheckedCreateWithoutDiscussionRepliesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDiscussionRepliesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDiscussionRepliesInput, UserUncheckedUpdateWithoutDiscussionRepliesInput>
+  }
+
+  export type UserUpdateWithoutDiscussionRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUpdateManyWithoutFollowingNestedInput
+    following?: UserUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDiscussionRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDiscussionUpvotesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserCreateNestedManyWithoutFollowingInput
+    following?: UserCreateNestedManyWithoutFollowersInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDiscussionUpvotesInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
+    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDiscussionUpvotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDiscussionUpvotesInput, UserUncheckedCreateWithoutDiscussionUpvotesInput>
+  }
+
+  export type DiscussionMessageCreateWithoutUpvotesInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    discussion: ProblemDiscussionCreateNestedOneWithoutMessagesInput
+    user: UserCreateNestedOneWithoutDiscussionMessagesInput
+    replies?: DiscussionReplyCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageUncheckedCreateWithoutUpvotesInput = {
+    id?: string
+    discussionId: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: DiscussionReplyUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type DiscussionMessageCreateOrConnectWithoutUpvotesInput = {
+    where: DiscussionMessageWhereUniqueInput
+    create: XOR<DiscussionMessageCreateWithoutUpvotesInput, DiscussionMessageUncheckedCreateWithoutUpvotesInput>
+  }
+
+  export type UserUpsertWithoutDiscussionUpvotesInput = {
+    update: XOR<UserUpdateWithoutDiscussionUpvotesInput, UserUncheckedUpdateWithoutDiscussionUpvotesInput>
+    create: XOR<UserCreateWithoutDiscussionUpvotesInput, UserUncheckedCreateWithoutDiscussionUpvotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDiscussionUpvotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDiscussionUpvotesInput, UserUncheckedUpdateWithoutDiscussionUpvotesInput>
+  }
+
+  export type UserUpdateWithoutDiscussionUpvotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUpdateManyWithoutFollowingNestedInput
+    following?: UserUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDiscussionUpvotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DiscussionMessageUpsertWithoutUpvotesInput = {
+    update: XOR<DiscussionMessageUpdateWithoutUpvotesInput, DiscussionMessageUncheckedUpdateWithoutUpvotesInput>
+    create: XOR<DiscussionMessageCreateWithoutUpvotesInput, DiscussionMessageUncheckedCreateWithoutUpvotesInput>
+    where?: DiscussionMessageWhereInput
+  }
+
+  export type DiscussionMessageUpdateToOneWithWhereWithoutUpvotesInput = {
+    where?: DiscussionMessageWhereInput
+    data: XOR<DiscussionMessageUpdateWithoutUpvotesInput, DiscussionMessageUncheckedUpdateWithoutUpvotesInput>
+  }
+
+  export type DiscussionMessageUpdateWithoutUpvotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discussion?: ProblemDiscussionUpdateOneRequiredWithoutMessagesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussionMessagesNestedInput
+    replies?: DiscussionReplyUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateWithoutUpvotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput
   }
 
   export type ProblemCreateManyUserInput = {
@@ -19540,6 +26654,27 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type DiscussionMessageCreateManyUserInput = {
+    id?: string
+    discussionId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionReplyCreateManyUserInput = {
+    id?: string
+    messageId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionUpvoteCreateManyUserInput = {
+    id?: string
+    messageId: string
+  }
+
   export type UserUpdateWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -19568,6 +26703,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -19598,6 +26736,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutFollowingInput = {
@@ -19652,6 +26793,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -19682,6 +26826,9 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
     submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutFollowersInput = {
@@ -19729,6 +26876,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutUserInput = {
@@ -19752,6 +26900,7 @@ export namespace Prisma {
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateManyWithoutUserInput = {
@@ -19897,6 +27046,73 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DiscussionMessageUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discussion?: ProblemDiscussionUpdateOneRequiredWithoutMessagesNestedInput
+    replies?: DiscussionReplyUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    discussionId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    message?: DiscussionMessageUpdateOneRequiredWithoutRepliesNestedInput
+  }
+
+  export type DiscussionReplyUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionUpvoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: DiscussionMessageUpdateOneRequiredWithoutUpvotesNestedInput
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type SubmissionCreateManyProblemInput = {
     id?: string
     userId: string
@@ -19934,6 +27150,12 @@ export namespace Prisma {
     description?: string | null
     status?: string
     createdAt?: Date | string
+  }
+
+  export type ProblemDiscussionCreateManyProblemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SubmissionUpdateWithoutProblemInput = {
@@ -20055,6 +27277,26 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProblemDiscussionUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DiscussionMessageUpdateManyWithoutDiscussionNestedInput
+  }
+
+  export type ProblemDiscussionUncheckedUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: DiscussionMessageUncheckedUpdateManyWithoutDiscussionNestedInput
+  }
+
+  export type ProblemDiscussionUncheckedUpdateManyWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TestCaseResultCreateManySubmissionInput = {
     id?: string
     testCase: number
@@ -20141,6 +27383,94 @@ export namespace Prisma {
     problemId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionMessageCreateManyDiscussionInput = {
+    id?: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionMessageUpdateWithoutDiscussionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDiscussionMessagesNestedInput
+    replies?: DiscussionReplyUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateWithoutDiscussionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput
+    upvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type DiscussionMessageUncheckedUpdateManyWithoutDiscussionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyCreateManyMessageInput = {
+    id?: string
+    userId: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiscussionUpvoteCreateManyMessageInput = {
+    id?: string
+    userId: string
+  }
+
+  export type DiscussionReplyUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDiscussionRepliesNestedInput
+  }
+
+  export type DiscussionReplyUncheckedUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionReplyUncheckedUpdateManyWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscussionUpvoteUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutDiscussionUpvotesNestedInput
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DiscussionUpvoteUncheckedUpdateManyWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
 
