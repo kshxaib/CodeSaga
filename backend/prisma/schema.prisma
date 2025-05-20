@@ -40,6 +40,7 @@ model User {
   password                String
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
+  provider                String?
 
   currentStreak  Int       @default(0)
   longestStreak  Int       @default(0)

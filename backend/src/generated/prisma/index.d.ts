@@ -1976,6 +1976,7 @@ export namespace Prisma {
     password: string | null
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    provider: string | null
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
@@ -1998,6 +1999,7 @@ export namespace Prisma {
     password: string | null
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    provider: string | null
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
@@ -2020,6 +2022,7 @@ export namespace Prisma {
     password: number
     forgotPasswordOtp: number
     forgotPasswordOtpExpiry: number
+    provider: number
     currentStreak: number
     longestStreak: number
     lastSolvedDate: number
@@ -2059,6 +2062,7 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    provider?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -2081,6 +2085,7 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    provider?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -2103,6 +2108,7 @@ export namespace Prisma {
     password?: true
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
+    provider?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -2213,6 +2219,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
+    provider: string | null
     currentStreak: number
     longestStreak: number
     lastSolvedDate: Date | null
@@ -2255,6 +2262,7 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    provider?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -2286,6 +2294,7 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    provider?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -2309,6 +2318,7 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    provider?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -2332,6 +2342,7 @@ export namespace Prisma {
     password?: boolean
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
+    provider?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -2342,7 +2353,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "followerCount" | "followingCount" | "badges" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "provider" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "followerCount" | "followingCount" | "badges" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     followers?: boolean | User$followersArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
@@ -2380,6 +2391,7 @@ export namespace Prisma {
       password: string
       forgotPasswordOtp: string | null
       forgotPasswordOtpExpiry: Date | null
+      provider: string | null
       currentStreak: number
       longestStreak: number
       lastSolvedDate: Date | null
@@ -2830,6 +2842,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly forgotPasswordOtp: FieldRef<"User", 'String'>
     readonly forgotPasswordOtpExpiry: FieldRef<"User", 'DateTime'>
+    readonly provider: FieldRef<"User", 'String'>
     readonly currentStreak: FieldRef<"User", 'Int'>
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastSolvedDate: FieldRef<"User", 'DateTime'>
@@ -13509,6 +13522,7 @@ export namespace Prisma {
     password: 'password',
     forgotPasswordOtp: 'forgotPasswordOtp',
     forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
+    provider: 'provider',
     currentStreak: 'currentStreak',
     longestStreak: 'longestStreak',
     lastSolvedDate: 'lastSolvedDate',
@@ -13836,6 +13850,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    provider?: StringNullableFilter<"User"> | string | null
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -13866,6 +13881,7 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
@@ -13899,6 +13915,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    provider?: StringNullableFilter<"User"> | string | null
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -13929,6 +13946,7 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
@@ -13960,6 +13978,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     forgotPasswordOtp?: StringNullableWithAggregatesFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    provider?: StringNullableWithAggregatesFilter<"User"> | string | null
     currentStreak?: IntWithAggregatesFilter<"User"> | number
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -14670,6 +14689,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -14700,6 +14720,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -14730,6 +14751,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14760,6 +14782,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14790,6 +14813,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -14813,6 +14837,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14836,6 +14861,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15758,6 +15784,7 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    provider?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -15788,6 +15815,7 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    provider?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -15810,6 +15838,7 @@ export namespace Prisma {
     password?: SortOrder
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
+    provider?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -17379,6 +17408,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -17408,6 +17438,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -17442,6 +17473,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -17471,6 +17503,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -17704,6 +17737,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    provider?: StringNullableFilter<"User"> | string | null
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -17902,6 +17936,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -17931,6 +17966,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18096,6 +18132,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18125,6 +18162,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18229,6 +18267,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18258,6 +18297,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18394,6 +18434,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18423,6 +18464,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18628,6 +18670,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18657,6 +18700,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18753,6 +18797,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18782,6 +18827,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18892,6 +18938,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18921,6 +18968,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -18982,6 +19030,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19011,6 +19060,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19251,6 +19301,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -19280,6 +19331,7 @@ export namespace Prisma {
     password: string
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -19382,6 +19434,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19411,6 +19464,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19499,6 +19553,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19528,6 +19583,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19557,6 +19613,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19580,6 +19637,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19609,6 +19667,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19638,6 +19697,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

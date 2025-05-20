@@ -1,52 +1,63 @@
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'react-router-dom'
-import { Check, Code, Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react'
-import { SignupSchema } from '../../schema/SignupSchema'
-import AuthImagePattern from './AuthImagePattern'
-import { useAuthStore } from '../../store/useAuthStore'
-import { useDebounce } from '../../libs/useDebounce'
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Check,
+  Code,
+  Eye,
+  EyeOff,
+  Loader2,
+  Lock,
+  Mail,
+  User,
+} from "lucide-react";
+import { SignupSchema } from "../../schema/SignupSchema";
+import AuthImagePattern from "./AuthImagePattern";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useDebounce } from "../../libs/useDebounce";
+import GoogleAuthButton from "./GoogleAuthButton";
 
 const SignupPage = () => {
-  const [showPassword, setShowPassword] = useState(false)
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false)
-  const [uniqueUsernameMessage, setUniqueUsernameMessage] = useState('')
-  
-  const { 
-    reset, 
-    register, 
+  const [showPassword, setShowPassword] = useState(false);
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [uniqueUsernameMessage, setUniqueUsernameMessage] = useState("");
+  const navigate = useNavigate();
+
+  const {
+    reset,
+    register,
     handleSubmit,
-    watch, 
-    formState: { errors } 
-  } = useForm({ resolver: zodResolver(SignupSchema) })
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(SignupSchema) });
 
-  const { signup, isSigninUp, checkUniqueUsername } = useAuthStore()
+  const { signup, isSigninUp, checkUniqueUsername } = useAuthStore();
 
-  const username = watch('username')
-  const debouncedUsername = useDebounce(username)
+  const username = watch("username");
+  const debouncedUsername = useDebounce(username);
 
   useEffect(() => {
     const checkUsername = async () => {
       if (!debouncedUsername) return;
-      setIsCheckingUsername(true)
+      setIsCheckingUsername(true);
 
-      const res = await checkUniqueUsername(debouncedUsername)
-      if(res?.data?.success){
-        setUniqueUsernameMessage(res?.data?.message)
+      const res = await checkUniqueUsername(debouncedUsername);
+      if (res?.data?.success) {
+        setUniqueUsernameMessage(res?.data?.message);
       }
-      if(!res?.data?.success){
-        setUniqueUsernameMessage(res?.data?.message)
+      if (!res?.data?.success) {
+        setUniqueUsernameMessage(res?.data?.message);
       }
-      setIsCheckingUsername(false)
-    }
-    checkUsername()
-  }, [debouncedUsername])
+      setIsCheckingUsername(false);
+    };
+    checkUsername();
+  }, [debouncedUsername]);
 
   const onSubmit = async (data) => {
-    await signup(data)
-    reset()
-  }
+    await signup(data);
+    reset();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 grid lg:grid-cols-2">
@@ -59,13 +70,20 @@ const SignupPage = () => {
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center shadow-sm">
                 <Code className="w-7 h-7 text-primary" />
               </div>
-              <h1 className="text-3xl font-bold mt-3 text-base-content">Create Account</h1>
-              <p className="text-base-content/70">Join us today and start your journey</p>
+              <h1 className="text-3xl font-bold mt-3 text-base-content">
+                Create Account
+              </h1>
+              <p className="text-base-content/70">
+                Join us today and start your journey
+              </p>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 bg-base-100 p-8 rounded-xl shadow-sm border border-base-300">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-5 bg-base-100 p-8 rounded-xl shadow-sm border border-base-300"
+          >
             {/* Name */}
             <div className="form-control">
               <label className="label">
@@ -86,7 +104,7 @@ const SignupPage = () => {
               </div>
               {errors.name && (
                 <p className="mt-1 text-sm text-error">{errors.name.message}</p>
-              )}              
+              )}
             </div>
 
             {/* Username */}
@@ -107,15 +125,28 @@ const SignupPage = () => {
                   placeholder="johndoe123"
                 />
               </div>
-                {isCheckingUsername && (
-                  <p><Loader2 className="animate-spin" />Checking...</p>
-                )}
-                {!isCheckingUsername && (
-                  <p className={uniqueUsernameMessage === "Username is available"? "text-success" : "text-error"}>{uniqueUsernameMessage}</p>
-                )}
+              {isCheckingUsername && (
+                <p className="flex items-center gap-1 text-sm mt-1">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Checking...
+                </p>
+              )}
+              {!isCheckingUsername && uniqueUsernameMessage && (
+                <p
+                  className={`text-sm mt-1 ${
+                    uniqueUsernameMessage === "Username is available"
+                      ? "text-success"
+                      : "text-error"
+                  }`}
+                >
+                  {uniqueUsernameMessage}
+                </p>
+              )}
               {errors.username && (
-                <p className="mt-2 text-sm text-error">{errors.username.message}</p>
-              )}              
+                <p className="mt-1 text-sm text-error">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
 
             {/* Email */}
@@ -137,7 +168,9 @@ const SignupPage = () => {
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-error">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-error">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -171,7 +204,9 @@ const SignupPage = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-error">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-error">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -190,10 +225,7 @@ const SignupPage = () => {
                 "Sign Up"
               )}
             </button>
-          </form>
-
-          {/* Footer */}
-          <div className="text-center">
+            <div className="text-center mt-4">
             <p className="text-base-content/70">
               Already have an account?{" "}
               <Link to="/login" className="link link-primary font-medium">
@@ -201,6 +233,21 @@ const SignupPage = () => {
               </Link>
             </p>
           </div>
+          </form>
+
+          {/* Or divider */}
+          <div className="flex items-center gap-2 my-4">
+            <div className="flex-1 h-px bg-base-300"></div>
+            <p className="text-sm text-base-content/70">OR</p>
+            <div className="flex-1 h-px bg-base-300"></div>
+          </div>
+
+          <div className="w-full flex justify-center">
+            <GoogleAuthButton isRegister={true} />
+          </div>
+
+          {/* Footer */}
+          
         </div>
       </div>
 
@@ -213,6 +260,6 @@ const SignupPage = () => {
       />
     </div>
   );
-}
+};
 
 export default SignupPage;

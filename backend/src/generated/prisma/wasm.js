@@ -133,6 +133,7 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   forgotPasswordOtp: 'forgotPasswordOtp',
   forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
+  provider: 'provider',
   currentStreak: 'currentStreak',
   longestStreak: 'longestStreak',
   lastSolvedDate: 'lastSolvedDate',
