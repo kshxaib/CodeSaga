@@ -12,6 +12,7 @@ import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import VerifyCodePage from "./components/auth/VerifyCodePage";
 import ProblemPage from "./components/ProblemPage";
 import CodeSagaLanding from "./components/CodeSagaLanding ";
+import AllProblemsPage from "./components/AllProblemsPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -29,37 +30,31 @@ const App = () => {
   }
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-start">
-        <Routes>
-          <Route path="/" element={authUser ? <Navigate to="/home" /> : <CodeSagaLanding />} />
+    <div className="flex flex-col items-center justify-start">
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={authUser ? <Navigate to="/home" /> : <CodeSagaLanding />} />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/home" />} />
+        <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/home" />} />
+        <Route path="/forgot-password" element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/home" />} />
+        <Route path="/verify-otp/:email" element={!authUser ? <VerifyCodePage /> : <Navigate to="/home" />} />
 
-          {/* Authenticated routes */}
-          <Route path="/home" element={<Layout />}>
-            <Route index element={authUser ? <HomePage /> : <Navigate to="/login" />} />
-          </Route>
-
-          {/* Auth routes */}
-          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/home" />} />
-          <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/home" />} />
-          <Route path="/forgot-password" element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/home" />} />
-          <Route path="/verify-otp/:email" element={!authUser ? <VerifyCodePage /> : <Navigate to="/home" />} />
-
-          {/* Problem routes */}
+        {/* Authenticated routes with Layout */}
+        <Route element={<Layout />}>
+          <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/problems" element={authUser ? <AllProblemsPage /> : <Navigate to="/login" />} />
           <Route path="/problem/:id" element={authUser ? <ProblemPage /> : <Navigate to="/login" />} />
 
-          {/* Admin routes */}
+          {/* Admin protected routes */}
           <Route element={<AdminRoute />}>
-            <Route 
-              path="/add-problem" 
-              element={authUser ? <AddProblem /> : <Navigate to="/login" />} 
-            />
+            <Route path="/add-problem" element={<AddProblem />} />
           </Route>
+        </Route>
 
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-    </>
+        {/* Catch-all route */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </div>
   );
 };
 
