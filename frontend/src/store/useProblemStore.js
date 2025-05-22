@@ -8,6 +8,8 @@ export const useProblemStore = create((set) => ({
     solvedProblems : [],
     isLoading : false,
     isDeletingProblem : false,
+    isUpdatingProblem : false,
+    isGettingRandomProblem : false,
 
     createProblem: async (value) => {
         try {
@@ -41,6 +43,7 @@ export const useProblemStore = create((set) => ({
             set({ isLoading: true});
             const res = await axiosInstance.get(`/problems/get-problem/${id}`);
             set({problem: res.data.problem});
+            return res.data.problem
         } catch (error) {
             console.error("Error while fetching problem", error);
         } finally {
@@ -74,6 +77,34 @@ export const useProblemStore = create((set) => ({
             showToast(error);
         } finally{
             set({isDeletingProblem: false});
+        }
+    },
+
+    updateProblem: async (id, value) => {
+        try {
+            set({isUpdatingProblem: true});
+            const res = await axiosInstance.put(`/problems/update-problem/${id}`, value);
+            showToast(res);
+            const problemsRes = await axiosInstance.get("/problems/get-all-problems");
+            set({problems: problemsRes.data.problems});
+        } catch (error) {
+            console.error(error);
+            showToast(error);
+        } finally {
+            set({isUpdatingProblem: false});
+        }
+    },
+
+    getRandomProblem: async () => {
+        try {
+            set({isGettingRandomProblem: true});
+            const res = await axiosInstance.get("/problems/random");
+            return res.data.problem
+        } catch (error) {
+            console.error("Error while fetching random problem", error);
+            showToast(error);
+        } finally {
+            set({isGettingRandomProblem: false});
         }
     }
 }))

@@ -31,7 +31,7 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-10">
         <input
           type="text"
           placeholder="Search user"

@@ -3,11 +3,11 @@ import { Loader } from "lucide-react";
 import { useProblemStore } from "../store/useProblemStore";
 
 const HomePage = () => {
-const {getAllProblems, isLoading} = useProblemStore();
+const {isLoading} = useProblemStore();
   
 useEffect(() => {
-    getAllProblems();
-}, [getAllProblems]);
+    
+}, []);
 
 if(isLoading) {
   return (

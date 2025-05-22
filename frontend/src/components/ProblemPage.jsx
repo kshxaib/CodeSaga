@@ -16,6 +16,7 @@ import {
   ThumbsUp,
   Home,
   Loader,
+  Shuffle
 } from "lucide-react";
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -92,6 +93,8 @@ const ProblemPage = () => {
       </div>
     );
   }
+
+  
 
  const renderTabContent = () => {
   switch (activeTab) {
@@ -182,6 +185,7 @@ const ProblemPage = () => {
     }
   }
 };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">

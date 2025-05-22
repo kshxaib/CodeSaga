@@ -495,3 +495,29 @@ export const reactToProblem = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+export const getRandomProblem = async (req, res) => {
+  try {
+    const totalProblems = await db.problem.count();
+
+    if(totalProblems === 0) {
+      return res.status(404).json({ success: false, message: "No problems available" });
+    }
+
+    const randomIndex = Math.floor(Math.random() * totalProblems);
+
+    const randomProblem = await db.problem.findFirst({
+      skip: randomIndex,
+      take: 1,
+    });
+    
+    return res.status(200).json({
+      success: true,
+      message: "Random problem fetched successfully",
+      problem: randomProblem,
+    });
+  } catch (error) {
+    console.error('Error fetching random problem:', error);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
-import { Bookmark, PencilIcon, Trash, TrashIcon, Plus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Bookmark, PencilIcon, Trash, TrashIcon, Plus, Shuffle, Loader2 } from "lucide-react";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
@@ -19,9 +19,11 @@ const ProblemTable = ({ problems }) => {
   const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
 
-  const { deleteProblem, isDeletingProblem } = useProblemStore();
+  const { deleteProblem, isDeletingProblem, getRandomProblem, isGettingRandomProblem } = useProblemStore();
   const { authUser } = useAuthStore();
   const { createPlaylist } = usePlaylistStore();
+
+  const navigate = useNavigate();
 
   const allTags = useMemo(() => {
     if (!Array.isArray(problems)) return [];
@@ -43,7 +45,7 @@ const ProblemTable = ({ problems }) => {
       );
   }, [problems, search, difficulty, selectedTag]);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
   const paginatedProblems = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -73,13 +75,18 @@ const ProblemTable = ({ problems }) => {
     await createPlaylist(data);
   }
 
+  const handleRandomProblem = async () => {
+    const problem = await getRandomProblem();
+    navigate(`/problem/${problem.id}`);
+  }
+
   const difficulties = ["EASY", "MEDIUM", "HARD"];
 
   return (
     <div className="min-w-screen max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto py-8">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 className="text-2xl font-bold text-primary">Problem List</h1>
+        <h1 className="text-2xl font-bold text-primary">Total Problems: {problems.length}</h1>
         <button 
           className="btn btn-primary gap-2 hover:shadow-md transition-shadow"
           onClick={() => setIsCreateModalOpen(true)}
@@ -91,7 +98,7 @@ const ProblemTable = ({ problems }) => {
 
       {/* Filters Section */}
       <div className="bg-base-200 rounded-lg p-4 mb-6 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label className="label">
               <span className="label-text font-medium">Search Problems</span>
@@ -140,6 +147,12 @@ const ProblemTable = ({ problems }) => {
               ))}
             </select>
           </div>
+
+          <button 
+            disabled={isGettingRandomProblem} 
+            onClick={handleRandomProblem}
+            title="Get Random Problem"
+            className="mt-6 w-30 btn btn-primary gap-2 hover:shadow-md transition-shadow">{isGettingRandomProblem ? <Loader2 className="animate-spin h-4 w-4 cursor-pointer"/>: <Shuffle className="cursor-pointer"/>}</button>
         </div>
       </div>
 
