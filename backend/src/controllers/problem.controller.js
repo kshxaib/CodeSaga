@@ -523,3 +523,37 @@ export const getRandomProblem = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 }
+
+export const checkProblemInPlaylist = async (req, res) => {
+  const { problemId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const found = await db.problemInPlaylist.findFirst({
+      where: {
+        problemId: problemId,
+        playlist: {
+          userId: userId,
+        },
+      },
+    });
+
+    if(!found) {
+      return res.status(200).json({ 
+        success: true,
+        exists: false 
+      });
+    }
+
+    return res.status(200).json({ 
+      success: true,
+      exists: true 
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ 
+      success: false,
+      message: "Something went wrong" 
+    });
+  }
+};

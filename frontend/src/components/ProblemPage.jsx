@@ -14,11 +14,11 @@ import {
   Code2,
   Users,
   ThumbsUp,
-  Home,
   Loader,
-  Shuffle,
   ThumbsDown,
-  Star
+  Star,
+  CircleArrowLeft,
+  Bug,
 } from "lucide-react";
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -26,17 +26,35 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 import { getJudge0LangaugeId } from "../libs/getLanguageId";
 import SubmissionResults from "./Submission";
 import SubmissionsList from "./SubmissionList";
+import AddToPlaylist from "./AddToPlaylist";
+import BugModal from "./BugModal";
 
 const ProblemPage = () => {
   const { id } = useParams();
-  const { getProblemById, problem, isLoading, isReactingToProblem, reactToProblem } = useProblemStore();
+  const {
+    getProblemById,
+    problem,
+    isLoading,
+    isReactingToProblem,
+    reactToProblem,
+    checkProblemInPlaylist,
+  } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestcases] = useState([]);
-  const {submission: submissions, isLoading: isSubmissionLoading, getSubmissionForProblem, getSubmissionCountForProblem, submissionCount} = useSubmissionStore();
+  const {
+    submission: submissions,
+    isLoading: isSubmissionLoading,
+    getSubmissionForProblem,
+    getSubmissionCountForProblem,
+    submissionCount,
+  } = useSubmissionStore();
+  const [isInPlaylist, setIsInPlaylist] = useState(false);
+  const [openBugModal, setOpenBugModal] = useState(false);
 
+  const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
   const { isExecuting, executeCode, submission } = useExecutionStore();
 
   useEffect(() => {
@@ -46,10 +64,10 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (problem) {
-      const defaultLang = problem.codeSnippets?.JAVASCRIPT 
-        ? "JAVASCRIPT" 
+      const defaultLang = problem.codeSnippets?.JAVASCRIPT
+        ? "JAVASCRIPT"
         : Object.keys(problem.codeSnippets || {})[0] || "JAVASCRIPT";
-      
+
       setSelectedLanguage(defaultLang);
       setCode(problem.codeSnippets?.[defaultLang] || "");
       setTestcases(
@@ -61,12 +79,22 @@ const ProblemPage = () => {
     }
   }, [problem]);
 
+  useEffect(() => {
+    const checking = async () => {
+      const exists = await checkProblemInPlaylist(id);
+      setIsInPlaylist(exists);
+    };
+
+    if (id) {
+      checking();
+    }
+  });
 
   useEffect(() => {
-    if(activeTab === "submissions") {
+    if (activeTab === "submissions") {
       getSubmissionForProblem(id);
     }
-  }, [activeTab, id]);
+  }, [id, activeTab]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -89,17 +117,21 @@ const ProblemPage = () => {
   };
 
   const handleLikeClick = async (problemId) => {
-    await reactToProblem(problemId, true)
-  }
+    await reactToProblem(problemId, true);
+  };
   const handleDislikeClick = async (problemId) => {
-    await reactToProblem(problemId, false)
-  }
+    await reactToProblem(problemId, false);
+  };
 
- const successRate =
-  submissionCount === 0 || !problem?.solvedBy
-    ? 0
-    : Math.round((problem.solvedBy.length / submissionCount) * 100);
+  const handleAddtoPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setAddToPlaylistModalOpen(true);
+  };
 
+  const successRate =
+    submissionCount === 0 || !problem?.solvedBy
+      ? 0
+      : Math.round((problem.solvedBy.length / submissionCount) * 100);
 
   if (isLoading || !problem) {
     return (
@@ -109,179 +141,192 @@ const ProblemPage = () => {
     );
   }
 
-  
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "description": {
+        const examples =
+          problem.examples?.[selectedLanguage] || problem.examples?.javascript;
+        return (
+          <div className="prose max-w-none ">
+            <p className="text-lg mb-6">{problem.description}</p>
 
- const renderTabContent = () => {
-  switch (activeTab) {
-    case "description": {
-      const examples = problem.examples?.[selectedLanguage] || problem.examples?.javascript;
-      return (
-        <div className="prose max-w-none ">
-          <p className="text-lg mb-6">{problem.description}</p>
-
-          {examples && (
-            <>
-              <h3 className="text-xl font-bold mb-4">Examples:</h3>
-              <div className="bg-base-200 p-6 rounded-xl mb-6 font-mono">
-                <div className="mb-4">
-                  <div className="text-indigo-300 mb-2 text-base font-semibold">
-                    Input:
-                  </div>
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                    {examples.input}
-                  </span>
-                </div>
-                <div className="mb-4">
-                  <div className="text-indigo-300 mb-2 text-base font-semibold">
-                    Output:
-                  </div>
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                    {examples.output}
-                  </span>
-                </div>
-                {examples.explanation && (
-                  <div>
-                    <div className="text-emerald-300 mb-2 text-base font-semibold">
-                      Explanation:
+            {examples && (
+              <>
+                <h3 className="text-xl font-bold mb-4">Examples:</h3>
+                <div className="bg-base-200 p-6 rounded-xl mb-6 font-mono">
+                  <div className="mb-4">
+                    <div className="text-indigo-300 mb-2 text-base font-semibold">
+                      Input:
                     </div>
-                    <p className="text-base-content/70 text-lg">
-                      {examples.explanation}
-                    </p>
+                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                      {examples.input}
+                    </span>
                   </div>
-                )}
-              </div>
-            </>
-          )}
+                  <div className="mb-4">
+                    <div className="text-indigo-300 mb-2 text-base font-semibold">
+                      Output:
+                    </div>
+                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                      {examples.output}
+                    </span>
+                  </div>
+                  {examples.explanation && (
+                    <div>
+                      <div className="text-emerald-300 mb-2 text-base font-semibold">
+                        Explanation:
+                      </div>
+                      <p className="text-base-content/70 text-lg">
+                        {examples.explanation}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
 
-          {problem.constraints && (
-            <>
-              <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-              <div className="bg-base-200 p-6 rounded-xl mb-6">
+            {problem.constraints && (
+              <>
+                <h3 className="text-xl font-bold mb-4">Constraints:</h3>
+                <div className="bg-base-200 p-6 rounded-xl mb-6">
+                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                    {problem.constraints}
+                  </span>
+                </div>
+              </>
+            )}
+          </div>
+        );
+      }
+      case "submissions": {
+        
+        return (
+          <SubmissionsList
+            submissions={submissions}
+            isLoading={isSubmissionLoading}
+          />
+        );
+      }
+      case "discussion": {
+        return (
+          <div className="p-4 text-center text-base-content/70">
+            No discussions yet
+          </div>
+        );
+      }
+      case "hints": {
+        return (
+          <div className="p-4">
+            {problem?.hints ? (
+              <div className="bg-base-200 p-6 rounded-xl">
                 <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                  {problem.constraints}
+                  {problem.hints}
                 </span>
               </div>
-            </>
-          )}
-        </div>
-      );
+            ) : (
+              <div className="text-center text-base-content/70">
+                No hints available
+              </div>
+            )}
+          </div>
+        );
+      }
+      default: {
+        return null;
+      }
     }
-    case "submissions": {
-      return (
-        <SubmissionsList  submissions={submissions} isLoading={isSubmissionLoading}/>
-      );
-    }
-    case "discussion": {
-      return (
-        <div className="p-4 text-center text-base-content/70">
-          No discussions yet
-        </div>
-      );
-    }
-    case "hints": {
-      return (
-        <div className="p-4">
-          {problem?.hints ? (
-            <div className="bg-base-200 p-6 rounded-xl">
-              <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                {problem.hints}
-              </span>
-            </div>
-          ) : (
-            <div className="text-center text-base-content/70">
-              No hints available
-            </div>
-          )}
-        </div>
-      );
-    }
-    default: {
-      return null;
-    }
-  }
-};
-  
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">
       <nav className="navbar bg-base-100 shadow-lg px-4">
         <div className="flex-1 gap-2">
-          <Link to={"/problems"} className="flex items-center gap-2 text-primary">
-            <Home className="w-6 h-6" />
-            <ChevronRight className="w-4 h-4" />
+          <Link
+            to={"/problems"}
+            className="flex items-center gap-2 text-primary"
+          >
+            <CircleArrowLeft  className="w-8 h-8" />
           </Link>
           <div className="mt-2">
-  <h1 className="text-xl font-bold">{problem.title}</h1>
+            <h1 className="text-xl font-bold">{problem.title}</h1>
 
-  <div className="flex flex-wrap items-center gap-3 text-sm text-base-content/70 mt-5">
-    <div className="flex items-center gap-1">
-      <Clock className="w-4 h-4" />
-      <span>
-        Updated{" "}
-        {new Date(problem.createdAt).toLocaleString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </span>
-    </div>
+            <div className="flex flex-wrap items-center gap-3 text-sm text-base-content/70 mt-5">
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span>
+                  Updated{" "}
+                  {new Date(problem.createdAt).toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              </div>
 
-    <span className="text-base-content/30">•</span>
+              <span className="text-base-content/30">•</span>
 
-    <div className="flex items-center gap-1">
-      <Users className="w-4 h-4" />
-      <span>{submissionCount} Submissions</span>
-    </div>
+              <div className="flex items-center gap-1">
+                <Users className="w-4 h-4" />
+                <span>{submissionCount} Submissions</span>
+              </div>
 
-    <span className="text-base-content/30">•</span>
+              <span className="text-base-content/30">•</span>
 
-    <div className="flex items-center gap-1">
-      <Star className="w-4 h-4" />
-      <span>{successRate}% Success Rate</span>
-    </div>
+              <div className="flex items-center gap-1">
+                <Star className="w-4 h-4" />
+                <span>{successRate}% Success Rate</span>
+              </div>
 
-    <span className="text-base-content/30">•</span>
+              <span className="text-base-content/30">•</span>
 
-    <div className="flex items-center gap-3">
-      <button
-        onClick={() => handleLikeClick(problem.id)}
-        className="flex items-center gap-1 text-green-600 hover:text-green-700"
-      >
-        <ThumbsUp className="w-4 h-4" />
-        <span>{problem.likes}</span>
-      </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleLikeClick(problem.id)}
+                  className="cursor-pointer flex items-center gap-1 text-green-600 hover:text-green-700"
+                >
+                  {isReactingToProblem ? <Loader className="animate-spin" /> : <ThumbsUp className="w-4 h-4" />}                  
+                  <span>{problem.likes}</span>
+                </button>
 
-      <button
-        onClick={() => handleDislikeClick(problem.id)}
-        className="flex items-center gap-1 text-red-600 hover:text-red-700"
-      >
-        <ThumbsDown className="w-4 h-4" />
-        <span>{problem.dislikes}</span>
-      </button>
-    </div>
-  </div>
-</div>
-
+                <button
+                  onClick={() => handleDislikeClick(problem.id)}
+                  className="cursor-pointer flex items-center gap-1 text-red-600 hover:text-red-700"
+                >
+                  {isReactingToProblem ? <Loader className="animate-spin" /> : <ThumbsDown className="w-4 h-4" />}
+                  <span>{problem.dislikes}</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex-none gap-4">
+        <div className="flex gap-3">
           <button
-            className={`btn btn-ghost btn-circle ${
-              isBookmarked ? "text-primary" : ""
+          title={isInPlaylist ? "already in Playlist" : "Add to Playlist"}
+            className={`btn btn-ghost btn-circle transition-colors duration-200 ${
+              isInPlaylist ? "bg-blue-500 text-white" : "hover:bg-base-200"
             }`}
-            onClick={() => setIsBookmarked(!isBookmarked)}
+            onClick={() => handleAddtoPlaylist(problem.id)}
           >
-            <Bookmark className="w-5 h-5" />
+            <Bookmark
+              className={`w-5 h-5 transition-colors duration-200 ${
+                isInPlaylist ? "fill-white" : "fill-none"
+              }`}
+            />
           </button>
-          <button className="btn btn-ghost btn-circle">
+
+          <button title="Share" className="btn btn-ghost btn-circle">
             <Share2 className="w-5 h-5" />
           </button>
           <select
-            className="select select-bordered select-primary w-52 px-4 py-2 text-base font-medium shadow-md transition duration-200 ease-in-out hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent rounded-xl"
+            className="cursor-pointer select select-bordered select-primary w-52 px-4 py-2 text-base font-medium shadow-md transition duration-200 ease-in-out hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent rounded-xl"
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
             {Object.keys(problem.codeSnippets || {}).map((lang) => (
-              <option key={lang} value={lang} className="capitalize text-base text-gray-700">
+              <option
+                key={lang}
+                value={lang}
+                className="capitalize text-base text-gray-700"
+              >
                 {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>
             ))}
@@ -329,6 +374,15 @@ const ProblemPage = () => {
                 >
                   <Lightbulb className="w-4 h-4" />
                   Hints
+                </button>
+                <button
+                  className={`tab gap-2 ${
+                    activeTab === "hints" ? "tab-active" : ""
+                  }`}
+                  onClick={() => setOpenBugModal(true)}
+                >
+                  <Bug  className="w-4 h-4" />
+                  Report
                 </button>
               </div>
 
@@ -385,7 +439,7 @@ const ProblemPage = () => {
           <div className="card-body">
             {submission ? (
               <SubmissionResults submission={submission} />
-            ) : (              
+            ) : (
               <>
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold">Test Cases</h3>
@@ -413,6 +467,18 @@ const ProblemPage = () => {
           </div>
         </div>
       </div>
+
+      <AddToPlaylist
+        isOpen={addToPlaylistModalOpen}
+        onClose={() => setAddToPlaylistModalOpen(false)}
+        problemId={selectedProblemId}
+      />
+
+      <BugModal 
+        isOpen={openBugModal}
+        onClose={() => setOpenBugModal(false)}
+        problemId={problem.id}
+      />
     </div>
   );
 };

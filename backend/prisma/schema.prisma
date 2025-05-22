@@ -204,8 +204,8 @@ model ProblemReport {
   problemId   String
   userId      String
   reason      ReportReason
-  description String? // Additional details (optional)
-  status      String       @default("PENDING") // PENDING/REVIEWED/REJECTED
+  description String? 
+  status      String       @default("PENDING") 
   createdAt   DateTime     @default(now())
 
   problem Problem @relation(fields: [problemId], references: [id])

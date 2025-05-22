@@ -122,5 +122,15 @@ export const useProblemStore = create((set) => ({
         } finally {
             set({isReactingToProblem: false});
         }
+    },
+
+    checkProblemInPlaylist: async (problemId) => {
+        try {
+            const res = await axiosInstance.get(`/problems/${problemId}`);
+            return res.data.exists
+        } catch (error) {
+            console.error("Error while checking problem in playlist", error);
+            showToast(error);
+        }
     }
 }))

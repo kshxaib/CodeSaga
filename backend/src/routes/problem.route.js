@@ -11,6 +11,7 @@ import {
   getRecommendedProblems,
   reactToProblem,
   getRandomProblem,
+  checkProblemInPlaylist,
 } from "../controllers/problem.controller.js";
 
 const problemRoutes = express.Router();
@@ -26,6 +27,7 @@ problemRoutes.get('/search-problems', authMiddleware, searchProblems)
 problemRoutes.get('/recommendations', authMiddleware, getRecommendedProblems)
 problemRoutes.post('/react', authMiddleware, reactToProblem)
 problemRoutes.get('/random', authMiddleware, getRandomProblem)
+problemRoutes.get('/:problemId', authMiddleware, checkProblemInPlaylist)
 
 export default problemRoutes;
     

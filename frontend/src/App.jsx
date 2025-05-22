@@ -13,6 +13,7 @@ import VerifyCodePage from "./components/auth/VerifyCodePage";
 import ProblemPage from "./components/ProblemPage";
 import CodeSagaLanding from "./components/CodeSagaLanding ";
 import AllProblemsPage from "./components/AllProblemsPage";
+import ReportTable from "./components/ReportTable";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/problems" element={authUser ? <AllProblemsPage /> : <Navigate to="/login" />} />
           <Route path="/problem/:id" element={authUser ? <ProblemPage /> : <Navigate to="/login" />} />
+          <Route path="/reports" element={authUser ? <ReportTable /> : <Navigate to="/login" />} />
 
           {/* Admin protected routes */}
           <Route element={<AdminRoute />}>

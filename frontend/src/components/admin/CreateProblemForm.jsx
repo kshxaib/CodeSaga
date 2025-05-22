@@ -36,7 +36,7 @@ const CreateProblemForm = () => {
     const {isLoading, createProblem} = useProblemStore()
     const onSubmit = async (value) => {
         const res = await createProblem(value)
-        if(res?.data?.success) navigation('/')
+        if(res?.data?.success) navigation('/problems')
     }
 
     const loadSampleData = () => {

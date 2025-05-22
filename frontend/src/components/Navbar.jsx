@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { User, Code, LogOut } from "lucide-react";
+import { User, Code, LogOut, Bug } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
@@ -9,12 +9,14 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm min-w-screen px-4 md:px-8 lg:px-16">
       <div className="flex-1">
-        <Link to="/" className="flex items-center gap-10 cursor-pointer">
-          <img
+        <div className="flex items-center gap-10">
+          <Link to="/" className="text-2xl font-bold">
+            <img
             alt="Logo"
             src="/leetlab.svg"
             className="h-18  w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
           />
+          </Link>
           <div className="hidden md:flex gap-6">
             <Link to="/home" className="font-medium hover:text-primary">
               Home
@@ -29,7 +31,7 @@ const Navbar = () => {
               Store
             </Link>
           </div>
-        </Link>
+        </div>
       </div>
       <div className="flex gap-10">
         <input
@@ -68,6 +70,7 @@ const Navbar = () => {
                 My Profile
               </Link>
             </li>
+            <hr className="border-gray-400"/>
             {authUser?.role === "ADMIN" && (
               <li>
                 <Link
@@ -76,6 +79,17 @@ const Navbar = () => {
                 >
                   <Code className="w-4 h-4 mr-1" />
                   Add Problem
+                </Link>
+              </li>
+            )}
+            {authUser?.role === "ADMIN" && (
+              <li>
+                <Link
+                  to="/reports"
+                  className="hover:bg-primary hover:text-white text-base font-semibold"
+                >
+                  <Bug className="w-4 h-4 mr-1" />
+                  All Reports
                 </Link>
               </li>
             )}
