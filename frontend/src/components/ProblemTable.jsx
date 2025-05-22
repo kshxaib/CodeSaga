@@ -2,13 +2,27 @@ import { useState, useEffect, useMemo } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import { Bookmark, PencilIcon, Trash, TrashIcon, Plus } from "lucide-react";
+import ConfirmationDialog from "./ConfirmationDialog";
+import { useProblemStore } from "../store/useProblemStore";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+import CreatePlaylistModal from "./createPlaylistModal";
+import AddToPlaylist from "./AddToPlaylist";
 
 const ProblemTable = ({ problems }) => {
-  const { authUser } = useAuthStore();
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const [problemToDelete, setProblemToDelete] = useState(null);
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
+
+  const { deleteProblem, isDeletingProblem } = useProblemStore();
+  const { authUser } = useAuthStore();
+  const {createPlaylist} = usePlaylistStore()
 
   const allTags = useMemo(() => {
     if (!Array.isArray(problems)) return [];
@@ -39,9 +53,28 @@ const ProblemTable = ({ problems }) => {
     return filteredProblems.slice(startIndex, endIndex);
   }, [currentPage, filteredProblems]);
 
-  const handleDelete = (id) => {};
 
-  const handleAddtoPlaylist = (id) => {};
+  const handleDeleteClick = (id) => {
+    setProblemToDelete(id);
+    setIsOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (problemToDelete) {
+      await deleteProblem(problemToDelete);
+      setIsOpen(false);
+      setProblemToDelete(null);
+    }
+  };
+
+  const handleAddtoPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setAddToPlaylistModalOpen(true);
+  };
+
+  const handleCreatePlaylist = async (data) => {
+    await createPlaylist(data);
+  }
 
   const difficulties = ["EASY", "MEDIUM", "HARD"];
   return (
@@ -49,7 +82,7 @@ const ProblemTable = ({ problems }) => {
       {/* Header with Create Playlist Button */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Problems</h2>
-        <button className="btn btn-primary gap-2" onClick={() => {}}>
+        <button className="btn btn-primary gap-2" onClick={() => {setIsCreateModalOpen(true)}}>
           <Plus className="w-4 h-4" />
           Create Playlist
         </button>
@@ -155,11 +188,12 @@ const ProblemTable = ({ problems }) => {
                         {authUser?.role === "ADMIN" && (
                           <div className="flex gap-2">
                             <button
-                              onClick={() => handleDelete(problem.id)}
+                              onClick={() => handleDeleteClick(problem.id)}
                               className="btn btn-sm btn-error"
                             >
                               <TrashIcon className="w-4 h-4 text-white" />
                             </button>
+
                             <button disabled className="btn btn-sm btn-warning">
                               <PencilIcon className="w-4 h-4 text-white" />
                             </button>
@@ -210,7 +244,30 @@ const ProblemTable = ({ problems }) => {
           Next
         </button>
       </div>
-    </div>
+
+        <CreatePlaylistModal 
+          isOpen = {isCreateModalOpen}
+          onClose = {() => setIsCreateModalOpen(false)}
+          onSubmit = {handleCreatePlaylist}
+        />
+
+      <ConfirmationDialog
+        loading={isDeletingProblem}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Delete Problem"
+        content="Are you sure you want to delete this problem? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleConfirmDelete}
+      />
+
+      <AddToPlaylist 
+      isOpen={addToPlaylistModalOpen}
+      onClose={() => setAddToPlaylistModalOpen(false)}
+      problemId={selectedProblemId}
+      />
+    </div>    
   );
 };
 

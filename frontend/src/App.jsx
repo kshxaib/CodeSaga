@@ -32,7 +32,7 @@ const App = () => {
     <>
       <div className="flex flex-col items-center justify-start">
         <Routes>
-          <Route path="/" element={<CodeSagaLanding />} />
+          <Route path="/" element={authUser ? <Navigate to="/home" /> : <CodeSagaLanding />} />
 
           {/* Authenticated routes */}
           <Route path="/home" element={<Layout />}>

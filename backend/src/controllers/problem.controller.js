@@ -277,7 +277,7 @@ export const deleteProblem = async (req, res) => {
       return res.status(404).json({ message: "Problem not found" });
     }
 
-    if (problem.userId !== req.user.id) {
+    if (req.user.role !== "ADMIN") {
       return res
         .status(403)
         .json({ message: "You are not authorized to delete this problem" });

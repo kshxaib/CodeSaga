@@ -1,5 +1,4 @@
-import React from "react";
-import {
+  import {
   CheckCircle2,
   XCircle,
   Clock,
@@ -8,7 +7,6 @@ import {
 } from "lucide-react";
 
 const SubmissionsList = ({ submissions, isLoading }) => {
-  // Helper function to safely parse JSON strings
   const safeParse = (data) => {
     try {
       return JSON.parse(data);

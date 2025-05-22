@@ -19,8 +19,10 @@ import {
 } from "lucide-react";
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 import { getJudge0LangaugeId } from "../libs/getLanguageId";
 import SubmissionResults from "./Submission";
+import SubmissionsList from "./SubmissionList";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -30,11 +32,13 @@ const ProblemPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestcases] = useState([]);
+  const {submission: submissions, isLoading: isSubmissionLoading, getSubmissionForProblem, getSubmissionCountForProblem, submissionCount} = useSubmissionStore();
 
   const { isExecuting, executeCode, submission } = useExecutionStore();
 
   useEffect(() => {
     getProblemById(id);
+    getSubmissionCountForProblem(id);
   }, [id]);
 
   useEffect(() => {
@@ -54,7 +58,12 @@ const ProblemPage = () => {
     }
   }, [problem]);
 
-  const submissionCount = 10;
+
+  useEffect(() => {
+    if(activeTab === "submissions") {
+      getSubmissionForProblem(id);
+    }
+  }, [activeTab, id]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -89,7 +98,7 @@ const ProblemPage = () => {
     case "description": {
       const examples = problem.examples?.[selectedLanguage] || problem.examples?.javascript;
       return (
-        <div className="prose max-w-none">
+        <div className="prose max-w-none ">
           <p className="text-lg mb-6">{problem.description}</p>
 
           {examples && (
@@ -141,9 +150,7 @@ const ProblemPage = () => {
     }
     case "submissions": {
       return (
-        <div className="p-4 text-center text-base-content/70">
-          No submissions yet
-        </div>
+        <SubmissionsList  submissions={submissions} isLoading={isSubmissionLoading}/>
       );
     }
     case "discussion": {
@@ -177,10 +184,10 @@ const ProblemPage = () => {
 };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200">
+    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">
       <nav className="navbar bg-base-100 shadow-lg px-4">
         <div className="flex-1 gap-2">
-          <Link to={"/"} className="flex items-center gap-2 text-primary">
+          <Link to={"/home"} className="flex items-center gap-2 text-primary">
             <Home className="w-6 h-6" />
             <ChevronRight className="w-4 h-4" />
           </Link>
@@ -218,12 +225,12 @@ const ProblemPage = () => {
             <Share2 className="w-5 h-5" />
           </button>
           <select
-            className="select select-bordered select-primary w-40"
+            className="select select-bordered select-primary w-52 px-4 py-2 text-base font-medium shadow-md transition duration-200 ease-in-out hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent rounded-xl"
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
             {Object.keys(problem.codeSnippets || {}).map((lang) => (
-              <option key={lang} value={lang}>
+              <option key={lang} value={lang} className="capitalize text-base text-gray-700">
                 {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>
             ))}
@@ -231,8 +238,8 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="container mx-auto py-3 min-w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body p-0">
               <div className="tabs tabs-bordered">

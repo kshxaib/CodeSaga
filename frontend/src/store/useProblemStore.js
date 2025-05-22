@@ -7,6 +7,7 @@ export const useProblemStore = create((set) => ({
     problem : null,
     solvedProblems : [],
     isLoading : false,
+    isDeletingProblem : false,
 
     createProblem: async (value) => {
         try {
@@ -60,18 +61,19 @@ export const useProblemStore = create((set) => ({
         }
     },
 
-    searchProblems: async (value) => {
-        console.log(value);
+    deleteProblem: async (id) => {
         try {
-            set({isLoading: true});
-            const res = await axiosInstance.get(`/problems/search-problems?search=${value}`);
-            // showToast(res);
-            return res  
+            set({isDeletingProblem: true});
+            const res = await axiosInstance.delete(`/problems/delete-problem/${id}`);
+            showToast(res);
+
+            const problemsRes = await axiosInstance.get("/problems/get-all-problems");
+            set({problems: problemsRes.data.problems});
         } catch (error) {
-            console.error("Error while searching problems", error);
+            console.log("Error while deleting problem", error);
             showToast(error);
-        } finally {
-            set({isLoading: false});
+        } finally{
+            set({isDeletingProblem: false});
         }
     }
 }))

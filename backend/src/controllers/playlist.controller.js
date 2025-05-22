@@ -6,7 +6,7 @@ export const createPlaylist = async (req, res) => {
     return res.status(400).json({ error: "Playlist name is required" });
   }
 
-  const userId = req.user.userId;
+  const userId = req.user.id;
 
   try {
     const existingPlaylist = await db.playlist.findFirst({
@@ -40,6 +40,7 @@ export const createPlaylist = async (req, res) => {
     return res.status(500).json({ error: "Error while creating playlist" });
   }
 };
+
 export const getAllListDetails = async (req, res) => {
   try {
     const playlists = await db.playlist.findMany({
@@ -122,7 +123,7 @@ export const addProblemToPlaylist = async (req, res) => {
 
         // If nothing new to add
         if (newProblemIds.length === 0) {
-            return res.status(200).json({ message: "All problems already exist in the playlist" });
+            return res.status(200).json({ success: true, message: "problems already exist in the playlist" });
         }
 
         // Add new problems to playlist

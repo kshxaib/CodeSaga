@@ -9,7 +9,7 @@ const {getAllProblems, problems, isLoading} = useProblemStore();
   
 useEffect(() => {
     getAllProblems();
-}, [getAllProblems])
+}, [getAllProblems]);
 
 if(isLoading) {
   return (
