@@ -16,7 +16,9 @@ import {
   ThumbsUp,
   Home,
   Loader,
-  Shuffle
+  Shuffle,
+  ThumbsDown,
+  Star
 } from "lucide-react";
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -27,7 +29,7 @@ import SubmissionsList from "./SubmissionList";
 
 const ProblemPage = () => {
   const { id } = useParams();
-  const { getProblemById, problem, isLoading } = useProblemStore();
+  const { getProblemById, problem, isLoading, isReactingToProblem, reactToProblem } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
@@ -85,6 +87,19 @@ const ProblemPage = () => {
       console.log("Error while executing code", error);
     }
   };
+
+  const handleLikeClick = async (problemId) => {
+    await reactToProblem(problemId, true)
+  }
+  const handleDislikeClick = async (problemId) => {
+    await reactToProblem(problemId, false)
+  }
+
+ const successRate =
+  submissionCount === 0 || !problem?.solvedBy
+    ? 0
+    : Math.round((problem.solvedBy.length / submissionCount) * 100);
+
 
   if (isLoading || !problem) {
     return (
@@ -191,30 +206,62 @@ const ProblemPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">
       <nav className="navbar bg-base-100 shadow-lg px-4">
         <div className="flex-1 gap-2">
-          <Link to={"/home"} className="flex items-center gap-2 text-primary">
+          <Link to={"/problems"} className="flex items-center gap-2 text-primary">
             <Home className="w-6 h-6" />
             <ChevronRight className="w-4 h-4" />
           </Link>
           <div className="mt-2">
-            <h1 className="text-xl font-bold">{problem.title}</h1>
-            <div className="flex items-center gap-2 text-sm text-base-content/70 mt-5">
-              <Clock className="w-4 h-4" />
-              <span>
-                Updated{" "}
-                {new Date(problem.createdAt).toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-              <span className="text-base-content/30">•</span>
-              <Users className="w-4 h-4" />
-              <span>{submissionCount} Submissions</span>
-              <span className="text-base-content/30">•</span>
-              <ThumbsUp className="w-4 h-4" />
-              <span>95% Success Rate</span>
-            </div>
-          </div>
+  <h1 className="text-xl font-bold">{problem.title}</h1>
+
+  <div className="flex flex-wrap items-center gap-3 text-sm text-base-content/70 mt-5">
+    <div className="flex items-center gap-1">
+      <Clock className="w-4 h-4" />
+      <span>
+        Updated{" "}
+        {new Date(problem.createdAt).toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </span>
+    </div>
+
+    <span className="text-base-content/30">•</span>
+
+    <div className="flex items-center gap-1">
+      <Users className="w-4 h-4" />
+      <span>{submissionCount} Submissions</span>
+    </div>
+
+    <span className="text-base-content/30">•</span>
+
+    <div className="flex items-center gap-1">
+      <Star className="w-4 h-4" />
+      <span>{successRate}% Success Rate</span>
+    </div>
+
+    <span className="text-base-content/30">•</span>
+
+    <div className="flex items-center gap-3">
+      <button
+        onClick={() => handleLikeClick(problem.id)}
+        className="flex items-center gap-1 text-green-600 hover:text-green-700"
+      >
+        <ThumbsUp className="w-4 h-4" />
+        <span>{problem.likes}</span>
+      </button>
+
+      <button
+        onClick={() => handleDislikeClick(problem.id)}
+        className="flex items-center gap-1 text-red-600 hover:text-red-700"
+      >
+        <ThumbsDown className="w-4 h-4" />
+        <span>{problem.dislikes}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
         </div>
         <div className="flex-none gap-4">
           <button

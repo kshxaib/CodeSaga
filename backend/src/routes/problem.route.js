@@ -24,7 +24,7 @@ problemRoutes.get("/get-solved-problems", authMiddleware, getAllProblemsSolvedBy
 
 problemRoutes.get('/search-problems', authMiddleware, searchProblems)
 problemRoutes.get('/recommendations', authMiddleware, getRecommendedProblems)
-problemRoutes.post('/:problemId/react', authMiddleware, reactToProblem)
+problemRoutes.post('/react', authMiddleware, reactToProblem)
 problemRoutes.get('/random', authMiddleware, getRandomProblem)
 
 export default problemRoutes;

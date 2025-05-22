@@ -128,6 +128,9 @@ export const getProblemById = async (req, res) => {
       where: {
         id: id,
       },
+      include: {
+    solvedBy: true,
+  },
     });
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
@@ -424,8 +427,7 @@ export const getRecommendedProblems = async (req, res) => {
 };
 
 export const reactToProblem = async (req, res) => {
-  const { problemId } = req.params;
-  const {isLike } = req.body;
+  const {isLike, problemId } = req.body;
   const userId = req.user.id;
 
   if(!userId){

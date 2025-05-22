@@ -10,6 +10,7 @@ export const useProblemStore = create((set) => ({
     isDeletingProblem : false,
     isUpdatingProblem : false,
     isGettingRandomProblem : false,
+    isReactingToProblem : false,
 
     createProblem: async (value) => {
         try {
@@ -105,6 +106,21 @@ export const useProblemStore = create((set) => ({
             showToast(error);
         } finally {
             set({isGettingRandomProblem: false});
+        }
+    },
+
+    reactToProblem: async (id, value) => {
+        try {
+            set({isReactingToProblem: true});
+            const res = await axiosInstance.post("/problems/react", {problemId: id, isLike: value});
+            showToast(res);
+            const problemsRes = await axiosInstance.get("/problems/get-all-problems");
+            set({problems: problemsRes.data.problems});
+        } catch (error) {
+            console.error("Error while reacting to problem", error);
+            showToast(error);
+        } finally {
+            set({isReactingToProblem: false});
         }
     }
 }))
