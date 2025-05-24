@@ -71,7 +71,7 @@ const DiscussionSection = ({ problemId }) => {
   return (
     <div className="max-h-screen flex flex-col h-full bg-base-100 rounded-lg border border-base-300 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-2 p-4 border-b border-base-300 bg-base-200 sticky top-0 z-10">
+      <div className="flex items-center gap-3 p-4 border-b border-base-300 bg-base-200 sticky top-0 z-10">
         <h3 className="text-xl font-bold">Discussion</h3>
         <span className="badge badge-neutral">{messages.length}</span>
       </div>
@@ -93,21 +93,22 @@ const DiscussionSection = ({ problemId }) => {
               className={`flex ${isCurrentUserMessage(message.userId) ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`rounded-lg border border-base-300 p-4 bg-base-100 ${message.isTemp ? 'opacity-70' : ''} max-w-[80%]`}>
-                <div className="flex gap-3">
-                  {!isCurrentUserMessage(message.userId) && (
-                    <div className="flex-shrink-0">
-                      <div className="avatar">
-                        <div className="w-10 rounded-full">
-                          <img
-                            src={message.user.image || "https://placehold.co/100"}
-                            alt={message.user.username}
-                            className="bg-base-300"
-                          />
-                        </div>
+                <div className="flex gap-3 items-start">
+                  {/* Avatar always shown before username */}
+                  <div className="flex-shrink-0">
+                    <div className="avatar">
+                      <div className="w-10 rounded-full">
+                        <img
+                          src={message.user.image || "https://placehold.co/100"}
+                          alt={message.user.username}
+                          className="bg-base-300"
+                        />
                       </div>
                     </div>
-                  )}
+                  </div>
+                  
                   <div className="flex-1 min-w-0">
+                    {/* User info row */}
                     <div className="flex items-center gap-2">
                       <span className="font-bold truncate">
                         {message.user.username}
@@ -117,11 +118,14 @@ const DiscussionSection = ({ problemId }) => {
                       </span>
                       {message.isTemp && <span className="text-xs text-gray-500">(sending...)</span>}
                     </div>
-                    <p className="mt-1 whitespace-pre-wrap">{message.content}</p>
+                    
+                    {/* Message content */}
+                    <p className="mt-2 whitespace-pre-wrap">{message.content}</p>
 
-                    <div className="flex gap-4 mt-2">
+                    {/* Action buttons */}
+                    <div className="flex gap-4 mt-3">
                       <button
-                        className={`flex items-center gap-1 text-sm ${
+                        className={`flex items-center gap-1 text-sm cursor-pointer ${
                           isUpvoted(message) ? "text-primary" : "text-gray-500"
                         }`}
                         onClick={() => upvoteMessage(message.id)}
@@ -132,7 +136,7 @@ const DiscussionSection = ({ problemId }) => {
                       </button>
                       {currentUser && (
                         <button
-                          className={`flex items-center gap-1 text-sm ${
+                          className={`flex items-center gap-1 text-sm cursor-pointer ${
                             replyingTo === message.id ? "text-primary" : "text-gray-500"
                           }`}
                           onClick={() =>
@@ -146,8 +150,9 @@ const DiscussionSection = ({ problemId }) => {
                       )}
                     </div>
 
+                    {/* Replies section */}
                     {message.replies?.length > 0 && (
-                      <div className="mt-3 space-y-3 pl-4 border-l-2 border-base-300">
+                      <div className="mt-4 space-y-3 pl-4 border-l-2 border-base-300">
                         {message.replies.map((reply) => (
                           <div 
                             key={reply.id} 
@@ -175,7 +180,7 @@ const DiscussionSection = ({ problemId }) => {
                                 {reply.isTemp && <span className="text-xs text-gray-500">(sending...)</span>}
                               </div>
                               {reply.replyingToUsername && (
-                                <div className="text-xs text-gray-500">
+                                <div className="text-xs text-gray-500 mt-1">
                                   Replying to: {reply.replyingToUsername}
                                 </div>
                               )}
@@ -188,19 +193,6 @@ const DiscussionSection = ({ problemId }) => {
                       </div>
                     )}
                   </div>
-                  {isCurrentUserMessage(message.userId) && (
-                    <div className="flex-shrink-0">
-                      <div className="avatar">
-                        <div className="w-10 rounded-full">
-                          <img
-                            src={message.user.image || "https://placehold.co/100"}
-                            alt={message.user.username}
-                            className="bg-base-300"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -219,7 +211,7 @@ const DiscussionSection = ({ problemId }) => {
               </span>
               <button
                 type="button"
-                className="btn btn-circle btn-xs"
+                className="btn btn-circle btn-xs cursor-pointer"
                 onClick={() => setReplyingTo(null)}
               >
                 <X className="w-3 h-3" />
@@ -236,7 +228,7 @@ const DiscussionSection = ({ problemId }) => {
               />
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary cursor-pointer"
                 disabled={!replyContent.trim() || isSending}
               >
                 {isSending ? (
@@ -260,7 +252,7 @@ const DiscussionSection = ({ problemId }) => {
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 disabled={!newMessage.trim() || isSending}
               >
                 {isSending ? (
@@ -273,7 +265,7 @@ const DiscussionSection = ({ problemId }) => {
           </form>
         ) : (
           <div className="alert alert-info">
-            <Link to="/login" className="link link-primary">
+            <Link to="/login" className="link link-primary cursor-pointer">
               Please login
             </Link>{" "}
             to participate in the discussion

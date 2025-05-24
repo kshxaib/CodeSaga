@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useReportStore } from "../store/useReportStore";
+import { useReportStore } from "../../store/useReportStore";
 
 const BugModal = ({ isOpen, onClose, problemId }) => {
   const [reason, setReason] = useState("");

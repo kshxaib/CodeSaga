@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import Editor from "@monaco-editor/react";
 import {
   Play,
   FileText,
@@ -18,19 +17,23 @@ import {
   Star,
   CircleArrowLeft,
   Bug,
+  BookOpenText,
 } from "lucide-react";
 import { useProblemStore } from "../../store/useProblemStore";
 import { useExecutionStore } from "../../store/useExecutionStore";
 import { useSubmissionStore } from "../../store/useSubmissionStore";
+import { useEditorSizeStore } from "../../store/useEditorSizeStore";
 import { getJudge0LangaugeId } from "../../libs/getLanguageId";
 import SubmissionResults from "../Submission";
 import SubmissionsList from "../SubmissionList";
 import AddToPlaylist from "../AddToPlaylist";
-import BugModal from "../BugModal";
+import BugModal from "./BugModal";
 import DiscussionSection from "./DiscussionSection";
+import ResizableEditor from "./ResizableEditor";
 
 const ProblemPage = () => {
   const { id } = useParams();
+  const { isFullscreen } = useEditorSizeStore();
   const {
     getProblemById,
     problem,
@@ -52,7 +55,6 @@ const ProblemPage = () => {
   } = useSubmissionStore();
   const [isInPlaylist, setIsInPlaylist] = useState(false);
   const [openBugModal, setOpenBugModal] = useState(false);
-
   const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
   const { isExecuting, executeCode, submission } = useExecutionStore();
@@ -88,13 +90,13 @@ const ProblemPage = () => {
     if (id) {
       checking();
     }
-  });
+  }, [id, checkProblemInPlaylist]);
 
   useEffect(() => {
     if (activeTab === "submissions") {
       getSubmissionForProblem(id);
     }
-  }, [id, activeTab]);
+  }, [id, activeTab, getSubmissionForProblem]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -119,6 +121,7 @@ const ProblemPage = () => {
   const handleLikeClick = async (problemId) => {
     await reactToProblem(problemId, true);
   };
+
   const handleDislikeClick = async (problemId) => {
     await reactToProblem(problemId, false);
   };
@@ -147,7 +150,7 @@ const ProblemPage = () => {
         const examples =
           problem.examples?.[selectedLanguage] || problem.examples?.javascript;
         return (
-          <div className="prose max-w-none ">
+          <div className="prose max-w-none">
             <p className="text-lg mb-6">{problem.description}</p>
 
             {examples && (
@@ -198,7 +201,6 @@ const ProblemPage = () => {
         );
       }
       case "submissions": {
-        
         return (
           <SubmissionsList
             submissions={submissions}
@@ -207,8 +209,8 @@ const ProblemPage = () => {
         );
       }
       case "discussion": {
-  return <DiscussionSection problemId={id} />;
-}
+        return <DiscussionSection problemId={id} />;
+      }
       case "hints": {
         return (
           <div className="p-4">
@@ -226,6 +228,21 @@ const ProblemPage = () => {
           </div>
         );
       }
+       case "solution": {
+      const solution = problem.referenceSolutions?.[selectedLanguage.toUpperCase()] || 
+
+                      "No solution available for this language.";
+      return (
+        <div className="p-6">
+          <h3 className="text-xl font-bold mb-4">
+            Solution for {selectedLanguage}
+          </h3>
+          <div className="bg-base-200 p-6 rounded-xl font-mono whitespace-pre-wrap">
+            {solution}
+          </div>
+        </div>
+      );
+    }
       default: {
         return null;
       }
@@ -234,14 +251,9 @@ const ProblemPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">
-      <nav className="navbar bg-base-100 shadow-lg px-4">
+      <nav className={`navbar bg-base-100 shadow-lg px-4 ${isFullscreen ? 'fixed top-0 w-full z-50' : ''}`}>
         <div className="flex-1 gap-2">
-          <Link
-            to={"/problems"}
-            className="flex items-center gap-2 text-primary"
-          >
-            <CircleArrowLeft  className="w-8 h-8" />
-          </Link>
+          
           <div className="mt-2">
             <h1 className="text-xl font-bold">{problem.title}</h1>
 
@@ -279,7 +291,11 @@ const ProblemPage = () => {
                   onClick={() => handleLikeClick(problem.id)}
                   className="cursor-pointer flex items-center gap-1 text-green-600 hover:text-green-700"
                 >
-                  {isReactingToProblem ? <Loader className="animate-spin" /> : <ThumbsUp className="w-4 h-4" />}                  
+                  {isReactingToProblem ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <ThumbsUp className="w-4 h-4" />
+                  )}
                   <span>{problem.likes}</span>
                 </button>
 
@@ -287,7 +303,11 @@ const ProblemPage = () => {
                   onClick={() => handleDislikeClick(problem.id)}
                   className="cursor-pointer flex items-center gap-1 text-red-600 hover:text-red-700"
                 >
-                  {isReactingToProblem ? <Loader className="animate-spin" /> : <ThumbsDown className="w-4 h-4" />}
+                  {isReactingToProblem ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <ThumbsDown className="w-4 h-4" />
+                  )}
                   <span>{problem.dislikes}</span>
                 </button>
               </div>
@@ -295,8 +315,11 @@ const ProblemPage = () => {
           </div>
         </div>
         <div className="flex gap-3">
+          <Link to={"/problems"} className="flex items-center gap-2 text-primary">
+            <CircleArrowLeft className="btn btn-ghost btn-circle h-10.5 w-10.5"/>
+          </Link>
           <button
-          title={isInPlaylist ? "already in Playlist" : "Add to Playlist"}
+            title={isInPlaylist ? "already in Playlist" : "Add to Playlist"}
             className={`btn btn-ghost btn-circle transition-colors duration-200 ${
               isInPlaylist ? "bg-blue-500 text-white" : "hover:bg-base-200"
             }`}
@@ -330,131 +353,115 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto py-3 min-w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered flex flex-wrap sm:flex-nowrap">
-  <div className="flex gap-2 w-full overflow-x-auto">
-    <button
-      className={`tab gap-2 ${activeTab === "description" ? "tab-active" : ""}`}
-      onClick={() => setActiveTab("description")}
-    >
-      <FileText className="w-4 h-4" />
-      Description
-    </button>
-    <button
-      className={`tab gap-2 ${activeTab === "submissions" ? "tab-active" : ""}`}
-      onClick={() => setActiveTab("submissions")}
-    >
-      <Code2 className="w-4 h-4" />
-      Submissions
-    </button>
-    <button
-      className={`tab gap-2 ${activeTab === "discussion" ? "tab-active" : ""}`}
-      onClick={() => setActiveTab("discussion")}
-    >
-      <MessageSquare className="w-4 h-4" />
-      Discussion
-    </button>
-    <button
-      className={`tab gap-2 ${activeTab === "hints" ? "tab-active" : ""}`}
-      onClick={() => setActiveTab("hints")}
-    >
-      <Lightbulb className="w-4 h-4" />
-      Hints
-    </button>
-    <button
-      className="tab gap-2"
-      onClick={() => setOpenBugModal(true)}
-    >
-      <Bug className="w-4 h-4" />
-      Report
-    </button>
-  </div>
-</div>
-
-
-              <div className="p-6">{renderTabContent()}</div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button className="tab tab-active gap-2">
-                  <Terminal className="w-4 h-4" />
-                  Code Editor
-                </button>
-              </div>
-
-              <div className="h-[600px] w-full">
-                <Editor
-                  height={"100%"}
-                  language={selectedLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 16,
-                    lineNumbers: "on",
-                    roundedSelection: true,
-                    scrollBeyondLastLine: false,
-                    readOnly: false,
-                    automaticLayout: true,
-                  }}
-                />
-              </div>
-              <div className="p-4 border-t border-base-300 bg-base-200">
-                <div className="flex justify-between items-center">
-                  <button
-                    className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : ""
-                    }`}
-                    onClick={(e) => handleRunCode(e)}
-                    disabled={isExecuting}
-                  >
-                    {!isExecuting && <Play className="w-4 h-4" />}
-                    Run Code
-                  </button>
+      <div className={`container mx-auto py-3 min-w-full ${isFullscreen ? 'pt-20' : ''}`}>
+        <div className={`grid grid-cols-1 ${isFullscreen ? '' : 'lg:grid-cols-2'} gap-3`}>
+          {!isFullscreen && (
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body p-0">
+                <div className="tabs tabs-bordered flex flex-wrap sm:flex-nowrap">
+                  <div className="flex w-full overflow-x-auto">
+                    <button
+                      className={`tab gap-2 ${
+                        activeTab === "description" ? "tab-active" : ""
+                      }`}
+                      onClick={() => setActiveTab("description")}
+                    >
+                      <FileText className="w-4 h-4" />
+                      Description
+                    </button>
+                    <button
+                      className={`tab gap-2 ${
+                        activeTab === "submissions" ? "tab-active" : ""
+                      }`}
+                      onClick={() => setActiveTab("submissions")}
+                    >
+                      <Code2 className="w-4 h-4" />
+                      Submissions
+                    </button>
+                    <button
+                      className={`tab gap-2 ${
+                        activeTab === "discussion" ? "tab-active" : ""
+                      }`}
+                      onClick={() => setActiveTab("discussion")}
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      Discussion
+                    </button>
+                    <button
+                      className={`tab gap-2 ${
+                        activeTab === "hints" ? "tab-active" : ""
+                      }`}
+                      onClick={() => setActiveTab("hints")}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      Hints
+                    </button>
+                    <button
+                      className={`tab gap-2 ${
+                        activeTab === "solution" ? "tab-active" : ""
+                      }`}
+                      onClick={() => setActiveTab("solution")}
+                    >
+                      <BookOpenText className="w-4 h-4" />
+                      Solution
+                    </button>
+                    <button
+                      className="tab gap-2"
+                      onClick={() => setOpenBugModal(true)}
+                    >
+                      <Bug className="w-4 h-4" />
+                      Report
+                    </button>
+                  </div>
                 </div>
+
+                <div className="p-6">{renderTabContent()}</div>
               </div>
             </div>
-          </div>
+          )}
+
+          <ResizableEditor
+            code={code}
+            language={selectedLanguage}
+            onCodeChange={(value) => setCode(value || "")}
+            onRunCode={handleRunCode}
+            isExecuting={isExecuting}
+          />
         </div>
 
-        <div className="card bg-base-100 shadow-xl mt-6">
-          <div className="card-body">
-            {submission ? (
-              <SubmissionResults submission={submission} />
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Test Cases</h3>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="table table-zebra w-full">
-                    <thead>
-                      <tr>
-                        <th>Input</th>
-                        <th>Expected Output</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {testcases.map((testcase, index) => (
-                        <tr key={index}>
-                          <td className="font-mono">{testcase.input}</td>
-                          <td className="font-mono">{testcase.output}</td>
+        {!isFullscreen && (
+          <div className="card bg-base-100 shadow-xl mt-6">
+            <div className="card-body">
+              {submission ? (
+                <SubmissionResults submission={submission} />
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold">Test Cases</h3>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="table table-zebra w-full">
+                      <thead>
+                        <tr>
+                          <th>Input</th>
+                          <th>Expected Output</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
+                      </thead>
+                      <tbody>
+                        {testcases.map((testcase, index) => (
+                          <tr key={index}>
+                            <td className="font-mono">{testcase.input}</td>
+                            <td className="font-mono">{testcase.output}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <AddToPlaylist
@@ -463,7 +470,7 @@ const ProblemPage = () => {
         problemId={selectedProblemId}
       />
 
-      <BugModal 
+      <BugModal
         isOpen={openBugModal}
         onClose={() => setOpenBugModal(false)}
         problemId={problem.id}
