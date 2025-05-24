@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { User, Code, LogOut, Bug } from "lucide-react";
@@ -5,6 +6,23 @@ import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLinkClick = () => {
+    setDropdownOpen(false);
+  };
 
   return (
     <div className="navbar bg-base-100 shadow-sm min-w-screen px-4 md:px-8 lg:px-16">
@@ -12,94 +30,98 @@ const Navbar = () => {
         <div className="flex items-center gap-10">
           <Link to="/" className="text-2xl font-bold">
             <img
-            alt="Logo"
-            src="/leetlab.svg"
-            className="h-18  w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
-          />
+              alt="Logo"
+              src="/leetlab.svg"
+              className="h-12 w-12 bg-primary/10 text-primary border-none p-2 rounded-full"
+            />
           </Link>
           <div className="hidden md:flex gap-6">
-            <Link to="/home" className="font-medium hover:text-primary">
-              Home
-            </Link>
-            <Link to="/problems" className="font-medium hover:text-primary">
-              Problems
-            </Link>
-            <Link to="/contest" className="font-medium hover:text-primary">
-              Contest
-            </Link>
-            <Link to="/store" className="font-medium hover:text-primary">
-              Store
-            </Link>
+            {["home", "problems", "contest", "store"].map((item) => (
+              <Link
+                key={item}
+                to={`/${item}`}
+                className="font-medium text-gray-700 hover:text-primary transition"
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
-      <div className="flex gap-10">
+
+      <div className="flex items-center gap-6">
         <input
           type="text"
           placeholder="Search user"
-          className="input input-bordered w-24 md:w-auto"
+          className="input input-bordered w-24 md:w-48 text-sm"
         />
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
+
+        <div ref={dropdownRef} className="relative">
+          <button
+            onClick={() => setDropdownOpen(!isDropdownOpen)}
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
+            <div className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
               <img
                 src={authUser?.image || "https://placeimg.com/192/192/people"}
                 alt="User Avatar"
-                className="object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
-          >
-            <li>
-              <p className="text-base font-semibold">{authUser?.name}</p>
-              <hr className="border-gray-200/10" />
-            </li>
-            <li>
-              <Link
-                to="/profile"
-                className="hover:bg-primary hover:text-white text-base font-semibold"
-              >
-                <User className="w-4 h-4 mr-2" />
-                My Profile
-              </Link>
-            </li>
-            <hr className="border-gray-400"/>
-            {authUser?.role === "ADMIN" && (
+          </button>
+
+          {isDropdownOpen && (
+            <ul className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 transition-all duration-150 space-y-2 p-3">
+              <li className="text-sm font-semibold text-gray-700 px-2">{authUser?.name}</li>
+              <hr className="border-gray-200" />
+
               <li>
                 <Link
-                  to="/add-problem"
-                  className="hover:bg-primary hover:text-white text-base font-semibold"
+                  to="/profile"
+                  onClick={handleLinkClick}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-primary hover:text-white transition text-sm"
                 >
-                  <Code className="w-4 h-4 mr-1" />
-                  Add Problem
+                  <User className="w-4 h-4" />
+                  My Profile
                 </Link>
               </li>
-            )}
-            {authUser?.role === "ADMIN" && (
+
+              {authUser?.role === "ADMIN" && (
+                <>
+                  <li>
+                    <Link
+                      to="/add-problem"
+                      onClick={handleLinkClick}
+                      className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-primary hover:text-white transition text-sm"
+                    >
+                      <Code className="w-4 h-4" />
+                      Add Problem
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/reports"
+                      onClick={handleLinkClick}
+                      className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-primary hover:text-white transition text-sm"
+                    >
+                      <Bug className="w-4 h-4" />
+                      All Reports
+                    </Link>
+                  </li>
+                </>
+              )}
+
               <li>
-                <Link
-                  to="/reports"
-                  className="hover:bg-primary hover:text-white text-base font-semibold"
+                <LogoutButton
+                  onClick={handleLinkClick}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-primary hover:text-white transition text-sm w-full text-left"
                 >
-                  <Bug className="w-4 h-4 mr-1" />
-                  All Reports
-                </Link>
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </LogoutButton>
               </li>
-            )}
-            <li>
-              <LogoutButton className="hover:bg-primary hover:text-white">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </LogoutButton>
-            </li>
-          </ul>
+            </ul>
+          )}
         </div>
       </div>
     </div>

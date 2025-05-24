@@ -9,7 +9,6 @@ import {
   Bookmark,
   Share2,
   Clock,
-  ChevronRight,
   Terminal,
   Code2,
   Users,
@@ -28,6 +27,7 @@ import SubmissionResults from "./Submission";
 import SubmissionsList from "./SubmissionList";
 import AddToPlaylist from "./AddToPlaylist";
 import BugModal from "./BugModal";
+import DiscussionSection from "./DiscussionSection";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -207,12 +207,8 @@ const ProblemPage = () => {
         );
       }
       case "discussion": {
-        return (
-          <div className="p-4 text-center text-base-content/70">
-            No discussions yet
-          </div>
-        );
-      }
+  return <DiscussionSection problemId={id} />;
+}
       case "hints": {
         return (
           <div className="p-4">
@@ -338,53 +334,46 @@ const ProblemPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "description" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("description")}
-                >
-                  <FileText className="w-4 h-4" />
-                  Description
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "submissions" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("submissions")}
-                >
-                  <Code2 className="w-4 h-4" />
-                  Submissions
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "discussion" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("discussion")}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  Discussion
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "hints" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("hints")}
-                >
-                  <Lightbulb className="w-4 h-4" />
-                  Hints
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "hints" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setOpenBugModal(true)}
-                >
-                  <Bug  className="w-4 h-4" />
-                  Report
-                </button>
-              </div>
+              <div className="tabs tabs-bordered flex flex-wrap sm:flex-nowrap">
+  <div className="flex gap-2 w-full overflow-x-auto">
+    <button
+      className={`tab gap-2 ${activeTab === "description" ? "tab-active" : ""}`}
+      onClick={() => setActiveTab("description")}
+    >
+      <FileText className="w-4 h-4" />
+      Description
+    </button>
+    <button
+      className={`tab gap-2 ${activeTab === "submissions" ? "tab-active" : ""}`}
+      onClick={() => setActiveTab("submissions")}
+    >
+      <Code2 className="w-4 h-4" />
+      Submissions
+    </button>
+    <button
+      className={`tab gap-2 ${activeTab === "discussion" ? "tab-active" : ""}`}
+      onClick={() => setActiveTab("discussion")}
+    >
+      <MessageSquare className="w-4 h-4" />
+      Discussion
+    </button>
+    <button
+      className={`tab gap-2 ${activeTab === "hints" ? "tab-active" : ""}`}
+      onClick={() => setActiveTab("hints")}
+    >
+      <Lightbulb className="w-4 h-4" />
+      Hints
+    </button>
+    <button
+      className="tab gap-2"
+      onClick={() => setOpenBugModal(true)}
+    >
+      <Bug className="w-4 h-4" />
+      Report
+    </button>
+  </div>
+</div>
+
 
               <div className="p-6">{renderTabContent()}</div>
             </div>

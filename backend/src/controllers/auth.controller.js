@@ -233,7 +233,6 @@ export const verifyOtp = async (req, res) => {
 };
 
 export const changePassword = async (req, res) => {
-  // const {email} = req.params
   const { newPassword, confirmPassword, email } = req.body;
 
   if (!email || !newPassword || !confirmPassword) {
@@ -332,7 +331,6 @@ export const googleRegister = async (req, res) => {
     const payload = await verifyGoogleToken(token);
     const { email, name, picture, sub } = payload;
 
-    // Check if user exists
     const existingUser = await db.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(409).json({
@@ -366,17 +364,15 @@ export const googleRegister = async (req, res) => {
       },
     });
 
-    // Generate JWT
     const jwtToken = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
 
-    // Set cookie
     res.cookie('token', jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 604800000, // 7 days
+      maxAge: 604800000, 
     });
 
     const emailSubject = "Welcome to LogicVerse - Your Account Details";
