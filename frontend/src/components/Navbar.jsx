@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { User, Code, LogOut, Bug } from "lucide-react";
 import LogoutButton from "./LogoutButton";
@@ -8,6 +8,7 @@ const Navbar = () => {
   const { authUser } = useAuthStore();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,9 +21,14 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLinkClick = () => {
-    setDropdownOpen(false);
-  };
+  const handleLinkClick = () => setDropdownOpen(false);
+
+  const navLinks = [
+    { label: "Home", path: "/home" },
+    { label: "Problems", path: "/problems" },
+    { label: "Contest", path: "/contest" },
+    { label: "Store", path: "/store" },
+  ];
 
   return (
     <div className="navbar bg-base-100 shadow-sm min-w-screen px-4 md:px-8 lg:px-16">
@@ -36,13 +42,17 @@ const Navbar = () => {
             />
           </Link>
           <div className="hidden md:flex gap-6">
-            {["home", "problems", "contest", "store"].map((item) => (
+            {navLinks.map(({ label, path }) => (
               <Link
-                key={item}
-                to={`/${item}`}
-                className="font-medium text-gray-700 hover:text-primary transition"
+                key={path}
+                to={path}
+                className={`font-medium transition ${
+                  location.pathname.startsWith(path)
+                    ? "text-primary font-semibold"
+                    : "text-gray-700 hover:text-primary"
+                }`}
               >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
+                {label}
               </Link>
             ))}
           </div>
@@ -72,7 +82,9 @@ const Navbar = () => {
 
           {isDropdownOpen && (
             <ul className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 transition-all duration-150 space-y-2 p-3">
-              <li className="text-sm font-semibold text-gray-700 px-2">{authUser?.name}</li>
+              <li className="text-sm font-semibold text-gray-700 px-2">
+                {authUser?.name}
+              </li>
               <hr className="border-gray-200" />
 
               <li>

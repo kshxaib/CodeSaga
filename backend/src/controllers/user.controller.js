@@ -1,4 +1,5 @@
 import { db } from "../libs/db.js";
+import { uploadOnCloudinary } from "../libs/cloudinary.js";
 
 export const check = async (req, res) => {
   try {
@@ -11,6 +12,20 @@ export const check = async (req, res) => {
     const user = await db.user.findUnique({
       where: {
         id: req.user.id,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        username: true,
+        role: true,
+        image: true,
+        bio: true,
+        linkedin: true,
+        portfolio: true,
+        followerCount: true,
+        followingCount: true,
+        createdAt: true,
       },
     });
 
@@ -28,64 +43,80 @@ export const updateProfile = async (req, res) => {
   const { bio, linkedin, portfolio } = req.body;
   const { id } = req.user;
 
-  if (!bio && !linkedin && !portfolio) {
+  if (!bio && !linkedin && !portfolio && !req.file) {
     return res.status(400).json({
-      error: "At least one field is required",
+      success: false,
+      message: "At least one field or an image is required for update",
     });
   }
 
   if (bio && bio.length > 200) {
     return res.status(400).json({
-      error: "Bio should be less than 200 characters",
+      success: false,
+      message: "Bio should be less than 200 characters",
     });
   }
 
   if (linkedin && !linkedin.startsWith("https://www.linkedin.com/")) {
     return res.status(400).json({
-      error: "LinkedIn URL is invalid",
+      success: false,
+      message: "LinkedIn URL must start with https://www.linkedin.com/",
     });
   }
 
   if (!id) {
-    return res.status(200).json({
-      error: "Unauthorized request",
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized request",
     });
   }
 
   try {
     const user = await db.user.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     });
 
     if (!user) {
       return res.status(404).json({
-        error: "User does not exist",
+        success: false,
+        message: "User not found",
       });
     }
-    console.log("FILES RECEIVED:", req.file);
 
-    const imageLocalPath = req.file?.path;
-    const imageUrl = await uploadOnCloudinary(imageLocalPath);
-    console.log("Image URL:", imageUrl);
+    let imageUrl = user.image;
+    if (req.file) {
+      const imageLocalPath = req.file.path;
 
-    if (!imageUrl) {
-      return res.status(400).json({
-        error: "Error uploading image",
-      });
+      if (!imageLocalPath) {
+        console.error("No file path found in uploaded file");
+        return res.status(400).json({
+          success: false,
+          message: "Invalid file upload",
+        });
+      }
+
+      const uploadResult = await uploadOnCloudinary(imageLocalPath);
+
+      if (!uploadResult) {
+        console.error("Cloudinary upload failed");
+        return res.status(400).json({
+          success: false,
+          message: "Failed to upload image to Cloudinary",
+        });
+      }
+
+      imageUrl = uploadResult.secure_url;
     }
+
+    const updateData = {};
+    if (bio !== undefined) updateData.bio = bio;
+    if (linkedin !== undefined) updateData.linkedin = linkedin;
+    if (portfolio !== undefined) updateData.portfolio = portfolio;
+    if (req.file) updateData.image = imageUrl;
 
     const updatedUser = await db.user.update({
-      where: {
-        id,
-      },
-      data: {
-        bio,
-        linkedin,
-        portfolio,
-        image: imageUrl,
-      },
+      where: { id },
+      data: updateData,
     });
 
     return res.status(200).json({
@@ -96,17 +127,21 @@ export const updateProfile = async (req, res) => {
         email: updatedUser.email,
         name: updatedUser.name,
         username: updatedUser.username,
+        image: updatedUser.image,
+        bio: updatedUser.bio,
+        linkedin: updatedUser.linkedin,
+        portfolio: updatedUser.portfolio,
+        followerCount: updatedUser.followerCount,
+        followingCount: updatedUser.followingCount,
         role: updatedUser.role,
-        image: updatedUser?.image,
-        bio: updatedUser?.bio,
-        linkedin: updatedUser?.linkedin,
-        portfolio: updatedUser?.portfolio,
+        createdAt: updatedUser.createdAt,
       },
     });
   } catch (error) {
     console.error("Error updating profile:", error);
     return res.status(500).json({
-      error: "Error updating profile",
+      success: false,
+      message: "An unexpected error occurred while updating profile",
     });
   }
 };
@@ -129,7 +164,7 @@ export const searchUser = async (req, res) => {
           mode: "insensitive",
         },
         NOT: {
-          id: currentUserId, 
+          id: currentUserId,
         },
       },
       select: {
@@ -249,85 +284,85 @@ export const followUser = async (req, res) => {
 };
 
 export const unfollowUser = async (req, res) => {
-    const {userId} = req.params;
-    const currentUserId = req.user.id;
+  const { userId } = req.params;
+  const currentUserId = req.user.id;
 
-    if (!userId) {
-        return res.status(400).json({
-            error: "User ID is required",
-        });
+  if (!userId) {
+    return res.status(400).json({
+      error: "User ID is required",
+    });
+  }
+
+  if (currentUserId === userId) {
+    return res.status(400).json({
+      error: "You cannot unfollow yourself",
+    });
+  }
+
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
     }
 
-    if (currentUserId === userId) {
-        return res.status(400).json({
-            error: "You cannot unfollow yourself",
-        });
+    const currentUser = await db.user.findUnique({
+      where: {
+        id: currentUserId,
+      },
+      include: {
+        following: true,
+      },
+    });
+
+    const isFollowing = currentUser.following.some(
+      (following) => following.id === userId
+    );
+
+    if (!isFollowing) {
+      return res.status(400).json({
+        error: "You are not following this user",
+      });
     }
 
-    try {
-        const user = await db.user.findUnique({
-            where: {
-                id: userId,
-            },
-        });
+    await db.user.update({
+      where: { id: currentUserId },
+      data: {
+        following: {
+          disconnect: { id: userId },
+        },
+        followingCount: {
+          decrement: 1,
+        },
+      },
+    });
 
-        if (!user) {
-            return res.status(404).json({
-                error: "User not found",
-            });
-        }
+    await db.user.update({
+      where: { id: userId },
+      data: {
+        followers: {
+          disconnect: { id: currentUserId },
+        },
+        followerCount: {
+          decrement: 1,
+        },
+      },
+    });
 
-        const currentUser = await db.user.findUnique({
-            where: {
-                id: currentUserId,
-            },
-            include: {
-                following: true,
-            },
-        })
-
-        const isFollowing = currentUser.following.some(
-            (following) => following.id === userId
-        )
-
-        if (!isFollowing) {
-            return res.status(400).json({
-                error: "You are not following this user",
-            });
-        }
-
-        await db.user.update({
-            where: {id: currentUserId},
-            data: {
-                following: {
-                    disconnect: {id: userId}
-                },
-                followingCount: {
-                    decrement: 1,
-                },
-            }
-        })
-
-        await db.user.update({
-            where: {id: userId},
-            data: {
-                followers: {
-                    disconnect: {id: currentUserId}
-                },
-                followerCount: {
-                    decrement: 1,
-                },
-            }
-        })
-
-        return res.status(200).json({
-            success: true,
-            message: `You have unfollowed ${user.name}`,
-        });
-    } catch (error) {
-        console.error("Error unfollowing user:", error);
-        return res.status(500).json({
-            error: "Internal server error while unfollowing user",
-        });
-    }
-}
+    return res.status(200).json({
+      success: true,
+      message: `You have unfollowed ${user.name}`,
+    });
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    return res.status(500).json({
+      error: "Internal server error while unfollowing user",
+    });
+  }
+};

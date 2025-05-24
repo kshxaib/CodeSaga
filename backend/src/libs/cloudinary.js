@@ -13,11 +13,17 @@ export const uploadOnCloudinary = async (filePath) => {
             throw new Error('No file path provided');
         }
         const response = await cloudinary.uploader.upload(filePath, {
-            resource_type: "image"
-        })
-        return response.url
+            resource_type: "auto" 
+        });
+        
+        fs.unlinkSync(filePath);
+        
+        return response; 
     } catch (error) {
-        fs.unlinkSync(filePath)
-        throw new Error('Error uploading file to Cloudinary: ' + error.message);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+        console.error('Cloudinary upload error:', error);
+        return null;
     }
 }

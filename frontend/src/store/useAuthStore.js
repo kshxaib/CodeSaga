@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { axiosInstance } from "../libs/axios";
-import { toast } from "sonner";
 import { showToast } from "../libs/showToast";
 
 export const useAuthStore = create((set) => ({
