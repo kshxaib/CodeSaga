@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Loader, TrashIcon } from "lucide-react";
-import { useReportStore } from "../store/useReportStore";
-import ConfirmationDialog from "./ConfirmationDialog";
+import { useReportStore } from "../../store/useReportStore";
+import ConfirmationDialog from "../ConfirmationDialog";
 
 const ReportTable = () => {
   const { reports, isGettingReports, getAllReports, updateReportStatus, deleteReport} = useReportStore();

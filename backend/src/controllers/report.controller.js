@@ -25,7 +25,15 @@ export const submitReport = async (req, res) => {
 export const getAllReports = async (req, res) => {
   try {
    
- const reports = await db.problemReport.findMany();
+ const reports = await db.problemReport.findMany({
+    include: {
+      user: {
+        select: {
+          username: true,
+        }
+      }
+    }
+ });
 
     res.status(200).json({
       success: true,

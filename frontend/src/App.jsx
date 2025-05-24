@@ -10,10 +10,10 @@ import AddProblem from "./components/admin/AddProblem";
 import AdminRoute from "./components/admin/AdminRoute";
 import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import VerifyCodePage from "./components/auth/VerifyCodePage";
-import ProblemPage from "./components/ProblemPage";
+import ProblemPage from "./components/problemSolvingPage/ProblemPage";
 import CodeSagaLanding from "./components/CodeSagaLanding ";
 import AllProblemsPage from "./components/AllProblemsPage";
-import ReportTable from "./components/ReportTable";
+import ReportTable from "./components/admin/ReportTable";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();

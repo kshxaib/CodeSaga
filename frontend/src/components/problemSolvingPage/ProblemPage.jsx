@@ -19,14 +19,14 @@ import {
   CircleArrowLeft,
   Bug,
 } from "lucide-react";
-import { useProblemStore } from "../store/useProblemStore";
-import { useExecutionStore } from "../store/useExecutionStore";
-import { useSubmissionStore } from "../store/useSubmissionStore";
-import { getJudge0LangaugeId } from "../libs/getLanguageId";
-import SubmissionResults from "./Submission";
-import SubmissionsList from "./SubmissionList";
-import AddToPlaylist from "./AddToPlaylist";
-import BugModal from "./BugModal";
+import { useProblemStore } from "../../store/useProblemStore";
+import { useExecutionStore } from "../../store/useExecutionStore";
+import { useSubmissionStore } from "../../store/useSubmissionStore";
+import { getJudge0LangaugeId } from "../../libs/getLanguageId";
+import SubmissionResults from "../Submission";
+import SubmissionsList from "../SubmissionList";
+import AddToPlaylist from "../AddToPlaylist";
+import BugModal from "../BugModal";
 import DiscussionSection from "./DiscussionSection";
 
 const ProblemPage = () => {
