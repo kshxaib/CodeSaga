@@ -8,6 +8,7 @@ export const problemSchema = z.object({
   constraints: z.string().min(1, "Constraints are required"),
   hints: z.string().optional(),
   editorial: z.string().optional(),
+
   testcases: z
     .array(
       z.object({
@@ -16,6 +17,7 @@ export const problemSchema = z.object({
       })
     )
     .min(1, "At least one test case is required"),
+
   examples: z.object({
     PYTHON: z.object({
       input: z.string().min(1, "Input is required"),
@@ -42,11 +44,6 @@ export const problemSchema = z.object({
       output: z.string().min(1, "Output is required"),
       explanation: z.string().optional(),
     }),
-    TYPESCRIPT: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
     CSHARP: z.object({
       input: z.string().min(1, "Input is required"),
       output: z.string().min(1, "Output is required"),
@@ -68,30 +65,38 @@ export const problemSchema = z.object({
       explanation: z.string().optional(),
     }),
   }),
+
   codeSnippets: z.object({
     PYTHON: z.string().min(1, "Python code snippet is required"),
     JAVA: z.string().min(1, "Java code snippet is required"),
     JAVASCRIPT: z.string().min(1, "JavaScript code snippet is required"),
     C: z.string().min(1, "C code snippet is required"),
     CPP: z.string().min(1, "CPP code snippet is required"),
-    TYPESCRIPT: z.string().min(1, "TypeScript code snippet is required"),
     CSHARP: z.string().min(1, "CSHARP code snippet is required"),
     GO: z.string().min(1, "Go code snippet is required"),
     RUST: z.string().min(1, "Rust code snippet is required"),
     PHP: z.string().min(1, "PHP code snippet is required"),
   }),
+
   referenceSolutions: z.object({
     PYTHON: z.string().min(1, "Python solution is required"),
     JAVA: z.string().min(1, "Java solution is required"),
     JAVASCRIPT: z.string().min(1, "JavaScript solution is required"),
     C: z.string().min(1, "C solution is required"),
     CPP: z.string().min(1, "CPP solution is required"),
-    TYPESCRIPT: z.string().min(1, "TypeScript solution is required"),
     CSHARP: z.string().min(1, "CSHARP solution is required"),
     GO: z.string().min(1, "Go solution is required"),
     RUST: z.string().min(1, "Rust solution is required"),
     PHP: z.string().min(1, "PHP solution is required"),
   }),
+
+  // ✅ New fields for paid playlist support
+  isPaid: z.boolean().default(false),
+  createNewPlaylist: z.boolean().default(false),
+  playlistName: z.string().optional(),
+  playlistDescription: z.string().optional(),
+  price: z.number().min(0, "Price must be at least 0").default(0),
+  askedIn: z.array(z.string()).optional(),
 });
 
 
@@ -104,7 +109,6 @@ export const defaultValues = {
       JAVASCRIPT: { input: "", output: "", explanation: "" },
       C: { input: "", output: "", explanation: "" },
       CPP: { input: "", output: "", explanation: "" },
-      TYPESCRIPT: { input: "", output: "", explanation: "" },
       CSHARP: { input: "", output: "", explanation: "" },
       GO: { input: "", output: "", explanation: "" },
       RUST: { input: "", output: "", explanation: "" },
@@ -116,7 +120,6 @@ export const defaultValues = {
       JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
       C: "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
       CPP: "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}",
-      TYPESCRIPT: "function solution(): void {\n  // Write your code here\n}",
       CSHARP: "using System;\n\nclass Program {\n    static void Main() {\n        // Write your code here\n    }\n}",
       GO: "package main\n\nimport \"fmt\"\n\nfunc main() {\n    // Write your code here\n    fmt.Println(\"Hello\")\n}",
       RUST: "fn main() {\n    // Write your code here\n    println!(\"Hello, world!\");\n}",
@@ -128,7 +131,6 @@ export const defaultValues = {
       JAVASCRIPT: "// Add your reference solution here",
       C: "// Add your reference solution here",
       CPP: "// Add your reference solution here",
-      TYPESCRIPT: "// Add your reference solution here",
       CSHARP: "// Add your reference solution here",
       GO: "// Add your reference solution here",
       RUST: "// Add your reference solution here",
@@ -177,11 +179,6 @@ export const sampledpData = {
       output: "5",
       explanation: "There are five ways to climb to the top (same as Java example)."
     },
-    TYPESCRIPT: {
-      input: "n = 3",
-      output: "3",
-      explanation: "Same as JavaScript example but with TypeScript type annotations."
-    },
     CSHARP: {
       input: "n = 4",
       output: "5",
@@ -203,8 +200,8 @@ export const sampledpData = {
       explanation: "Same as JavaScript example but with PHP syntax."
     }
   },
-  codeSnippets: {
-    PYTHON: `class Solution:
+  codeSnippets:{
+  PYTHON: `class Solution:
   def climbStairs(self, n: int) -> int:
       # Write your code here
       pass
@@ -212,19 +209,12 @@ export const sampledpData = {
 # Input parsing
 if __name__ == "__main__":
   import sys
-
-  # Parse input
   n = int(sys.stdin.readline().strip())
-
-  # Solve
   sol = Solution()
-  result = sol.climbStairs(n)
-
-  # Print result
-  print(result)
+  print(sol.climbStairs(n))
 `,
 
-    JAVA: `import java.util.Scanner;
+  JAVA: `import java.util.Scanner;
 
 class Main {
   public int climbStairs(int n) {
@@ -235,42 +225,26 @@ class Main {
   public static void main(String[] args) {
       Scanner scanner = new Scanner(System.in);
       int n = Integer.parseInt(scanner.nextLine().trim());
-
-      // Use Main class instead of Solution
-      Main main = new Main();
-      int result = main.climbStairs(n);
-
-      System.out.println(result);
-      scanner.close();
+      System.out.println(new Main().climbStairs(n));
   }
 }
 `,
 
-    JAVASCRIPT: `/**
- * @param {number} n
- * @return {number}
- */
-function climbStairs(n) {
+  JAVASCRIPT: `function climbStairs(n) {
   // Write your code here
 }
 
-// Parse input and execute
+// Input parsing
 const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
+const rl = readline.createInterface({ input: process.stdin });
 rl.on('line', (line) => {
   const n = parseInt(line.trim());
-  const result = climbStairs(n);
-  console.log(result);
+  console.log(climbStairs(n));
   rl.close();
 });
 `,
 
-    C: `#include <stdio.h>
+  C: `#include <stdio.h>
 
 int climbStairs(int n) {
   // Write your code here
@@ -280,13 +254,12 @@ int climbStairs(int n) {
 int main() {
   int n;
   scanf("%d", &n);
-  int result = climbStairs(n);
-  printf("%d\n", result);
+  printf("%d\\n", climbStairs(n));
   return 0;
 }
 `,
 
-    CPP: `#include <iostream>
+  CPP: `#include <iostream>
 using namespace std;
 
 class Solution {
@@ -301,35 +274,12 @@ int main() {
   int n;
   cin >> n;
   Solution sol;
-  int result = sol.climbStairs(n);
-  cout << result << endl;
+  cout << sol.climbStairs(n) << endl;
   return 0;
 }
 `,
 
-    TYPESCRIPT: `function climbStairs(n: number): number {
-  // Write your code here
-  return 0;
-}
-
-// Input handling
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
-rl.on('line', (line: string) => {
-  const n = parseInt(line.trim());
-  const result = climbStairs(n);
-  console.log(result);
-  rl.close();
-});
-`,
-
-    CSHARP: `using System;
+  CSHARP: `using System;
 
 class Solution {
   public int ClimbStairs(int n) {
@@ -339,18 +289,14 @@ class Solution {
 
   static void Main() {
     int n = int.Parse(Console.ReadLine());
-    Solution sol = new Solution();
-    int result = sol.ClimbStairs(n);
-    Console.WriteLine(result);
+    Console.WriteLine(new Solution().ClimbStairs(n));
   }
 }
 `,
 
-    GO: `package main
+  GO: `package main
 
-import (
-  "fmt"
-)
+import "fmt"
 
 func climbStairs(n int) int {
   // Write your code here
@@ -360,12 +306,11 @@ func climbStairs(n int) int {
 func main() {
   var n int
   fmt.Scan(&n)
-  result := climbStairs(n)
-  fmt.Println(result)
+  fmt.Println(climbStairs(n))
 }
 `,
 
-    RUST: `use std::io;
+  RUST: `use std::io;
 
 fn climb_stairs(n: i32) -> i32 {
   // Write your code here
@@ -376,12 +321,11 @@ fn main() {
   let mut input = String::new();
   io::stdin().read_line(&mut input).unwrap();
   let n: i32 = input.trim().parse().unwrap();
-  let result = climb_stairs(n);
-  println!("{}", result);
+  println!("{}", climb_stairs(n));
 }
 `,
 
-    PHP: `<?php
+  PHP: `<?php
 
 function climbStairs($n) {
   // Write your code here
@@ -389,80 +333,50 @@ function climbStairs($n) {
 }
 
 $n = intval(trim(fgets(STDIN)));
-$result = climbStairs($n);
-echo $result . "\n";
+echo climbStairs($n) . "\\n";
 ?>
-`
-  },
+`,
+},
+
   referenceSolutions: {
-    PYTHON: `class Solution:
+  PYTHON: `class Solution:
     def climbStairs(self, n: int) -> int:
         if n <= 2:
             return n
         a, b = 1, 2
-        for _ in range(3, n+1):
+        for _ in range(3, n + 1):
             a, b = b, a + b
         return b
-        
-if __name__ == "__main__":
-  import sys
-  
-  # Parse input
-  n = int(sys.stdin.readline().strip())
-  
-  sol = Solution()
-  result = sol.climbStairs(n)
-  
-  print(result)`,
 
-    JAVA:  `import java.util.Scanner;
+if __name__ == "__main__":
+    import sys
+    n = int(sys.stdin.readline().strip())
+    print(Solution().climbStairs(n))
+`,
+
+  JAVA: `import java.util.Scanner;
 
 class Main {
-  public int climbStairs(int n) {
-      // Base cases
-      if (n <= 2) {
-          return n;
-      }
-      
-      // Dynamic programming approach
-      int[] dp = new int[n + 1];
-      dp[1] = 1;
-      dp[2] = 2;
-      
-      for (int i = 3; i <= n; i++) {
-          dp[i] = dp[i - 1] + dp[i - 2];
-      }
-      
-      return dp[n];
-      
-      /* Alternative approach with O(1) space
-      int a = 1; // ways to climb 1 step
-      int b = 2; // ways to climb 2 steps
-      
-      for (int i = 3; i <= n; i++) {
-          int temp = a + b;
-          a = b;
-          b = temp;
-      }
-      
-      return n == 1 ? a : b;
-      */
-  }
-  
-  public static void main(String[] args) {
-      Scanner scanner = new Scanner(System.in);
-      int n = Integer.parseInt(scanner.nextLine().trim());
-      
-      // Use Main class instead of Solution
-      Main main = new Main();
-      int result = main.climbStairs(n);
-      
-      System.out.println(result);
-      scanner.close();
-  }
-}`,
+    public int climbStairs(int n) {
+        if (n <= 2) return n;
+        int a = 1, b = 2;
+        for (int i = 3; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
+    }
 
-    JAVASCRIPT: `function climbStairs(n) {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = Integer.parseInt(scanner.nextLine().trim());
+        System.out.println(new Main().climbStairs(n));
+    }
+}
+`,
+
+  JAVASCRIPT: `function climbStairs(n) {
     if (n <= 2) return n;
     let a = 1, b = 2;
     for (let i = 3; i <= n; i++) {
@@ -471,23 +385,17 @@ class Main {
     return b;
 }
 
-// Input parsing
 const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
+const rl = readline.createInterface({ input: process.stdin });
 
 rl.on('line', (line) => {
     const n = parseInt(line.trim());
-    const result = climbStairs(n);
-    console.log(result);
+    console.log(climbStairs(n));
     rl.close();
 });
 `,
 
-    C: `#include <stdio.h>
+  C: `#include <stdio.h>
 
 int climbStairs(int n) {
     if (n <= 2) return n;
@@ -503,13 +411,12 @@ int climbStairs(int n) {
 int main() {
     int n;
     scanf("%d", &n);
-    int result = climbStairs(n);
-    printf("%d\n", result);
+    printf("%d\\n", climbStairs(n));
     return 0;
 }
 `,
 
-    CPP: `#include <iostream>
+  CPP: `#include <iostream>
 using namespace std;
 
 class Solution {
@@ -530,39 +437,12 @@ int main() {
     int n;
     cin >> n;
     Solution sol;
-    int result = sol.climbStairs(n);
-    cout << result << endl;
+    cout << sol.climbStairs(n) << endl;
     return 0;
 }
 `,
 
-    TYPESCRIPT: `function climbStairs(n: number): number {
-    if (n <= 2) return n;
-    let a = 1, b = 2;
-    for (let i = 3; i <= n; i++) {
-        [a, b] = [b, a + b];
-    }
-    return b;
-}
-
-// Input/output handling
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
-
-rl.on('line', (line: string) => {
-    const n = parseInt(line.trim());
-    const result = climbStairs(n);
-    console.log(result);
-    rl.close();
-});
-`,
-
-    CSHARP: `using System;
+  CSHARP: `using System;
 
 public class Solution {
     public int ClimbStairs(int n) {
@@ -578,18 +458,14 @@ public class Solution {
 
     public static void Main() {
         int n = int.Parse(Console.ReadLine());
-        Solution sol = new Solution();
-        int result = sol.ClimbStairs(n);
-        Console.WriteLine(result);
+        Console.WriteLine(new Solution().ClimbStairs(n));
     }
 }
 `,
 
-    GO: `package main
+  GO: `package main
 
-import (
-    "fmt"
-)
+import "fmt"
 
 func climbStairs(n int) int {
     if n <= 2 {
@@ -605,12 +481,11 @@ func climbStairs(n int) int {
 func main() {
     var n int
     fmt.Scan(&n)
-    result := climbStairs(n)
-    fmt.Println(result)
+    fmt.Println(climbStairs(n))
 }
 `,
 
-    RUST: `use std::io;
+  RUST: `use std::io;
 
 fn climb_stairs(n: i32) -> i32 {
     if n <= 2 {
@@ -629,16 +504,16 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
     let n: i32 = input.trim().parse().unwrap();
-    let result = climb_stairs(n);
-    println!("{}", result);
+    println!("{}", climb_stairs(n));
 }
 `,
 
-    PHP: `<?php
+  PHP: `<?php
 
 function climbStairs($n) {
     if ($n <= 2) return $n;
-    $a = 1; $b = 2;
+    $a = 1;
+    $b = 2;
     for ($i = 3; $i <= $n; $i++) {
         $temp = $a + $b;
         $a = $b;
@@ -648,10 +523,10 @@ function climbStairs($n) {
 }
 
 $n = intval(trim(fgets(STDIN)));
-$result = climbStairs($n);
-echo $result . "\n";
+echo climbStairs($n) . "\\n";
 ?>
-`}
+`,
+}
 };
 
 // Sample problem data for another type of question

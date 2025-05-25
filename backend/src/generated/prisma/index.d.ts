@@ -4148,6 +4148,7 @@ export namespace Prisma {
     constraints: string | null
     hints: string | null
     editorial: string | null
+    isPaid: boolean | null
     likes: number | null
     dislikes: number | null
     createdAt: Date | null
@@ -4163,6 +4164,7 @@ export namespace Prisma {
     constraints: string | null
     hints: string | null
     editorial: string | null
+    isPaid: boolean | null
     likes: number | null
     dislikes: number | null
     createdAt: Date | null
@@ -4183,6 +4185,8 @@ export namespace Prisma {
     testcases: number
     codeSnippets: number
     referenceSolutions: number
+    isPaid: number
+    askedIn: number
     likes: number
     dislikes: number
     createdAt: number
@@ -4210,6 +4214,7 @@ export namespace Prisma {
     constraints?: true
     hints?: true
     editorial?: true
+    isPaid?: true
     likes?: true
     dislikes?: true
     createdAt?: true
@@ -4225,6 +4230,7 @@ export namespace Prisma {
     constraints?: true
     hints?: true
     editorial?: true
+    isPaid?: true
     likes?: true
     dislikes?: true
     createdAt?: true
@@ -4245,6 +4251,8 @@ export namespace Prisma {
     testcases?: true
     codeSnippets?: true
     referenceSolutions?: true
+    isPaid?: true
+    askedIn?: true
     likes?: true
     dislikes?: true
     createdAt?: true
@@ -4352,6 +4360,8 @@ export namespace Prisma {
     testcases: JsonValue
     codeSnippets: JsonValue
     referenceSolutions: JsonValue
+    isPaid: boolean
+    askedIn: string[]
     likes: number
     dislikes: number
     createdAt: Date
@@ -4391,6 +4401,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    isPaid?: boolean
+    askedIn?: boolean
     likes?: boolean
     dislikes?: boolean
     createdAt?: boolean
@@ -4418,6 +4430,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    isPaid?: boolean
+    askedIn?: boolean
     likes?: boolean
     dislikes?: boolean
     createdAt?: boolean
@@ -4439,6 +4453,8 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    isPaid?: boolean
+    askedIn?: boolean
     likes?: boolean
     dislikes?: boolean
     createdAt?: boolean
@@ -4460,13 +4476,15 @@ export namespace Prisma {
     testcases?: boolean
     codeSnippets?: boolean
     referenceSolutions?: boolean
+    isPaid?: boolean
+    askedIn?: boolean
     likes?: boolean
     dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "likes" | "dislikes" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
+  export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "isPaid" | "askedIn" | "likes" | "dislikes" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
   export type ProblemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
@@ -4507,6 +4525,8 @@ export namespace Prisma {
       testcases: Prisma.JsonValue
       codeSnippets: Prisma.JsonValue
       referenceSolutions: Prisma.JsonValue
+      isPaid: boolean
+      askedIn: string[]
       likes: number
       dislikes: number
       createdAt: Date
@@ -4953,6 +4973,8 @@ export namespace Prisma {
     readonly testcases: FieldRef<"Problem", 'Json'>
     readonly codeSnippets: FieldRef<"Problem", 'Json'>
     readonly referenceSolutions: FieldRef<"Problem", 'Json'>
+    readonly isPaid: FieldRef<"Problem", 'Boolean'>
+    readonly askedIn: FieldRef<"Problem", 'String[]'>
     readonly likes: FieldRef<"Problem", 'Int'>
     readonly dislikes: FieldRef<"Problem", 'Int'>
     readonly createdAt: FieldRef<"Problem", 'DateTime'>
@@ -19742,6 +19764,8 @@ export namespace Prisma {
     testcases: 'testcases',
     codeSnippets: 'codeSnippets',
     referenceSolutions: 'referenceSolutions',
+    isPaid: 'isPaid',
+    askedIn: 'askedIn',
     likes: 'likes',
     dislikes: 'dislikes',
     createdAt: 'createdAt',
@@ -20265,6 +20289,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    isPaid?: BoolFilter<"Problem"> | boolean
+    askedIn?: StringNullableListFilter<"Problem">
     likes?: IntFilter<"Problem"> | number
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
@@ -20291,6 +20317,8 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    isPaid?: SortOrder
+    askedIn?: SortOrder
     likes?: SortOrder
     dislikes?: SortOrder
     createdAt?: SortOrder
@@ -20320,6 +20348,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    isPaid?: BoolFilter<"Problem"> | boolean
+    askedIn?: StringNullableListFilter<"Problem">
     likes?: IntFilter<"Problem"> | number
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
@@ -20346,6 +20376,8 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    isPaid?: SortOrder
+    askedIn?: SortOrder
     likes?: SortOrder
     dislikes?: SortOrder
     createdAt?: SortOrder
@@ -20374,6 +20406,8 @@ export namespace Prisma {
     testcases?: JsonWithAggregatesFilter<"Problem">
     codeSnippets?: JsonWithAggregatesFilter<"Problem">
     referenceSolutions?: JsonWithAggregatesFilter<"Problem">
+    isPaid?: BoolWithAggregatesFilter<"Problem"> | boolean
+    askedIn?: StringNullableListFilter<"Problem">
     likes?: IntWithAggregatesFilter<"Problem"> | number
     dislikes?: IntWithAggregatesFilter<"Problem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Problem"> | Date | string
@@ -21466,6 +21500,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -21492,6 +21528,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -21516,6 +21554,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21542,6 +21582,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21567,6 +21609,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -21586,6 +21630,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21606,6 +21652,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22898,6 +22946,11 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -22937,6 +22990,8 @@ export namespace Prisma {
     testcases?: SortOrder
     codeSnippets?: SortOrder
     referenceSolutions?: SortOrder
+    isPaid?: SortOrder
+    askedIn?: SortOrder
     likes?: SortOrder
     dislikes?: SortOrder
     createdAt?: SortOrder
@@ -22957,6 +23012,7 @@ export namespace Prisma {
     constraints?: SortOrder
     hints?: SortOrder
     editorial?: SortOrder
+    isPaid?: SortOrder
     likes?: SortOrder
     dislikes?: SortOrder
     createdAt?: SortOrder
@@ -22972,6 +23028,7 @@ export namespace Prisma {
     constraints?: SortOrder
     hints?: SortOrder
     editorial?: SortOrder
+    isPaid?: SortOrder
     likes?: SortOrder
     dislikes?: SortOrder
     createdAt?: SortOrder
@@ -22993,9 +23050,12 @@ export namespace Prisma {
     _max?: NestedEnumDifficultyFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProblemReactionProblemIdUserIdCompoundUniqueInput = {
@@ -23022,14 +23082,6 @@ export namespace Prisma {
     problemId?: SortOrder
     userId?: SortOrder
     isLike?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProblemScalarRelationFilter = {
@@ -23989,6 +24041,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ProblemCreateaskedInInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutProblemsInput = {
     create?: XOR<UserCreateWithoutProblemsInput, UserUncheckedCreateWithoutProblemsInput>
     connectOrCreate?: UserCreateOrConnectWithoutProblemsInput
@@ -24070,6 +24126,15 @@ export namespace Prisma {
   }
 
   export type ProblemUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type ProblemUpdateaskedInInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -24220,10 +24285,6 @@ export namespace Prisma {
     update?: ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput[]
     updateMany?: ProblemDiscussionUpdateManyWithWhereWithoutProblemInput | ProblemDiscussionUpdateManyWithWhereWithoutProblemInput[]
     deleteMany?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserCreateNestedOneWithoutSubmissionInput = {
@@ -24964,6 +25025,11 @@ export namespace Prisma {
     not?: NestedEnumDifficultyFilter<$PrismaModel> | $Enums.Difficulty
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumDifficultyWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Difficulty | EnumDifficultyFieldRefInput<$PrismaModel>
     in?: $Enums.Difficulty[] | ListEnumDifficultyFieldRefInput<$PrismaModel>
@@ -24972,11 +25038,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDifficultyFilter<$PrismaModel>
     _max?: NestedEnumDifficultyFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -25190,6 +25251,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -25214,6 +25277,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -25555,6 +25620,8 @@ export namespace Prisma {
     testcases?: JsonFilter<"Problem">
     codeSnippets?: JsonFilter<"Problem">
     referenceSolutions?: JsonFilter<"Problem">
+    isPaid?: BoolFilter<"Problem"> | boolean
+    askedIn?: StringNullableListFilter<"Problem">
     likes?: IntFilter<"Problem"> | number
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
@@ -26273,6 +26340,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -26298,6 +26367,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -26456,6 +26527,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26481,6 +26554,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26696,6 +26771,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -26721,6 +26798,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -26839,6 +26918,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26864,6 +26945,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27362,6 +27445,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27387,6 +27472,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27461,6 +27548,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27486,6 +27575,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27509,6 +27600,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27534,6 +27627,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27646,6 +27741,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27671,6 +27768,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27773,6 +27872,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27798,6 +27899,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -27867,6 +27970,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27892,6 +27997,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28621,6 +28728,8 @@ export namespace Prisma {
     testcases: JsonNullValueInput | InputJsonValue
     codeSnippets: JsonNullValueInput | InputJsonValue
     referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
     likes?: number
     dislikes?: number
     createdAt?: Date | string
@@ -28893,6 +29002,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28917,6 +29028,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28941,6 +29054,8 @@ export namespace Prisma {
     testcases?: JsonNullValueInput | InputJsonValue
     codeSnippets?: JsonNullValueInput | InputJsonValue
     referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
     likes?: IntFieldUpdateOperationsInput | number
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

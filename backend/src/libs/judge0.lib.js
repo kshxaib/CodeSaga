@@ -6,7 +6,6 @@ export const getJudge0LangaugeId = (language) => {
     JAVASCRIPT: 63,
     C: 50,
     CPP: 54,
-    TYPESCRIPT: 74,
     CSHARP: 51,
     GO: 60,
     RUST: 73,
@@ -16,41 +15,6 @@ export const getJudge0LangaugeId = (language) => {
   return languageMap[language.toUpperCase()] || 63;
 };
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export const submitBatch = async (submissions) => {
-  const { data } = await axios.post(
-    `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`,
-    {
-      submissions,
-    }
-  );
-  return data; // [{token}, {token}, ...]
-};
-
-export const pollBatchResults = async (tokens) => {
-  while (true) {
-    const { data } = await axios.get(
-      `${process.env.JUDGE0_API_URL}/submissions/batch`,
-      {
-        params: {
-          tokens: tokens.join(","),
-          base64_encoded: false,
-        },
-      }
-    );
-
-    const results = data.submissions;
-
-    const isAllDone = results.every(
-      (r) => r.status.id !== 1 && r.status.id !== 2
-    );
-
-    if (isAllDone) return results;
-    await sleep(1000);
-  }
-};
-
 export const getLanguageName = (language_id) => {
   const languageMap = {
     71: "PYTHON",
@@ -58,7 +22,6 @@ export const getLanguageName = (language_id) => {
     63: "JAVASCRIPT",
     50: "C",
     54: "CPP",
-    74: "TYPESCRIPT",
     51: "CSHARP",
     60: "GO",
     73: "RUST",
@@ -66,6 +29,64 @@ export const getLanguageName = (language_id) => {
   };
 
   return languageMap[language_id] || "Unknown Language";
+};
+
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const submitBatch = async (submissions) => {
+  // Convert all submissions to base64
+  const base64Submissions = submissions.map(sub => ({
+    ...sub,
+    source_code: Buffer.from(sub.source_code).toString('base64'),
+    stdin: Buffer.from(sub.stdin).toString('base64'),
+    expected_output: Buffer.from(sub.expected_output).toString('base64')
+  }));
+
+  const { data } = await axios.post(
+    `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=true`,
+    {
+      submissions: base64Submissions,
+    }
+  );
+  return data;
+};
+
+
+export const pollBatchResults = async (tokens) => {
+  while (true) {
+    try {
+      const { data } = await axios.get(
+        `${process.env.JUDGE0_API_URL}/submissions/batch`,
+        {
+          params: {
+            tokens: tokens.join(","),
+            base64_encoded: true,
+            fields: 'stdout,stderr,status_id,language_id'
+          },
+        }
+      );
+
+      const results = data.submissions;
+
+      // Decode base64 responses
+      const decodedResults = results.map(result => ({
+        ...result,
+        stdout: result.stdout ? Buffer.from(result.stdout, 'base64').toString('utf8') : null,
+        stderr: result.stderr ? Buffer.from(result.stderr, 'base64').toString('utf8') : null
+      }));
+
+      const isAllDone = decodedResults.every(
+        (r) => r.status_id !== 1 && r.status_id !== 2
+      );
+
+      if (isAllDone) return decodedResults;
+      await sleep(1000);
+    } catch (error) {
+      console.error("Error polling batch results:", error);
+      throw error;
+    }
+  }
 };
 
 export function cleanNullBytes(obj) {

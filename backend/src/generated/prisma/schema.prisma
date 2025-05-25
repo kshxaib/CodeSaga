@@ -81,6 +81,8 @@ model Problem {
   testcases          Json
   codeSnippets       Json
   referenceSolutions Json
+  isPaid             Boolean    @default(false)
+  askedIn            String[]
 
   likes    Int @default(0)
   dislikes Int @default(0)

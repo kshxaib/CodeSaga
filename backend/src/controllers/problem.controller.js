@@ -7,87 +7,173 @@ import {
 import Fuse from "fuse.js";
 import { cleanNullBytes } from "../libs/judge0.lib.js";
 
-
 export const createProblem = async (req, res) => {
- req.body = cleanNullBytes(req.body);
+  req.body = cleanNullBytes(req.body);
+  console.log("Creating problem with body:", req.body);
 
   const {
     title,
     description,
     difficulty,
-    tags,
-    examples,
-    constraints,
-    hints,
-    testcases,
-    codeSnippets,
-    referenceSolutions,
-    editorial,
+    tags = [],
+    examples = [],
+    constraints = [],
+    hints = [],
+    testcases = [],
+    codeSnippets = {},
+    referenceSolutions = {},
+    editorial = "",
+    askedIn = [],
+    isPaid = false,
+    playlistName,
+    createNewPlaylist = false,
+    playlistDescription = "",
+    price = 0,
   } = req.body;
 
   try {
+    if (!testcases || testcases.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "At least one test case is required",
+      });
+    }
+
     for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
       const languageId = getJudge0LangaugeId(language);
-
       if (!languageId) {
-        return res
-          .status(400)
-          .json({ message: `Language ${language} is not supported` });
+        return res.status(400).json({
+          success: false,
+          message: `Language ${language} is not supported`,
+        });
       }
 
       const submissions = testcases.map(({ input, output }) => ({
         source_code: solutionCode,
         language_id: languageId,
-        stdin: input,
-        expected_output: output,
+        stdin: input || "",
+        expected_output: output || "",
       }));
 
       const submissionResult = await submitBatch(submissions);
-
       const tokens = submissionResult.map((res) => res.token);
-
       const results = await pollBatchResults(tokens);
 
       for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-
-        if (result.status.id !== 3) {
-          return res
-            .status(400)
-            .json({
-              message: `Test case ${i + 1} failed for language ${language}`,
-            });
+        if (results[i]?.status_id !== 3) {
+          return res.status(400).json({
+            success: false,
+            message: `Test case ${i + 1} failed for language ${language}`,
+            error: results[i]?.stderr || results[i]?.compile_output || "Unknown error",
+          });
         }
       }
+    }
 
-      // Save the problem to the database
+    const problemData = {
+      title,
+      description,
+      difficulty,
+      tags,
+      examples,
+      constraints,
+      hints,
+      testcases,
+      codeSnippets,
+      referenceSolutions,
+      editorial,
+      userId: req.user.id,
+    };
+
+    if (askedIn && askedIn.length > 0) {
+      problemData.askedIn = askedIn;
+    }
+
+    if (!isPaid) {
       const newProblem = await db.problem.create({
+        data: problemData,
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Free problem created successfully",
+        problem: newProblem,
+      });
+    }
+
+    if (!playlistName) {
+      return res.status(400).json({
+        success: false,
+        message: "Paid problems must be associated with a playlist name.",
+      });
+    }
+
+    if (price <= -1) {
+      return res.status(400).json({
+        success: false,
+        message: "Paid playlists must have a price greater than -1.",
+      });
+    }
+
+    problemData.isPaid = true;
+
+    let playlist;
+
+    if (createNewPlaylist) {
+      playlist = await db.playlist.create({
         data: {
-          title,
-          description,
-          hints,
-          difficulty,
-          tags,
-          examples,
-          constraints,
-          testcases,
-          codeSnippets,
-          editorial,
-          referenceSolutions,
+          name: playlistName,
+          description: playlistDescription,
+          isPaid: true,
+          price,
           userId: req.user.id,
         },
       });
-      return res
-        .status(201)
-        .json({
-          success: true,
-          message: "Problem created successfully",
-          problem: newProblem,
+    } else {
+      playlist = await db.playlist.findFirst({
+        where: {
+          name: playlistName,
+          userId: req.user.id,
+        },
+      });
+
+      if (!playlist) {
+        return res.status(400).json({
+          success: false,
+          message: `Playlist '${playlistName}' does not exist. Enable 'Create New Playlist' to create it.`,
         });
+      }
+
+      if (!playlist.isPaid) {
+        return res.status(400).json({
+          success: false,
+          message: `Playlist '${playlistName}' is not a paid playlist. Cannot add paid problem to it.`,
+        });
+      }
     }
+
+    const newProblem = await db.problem.create({
+      data: problemData,
+    });
+
+    await db.problemInPlaylist.create({
+      data: {
+        problemId: newProblem.id,
+        playlistId: playlist.id,
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: `Paid problem created and added to playlist '${playlist.name}' successfully`,
+      problem: newProblem,
+    });
   } catch (error) {
-      console.error("Error while creating problem", error);
-    res.status(500).json({ message: "Error while creating problem" });
+    console.error("Error while creating problem:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -129,20 +215,18 @@ export const getProblemById = async (req, res) => {
         id: id,
       },
       include: {
-    solvedBy: true,
-  },
+        solvedBy: true,
+      },
     });
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
     }
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Problem fetched successfully",
-        problem,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Problem fetched successfully",
+      problem,
+    });
   } catch (error) {
     return res.status(500).json({ message: "Error while fetching problem" });
   }
@@ -341,7 +425,7 @@ export const searchProblems = async (req, res) => {
   try {
     const searchLower = search.toLowerCase();
     const searchUpper = searchLower.toUpperCase();
-    const DIFFICULTY_ENUM = ["EASY", "MEDIUM", "HARD"]; 
+    const DIFFICULTY_ENUM = ["EASY", "MEDIUM", "HARD"];
     const isValidDifficulty = DIFFICULTY_ENUM.includes(searchUpper);
 
     // Get all problems for fuzzy matching
@@ -427,83 +511,85 @@ export const getRecommendedProblems = async (req, res) => {
 };
 
 export const reactToProblem = async (req, res) => {
-  const {isLike, problemId } = req.body;
+  const { isLike, problemId } = req.body;
   const userId = req.user.id;
 
-  if(!userId){
+  if (!userId) {
     return res.status(400).json({ message: "Please login to react" });
   }
 
-  if(!problemId){
+  if (!problemId) {
     return res.status(400).json({ message: "Problem ID is required" });
   }
 
-  if (typeof isLike !== 'boolean') {
+  if (typeof isLike !== "boolean") {
     return res.status(400).json({ message: "Invalid reaction" });
   }
 
   try {
     const existingReaction = await db.problemReaction.findUnique({
-      where: {problemId_userId: { problemId, userId }},
+      where: { problemId_userId: { problemId, userId } },
     });
-    
-    let likeChange = 0
-    let dislikeChange = 0
 
-    if(!existingReaction){
+    let likeChange = 0;
+    let dislikeChange = 0;
+
+    if (!existingReaction) {
       await db.problemReaction.create({
-        data: {userId, problemId, isLike}
-      })
-      likeChange = isLike ? 1 : 0
-      dislikeChange = isLike ? 0 : 1
-    } else if(existingReaction.isLike !== isLike){
+        data: { userId, problemId, isLike },
+      });
+      likeChange = isLike ? 1 : 0;
+      dislikeChange = isLike ? 0 : 1;
+    } else if (existingReaction.isLike !== isLike) {
       await db.problemReaction.update({
-        where : {id: existingReaction.id},
-        data: {isLike}
-      })
-      likeChange = isLike ? 1 : -1
-      dislikeChange = isLike ? -1 : 1
+        where: { id: existingReaction.id },
+        data: { isLike },
+      });
+      likeChange = isLike ? 1 : -1;
+      dislikeChange = isLike ? -1 : 1;
     }
 
-    if(likeChange !== 0 || dislikeChange !== 0 ){
+    if (likeChange !== 0 || dislikeChange !== 0) {
       await db.problem.update({
-        where: {id: problemId},
+        where: { id: problemId },
         data: {
           likes: {
-            increment: likeChange
+            increment: likeChange,
           },
           dislikes: {
-            increment: dislikeChange
-          }
-        }
-      })
+            increment: dislikeChange,
+          },
+        },
+      });
     }
 
     const problem = await db.problem.findUnique({
-      where: {id: problemId},
+      where: { id: problemId },
       select: {
         likes: true,
         dislikes: true,
-      }
-    })
+      },
+    });
 
     return res.status(200).json({
       success: true,
-      message: `${isLike ? 'Liked' : 'Disliked'} successfully`,
+      message: `${isLike ? "Liked" : "Disliked"} successfully`,
       problem,
     });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ message: "Something went wrong" });
   }
-}
+};
 
 export const getRandomProblem = async (req, res) => {
   try {
     const totalProblems = await db.problem.count();
 
-    if(totalProblems === 0) {
-      return res.status(404).json({ success: false, message: "No problems available" });
+    if (totalProblems === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No problems available" });
     }
 
     const randomIndex = Math.floor(Math.random() * totalProblems);
@@ -512,17 +598,19 @@ export const getRandomProblem = async (req, res) => {
       skip: randomIndex,
       take: 1,
     });
-    
+
     return res.status(200).json({
       success: true,
       message: "Random problem fetched successfully",
       problem: randomProblem,
     });
   } catch (error) {
-    console.error('Error fetching random problem:', error);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error("Error fetching random problem:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
-}
+};
 
 export const checkProblemInPlaylist = async (req, res) => {
   const { problemId } = req.params;
@@ -538,22 +626,22 @@ export const checkProblemInPlaylist = async (req, res) => {
       },
     });
 
-    if(!found) {
-      return res.status(200).json({ 
+    if (!found) {
+      return res.status(200).json({
         success: true,
-        exists: false 
+        exists: false,
       });
     }
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       success: true,
-      exists: true 
+      exists: true,
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       success: false,
-      message: "Something went wrong" 
+      message: "Something went wrong",
     });
   }
 };
