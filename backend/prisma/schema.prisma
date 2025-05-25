@@ -61,6 +61,7 @@ model User {
   discussionMessages DiscussionMessage[]
   discussionReplies  DiscussionReply[]
   discussionUpvotes  DiscussionUpvote[]
+  playlistPurchases PlaylistPurchase[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -165,15 +166,30 @@ model Playlist {
   name        String
   description String?
   userId      String
+  isPaid      Boolean @default(false)
+  price       Int?  @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   problems ProblemInPlaylist[]
+  purchases PlaylistPurchase[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([name, userId])
+}
+
+model PlaylistPurchase {
+  id          String   @id @default(uuid())
+  userId      String
+  playlistId  String
+  purchaseDate DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, playlistId])
 }
 
 model ProblemInPlaylist {

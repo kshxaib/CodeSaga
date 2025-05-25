@@ -1,18 +1,17 @@
-import React from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-
-
+import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Layout = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <div>
-        {!location.pathname.startsWith('/problem/') || !location.pathname.startsWith('/profile/')&& <Navbar />}
-        <Outlet />
+      {!location.pathname.startsWith("/problem") &&
+        !location.pathname.startsWith("/profile") && <Navbar />}
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

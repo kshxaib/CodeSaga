@@ -217,8 +217,17 @@ exports.Prisma.PlaylistScalarFieldEnum = {
   name: 'name',
   description: 'description',
   userId: 'userId',
+  isPaid: 'isPaid',
+  price: 'price',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PlaylistPurchaseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  playlistId: 'playlistId',
+  purchaseDate: 'purchaseDate'
 };
 
 exports.Prisma.ProblemInPlaylistScalarFieldEnum = {
@@ -330,6 +339,7 @@ exports.Prisma.ModelName = {
   TestCaseResult: 'TestCaseResult',
   ProblemSolved: 'ProblemSolved',
   Playlist: 'Playlist',
+  PlaylistPurchase: 'PlaylistPurchase',
   ProblemInPlaylist: 'ProblemInPlaylist',
   Badge: 'Badge',
   ProblemReport: 'ProblemReport',

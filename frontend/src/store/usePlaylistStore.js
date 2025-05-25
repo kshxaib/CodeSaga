@@ -8,6 +8,10 @@ export const usePlaylistStore = create((set, get) => ({
     currentPlaylist: null,
     isLoading: false,
     error: null,
+    isPurchasing: false,
+    purchasedPlaylists: [],
+    unpurchasedPlaylists: [],
+    isStoreLoading: false,
 
 
     createPlaylist: async (playlistData) => {
@@ -101,6 +105,35 @@ export const usePlaylistStore = create((set, get) => ({
             showToast(error);
         } finally {
             set({ isLoading: false });
+        }
+    },
+
+    getUnpurchasedPaidPlaylists: async () => {
+        try {
+            set({ isStoreLoading: true });
+            const res = await axiosInstance.get('/playlist/unpurchased-paid-playlists');
+            set({ unpurchasedPlaylists: res.data.playlists });
+        } catch (error) {
+            console.error(error);
+            showToast(error);
+        } finally {
+            set({ isStoreLoading: false });
+        }
+    },
+
+    purchasePlaylist: async (playlistId) => {
+        try {
+            set({ isPurchasing: true });
+            const res = await axiosInstance.post(`/playlist/purchase/${playlistId}`);
+            set((state) => ({
+                purchasedPlaylists: [...state.purchasedPlaylists, res.data.playlist],
+                unpurchasedPlaylists: state.unpurchasedPlaylists.filter(p => p.id !== playlistId)
+            }));
+        } catch (error) {
+            console.error(error);
+            showToast(error);
+        } finally {
+            set({ isPurchasing: false });
         }
     }
 }))

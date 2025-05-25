@@ -65,7 +65,7 @@ const Profile = () => {
 
   if (isLoading && !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-blue-400" />
       </div>
     );
@@ -74,10 +74,10 @@ const Profile = () => {
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back to Home Button */}
+
         <div className="mb-6">
           <Link 
-            to="/" 
+            to="/home" 
             className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
           >
             <Home className="h-5 w-5 mr-2" />
@@ -85,11 +85,8 @@ const Profile = () => {
           </Link>
         </div>
 
-        {/* Profile Header */}
         <div className="bg-gray-800/50 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
-          {/* Cover Photo */}
           <div className="relative h-48 bg-gradient-to-r from-blue-900/50 to-purple-900/50">
-            {/* Profile Picture */}
             <div className="absolute -bottom-16 left-8">
               <div className="relative group">
                 <div className="h-32 w-32 rounded-full border-4 border-gray-800 bg-gray-700 overflow-hidden shadow-lg">
@@ -123,7 +120,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Edit Profile Button */}
             <div className="absolute bottom-6 right-6">
               {isEditing ? (
                 <div className="flex space-x-3">
@@ -164,18 +160,15 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Profile Content */}
           {user && (
             <div className="pt-20 px-8 pb-8">
               <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
-                {/* Left Column */}
                 <div className="flex-1">
                   <div className="mb-6">
                     <h1 className="text-3xl font-bold text-white">{user.name}</h1>
                     <p className="text-gray-400">@{user.username}</p>
                   </div>
 
-                  {/* Stats */}
                   <div className="flex space-x-6 mb-8">
                     <div className="text-center bg-gray-700/50 px-4 py-3 rounded-lg">
                       <span className="block text-xl font-bold text-blue-400">{user.followerCount || 0}</span>
@@ -197,7 +190,6 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  {/* Bio */}
                   {isEditing ? (
                     <div className="mb-6">
                       <label htmlFor="bio" className="block text-sm font-medium text-gray-300 mb-2">
@@ -229,9 +221,7 @@ const Profile = () => {
                   )}
                 </div>
 
-                {/* Right Column */}
                 <div className="md:w-80 space-y-6">
-                  {/* Contact Information */}
                   <div className="bg-gray-700/50 p-5 rounded-xl">
                     <h3 className="text-lg font-semibold text-gray-300 mb-4">Contact Information</h3>
                     <div className="space-y-4">
