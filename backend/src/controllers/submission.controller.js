@@ -23,6 +23,7 @@ export const getAllSubmissions = async (req, res) => {
 }
 
 export const getSubmissionsForProblem = async (req, res) => {
+    console.log("Fetching submissions for problem:", req.params.problemId);
     try {
         const userId = req.user.id
         const problemId = req.params.problemId;
@@ -34,6 +35,7 @@ export const getSubmissionsForProblem = async (req, res) => {
             }
         })
 
+        console.log("Submissions fetched:", submissions);
         return res.status(200).json({
             success: true,
             message: "Submissions fetched successfully",

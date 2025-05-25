@@ -25,6 +25,8 @@ export const check = async (req, res) => {
         portfolio: true,
         followerCount: true,
         followingCount: true,
+        longestStreak: true,
+        currentStreak: true,
         createdAt: true,
       },
     });
