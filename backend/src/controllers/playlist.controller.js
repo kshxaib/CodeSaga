@@ -1,101 +1,170 @@
 import { db } from "../libs/db.js";
 
 export const createPlaylist = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description="", isPaid = false, price = 0 } = req.body;
   if (!name) {
-    return res.status(400).json({ success: false, message: "Playlist name is required" });
+    return res.status(400).json({
+      success: false,
+      message: "Playlist name is required",
+    });
   }
 
   const userId = req.user.id;
+  const userRole = req.user.role;
 
   try {
     const existingPlaylist = await db.playlist.findFirst({
-      where: {
-        name,
-        userId,
-      },
+      where: { name, userId },
     });
 
     if (existingPlaylist) {
-      return res.status(409).json({ success: false, message: "Playlist already exists" });
+      return res.status(409).json({
+        success: false,
+        message: "Playlist already exists",
+      });
+    }
+
+    if (isPaid && userRole !== "ADMIN") {
+      return res.status(403).json({
+        success: false,
+        message: "Only admins can create paid playlists",
+      });
     }
 
     const playlist = await db.playlist.create({
       data: {
         name,
         description,
+        isPaid,
+        price: isPaid ? Number(price) : 0,
         userId,
       },
     });
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: `${playlist.name} playlist created successfully}`,
-        playlist,
-      });
+    return res.status(201).json({
+      success: true,
+      message: `${playlist.name} playlist created successfully`,
+      playlist,
+    });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: "Error while creating playlist" });
+    console.error("Error creating playlist:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while creating playlist",
+    });
   }
 };
 
 export const getAllPlaylistsOfUser = async (req, res) => {
   try {
-    const playlists = await db.playlist.findMany({
-      where: {
-        userId: req.user.id,
+    const userId = req.user.id;
+
+    const userCreatedPlaylists = await db.playlist.findMany({
+      where: { userId },
+      include: {
+        problems: {
+          include: {
+            problem: {
+              include: {
+                solvedBy: true, 
+              },
+            },
+          },
+        },
       },
+    });
+
+    const purchasedPlaylists = await db.playlist.findMany({
+      where: {
+        isPaid: true,
+        purchases: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: {
+        problems: {
+          include: {
+            problem: {
+              include: {
+                solvedBy: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const playlists = [...userCreatedPlaylists, ...purchasedPlaylists];
+
+    return res.status(200).json({
+      success: true,
+      message: "Playlists fetched successfully",
+      playlists,
+    });
+  } catch (error) {
+    console.error("Error while fetching playlists:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while fetching playlists",
+    });
+  }
+};
+
+export const getPlaylistDetails = async (req, res) => {
+  const { playlistId } = req.params;
+
+  if (!playlistId) {
+    return res.status(400).json({ success: false, message: "Playlist ID is required" });
+  }
+
+  try {
+    const userId = req.user.id;
+
+    const playlist = await db.playlist.findUnique({
+      where: { id: playlistId },
       include: {
         problems: {
           include: {
             problem: true,
           },
         },
+        purchases: true, 
       },
     });
 
-    return res
-      .status(200).json({
-        success: true, message: "Playlists fetched successfully", playlists,
+    if (!playlist) {
+      return res.status(404).json({ success: false, message: "Playlist not found" });
+    }
+
+    const isOwner = playlist.userId === userId;
+    const isPurchased = playlist.purchases.some(p => p.userId === userId);
+    const isAccessible = !playlist.isPaid || isOwner || isPurchased;
+
+    if (!isAccessible) {
+      return res.status(403).json({
+        success: false,
+        message: "You do not have access to view this playlist",
       });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Playlist fetched successfully",
+      playlist,
+    });
+
   } catch (error) {
+    console.error("Error fetching playlist:", error);
     return res.status(500).json({
-      error: "Error while fetching playlists",
+      success: false,
+      message: "Error while fetching playlist",
     });
   }
-};
-
-export const getPlaylistDetails = async (req, res) => {
-    const {playlistId} = req.params
-    if(!playlistId) {
-        return res.status(400).json({ success: false, message: "Playlist ID is required" })
-    }
-    try {
-        const playlist = await db.playlist.findUnique({
-            where: {
-                id: playlistId,
-                userId: req.user.id
-            },
-            include: {
-                problems: {
-                    include: {
-                        problem: true,
-                    },
-                }
-            }
-        })
-
-        if(!playlist) {
-            return res.status(404).json({ success: false, message: "Playlist not found" })
-        }
-
-        return res.status(200).json({ success: true, message: "Playlist fetched successfully", playlist })
-    } catch (error) {
-        console.error(error)
-        return res.status(500).json({ success: false, message: "Error while fetching playlist" })
-    }
 };
 
 export const addProblemToPlaylist = async (req, res) => {
@@ -143,10 +212,31 @@ export const removeProblemFromPlaylist = async (req, res) => {
     const { problemIds } = req.body;
 
     if (!playlistId || !Array.isArray(problemIds)) {
-        return res.status(400).json({ success: false, message: "Playlist ID and problem IDs are required" });
+        return res.status(400).json({ 
+            success: false, 
+            message: "Playlist ID and problem IDs array are required" 
+        });
     }
 
     try {
+        const playlist = await db.playlist.findUnique({
+            where: { id: playlistId }
+        });
+        
+        if (!playlist) {
+            return res.status(404).json({ 
+                success: false, 
+                message: "Playlist not found" 
+            });
+        }
+
+        if (playlist.userId !== req.user.id) {
+            return res.status(403).json({ 
+                success: false, 
+                message: "You are not authorized to modify this playlist" 
+            });
+        }
+
         const result = await db.problemInPlaylist.deleteMany({
             where: {
                 playlistId,
@@ -154,15 +244,19 @@ export const removeProblemFromPlaylist = async (req, res) => {
             }
         });
 
-        if (result.count === 0) {
-            return res.status(404).json({ success: false, message: "No problems found in playlist" });
-        }
-
-        return res.status(200).json({ success: true, message: `${result.count} problem(s) removed from playlist` });
+        return res.status(200).json({ 
+            success: true, 
+            message: `${result.count} problem(s) removed from playlist`,
+            count: result.count
+        });
 
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: "Error while removing problems from playlist" });
+        console.error("Error removing problems:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Error while removing problems from playlist",
+            error: error.message 
+        });
     }
 };
 

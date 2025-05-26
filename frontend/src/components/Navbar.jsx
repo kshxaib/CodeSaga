@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { User, Code, LogOut, Bug } from "lucide-react";
+import { User, Code, LogOut, Bug, Bookmark } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
@@ -66,12 +66,11 @@ const Navbar = () => {
           className="input bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-100 w-24 md:w-48 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div className="flex items-center gap-2 text-sm text-gray-300">
-  <span>🔥 Streak:</span>
-  <span className="px-2 py-1 font-medium text-blue-400 bg-blue-500/10 rounded-md border border-blue-400/20 shadow-sm">
-    {authUser.currentStreak || 0} days
-  </span>
-</div>
-
+          <span>🔥 Streak:</span>
+          <span className="px-2 py-1 font-medium text-blue-400 bg-blue-500/10 rounded-md border border-blue-400/20 shadow-sm">
+            {authUser?.currentStreak || 0} days
+          </span>
+        </div>
 
         <div ref={dropdownRef} className="relative">
           <button
@@ -102,6 +101,17 @@ const Navbar = () => {
                 >
                   <User className="w-4 h-4" />
                   My Profile
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/my-playlists"
+                  onClick={handleLinkClick}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-500/20 hover:text-white transition text-sm text-gray-300"
+                >
+                  <Bookmark className="w-4 h-4" />
+                  My Playlists
                 </Link>
               </li>
 

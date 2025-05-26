@@ -15,6 +15,7 @@ import CodeSagaLanding from "./components/CodeSagaLanding ";
 import AllProblemsPage from "./components/AllProblemsPage";
 import ReportTable from "./components/admin/ReportTable";
 import Profile from "./components/Profile";
+import MyPlaylists from "./components/MyPlaylists";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -43,8 +44,9 @@ const App = () => {
 
         {/* Authenticated routes with Layout */}
         <Route element={<Layout />}>
-        <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
+        <Route path="/my-playlists" element={authUser ? <MyPlaylists /> : <Navigate to="/login" />} />
           <Route path="/problems" element={authUser ? <AllProblemsPage /> : <Navigate to="/login" />} />
           <Route path="/problem/:id" element={authUser ? <ProblemPage /> : <Navigate to="/login" />} />
           <Route path="/reports" element={authUser ? <ReportTable /> : <Navigate to="/login" />} />

@@ -5,8 +5,9 @@ import { Bookmark, PencilIcon, Trash, TrashIcon, Plus, Shuffle, Loader2 } from "
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
-import CreatePlaylistModal from "./createPlaylistModal";
+import CreatePlaylistModal from "./CreatePlaylistModal";
 import AddToPlaylist from "./AddToPlaylist";
+import { toast } from "sonner";
 
 const ProblemTable = ({ problems }) => {
   const [search, setSearch] = useState("");
@@ -59,12 +60,16 @@ const ProblemTable = ({ problems }) => {
   };
 
   const handleConfirmDelete = async () => {
-    if (problemToDelete) {
+  if (problemToDelete) {
+    try {
       await deleteProblem(problemToDelete);
       setIsOpen(false);
       setProblemToDelete(null);
+    } catch (error) {
+      console.error('Delete error:', error);
     }
-  };
+  }
+};
 
   const handleAddtoPlaylist = (problemId) => {
     setSelectedProblemId(problemId);
@@ -84,7 +89,6 @@ const ProblemTable = ({ problems }) => {
 
   return (
     <div className="min-w-screen max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto py-8">
-      {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h1 className="text-2xl font-bold text-primary">Total Problems: {problems.length}</h1>
         <button 
@@ -96,7 +100,6 @@ const ProblemTable = ({ problems }) => {
         </button>
       </div>
 
-      {/* Filters Section */}
       <div className="bg-base-200 rounded-lg p-4 mb-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
@@ -156,7 +159,6 @@ const ProblemTable = ({ problems }) => {
         </div>
       </div>
 
-      {/* Table Section */}
       <div className="bg-base-100 rounded-xl shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -278,7 +280,6 @@ const ProblemTable = ({ problems }) => {
         </div>
       </div>
 
-      {/* Pagination */}
       {filteredProblems.length > 0 && (
         <div className="flex justify-center mt-6">
           <div className="join">
@@ -301,7 +302,6 @@ const ProblemTable = ({ problems }) => {
         </div>
       )}
 
-      {/* Modals */}
       <CreatePlaylistModal 
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}

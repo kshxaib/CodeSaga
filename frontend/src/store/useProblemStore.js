@@ -71,8 +71,9 @@ export const useProblemStore = create((set) => ({
       const res = await axiosInstance.delete(`/problems/delete-problem/${id}`);
       showToast(res);
 
-      const problemsRes = await axiosInstance.get("/problems/get-all-problems");
-      set({ problems: problemsRes.data.problems });
+     set((state) => ({
+  problems:  state.problems.filter((problem) => problem.id !== id),
+}))
     } catch (error) {
       console.log("Error while deleting problem", error);
       showToast(error);

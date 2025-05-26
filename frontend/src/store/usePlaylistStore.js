@@ -31,7 +31,7 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-    getAllPlaylists: async () => {
+    getAllPlaylistsOfUser: async () => {
         try {
             set({ isLoading: true });
             const res = await axiosInstance.get('/playlist');
@@ -44,7 +44,7 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-    getPlaylistDetails: async (playlistId) => {
+    getPlaylistDetails: async (playlistId) => {   //not used abhi tk
         try {
             set({ isLoading: true });
             const res = await axiosInstance.get(`/playlist/${playlistId}`);
@@ -74,22 +74,27 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-    removeProblemFromPlaylist: async (playlistId, problemIds) => {
-        try {
-            set({ isLoading: true });
-            const res = await axiosInstance.delete(`/playlist/${playlistId}/remove-problem`, {  problemIds  });
-            showToast(res);
+   removeProblemFromPlaylist: async (playlistId, problemId) => {
+    try {
+        set({ isLoading: true });
+        const res = await axiosInstance.delete(
+            `/playlist/${playlistId}/remove-problem`,
+            { data: { problemIds: [problemId] } }  
+        );
+        showToast(res);
 
-            if(get().currentPlaylist?.id === playlistId){
-                await get().getPlaylistDetails(playlistId);
-            }
-        } catch (error) {
-            console.error(error);   
-            showToast(error);
-        } finally {
-            set({ isLoading: false });
+        if (get().currentPlaylist?.id === playlistId) {
+            await get().getPlaylistDetails(playlistId);
         }
-    },
+        
+        await get().getAllPlaylistsOfUser();
+    } catch (error) {
+        console.error(error);
+        showToast(error);
+    } finally {
+        set({ isLoading: false });
+    }
+},
 
     deletePlaylist: async (playlistId) => {
         try {
