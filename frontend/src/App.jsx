@@ -16,6 +16,7 @@ import AllProblemsPage from "./components/AllProblemsPage";
 import ReportTable from "./components/admin/ReportTable";
 import Profile from "./components/Profile";
 import MyPlaylists from "./components/MyPlaylists";
+import StorePage from "./components/StorePage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -45,6 +46,7 @@ const App = () => {
         {/* Authenticated routes with Layout */}
         <Route element={<Layout />}>
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
         <Route path="/my-playlists" element={authUser ? <MyPlaylists /> : <Navigate to="/login" />} />
           <Route path="/problems" element={authUser ? <AllProblemsPage /> : <Navigate to="/login" />} />

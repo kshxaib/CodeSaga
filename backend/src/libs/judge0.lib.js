@@ -34,6 +34,7 @@ export const getLanguageName = (language_id) => {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+
 export const submitBatch = async (submissions) => {
   const base64Submissions = submissions.map(sub => ({
     ...sub,
@@ -49,8 +50,6 @@ export const submitBatch = async (submissions) => {
 
   return data;
 };
-
-
 
 export const pollBatchResults = async (tokens) => {
   while (true) {
@@ -89,69 +88,6 @@ export const pollBatchResults = async (tokens) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-// export const submitBatch = async (submissions) => {
-//   const base64Submissions = submissions.map(sub => ({
-//     ...sub,
-//     source_code: Buffer.from(sub.source_code).toString('base64'),
-//     stdin: Buffer.from(sub.stdin).toString('base64'),
-//     expected_output: Buffer.from(sub.expected_output).toString('base64')
-//   }));
-
-//   const { data } = await axios.post(
-//     `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=true`,
-//     {
-//       submissions: base64Submissions,
-//     }
-//   );
-//   return data;
-// };
-
-
-// export const pollBatchResults = async (tokens) => {
-//   while (true) {
-//     try {
-//       const { data } = await axios.get(
-//         `${process.env.JUDGE0_API_URL}/submissions/batch`,
-//         {
-//           params: {
-//             tokens: tokens.join(","),
-//             base64_encoded: true,
-//             fields: 'stdout,stderr,status_id,language_id'
-//           },
-//         }
-//       );
-
-//       const results = data.submissions;
-
-//       // Decode base64 responses
-//       const decodedResults = results.map(result => ({
-//         ...result,
-//         stdout: result.stdout ? Buffer.from(result.stdout, 'base64').toString('utf8') : null,
-//         stderr: result.stderr ? Buffer.from(result.stderr, 'base64').toString('utf8') : null
-//       }));
-
-//       const isAllDone = decodedResults.every(
-//         (r) => r.status_id !== 1 && r.status_id !== 2
-//       );
-
-//       if (isAllDone) return decodedResults;
-//       await sleep(1000);
-//     } catch (error) {
-//       console.error("Error polling batch results:", error);
-//       throw error;
-//     }
-//   }
-// };
 
 export function cleanNullBytes(obj) {
   if (typeof obj === 'string') {

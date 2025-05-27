@@ -254,7 +254,7 @@ const CreateProblemForm = () => {
                                             <div className="flex justify-between items-center mb-2">
                                                 <label className="label">
                                                     <span className="label-text text-gray-300 font-medium">
-                                                        Asked In Companies
+                                                        Asked In Dates
                                                     </span>
                                                 </label>
                                                 <button
@@ -494,7 +494,7 @@ const CreateProblemForm = () => {
 
                             {/* Code Editor Sections */}
                             <div className="space-y-8">
-                                {["PYTHON", "JAVA", "JAVASCRIPT", "C", "CPP", "CSHARP", "GO", "RUST", "PHP"].map((language) => (
+                                {["PYTHON", "JAVA", "JAVASCRIPT", "C", "CPP",].map((language) => (
                                     <div
                                         key={language}
                                         className="bg-gray-700/30 rounded-lg p-6 border border-gray-600 shadow-inner"

@@ -11,6 +11,7 @@ export const executeCode = async (req, res) => {
   try {
     const cleanedBody = cleanNullBytes(req.body);
     const { source_code, language_id, stdin, expected_outputs, problemId } = cleanedBody;
+    expected_outputs.forEach((output) => console.log(typeof(output)));
     const userId = req.user.id;
 
     if (!source_code || !language_id || !stdin || !expected_outputs) {

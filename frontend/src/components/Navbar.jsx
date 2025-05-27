@@ -3,9 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { User, Code, LogOut, Bug, Bookmark } from "lucide-react";
 import LogoutButton from "./LogoutButton";
+import { useUserStore } from "../store/useUserStore";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
@@ -79,7 +81,7 @@ const Navbar = () => {
           >
             <div className="w-10 h-10 rounded-full ring ring-blue-500 ring-offset-gray-900 ring-offset-2 overflow-hidden">
               <img
-                src={authUser?.image || "https://placeimg.com/192/192/people"}
+                src={authUser?.image || user?.image}
                 alt="User Avatar"
                 className="object-cover w-full h-full"
               />

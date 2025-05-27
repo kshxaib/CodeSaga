@@ -299,6 +299,7 @@ export const getUnpurchasedPaidPlaylists = async (req, res) => {
       },
       include: {
         problems: true,
+        purchases: true,
       },
     });
 

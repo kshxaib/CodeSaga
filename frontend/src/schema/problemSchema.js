@@ -44,26 +44,6 @@ export const problemSchema = z.object({
       output: z.string().min(1, "Output is required"),
       explanation: z.string().optional(),
     }),
-    CSHARP: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    GO: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    RUST: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    PHP: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
   }),
 
   codeSnippets: z.object({
@@ -72,10 +52,6 @@ export const problemSchema = z.object({
     JAVASCRIPT: z.string().min(1, "JavaScript code snippet is required"),
     C: z.string().min(1, "C code snippet is required"),
     CPP: z.string().min(1, "CPP code snippet is required"),
-    CSHARP: z.string().min(1, "CSHARP code snippet is required"),
-    GO: z.string().min(1, "Go code snippet is required"),
-    RUST: z.string().min(1, "Rust code snippet is required"),
-    PHP: z.string().min(1, "PHP code snippet is required"),
   }),
 
   referenceSolutions: z.object({
@@ -84,13 +60,8 @@ export const problemSchema = z.object({
     JAVASCRIPT: z.string().min(1, "JavaScript solution is required"),
     C: z.string().min(1, "C solution is required"),
     CPP: z.string().min(1, "CPP solution is required"),
-    CSHARP: z.string().min(1, "CSHARP solution is required"),
-    GO: z.string().min(1, "Go solution is required"),
-    RUST: z.string().min(1, "Rust solution is required"),
-    PHP: z.string().min(1, "PHP solution is required"),
   }),
 
-  // ✅ New fields for paid playlist support
   isPaid: z.boolean().default(false),
   createNewPlaylist: z.boolean().default(false),
   playlistName: z.string().optional(),
@@ -338,21 +309,21 @@ echo climbStairs($n) . "\\n";
 `,
 },
 
-  referenceSolutions: {
-  PYTHON: `class Solution:
-    def climbStairs(self, n: int) -> int:
-        if n <= 2:
-            return n
-        a, b = 1, 2
-        for _ in range(3, n + 1):
-            a, b = b, a + b
-        return b
+    referenceSolutions: {
+    PYTHON: `class Solution:
+      def climbStairs(self, n: int) -> int:
+          if n <= 2:
+              return n
+          a, b = 1, 2
+          for _ in range(3, n + 1):
+              a, b = b, a + b
+          return b
 
-if __name__ == "__main__":
-    import sys
-    n = int(sys.stdin.readline().strip())
-    print(Solution().climbStairs(n))
-`,
+  if __name__ == "__main__":
+      import sys
+      n = int(sys.stdin.readline().strip())
+      print(Solution().climbStairs(n))
+  `,
 
   JAVA: `import java.util.Scanner;
 
@@ -529,8 +500,8 @@ echo climbStairs($n) . "\\n";
 }
 };
 
-// Sample problem data for another type of question
-export const sampleStringProblem = {
+
+export const sampleStringProblem2 = {
   title: "Valid Palindrome",
   description: "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
   difficulty: "EASY",
@@ -541,60 +512,54 @@ export const sampleStringProblem = {
   testcases: [
     { input: "A man, a plan, a canal: Panama", output: "true" },
     { input: "race a car", output: "false" },
-    { input: " ", output: "true" }
   ],
-  examples: {
-    PYTHON: {
-      input: 's = "A man, a plan, a canal: Panama"',
-      output: "true",
-      explanation: '"amanaplanacanalpanama" is a palindrome.'
+  "examples": {
+    "PYTHON": {
+      "input": "grid = [[1,3,1],[1,5,1],[4,2,1]]",
+      "output": "7",
+      "explanation": "Path is 1→3→1→1→1 with sum = 7."
     },
-    JAVA: {
-      input: 's = "race a car"',
-      output: "false",
-      explanation: '"raceacar" is not a palindrome.'
+    "JAVA": {
+      "input": "grid = {{1,3,1},{1,5,1},{4,2,1}}",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    JAVASCRIPT: {
-      input: 's = " "',
-      output: "true",
-      explanation: 'Empty string after processing is a palindrome.'
+    "JAVASCRIPT": {
+      "input": "grid = [[1,2,3],[4,5,6]]",
+      "output": "12",
+      "explanation": "Path is 1→2→3→6 = 12."
     },
-    C: {
-      input: 's = "No lemon, no melon"',
-      output: "true",
-      explanation: '"nolemonnomelon" is a palindrome.'
+    "C": {
+      "input": "[[1,3,1],[1,5,1],[4,2,1]]",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    CPP: {
-      input: 's = "A man, a plan, a canal: Panama"',
-      output: "true",
-      explanation: 'Same as Python example.'
+    "CPP": {
+      "input": "{{1,3,1},{1,5,1},{4,2,1}}",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    TYPESCRIPT: {
-      input: 's = "Was it a car or a cat I saw?"',
-      output: "true",
-      explanation: '"wasitacaroracatisaw" is a palindrome.'
+    "CSHARP": {
+      "input": "new int[][] { new int[] {1,3,1}, new int[] {1,5,1}, new int[] {4,2,1} }",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    CSHARP: {
-      input: 's = "RaceCar"',
-      output: "true",
-      explanation: '"racecar" is a palindrome.'
+    "GO": {
+      "input": "[][]int{{1,3,1},{1,5,1},{4,2,1}}",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    GO: {
-      input: 's = "0P"',
-      output: "false",
-      explanation: '"0p" is not a palindrome.'
+    "RUST": {
+      "input": "vec![vec![1,3,1], vec![1,5,1], vec![4,2,1]]",
+      "output": "7",
+      "explanation": "Same path as Python example."
     },
-    RUST: {
-      input: 's = "A man, a plan, a canal: Panama"',
-      output: "true",
-      explanation: 'Same as Python example.'
-    },
-    PHP: {
-      input: 's = "ab_a"',
-      output: "true",
-      explanation: '"aba" is a palindrome.'
+    "PHP": {
+      "input": "[[1,2,3],[4,5,6]]",
+      "output": "12",
+      "explanation": "Path is 1→2→3→6 = 12."
     }
-  },
+},
   codeSnippets: {
     PYTHON: `class Solution:
     def isPalindrome(self, s: str) -> bool:
@@ -610,30 +575,29 @@ if __name__ == "__main__":
 
     JAVA: `import java.util.Scanner;
 
-public class Main {
-    public static boolean isPalindrome(String s) {
-        int i = 0, j = s.length() - 1;
-        while (i < j) {
-            if (s.charAt(i) != s.charAt(j)) {
-                return false;
-            }
-            i++;
-            j--;
-        }
-        return true;
+class Solution {
+    public boolean isPalindrome(String s) {
+        // Write your code here
+        return false;
     }
+}
 
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        boolean result = isPalindrome(input);
+        String s = sc.nextLine();
+        Solution sol = new Solution();
+        boolean result = sol.isPalindrome(s);
         System.out.println(result ? "true" : "false");
     }
 }
 `,
 
-    JAVASCRIPT: `function isPalindrome(s) {
-    return s === s.split('').reverse().join('');
+    JAVASCRIPT: `class Solution {
+    isPalindrome(s) {
+        // Write your code here
+        return false;
+    }
 }
 
 const readline = require('readline');
@@ -644,10 +608,12 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (line) => {
-    const result = isPalindrome(line.trim());
+    const sol = new Solution();
+    const result = sol.isPalindrome(line.trim());
     console.log(result ? "true" : "false");
     rl.close();
 });
+
 `,
 
     C: `#include <stdio.h>
@@ -655,21 +621,16 @@ rl.on('line', (line) => {
 #include <stdbool.h>
 
 bool isPalindrome(char* s) {
-    int len = strlen(s);
-    for (int i = 0; i < len / 2; i++) {
-        if (s[i] != s[len - i - 1]) {
-            return false;
-        }
-    }
-    return true;
+    // Write your code here
+    return false;
 }
 
 int main() {
     char s[200];
     fgets(s, sizeof(s), stdin);
-    s[strcspn(s, "\n")] = '\0';  // Remove newline character
+    s[strcspn(s, "n")] = '\0';
     bool result = isPalindrome(s);
-    printf(result ? "true\n" : "false\n");
+    printf(result ? "true" : "false");
     return 0;
 }
 `,
@@ -678,64 +639,36 @@ int main() {
 #include <string>
 using namespace std;
 
-bool isPalindrome(const string& s) {
-    int i = 0, j = s.length() - 1;
-    while (i < j) {
-        if (s[i] != s[j]) {
-            return false;
-        }
-        i++;
-        j--;
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        // Write your code here
+        return false;
     }
-    return true;
-}
+};
 
 int main() {
     string s;
     getline(cin, s);
-    bool result = isPalindrome(s);
+    Solution sol;
+    bool result = sol.isPalindrome(s);
     cout << (result ? "true" : "false") << endl;
     return 0;
 }
 `,
 
-    TYPESCRIPT: `function isPalindrome(s: string): boolean {
-    return s === s.split('').reverse().join('');
-}
-
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
-
-rl.on('line', (line: string) => {
-    const result = isPalindrome(line.trim());
-    console.log(result ? "true" : "false");
-    rl.close();
-});
-`,
-
     CSHARP: `using System;
 
 class Solution {
-    public static bool IsPalindrome(string s) {
-        int i = 0, j = s.Length - 1;
-        while (i < j) {
-            if (s[i] != s[j]) {
-                return false;
-            }
-            i++;
-            j--;
-        }
-        return true;
+    public bool IsPalindrome(string s) {
+        // Write your code here
+        return false;
     }
 
-    static void Main() {
-        string input = Console.ReadLine();
-        bool result = IsPalindrome(input);
+    public static void Main() {
+        string s = Console.ReadLine();
+        Solution sol = new Solution();
+        bool result = sol.IsPalindrome(s);
         Console.WriteLine(result ? "true" : "false");
     }
 }
@@ -750,56 +683,57 @@ import (
     "strings"
 )
 
-func isPalindrome(s string) bool {
-    s = strings.TrimSpace(s)
-    for i := 0; i < len(s)/2; i++ {
-        if s[i] != s[len(s)-i-1] {
-            return false
-        }
-    }
-    return true
+type Solution struct{}
+
+func (sol Solution) isPalindrome(s string) bool {
+    // Write your code here
+    return false
 }
 
 func main() {
     scanner := bufio.NewScanner(os.Stdin)
     scanner.Scan()
-    input := scanner.Text()
-    result := isPalindrome(input)
+    s := scanner.Text()
+    sol := Solution{}
+    result := sol.isPalindrome(strings.TrimSpace(s))
     fmt.Println(result)
 }
+
 `,
 
     RUST: `use std::io::{self, Write};
 
-fn is_palindrome(s: &str) -> bool {
-    let s = s.trim();
-    let len = s.len();
-    for i in 0..len / 2 {
-        if s.as_bytes()[i] != s.as_bytes()[len - i - 1] {
-            return false;
-        }
+struct Solution;
+
+impl Solution {
+    fn is_palindrome(&self, s: &str) -> bool {
+        // Write your code here
+        false
     }
-    true
 }
 
 fn main() {
     let mut input = String::new();
-    io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).unwrap();
-    let result = is_palindrome(&input);
+    let sol = Solution;
+    let result = sol.is_palindrome(input.trim());
     println!("{}", if result { "true" } else { "false" });
 }
 `,
 
     PHP: `<?php
 
-function isPalindrome($s) {
-    $s = trim($s);
-    return $s === strrev($s);
+class Solution {
+    public function isPalindrome(string $s): bool {
+        // Write your code here
+        return false;
+    }
 }
 
-$s = rtrim(fgets(STDIN));
-$result = isPalindrome($s);
+$handle = fopen("php://stdin", "r");
+$s = trim(fgets($handle));
+$sol = new Solution();
+$result = $sol->isPalindrome($s);
 echo $result ? "true" : "false";
 
 ?>
@@ -808,7 +742,7 @@ echo $result ? "true" : "false";
   referenceSolutions: {
     PYTHON: `class Solution:
     def isPalindrome(self, s: str) -> bool:
-        s = [c.lower() for c in s if c.isalnum()]
+        s = ''.join(c.lower() for c in s if c.isalnum())
         return s == s[::-1]
 
 if __name__ == "__main__":
@@ -817,6 +751,7 @@ if __name__ == "__main__":
     sol = Solution()
     result = sol.isPalindrome(s)
     print(str(result).lower())
+
 `,
 
     JAVA: `import java.util.Scanner;
@@ -889,31 +824,40 @@ public class Main {
     console.log(result ? "true" : "false");
     rl.close();
   });`,
-
-    C: `#include <stdio.h>
+C:`#include <stdio.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
 
 bool isPalindrome(char* s) {
-    int left = 0, right = strlen(s) - 1;
+    int left = 0;
+    int right = strlen(s) - 1;
+    
     while (left < right) {
-        while (left < right && !isalnum(s[left])) left++;
-        while (left < right && !isalnum(s[right])) right--;
-        if (tolower(s[left++]) != tolower(s[right--])) return false;
+        while (left < right && !isalnum((unsigned char)s[left])) left++;
+        while (left < right && !isalnum((unsigned char)s[right])) right--;
+        if (tolower((unsigned char)s[left]) != tolower((unsigned char)s[right]))
+            return false;
+        left++;
+        right--;
     }
     return true;
 }
 
 int main() {
     char s[200001];
-    fgets(s, sizeof(s), stdin);
-    s[strcspn(s, "\n")] = '\0';  // remove newline
-    printf(isPalindrome(s) ? "true\n" : "false\n");
+    int i = 0;
+    int c;
+    
+    // Manual input reading without fgets
+    while ((c = getchar()) != EOF && c != 10 && i < sizeof(s)-1) {  // 10 is newline
+        s[i++] = c;
+    }
+    s[i] = '\0';
+    
+    printf(isPalindrome(s) ? "true" : "false");
     return 0;
-}
-`,
-
+}`,
     CPP: `#include <iostream>
 #include <string>
 #include <cctype>
@@ -939,30 +883,6 @@ int main() {
     cout << (sol.isPalindrome(s) ? "true" : "false") << endl;
     return 0;
 }
-`,
-
-    TYPESCRIPT: `function isPalindrome(s: string): boolean {
-    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-    let left = 0, right = s.length - 1;
-    while (left < right) {
-        if (s[left++] !== s[right--]) return false;
-    }
-    return true;
-}
-
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
-
-rl.on('line', (line: string) => {
-    const result = isPalindrome(line);
-    console.log(result ? "true" : "false");
-    rl.close();
-});
 `,
 
     CSHARP: `using System;
@@ -1062,5 +982,172 @@ $result = isPalindrome($s);
 echo $result ? "true\n" : "false\n";
 ?>
 `
+  }
+};
+
+export const sampleStringProblem = {
+  title: "Maximum Subarray",
+  category: "dp",
+  description: "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
+  difficulty: "EASY",
+  tags: ["Dynamic Programming", "Array", "Divide and Conquer"],
+  constraints: "1 <= nums.length <= 10⁵\n-10⁴ <= nums[i] <= 10⁴",
+  hints: [
+    "Think about the maximum sum ending at each position",
+    "You can either extend the previous subarray or start a new one at each element",
+    "Track both the current maximum and global maximum"
+  ],
+  editorial: "This problem can be solved efficiently using Kadane's algorithm in O(n) time with O(1) space. The key insight is that at each element, the maximum sum is either the current element itself or the current element plus the maximum sum ending at the previous position.",
+  testcases: [
+    { input: "[-2,1,-3,4,-1,2,1,-5,4]", output: "6" },
+    { input: "[1]", output: "1" },
+    { input: "[5,4,-1,7,8]", output: "23" }
+  ],
+  examples: {
+    PYTHON: {
+      input: "nums = [-2,1,-3,4,-1,2,1,-5,4]",
+      output: "6",
+      explanation: "The subarray [4,-1,2,1] has the largest sum = 6."
+    },
+    JAVA: {
+      input: "nums = {1}",
+      output: "1",
+      explanation: "The single element subarray has the largest sum = 1."
+    },
+    JAVASCRIPT: {
+      input: "nums = [5,4,-1,7,8]",
+      output: "23",
+      explanation: "The entire array has the largest sum = 23."
+    },
+    C: {
+      input: "{-2,1,-3,4,-1,2,1,-5,4}",
+      output: "6",
+      explanation: "Same as Python example."
+    },
+    CPP: {
+      input: "{1}",
+      output: "1",
+      explanation: "Same as Java example."
+    },
+  },
+  codeSnippets: {
+    PYTHON: `class Solution:
+  def maxSubArray(self, nums: List[int]) -> int:
+      # Write your code here
+      pass
+
+if _name_ == "_main_":
+  import sys, json
+  nums = json.loads(sys.stdin.read())
+  print(Solution().maxSubArray(nums))`,
+
+    JAVA: `import java.util.*;
+import com.google.gson.*;
+
+public class Main {
+  public int maxSubArray(int[] nums) {
+      // Write your code here
+      return 0;
+  }
+
+  public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      String input = scanner.useDelimiter("\\A").next();
+      int[] nums = new Gson().fromJson(input, int[].class);
+      System.out.println(new Main().maxSubArray(nums));
+  }
+}`,
+
+    JAVASCRIPT: `function maxSubArray(nums) {
+  // Write your code here
+  return 0;
+}
+
+const fs = require('fs');
+let input = "";
+process.stdin.on('data', chunk => input += chunk);
+process.stdin.on('end', () => {
+  const nums = JSON.parse(input.trim());
+  console.log(maxSubArray(nums));
+});`,
+
+    C: `#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int maxSubArray(int* nums, int numsSize) {
+  // Write your code here
+  return 0;
+}
+
+// Note: Input parsing would need to be implemented for actual submission`,
+
+    CPP: `#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+  int maxSubArray(vector<int>& nums) {
+      // Write your code here
+      return 0;
+  }
+};
+
+// Note: Input parsing would need to be implemented for actual submission`,
+  },
+  referenceSolutions: {
+    PYTHON: `class Solution:
+  def maxSubArray(self, nums: List[int]) -> int:
+      max_current = max_global = nums[0]
+      for num in nums[1:]:
+          max_current = max(num, max_current + num)
+          max_global = max(max_global, max_current)
+      return max_global`,
+
+    JAVA: `public class Main {
+  public int maxSubArray(int[] nums) {
+      int maxCurrent = nums[0];
+      int maxGlobal = nums[0];
+      for (int i = 1; i < nums.length; i++) {
+          maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
+          maxGlobal = Math.max(maxGlobal, maxCurrent);
+      }
+      return maxGlobal;
+  }
+}`,
+
+    JAVASCRIPT: `function maxSubArray(nums) {
+  let maxCurrent = nums[0];
+  let maxGlobal = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
+    maxGlobal = Math.max(maxGlobal, maxCurrent);
+  }
+  return maxGlobal;
+}`,
+
+    C: `int maxSubArray(int* nums, int numsSize) {
+  int max_current = nums[0];
+  int max_global = nums[0];
+  for (int i = 1; i < numsSize; i++) {
+    max_current = nums[i] > max_current + nums[i] ? nums[i] : max_current + nums[i];
+    max_global = max_global > max_current ? max_global : max_current;
+  }
+  return max_global;
+}`,
+
+    CPP: `class Solution {
+public:
+  int maxSubArray(vector<int>& nums) {
+      int max_current = nums[0];
+      int max_global = nums[0];
+      for (int i = 1; i < nums.size(); i++) {
+          max_current = max(nums[i], max_current + nums[i]);
+          max_global = max(max_global, max_current);
+      }
+      return max_global;
+  }
+};`
   }
 };

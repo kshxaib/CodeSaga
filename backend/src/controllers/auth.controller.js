@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import { db } from "../libs/db.js";
-import { UserRole } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 import { generateCodeForEmail } from "../libs/generateCode.js";
 import { sendEmail } from "../libs/mail.js";
@@ -37,6 +36,10 @@ export const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    let role = 'USER';
+    if(email === process.env.ADMIN_EMAIL) {
+      role = 'ADMIN';
+    }
 
     const newUser = await db.user.create({
       data: {
@@ -44,7 +47,7 @@ export const register = async (req, res) => {
         password: hashedPassword,
         name,
         username: username.toLowerCase(),
-        role: UserRole.USER,
+        role: role,
       },
     });
 
@@ -351,6 +354,10 @@ export const googleRegister = async (req, res) => {
 
     const randomPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(randomPassword, 10);
+    let role = 'USER';
+    if(email === process.env.ADMIN_EMAIL) {
+      role = 'ADMIN';
+    }
 
     const newUser = await db.user.create({
       data: {
@@ -359,7 +366,7 @@ export const googleRegister = async (req, res) => {
         username,
         password: hashedPassword,
         image: picture,
-        role: 'USER',
+        role: role,
         provider: 'GOOGLE',
       },
     });

@@ -9,24 +9,22 @@ import { cleanNullBytes } from "../libs/judge0.lib.js";
 
 export const createProblem = async (req, res) => {
   req.body = cleanNullBytes(req.body);
-  console.log("Creating problem with body:", req.body);
-
   const {
     title,
     description,
     difficulty,
-    tags = [],
-    examples = [],
-    constraints = [],
-    hints = [],
-    testcases = [],
-    codeSnippets = {},
-    referenceSolutions = {},
+    tags,
+    examples,
+    constraints,
+    hints ,
+    testcases ,
+    codeSnippets ,
+    referenceSolutions,
     editorial = "",
-    askedIn = [],
-    isPaid = false,
+    askedIn ,
+    isPaid ,
     playlistName,
-    createNewPlaylist = false,
+    createNewPlaylist ,
     playlistDescription = "",
     price = 0,
   } = req.body;
@@ -51,20 +49,25 @@ export const createProblem = async (req, res) => {
       const submissions = testcases.map(({ input, output }) => ({
         source_code: solutionCode,
         language_id: languageId,
-        stdin: input || "",
-        expected_output: output || "",
+        stdin: input ,
+        expected_output: output,
       }));
 
-      const submissionResult = await submitBatch(submissions);
-      const tokens = submissionResult.map((res) => res.token);
+      const submissionResults = await submitBatch(submissions);
+      const tokens = submissionResults.map((res) => res.token);
       const results = await pollBatchResults(tokens);
 
       for (let i = 0; i < results.length; i++) {
-        if (results[i]?.status_id !== 3) {
+        const result = results[i];
+        if (result?.status.id !== 3) {
+          console.error(`Test case ${i + 1} failed for language ${language}`, result);
+          console.error("Submission result:", result);
+          console.error("Submission details:", submissions[i]);
+          console.error("Reference solution code:", solutionCode);
+
           return res.status(400).json({
             success: false,
             message: `Test case ${i + 1} failed for language ${language}`,
-            error: results[i]?.stderr || results[i]?.compile_output || "Unknown error",
           });
         }
       }
@@ -180,6 +183,9 @@ export const createProblem = async (req, res) => {
 export const getAllProblems = async (req, res) => {
   try {
     const problems = await db.problem.findMany({
+      where: {
+        isPaid: false, 
+      },
       include: {
         solvedBy: {
           where: {
