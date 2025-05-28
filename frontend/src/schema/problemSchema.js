@@ -34,32 +34,25 @@ export const problemSchema = z.object({
       output: z.string().min(1, "Output is required"),
       explanation: z.string().optional(),
     }),
-    C: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    CPP: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
+    // C: z.object({
+    //   input: z.string().min(1, "Input is required"),
+    //   output: z.string().min(1, "Output is required"),
+    //   explanation: z.string().optional(),
+    // }),
   }),
 
   codeSnippets: z.object({
     PYTHON: z.string().min(1, "Python code snippet is required"),
     JAVA: z.string().min(1, "Java code snippet is required"),
     JAVASCRIPT: z.string().min(1, "JavaScript code snippet is required"),
-    C: z.string().min(1, "C code snippet is required"),
-    CPP: z.string().min(1, "CPP code snippet is required"),
+    // C: z.string().min(1, "C code snippet is required"),
   }),
 
   referenceSolutions: z.object({
     PYTHON: z.string().min(1, "Python solution is required"),
     JAVA: z.string().min(1, "Java solution is required"),
     JAVASCRIPT: z.string().min(1, "JavaScript solution is required"),
-    C: z.string().min(1, "C solution is required"),
-    CPP: z.string().min(1, "CPP solution is required"),
+    // C: z.string().min(1, "C solution is required"),
   }),
 
   isPaid: z.boolean().default(false),
@@ -79,33 +72,18 @@ export const defaultValues = {
       JAVA: { input: "", output: "", explanation: "" },
       JAVASCRIPT: { input: "", output: "", explanation: "" },
       C: { input: "", output: "", explanation: "" },
-      CPP: { input: "", output: "", explanation: "" },
-      CSHARP: { input: "", output: "", explanation: "" },
-      GO: { input: "", output: "", explanation: "" },
-      RUST: { input: "", output: "", explanation: "" },
-      PHP: { input: "", output: "", explanation: "" },
     },
     codeSnippets: {
       PYTHON: "def solution():\n    # Write your code here\n    pass",
       JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
       JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
       C: "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
-      CPP: "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}",
-      CSHARP: "using System;\n\nclass Program {\n    static void Main() {\n        // Write your code here\n    }\n}",
-      GO: "package main\n\nimport \"fmt\"\n\nfunc main() {\n    // Write your code here\n    fmt.Println(\"Hello\")\n}",
-      RUST: "fn main() {\n    // Write your code here\n    println!(\"Hello, world!\");\n}",
-      PHP: "<?php\n// Write your code here\n?>",
     },
     referenceSolutions: {
       PYTHON: "# Add your reference solution here",
       JAVA: "// Add your reference solution here",
       JAVASCRIPT: "// Add your reference solution here",
       C: "// Add your reference solution here",
-      CPP: "// Add your reference solution here",
-      CSHARP: "// Add your reference solution here",
-      GO: "// Add your reference solution here",
-      RUST: "// Add your reference solution here",
-      PHP: "// Add your reference solution here",
     },
 }
 
@@ -986,168 +964,405 @@ echo $result ? "true\n" : "false\n";
 };
 
 export const sampleStringProblem = {
-  title: "Maximum Subarray",
-  category: "dp",
-  description: "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
-  difficulty: "EASY",
-  tags: ["Dynamic Programming", "Array", "Divide and Conquer"],
-  constraints: "1 <= nums.length <= 10⁵\n-10⁴ <= nums[i] <= 10⁴",
-  hints: [
-    "Think about the maximum sum ending at each position",
-    "You can either extend the previous subarray or start a new one at each element",
-    "Track both the current maximum and global maximum"
+  "title": "Serialize and Deserialize Binary Tree",
+  "category": "tree",
+  "description": "Design an algorithm to serialize and deserialize a binary tree. Your serialize function should convert a tree into a string, and your deserialize function should reconstruct the original tree structure from this string.",
+  "difficulty": "HARD",
+  "tags": ["Tree", "Depth-First Search", "Breadth-First Search", "Design"],
+  "constraints": "The number of nodes in the tree is in the range [0, 10⁴].\n-1000 <= Node.val <= 1000",
+  "hints": [
+    "Consider using pre-order traversal for serialization",
+    "For deserialization, use the same traversal order to reconstruct the tree",
+    "Use 'null' or special markers for empty nodes",
+    "Consider using a queue or recursive approach for reconstruction"
   ],
-  editorial: "This problem can be solved efficiently using Kadane's algorithm in O(n) time with O(1) space. The key insight is that at each element, the maximum sum is either the current element itself or the current element plus the maximum sum ending at the previous position.",
-  testcases: [
-    { input: "[-2,1,-3,4,-1,2,1,-5,4]", output: "6" },
-    { input: "[1]", output: "1" },
-    { input: "[5,4,-1,7,8]", output: "23" }
+  "editorial": "The optimal solution typically uses pre-order traversal with null markers. Serialization converts the tree to a string representation, while deserialization parses this string to reconstruct the original tree. Both operations run in O(n) time and space complexity.",
+  "testcases": [
+    { "input": "[]", "output": "[]" },
+    { "input": "[1]", "output": "[1]" }
   ],
-  examples: {
-    PYTHON: {
-      input: "nums = [-2,1,-3,4,-1,2,1,-5,4]",
-      output: "6",
-      explanation: "The subarray [4,-1,2,1] has the largest sum = 6."
+  "askedIn": ["2023", "2022", "2021"],
+  "examples": {
+    "PYTHON": {
+      "input": "root = [1,2,3,null,null,4,5]",
+      "output": "[1,2,3,null,null,4,5]",
+      "explanation": "The tree is serialized and deserialized correctly maintaining its structure."
     },
-    JAVA: {
-      input: "nums = {1}",
-      output: "1",
-      explanation: "The single element subarray has the largest sum = 1."
+    "JAVA": {
+      "input": "root = []",
+      "output": "[]",
+      "explanation": "Empty tree case is handled properly."
     },
-    JAVASCRIPT: {
-      input: "nums = [5,4,-1,7,8]",
-      output: "23",
-      explanation: "The entire array has the largest sum = 23."
+    "JAVASCRIPT": {
+      "input": "root = [1]",
+      "output": "[1]",
+      "explanation": "Single node tree is correctly serialized/deserialized."
     },
-    C: {
-      input: "{-2,1,-3,4,-1,2,1,-5,4}",
-      output: "6",
-      explanation: "Same as Python example."
-    },
-    CPP: {
-      input: "{1}",
-      output: "1",
-      explanation: "Same as Java example."
+    "C": {
+      "input": "[1,2,3,null,null,4,5]",
+      "output": "[1,2,3,null,null,4,5]",
+      "explanation": "Same as Python example."
     },
   },
-  codeSnippets: {
-    PYTHON: `class Solution:
-  def maxSubArray(self, nums: List[int]) -> int:
-      # Write your code here
-      pass
+  "codeSnippets": {
+    "PYTHON": `# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
-if _name_ == "_main_":
-  import sys, json
-  nums = json.loads(sys.stdin.read())
-  print(Solution().maxSubArray(nums))`,
+class Codec:
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        :type root: TreeNode
+        :rtype: str
+        """
+        pass
 
-    JAVA: `import java.util.*;
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+        pass
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
+
+if __name__ == "__main__":
+    import sys, json
+    from collections import deque
+    
+    def buildTree(nodes):
+        if not nodes:
+            return None
+        root = TreeNode(nodes[0])
+        q = deque([root])
+        i = 1
+        while q and i < len(nodes):
+            curr = q.popleft()
+            if nodes[i] is not None:
+                curr.left = TreeNode(nodes[i])
+                q.append(curr.left)
+            i += 1
+            if i < len(nodes) and nodes[i] is not None:
+                curr.right = TreeNode(nodes[i])
+                q.append(curr.right)
+            i += 1
+        return root
+    
+    def treeToList(root):
+        if not root:
+            return []
+        q = deque([root])
+        res = []
+        while q:
+            curr = q.popleft()
+            if curr:
+                res.append(curr.val)
+                q.append(curr.left)
+                q.append(curr.right)
+            else:
+                res.append(None)
+        while res and res[-1] is None:
+            res.pop()
+        return res
+    
+    data = json.loads(sys.stdin.read())
+    root = buildTree(data)
+    ser = Codec()
+    deser = Codec()
+    ans = deser.deserialize(ser.serialize(root))
+    print(json.dumps(treeToList(ans)))`,
+
+    "JAVA": `import java.util.*;
 import com.google.gson.*;
 
 public class Main {
-  public int maxSubArray(int[] nums) {
-      // Write your code here
-      return 0;
-  }
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
 
-  public static void main(String[] args) {
-      Scanner scanner = new Scanner(System.in);
-      String input = scanner.useDelimiter("\\A").next();
-      int[] nums = new Gson().fromJson(input, int[].class);
-      System.out.println(new Main().maxSubArray(nums));
-  }
+    public static class Codec {
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            return "";
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            return null;
+        }
+    }
+
+    public static TreeNode buildTree(Integer[] nodes) {
+        if (nodes == null || nodes.length == 0) return null;
+        TreeNode root = new TreeNode(nodes[0]);
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        int i = 1;
+        while (!q.isEmpty() && i < nodes.length) {
+            TreeNode curr = q.poll();
+            if (nodes[i] != null) {
+                curr.left = new TreeNode(nodes[i]);
+                q.add(curr.left);
+            }
+            i++;
+            if (i < nodes.length && nodes[i] != null) {
+                curr.right = new TreeNode(nodes[i]);
+                q.add(curr.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    public static List<Integer> treeToList(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            TreeNode curr = q.poll();
+            if (curr != null) {
+                res.add(curr.val);
+                q.add(curr.left);
+                q.add(curr.right);
+            } else {
+                res.add(null);
+            }
+        }
+        while (res.get(res.size() - 1) == null) {
+            res.remove(res.size() - 1);
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.useDelimiter("\\A").next();
+        Integer[] data = new Gson().fromJson(input, Integer[].class);
+        TreeNode root = buildTree(data);
+        Codec ser = new Codec();
+        Codec deser = new Codec();
+        TreeNode ans = deser.deserialize(ser.serialize(root));
+        System.out.println(new Gson().toJson(treeToList(ans)));
+    }
 }`,
 
-    JAVASCRIPT: `function maxSubArray(nums) {
-  // Write your code here
-  return 0;
+    "JAVASCRIPT": `function TreeNode(val) {
+    this.val = val;
+    this.left = this.right = null;
+}
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    return '';
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    return null;
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+
+function buildTree(nodes) {
+    if (!nodes || nodes.length === 0) return null;
+    const root = new TreeNode(nodes[0]);
+    const q = [root];
+    let i = 1;
+    while (q.length && i < nodes.length) {
+        const curr = q.shift();
+        if (nodes[i] !== null) {
+            curr.left = new TreeNode(nodes[i]);
+            q.push(curr.left);
+        }
+        i++;
+        if (i < nodes.length && nodes[i] !== null) {
+            curr.right = new TreeNode(nodes[i]);
+            q.push(curr.right);
+        }
+        i++;
+    }
+    return root;
+}
+
+function treeToList(root) {
+    const res = [];
+    if (!root) return res;
+    const q = [root];
+    while (q.length) {
+        const curr = q.shift();
+        if (curr) {
+            res.push(curr.val);
+            q.push(curr.left);
+            q.push(curr.right);
+        } else {
+            res.push(null);
+        }
+    }
+    while (res[res.length - 1] === null) {
+        res.pop();
+    }
+    return res;
 }
 
 const fs = require('fs');
 let input = "";
 process.stdin.on('data', chunk => input += chunk);
 process.stdin.on('end', () => {
-  const nums = JSON.parse(input.trim());
-  console.log(maxSubArray(nums));
+    const data = JSON.parse(input);
+    const root = buildTree(data);
+    const ans = deserialize(serialize(root));
+    console.log(JSON.stringify(treeToList(ans)));
 });`,
 
-    C: `#include <stdio.h>
+    "C": `#include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include <string.h>
+#include <stdbool.h>
 
-int maxSubArray(int* nums, int numsSize) {
-  // Write your code here
-  return 0;
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+/** Encodes a tree to a single string. */
+char* serialize(struct TreeNode* root) {
+    return "";
 }
 
-// Note: Input parsing would need to be implemented for actual submission`,
+/** Decodes your encoded data to tree. */
+struct TreeNode* deserialize(char* data) {
+    return NULL;
+}
 
-    CPP: `#include <vector>
-#include <algorithm>
-using namespace std;
+// Note: Input parsing would need to be implemented for actual submission
 
-class Solution {
-public:
-  int maxSubArray(vector<int>& nums) {
-      // Write your code here
-      return 0;
-  }
-};
-
-// Note: Input parsing would need to be implemented for actual submission`,
+// Your functions will be called as such:
+// char* data = serialize(root);
+// deserialize(data);`,
   },
-  referenceSolutions: {
-    PYTHON: `class Solution:
-  def maxSubArray(self, nums: List[int]) -> int:
-      max_current = max_global = nums[0]
-      for num in nums[1:]:
-          max_current = max(num, max_current + num)
-          max_global = max(max_global, max_current)
-      return max_global`,
+  "referenceSolutions": {
+    "PYTHON": `class Codec:
+    def serialize(self, root):
+        def helper(node):
+            if node:
+                vals.append(str(node.val))
+                helper(node.left)
+                helper(node.right)
+            else:
+                vals.append('#')
+        vals = []
+        helper(root)
+        return ' '.join(vals)
 
-    JAVA: `public class Main {
-  public int maxSubArray(int[] nums) {
-      int maxCurrent = nums[0];
-      int maxGlobal = nums[0];
-      for (int i = 1; i < nums.length; i++) {
-          maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-          maxGlobal = Math.max(maxGlobal, maxCurrent);
-      }
-      return maxGlobal;
-  }
+    def deserialize(self, data):
+        def helper():
+            val = next(vals)
+            if val == '#':
+                return None
+            node = TreeNode(int(val))
+            node.left = helper()
+            node.right = helper()
+            return node
+        vals = iter(data.split())
+        return helper()`,
+
+    "JAVA": `public class Codec {
+    private static final String SPLITTER = ",";
+    private static final String NULL = "null";
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+
+    private void buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NULL).append(SPLITTER);
+        } else {
+            sb.append(node.val).append(SPLITTER);
+            buildString(node.left, sb);
+            buildString(node.right, sb);
+        }
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        Queue<String> nodes = new LinkedList<>(Arrays.asList(data.split(SPLITTER)));
+        return buildTree(nodes);
+    }
+
+    private TreeNode buildTree(Queue<String> nodes) {
+        String val = nodes.poll();
+        if (val.equals(NULL)) return null;
+        TreeNode node = new TreeNode(Integer.valueOf(val));
+        node.left = buildTree(nodes);
+        node.right = buildTree(nodes);
+        return node;
+    }
 }`,
 
-    JAVASCRIPT: `function maxSubArray(nums) {
-  let maxCurrent = nums[0];
-  let maxGlobal = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-    maxGlobal = Math.max(maxGlobal, maxCurrent);
-  }
-  return maxGlobal;
-}`,
-
-    C: `int maxSubArray(int* nums, int numsSize) {
-  int max_current = nums[0];
-  int max_global = nums[0];
-  for (int i = 1; i < numsSize; i++) {
-    max_current = nums[i] > max_current + nums[i] ? nums[i] : max_current + nums[i];
-    max_global = max_global > max_current ? max_global : max_current;
-  }
-  return max_global;
-}`,
-
-    CPP: `class Solution {
-public:
-  int maxSubArray(vector<int>& nums) {
-      int max_current = nums[0];
-      int max_global = nums[0];
-      for (int i = 1; i < nums.size(); i++) {
-          max_current = max(nums[i], max_current + nums[i]);
-          max_global = max(max_global, max_current);
-      }
-      return max_global;
-  }
-};`
-  }
+    "JAVASCRIPT": `var serialize = function(root) {
+    const res = [];
+    const helper = (node) => {
+        if (!node) {
+            res.push('null');
+            return;
+        }
+        res.push(node.val.toString());
+        helper(node.left);
+        helper(node.right);
+    }
+    helper(root);
+    return res.join(',');
 };
+
+var deserialize = function(data) {
+    const nodes = data.split(',');
+    const helper = () => {
+        const val = nodes.shift();
+        if (val === 'null') return null;
+        const node = new TreeNode(parseInt(val));
+        node.left = helper();
+        node.right = helper();
+        return node;
+    };
+    return helper();
+};`,
+
+    "C": `char* serialize(struct TreeNode* root) {
+    // Implementation would require dynamic string building
+    return NULL;
+}
+
+struct TreeNode* deserialize(char* data) {
+    // Implementation would require parsing the serialized string
+    return NULL;
+}`,
+  }
+}

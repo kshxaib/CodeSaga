@@ -280,6 +280,7 @@ export const deletePlaylist = async (req, res) => {
 };
 
 export const getUnpurchasedPaidPlaylists = async (req, res) => {
+  console.log("request received");
   try {
     const userId = req.user.id;
 
@@ -299,7 +300,10 @@ export const getUnpurchasedPaidPlaylists = async (req, res) => {
       },
       include: {
         problems: true,
-        purchases: true,
+        purchases: true,  
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 

@@ -3,6 +3,7 @@ import { axiosInstance } from "../libs/axios";
 import { showToast } from "../libs/showToast";
 
 
+
 export const usePlaylistStore = create((set, get) => ({
     playlists: [],
     currentPlaylist: null,
@@ -11,7 +12,7 @@ export const usePlaylistStore = create((set, get) => ({
     isPurchasing: false,
     purchasedPlaylists: [],
     unpurchasedPlaylists: [],
-    isStoreLoading: false,
+    isUnpurchasedPlaylistsLoading: false,
 
 
     createPlaylist: async (playlistData) => {
@@ -114,15 +115,17 @@ export const usePlaylistStore = create((set, get) => ({
     },
 
     getUnpurchasedPaidPlaylists: async () => {
+        console.log("request sended");
         try {
-            set({ isStoreLoading: true });
+            set({ isUnpurchasedPlaylistsLoading: true });
             const res = await axiosInstance.get('/playlist/unpurchased-paid-playlists');
+            console.log(res.data);
             set({ unpurchasedPlaylists: res.data.playlists });
         } catch (error) {
             console.error(error);
             showToast(error);
         } finally {
-            set({ isStoreLoading: false });
+            set({ isUnpurchasedPlaylistsLoading: false });
         }
     },
 

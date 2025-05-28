@@ -5,12 +5,12 @@ import { addProblemToPlaylist, createPlaylist, deletePlaylist, getAllPlaylistsOf
 const playlistRoutes = express.Router()
 
 playlistRoutes.get("/", authMiddleware, getAllPlaylistsOfUser)
+playlistRoutes.get("/unpurchased-paid-playlists", authMiddleware, getUnpurchasedPaidPlaylists) // move this up
 playlistRoutes.get("/:playlistId", authMiddleware, getPlaylistDetails)
 playlistRoutes.post("/create-playlist", authMiddleware, createPlaylist)
 playlistRoutes.post("/:playlistId/add-problem", authMiddleware, addProblemToPlaylist)
 playlistRoutes.delete("/:playlistId/remove-problem", authMiddleware, removeProblemFromPlaylist)
 playlistRoutes.delete("/:playlistId", authMiddleware, deletePlaylist)
-playlistRoutes.get("/unpurchased-paid-playlists", authMiddleware, getUnpurchasedPaidPlaylists)
 playlistRoutes.post("/purchase/:playlistId", authMiddleware, purchasePlaylist)
 
 export default playlistRoutes
