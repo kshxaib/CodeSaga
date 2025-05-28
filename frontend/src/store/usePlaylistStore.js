@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import { axiosInstance } from "../libs/axios";
 import { showToast } from "../libs/showToast";
+import { toast } from "sonner";
 
 
 
@@ -129,19 +130,61 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-    purchasePlaylist: async (playlistId) => {
-        try {
-            set({ isPurchasing: true });
-            const res = await axiosInstance.post(`/playlist/purchase/${playlistId}`);
-            set((state) => ({
-                purchasedPlaylists: [...state.purchasedPlaylists, res.data.playlist],
-                unpurchasedPlaylists: state.unpurchasedPlaylists.filter(p => p.id !== playlistId)
-            }));
-        } catch (error) {
-            console.error(error);
-            showToast(error);
-        } finally {
-            set({ isPurchasing: false });
-        }
+      initiatePlaylistPurchase: async (playlistId) => {
+    try {
+      set({ isPurchasing: true });
+      const res = await axiosInstance.post(`/playlist/purchase/initiate/${playlistId}`);
+      return res.data;
+    } catch (error) {
+      console.error("Initiate purchase error:", error);
+      toast.error(error.response?.data?.message || "Failed to initiate payment");
+      throw error;
+    } finally {
+      set({ isPurchasing: false });
     }
+  },
+
+
+  verifyPlaylistPurchase: async (paymentData) => {
+    try {
+      set({ isPurchasing: true });
+      const res = await axiosInstance.post('/playlist/purchase/verify', paymentData);
+      return res.data;
+    } catch (error) {
+      console.error("Verification error:", error);
+      toast.error(error.response?.data?.message || "Payment verification failed");
+      throw error;
+    } finally {
+      set({ isPurchasing: false });
+    }
+  },
+
+  getPurchaseHistory: async () => {
+        try {
+            set({ isLoading: true });
+            const res = await axiosInstance.get('/playlist/purchase/history');
+            
+            const userRole = get().authUser?.role;
+            const userId = get().authUser?.id;
+            
+            let purchases = res.data.purchases;
+            
+            if (userRole !== 'ADMIN') {
+                purchases = purchases.filter(purchase => purchase.userId === userId);
+            }
+            
+            set({ 
+                purchasedPlaylists: purchases,
+                allPlaylists: res.data.playlists || []
+            });
+            
+            return purchases;
+        } catch (error) {
+            console.error("Error fetching purchase history:", error);
+            toast.error(error.response?.data?.message || "Failed to fetch purchase history");
+            throw error;
+        } finally {
+            set({ isLoading: false });
+        }
+    },
 }))

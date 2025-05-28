@@ -228,6 +228,9 @@ exports.Prisma.PlaylistScalarFieldEnum = {
 exports.Prisma.PlaylistPurchaseScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  paymentId: 'paymentId',
+  paymentOrderId: 'paymentOrderId',
+  paymentSignature: 'paymentSignature',
   playlistId: 'playlistId',
   purchaseDate: 'purchaseDate'
 };

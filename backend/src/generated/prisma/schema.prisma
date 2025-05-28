@@ -82,7 +82,7 @@ model Problem {
   codeSnippets       Json
   referenceSolutions Json
   isPaid             Boolean    @default(false)
-  askedIn            String[]
+  askedIn            String[]   @default([])
 
   likes    Int @default(0)
   dislikes Int @default(0)
@@ -183,10 +183,13 @@ model Playlist {
 }
 
 model PlaylistPurchase {
-  id           String   @id @default(uuid())
-  userId       String
-  playlistId   String
-  purchaseDate DateTime @default(now())
+  id               String   @id @default(uuid())
+  userId           String
+  paymentId        String
+  paymentOrderId   String
+  paymentSignature String
+  playlistId       String
+  purchaseDate     DateTime @default(now())
 
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)

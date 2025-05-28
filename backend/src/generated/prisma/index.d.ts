@@ -11172,6 +11172,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    paymentId: string | null
+    paymentOrderId: string | null
+    paymentSignature: string | null
     playlistId: string | null
     purchaseDate: Date | null
   }
@@ -11179,6 +11182,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    paymentId: string | null
+    paymentOrderId: string | null
+    paymentSignature: string | null
     playlistId: string | null
     purchaseDate: Date | null
   }
@@ -11186,6 +11192,9 @@ export namespace Prisma {
   export type PlaylistPurchaseCountAggregateOutputType = {
     id: number
     userId: number
+    paymentId: number
+    paymentOrderId: number
+    paymentSignature: number
     playlistId: number
     purchaseDate: number
     _all: number
@@ -11195,6 +11204,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMinAggregateInputType = {
     id?: true
     userId?: true
+    paymentId?: true
+    paymentOrderId?: true
+    paymentSignature?: true
     playlistId?: true
     purchaseDate?: true
   }
@@ -11202,6 +11214,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMaxAggregateInputType = {
     id?: true
     userId?: true
+    paymentId?: true
+    paymentOrderId?: true
+    paymentSignature?: true
     playlistId?: true
     purchaseDate?: true
   }
@@ -11209,6 +11224,9 @@ export namespace Prisma {
   export type PlaylistPurchaseCountAggregateInputType = {
     id?: true
     userId?: true
+    paymentId?: true
+    paymentOrderId?: true
+    paymentSignature?: true
     playlistId?: true
     purchaseDate?: true
     _all?: true
@@ -11289,6 +11307,9 @@ export namespace Prisma {
   export type PlaylistPurchaseGroupByOutputType = {
     id: string
     userId: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     playlistId: string
     purchaseDate: Date
     _count: PlaylistPurchaseCountAggregateOutputType | null
@@ -11313,6 +11334,9 @@ export namespace Prisma {
   export type PlaylistPurchaseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    paymentId?: boolean
+    paymentOrderId?: boolean
+    paymentSignature?: boolean
     playlistId?: boolean
     purchaseDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -11322,6 +11346,9 @@ export namespace Prisma {
   export type PlaylistPurchaseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    paymentId?: boolean
+    paymentOrderId?: boolean
+    paymentSignature?: boolean
     playlistId?: boolean
     purchaseDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -11331,6 +11358,9 @@ export namespace Prisma {
   export type PlaylistPurchaseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    paymentId?: boolean
+    paymentOrderId?: boolean
+    paymentSignature?: boolean
     playlistId?: boolean
     purchaseDate?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -11340,11 +11370,14 @@ export namespace Prisma {
   export type PlaylistPurchaseSelectScalar = {
     id?: boolean
     userId?: boolean
+    paymentId?: boolean
+    paymentOrderId?: boolean
+    paymentSignature?: boolean
     playlistId?: boolean
     purchaseDate?: boolean
   }
 
-  export type PlaylistPurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "playlistId" | "purchaseDate", ExtArgs["result"]["playlistPurchase"]>
+  export type PlaylistPurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "paymentId" | "paymentOrderId" | "paymentSignature" | "playlistId" | "purchaseDate", ExtArgs["result"]["playlistPurchase"]>
   export type PlaylistPurchaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     playlist?: boolean | PlaylistDefaultArgs<ExtArgs>
@@ -11367,6 +11400,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      paymentId: string
+      paymentOrderId: string
+      paymentSignature: string
       playlistId: string
       purchaseDate: Date
     }, ExtArgs["result"]["playlistPurchase"]>
@@ -11796,6 +11832,9 @@ export namespace Prisma {
   interface PlaylistPurchaseFieldRefs {
     readonly id: FieldRef<"PlaylistPurchase", 'String'>
     readonly userId: FieldRef<"PlaylistPurchase", 'String'>
+    readonly paymentId: FieldRef<"PlaylistPurchase", 'String'>
+    readonly paymentOrderId: FieldRef<"PlaylistPurchase", 'String'>
+    readonly paymentSignature: FieldRef<"PlaylistPurchase", 'String'>
     readonly playlistId: FieldRef<"PlaylistPurchase", 'String'>
     readonly purchaseDate: FieldRef<"PlaylistPurchase", 'DateTime'>
   }
@@ -19852,6 +19891,9 @@ export namespace Prisma {
   export const PlaylistPurchaseScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    paymentId: 'paymentId',
+    paymentOrderId: 'paymentOrderId',
+    paymentSignature: 'paymentSignature',
     playlistId: 'playlistId',
     purchaseDate: 'purchaseDate'
   };
@@ -20809,6 +20851,9 @@ export namespace Prisma {
     NOT?: PlaylistPurchaseWhereInput | PlaylistPurchaseWhereInput[]
     id?: StringFilter<"PlaylistPurchase"> | string
     userId?: StringFilter<"PlaylistPurchase"> | string
+    paymentId?: StringFilter<"PlaylistPurchase"> | string
+    paymentOrderId?: StringFilter<"PlaylistPurchase"> | string
+    paymentSignature?: StringFilter<"PlaylistPurchase"> | string
     playlistId?: StringFilter<"PlaylistPurchase"> | string
     purchaseDate?: DateTimeFilter<"PlaylistPurchase"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20818,6 +20863,9 @@ export namespace Prisma {
   export type PlaylistPurchaseOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    paymentId?: SortOrder
+    paymentOrderId?: SortOrder
+    paymentSignature?: SortOrder
     playlistId?: SortOrder
     purchaseDate?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -20831,6 +20879,9 @@ export namespace Prisma {
     OR?: PlaylistPurchaseWhereInput[]
     NOT?: PlaylistPurchaseWhereInput | PlaylistPurchaseWhereInput[]
     userId?: StringFilter<"PlaylistPurchase"> | string
+    paymentId?: StringFilter<"PlaylistPurchase"> | string
+    paymentOrderId?: StringFilter<"PlaylistPurchase"> | string
+    paymentSignature?: StringFilter<"PlaylistPurchase"> | string
     playlistId?: StringFilter<"PlaylistPurchase"> | string
     purchaseDate?: DateTimeFilter<"PlaylistPurchase"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20840,6 +20891,9 @@ export namespace Prisma {
   export type PlaylistPurchaseOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    paymentId?: SortOrder
+    paymentOrderId?: SortOrder
+    paymentSignature?: SortOrder
     playlistId?: SortOrder
     purchaseDate?: SortOrder
     _count?: PlaylistPurchaseCountOrderByAggregateInput
@@ -20853,6 +20907,9 @@ export namespace Prisma {
     NOT?: PlaylistPurchaseScalarWhereWithAggregatesInput | PlaylistPurchaseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
     userId?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
+    paymentId?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
+    paymentOrderId?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
+    paymentSignature?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
     playlistId?: StringWithAggregatesFilter<"PlaylistPurchase"> | string
     purchaseDate?: DateTimeWithAggregatesFilter<"PlaylistPurchase"> | Date | string
   }
@@ -22081,6 +22138,9 @@ export namespace Prisma {
 
   export type PlaylistPurchaseCreateInput = {
     id?: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     purchaseDate?: Date | string
     user: UserCreateNestedOneWithoutPlaylistPurchasesInput
     playlist: PlaylistCreateNestedOneWithoutPurchasesInput
@@ -22089,12 +22149,18 @@ export namespace Prisma {
   export type PlaylistPurchaseUncheckedCreateInput = {
     id?: string
     userId: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     playlistId: string
     purchaseDate?: Date | string
   }
 
   export type PlaylistPurchaseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlaylistPurchasesNestedInput
     playlist?: PlaylistUpdateOneRequiredWithoutPurchasesNestedInput
@@ -22103,6 +22169,9 @@ export namespace Prisma {
   export type PlaylistPurchaseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22110,18 +22179,27 @@ export namespace Prisma {
   export type PlaylistPurchaseCreateManyInput = {
     id?: string
     userId: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     playlistId: string
     purchaseDate?: Date | string
   }
 
   export type PlaylistPurchaseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlaylistPurchaseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23326,6 +23404,9 @@ export namespace Prisma {
   export type PlaylistPurchaseCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    paymentId?: SortOrder
+    paymentOrderId?: SortOrder
+    paymentSignature?: SortOrder
     playlistId?: SortOrder
     purchaseDate?: SortOrder
   }
@@ -23333,6 +23414,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    paymentId?: SortOrder
+    paymentOrderId?: SortOrder
+    paymentSignature?: SortOrder
     playlistId?: SortOrder
     purchaseDate?: SortOrder
   }
@@ -23340,6 +23424,9 @@ export namespace Prisma {
   export type PlaylistPurchaseMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    paymentId?: SortOrder
+    paymentOrderId?: SortOrder
+    paymentSignature?: SortOrder
     playlistId?: SortOrder
     purchaseDate?: SortOrder
   }
@@ -25508,12 +25595,18 @@ export namespace Prisma {
 
   export type PlaylistPurchaseCreateWithoutUserInput = {
     id?: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     purchaseDate?: Date | string
     playlist: PlaylistCreateNestedOneWithoutPurchasesInput
   }
 
   export type PlaylistPurchaseUncheckedCreateWithoutUserInput = {
     id?: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     playlistId: string
     purchaseDate?: Date | string
   }
@@ -25853,6 +25946,9 @@ export namespace Prisma {
     NOT?: PlaylistPurchaseScalarWhereInput | PlaylistPurchaseScalarWhereInput[]
     id?: StringFilter<"PlaylistPurchase"> | string
     userId?: StringFilter<"PlaylistPurchase"> | string
+    paymentId?: StringFilter<"PlaylistPurchase"> | string
+    paymentOrderId?: StringFilter<"PlaylistPurchase"> | string
+    paymentSignature?: StringFilter<"PlaylistPurchase"> | string
     playlistId?: StringFilter<"PlaylistPurchase"> | string
     purchaseDate?: DateTimeFilter<"PlaylistPurchase"> | Date | string
   }
@@ -26983,6 +27079,9 @@ export namespace Prisma {
 
   export type PlaylistPurchaseCreateWithoutPlaylistInput = {
     id?: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     purchaseDate?: Date | string
     user: UserCreateNestedOneWithoutPlaylistPurchasesInput
   }
@@ -26990,6 +27089,9 @@ export namespace Prisma {
   export type PlaylistPurchaseUncheckedCreateWithoutPlaylistInput = {
     id?: string
     userId: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     purchaseDate?: Date | string
   }
 
@@ -28801,6 +28903,9 @@ export namespace Prisma {
 
   export type PlaylistPurchaseCreateManyUserInput = {
     id?: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     playlistId: string
     purchaseDate?: Date | string
   }
@@ -29263,18 +29368,27 @@ export namespace Prisma {
 
   export type PlaylistPurchaseUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     playlist?: PlaylistUpdateOneRequiredWithoutPurchasesNestedInput
   }
 
   export type PlaylistPurchaseUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlaylistPurchaseUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29533,6 +29647,9 @@ export namespace Prisma {
   export type PlaylistPurchaseCreateManyPlaylistInput = {
     id?: string
     userId: string
+    paymentId: string
+    paymentOrderId: string
+    paymentSignature: string
     purchaseDate?: Date | string
   }
 
@@ -29559,6 +29676,9 @@ export namespace Prisma {
 
   export type PlaylistPurchaseUpdateWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlaylistPurchasesNestedInput
   }
@@ -29566,12 +29686,18 @@ export namespace Prisma {
   export type PlaylistPurchaseUncheckedUpdateWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlaylistPurchaseUncheckedUpdateManyWithoutPlaylistInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    paymentId?: StringFieldUpdateOperationsInput | string
+    paymentOrderId?: StringFieldUpdateOperationsInput | string
+    paymentSignature?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

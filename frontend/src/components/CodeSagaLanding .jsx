@@ -113,7 +113,6 @@ const CodeSagaLanding = () => {
 
   return (
     <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100">
-      {/* Navigation */}
       <header
         className={`fixed w-full z-50 transition-all duration-300 ${
           isScrolled ? "bg-gray-900/90 backdrop-blur-md py-2" : "py-4"
@@ -127,7 +126,6 @@ const CodeSagaLanding = () => {
             </span>
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             <a
               href="#features"
@@ -174,24 +172,8 @@ const CodeSagaLanding = () => {
             >
               Pricing
             </a>
-            <a
-              href="#contact"
-              className={`hover:text-blue-400 transition ${
-                activeTab === "contact" ? "text-blue-400 font-medium" : ""
-              }`}
-              onClick={(e) => {
-                e.preventDefault();
-                document
-                  .getElementById("contact")
-                  .scrollIntoView({ behavior: "smooth" });
-                setActiveTab("contact");
-              }}
-            >
-              Contact
-            </a>
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-gray-300 hover:text-white focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -476,7 +458,6 @@ function twoSum(nums, target) {
         </div>
       </section>
 
-      {/* Pricing Section - Updated for Company Playlists */}
       <section id="pricing" className="py-20 px-4 bg-gray-800/50">
         <div className="container mx-auto">
           <div className="text-center mb-16">
@@ -516,9 +497,9 @@ function twoSum(nums, target) {
                     one-time purchase
                   </span>
                 </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg font-medium transition">
+                <Link to="/login" className="px-4 w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg font-medium transition">
                   Add to Library
-                </button>
+                </Link>
               </div>
             ))}
           </div>
@@ -632,73 +613,6 @@ function twoSum(nums, target) {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Success Stories
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Developers who cracked their dream jobs using CodeSaga
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 mr-4"></div>
-                <div>
-                  <h4 className="font-semibold">Sarah Johnson</h4>
-                  <p className="text-sm text-gray-400">
-                    Software Engineer @ Google
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-300">
-                "The Google playlist had almost identical questions to what I
-                was asked in my onsite interviews. CodeSaga was instrumental in
-                my preparation!"
-              </p>
-            </div>
-
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 mr-4"></div>
-                <div>
-                  <h4 className="font-semibold">Michael Chen</h4>
-                  <p className="text-sm text-gray-400">
-                    Frontend Engineer @ Facebook
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-300">
-                "I purchased the Facebook playlist and practiced daily for 2
-                months. The questions were so relevant that I felt prepared for
-                every interview round."
-              </p>
-            </div>
-
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 mr-4"></div>
-                <div>
-                  <h4 className="font-semibold">David Rodriguez</h4>
-                  <p className="text-sm text-gray-400">
-                    Backend Engineer @ Amazon
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-300">
-                "The Amazon playlist covered all the system design fundamentals
-                I needed. The community solutions helped me understand different
-                approaches."
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="container mx-auto text-center">
@@ -728,88 +642,6 @@ function twoSum(nums, target) {
               Get Started
             </button>
           </form>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact Us</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Have questions about our playlists or need custom solutions? Get
-              in touch.
-            </p>
-          </div>
-
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-8">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="How can we help?"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-300 mb-1"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows="4"
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Your message..."
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
         </div>
       </section>
 

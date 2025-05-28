@@ -184,9 +184,13 @@ const MyPlaylists = () => {
                           </div>
                           <div className="flex items-center gap-2 text-gray-400">
                             <span className="font-medium text-purple-400">
-                              {moment(playlist.createdAt).format(
-                                "MMM D, YYYY, h:mm A"
-                              )}
+                              {playlist.isPaid && authUser?.role !== "ADMIN"
+                                ? `Purchased on ${moment(
+                                    playlist.purchaseDate
+                                  ).format("MMM D, YYYY, h:mm A")}`
+                                : `Created on ${moment(
+                                    playlist.createdAt
+                                  ).format("MMM D, YYYY, h:mm A")}`}
                             </span>
                           </div>
                         </div>
@@ -343,7 +347,11 @@ const MyPlaylists = () => {
                                           className="btn btn-square btn-sm bg-red-600/20 hover:bg-red-600/30 border border-red-600/30 text-red-400 hover:text-red-300 transition-colors"
                                           title="Remove from playlist"
                                         >
-                                          {isRemovingProblem ? <Loader/> : <X className="w-4 h-4" />}
+                                          {isRemovingProblem ? (
+                                            <Loader />
+                                          ) : (
+                                            <X className="w-4 h-4" />
+                                          )}
                                         </button>
                                       )}
                                       <Link
@@ -376,10 +384,13 @@ const MyPlaylists = () => {
             })}
           </div>
         ) : (
-          <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-700 text-center">
+          <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl  border border-gray-700 text-center">
             <div className="max-w-md mx-auto">
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-700 rounded-full">
-                <Plus className="w-8 h-8 text-gray-400" />
+                <Plus
+                  onClick={() => setIsCreateModalOpen(true)}
+                  className="cursor-pointer w-8 h-8 text-gray-400"
+                />
               </div>
               <h3 className="text-xl font-medium text-gray-200 mb-2">
                 No playlists yet
@@ -388,13 +399,6 @@ const MyPlaylists = () => {
                 Create your first playlist to organize problems and track your
                 progress
               </p>
-              <button
-                onClick={() => setIsCreateModalOpen(true)}
-                className="cursor-pointer flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-5 py-3 rounded-lg shadow-lg transition-all hover:shadow-xl"
-              >
-                <Plus className="w-5 h-5" />
-                <span className="font-medium">Create Playlist</span>
-              </button>
             </div>
           </div>
         )}

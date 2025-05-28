@@ -14,16 +14,16 @@ const ResizableEditor = ({
   const { isFullscreen, toggleFullscreen } = useEditorSizeStore();
 
   return (
-    <div className={`card bg-base-100 shadow-xl ${isFullscreen ? 'fixed inset-0 z-50 mt-21' : 'relative'}`}>
+    <div className={`card bg-gray-800 shadow-xl ${isFullscreen ? 'fixed inset-0 z-40 mt-30 border border-gray-700' : 'relative border border-gray-700'}`}>
       <div className="card-body p-0 h-full flex flex-col">
-        <div className="tabs tabs-bordered flex justify-between items-center">
-          <button className="tab tab-active gap-2">
+        <div className="tabs tabs-boxed bg-gray-800 flex justify-between items-center border-b border-gray-700">
+          <button className="tab tab-active gap-2 text-gray-300 hover:text-gray-200">
             <Terminal className="w-4 h-4" />
             Code Editor
           </button>
           <button
             onClick={toggleFullscreen}
-            className="btn btn-ghost btn-sm mr-2"
+            className="btn btn-ghost btn-sm mr-2 text-gray-400 hover:text-gray-300 hover:bg-gray-700"
             title={isFullscreen ? "Minimize" : "Maximize"}
           >
             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
@@ -49,17 +49,15 @@ const ResizableEditor = ({
             }}
           />
         </div>
-        <div className="p-4 border-t border-base-300 bg-base-200">
+        <div className="p-4 border-t border-gray-700 bg-gray-800">
           <div className="flex justify-between items-center">
             <button
-              className={`btn btn-primary gap-2 ${
-                isExecuting ? "loading" : ""
-              }`}
+              className={`btn gap-2 ${isExecuting ? 'bg-purple-600 text-gray-300' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-gray-100 hover:from-blue-600 hover:to-purple-700'}`}
               onClick={onRunCode}
               disabled={isExecuting}
             >
               {!isExecuting && <Play className="w-4 h-4" />}
-              Run Code
+              {isExecuting ? 'Running...' : 'Run Code'}
             </button>
           </div>
         </div>
@@ -68,4 +66,4 @@ const ResizableEditor = ({
   );
 };
 
-export default ResizableEditor; 
+export default ResizableEditor;

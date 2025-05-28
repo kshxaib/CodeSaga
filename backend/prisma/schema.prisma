@@ -185,6 +185,9 @@ model Playlist {
 model PlaylistPurchase {
   id          String   @id @default(uuid())
   userId      String
+  paymentId   String
+  paymentOrderId String
+  paymentSignature String
   playlistId  String
   purchaseDate DateTime @default(now())
 

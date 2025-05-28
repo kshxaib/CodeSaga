@@ -18,6 +18,7 @@ import {
   CircleArrowLeft,
   Bug,
   BookOpenText,
+  Lock,
 } from "lucide-react";
 import { useProblemStore } from "../../store/useProblemStore";
 import { useExecutionStore } from "../../store/useExecutionStore";
@@ -138,8 +139,8 @@ const ProblemPage = () => {
 
   if (isLoading || !problem) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader className="size-10 animate-spin" />
+      <div className="min-w-screen min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
+        <Loader className="size-10 animate-spin text-indigo-500" />
       </div>
     );
   }
@@ -151,17 +152,28 @@ const ProblemPage = () => {
           problem.examples?.[selectedLanguage] || problem.examples?.javascript;
         return (
           <div className="prose max-w-none">
-            <p className="text-lg mb-6">{problem.description}</p>
+            {problem.isPaid && (
+              <div className="flex items-center gap-2 mb-4 p-3 bg-yellow-900/20 rounded-lg border border-yellow-600/50">
+                <Lock className="w-5 h-5 text-yellow-500" />
+                <span className="font-medium text-yellow-400">
+                  Premium Problem - Subscription Required
+                </span>
+              </div>
+            )}
+
+            <p className="text-lg mb-6 text-gray-300">{problem.description}</p>
 
             {examples && (
               <>
-                <h3 className="text-xl font-bold mb-4">Examples:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6 font-mono">
+                <h3 className="text-xl font-bold mb-4 text-indigo-400">
+                  Examples:
+                </h3>
+                <div className="bg-gray-800 p-6 rounded-xl mb-6 font-mono border border-gray-700">
                   <div className="mb-4">
                     <div className="text-indigo-300 mb-2 text-base font-semibold">
                       Input:
                     </div>
-                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                    <span className="bg-gray-900 px-4 py-2 rounded-lg font-semibold text-gray-200 block">
                       {examples.input}
                     </span>
                   </div>
@@ -169,7 +181,7 @@ const ProblemPage = () => {
                     <div className="text-indigo-300 mb-2 text-base font-semibold">
                       Output:
                     </div>
-                    <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                    <span className="bg-gray-900 px-4 py-2 rounded-lg font-semibold text-gray-200 block">
                       {examples.output}
                     </span>
                   </div>
@@ -178,7 +190,7 @@ const ProblemPage = () => {
                       <div className="text-emerald-300 mb-2 text-base font-semibold">
                         Explanation:
                       </div>
-                      <p className="text-base-content/70 text-lg">
+                      <p className="text-gray-400 text-lg">
                         {examples.explanation}
                       </p>
                     </div>
@@ -189,9 +201,11 @@ const ProblemPage = () => {
 
             {problem.constraints && (
               <>
-                <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                <h3 className="text-xl font-bold mb-4 text-indigo-400">
+                  Constraints:
+                </h3>
+                <div className="bg-gray-800 p-6 rounded-xl mb-6 border border-gray-700">
+                  <span className="bg-gray-900 px-4 py-2 rounded-lg font-semibold text-gray-200 block">
                     {problem.constraints}
                   </span>
                 </div>
@@ -215,34 +229,34 @@ const ProblemPage = () => {
         return (
           <div className="p-4">
             {problem?.hints ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <span className="bg-gray-900 px-4 py-2 rounded-lg font-semibold text-gray-200 block">
                   {problem.hints}
                 </span>
               </div>
             ) : (
-              <div className="text-center text-base-content/70">
+              <div className="text-center text-gray-400">
                 No hints available
               </div>
             )}
           </div>
         );
       }
-       case "solution": {
-      const solution = problem.referenceSolutions?.[selectedLanguage.toUpperCase()] || 
-
-                      "No solution available for this language.";
-      return (
-        <div className="p-6">
-          <h3 className="text-xl font-bold mb-4">
-            Solution for {selectedLanguage}
-          </h3>
-          <div className="bg-base-200 p-6 rounded-xl font-mono whitespace-pre-wrap">
-            {solution}
+      case "solution": {
+        const solution =
+          problem.referenceSolutions?.[selectedLanguage.toUpperCase()] ||
+          "No solution available for this language.";
+        return (
+          <div className="p-6">
+            <h3 className="text-xl font-bold mb-4 text-indigo-400">
+              Solution for {selectedLanguage}
+            </h3>
+            <div className="bg-gray-800 p-6 rounded-xl font-mono whitespace-pre-wrap text-gray-300 border border-gray-700">
+              {solution}
+            </div>
           </div>
-        </div>
-      );
-    }
+        );
+      }
       default: {
         return null;
       }
@@ -250,18 +264,38 @@ const ProblemPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 min-w-screen mx-auto">
-      <nav className={`navbar bg-base-100 shadow-lg px-4 ${isFullscreen ? 'fixed top-0 w-full z-50' : ''}`}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 min-w-screen mx-auto text-gray-200">
+      <nav
+        className={`navbar bg-gray-850 shadow-lg px-6 py-3 border-b border-gray-700 ${
+          isFullscreen ? "fixed top-0 w-full z-50" : ""
+        }`}
+      >
         <div className="flex-1 gap-2">
-          
-          <div className="mt-2">
-            <h1 className="text-xl font-bold">{problem.title}</h1>
+          <Link
+            to={"/problems"}
+            className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 mr-4"
+          >
+            <CircleArrowLeft className="w-6 h-6" />
+          </Link>
 
-            <div className="flex flex-wrap items-center gap-3 text-sm text-base-content/70 mt-5">
+          <div className="mt-1">
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl font-bold text-gray-100">
+                {problem.title}
+              </h1>
+              {problem.isPaid && (
+                <span className="flex items-center gap-1 text-xs bg-yellow-900/30 text-yellow-400 px-2 py-1 rounded-full border border-yellow-700/50">
+                  <Lock className="w-3 h-3" />
+                  Premium
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mt-3">
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
                 <span>
-                  Updated{" "}
+                  {problem.isPaid ? "Asked in " : "Updated "}
                   {new Date(problem.createdAt).toLocaleString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -270,73 +304,87 @@ const ProblemPage = () => {
                 </span>
               </div>
 
-              <span className="text-base-content/30">•</span>
+              <span className="text-gray-600">•</span>
 
               <div className="flex items-center gap-1">
                 <Users className="w-4 h-4" />
                 <span>{submissionCount} Submissions</span>
               </div>
 
-              <span className="text-base-content/30">•</span>
+              <span className="text-gray-600">•</span>
 
               <div className="flex items-center gap-1">
                 <Star className="w-4 h-4" />
                 <span>{successRate}% Success Rate</span>
               </div>
-
-              <span className="text-base-content/30">•</span>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleLikeClick(problem.id)}
-                  className="cursor-pointer flex items-center gap-1 text-green-600 hover:text-green-700"
-                >
-                  {isReactingToProblem ? (
-                    <Loader className="animate-spin" />
-                  ) : (
-                    <ThumbsUp className="w-4 h-4" />
-                  )}
-                  <span>{problem.likes}</span>
-                </button>
-
-                <button
-                  onClick={() => handleDislikeClick(problem.id)}
-                  className="cursor-pointer flex items-center gap-1 text-red-600 hover:text-red-700"
-                >
-                  {isReactingToProblem ? (
-                    <Loader className="animate-spin" />
-                  ) : (
-                    <ThumbsDown className="w-4 h-4" />
-                  )}
-                  <span>{problem.dislikes}</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
-        <div className="flex gap-3">
-          <Link to={"/problems"} className="flex items-center gap-2 text-primary">
-            <CircleArrowLeft className="btn btn-ghost btn-circle h-10.5 w-10.5"/>
-          </Link>
-          <button
-            title={isInPlaylist ? "already in Playlist" : "Add to Playlist"}
-            className={`btn btn-ghost btn-circle transition-colors duration-200 ${
-              isInPlaylist ? "bg-blue-500 text-white" : "hover:bg-base-200"
-            }`}
-            onClick={() => handleAddtoPlaylist(problem.id)}
-          >
-            <Bookmark
-              className={`w-5 h-5 transition-colors duration-200 ${
-                isInPlaylist ? "fill-white" : "fill-none"
-              }`}
-            />
-          </button>
 
-          <button title="Share" className="btn btn-ghost btn-circle">
-            <Share2 className="w-5 h-5" />
-          </button>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleLikeClick(problem.id)}
+              className="flex items-center gap-1 text-gray-300 hover:text-green-400 transition-colors"
+              disabled={isReactingToProblem}
+            >
+              {isReactingToProblem ? (
+                <Loader className="animate-spin w-4 h-4" />
+              ) : (
+                <ThumbsUp className="w-5 h-5" />
+              )}
+              <span className="text-sm">{problem.likes}</span>
+            </button>
+
+            <button
+              onClick={() => handleDislikeClick(problem.id)}
+              className="flex items-center gap-1 text-gray-300 hover:text-red-400 transition-colors ml-2"
+              disabled={isReactingToProblem}
+            >
+              {isReactingToProblem ? (
+                <Loader className="animate-spin w-4 h-4" />
+              ) : (
+                <ThumbsDown className="w-5 h-5" />
+              )}
+              <span className="text-sm">{problem.dislikes}</span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              title={isInPlaylist ? "Already in Playlist" : "Add to Playlist"}
+              className={`p-2 rounded-full transition-colors duration-200 ${
+                isInPlaylist
+                  ? "bg-indigo-600 text-white"
+                  : "text-gray-400 hover:bg-gray-700 hover:text-indigo-400"
+              }`}
+              onClick={() => handleAddtoPlaylist(problem.id)}
+            >
+              <Bookmark
+                className={`w-5 h-5 ${
+                  isInPlaylist ? "fill-white" : "fill-none"
+                }`}
+              />
+            </button>
+
+            <button
+              title="Share"
+              className="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-indigo-400 transition-colors"
+            >
+              <Share2 className="w-5 h-5" />
+            </button>
+
+            <button
+              title="Report Bug"
+              className="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
+              onClick={() => setOpenBugModal(true)}
+            >
+              <Bug className="w-5 h-5" />
+            </button>
+          </div>
+
           <select
-            className="cursor-pointer select select-bordered select-primary w-52 px-4 py-2 text-base font-medium shadow-md transition duration-200 ease-in-out hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent rounded-xl"
+            className="select select-bordered bg-gray-800 border-gray-700 text-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-lg px-3 py-2 text-sm"
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
@@ -344,7 +392,7 @@ const ProblemPage = () => {
               <option
                 key={lang}
                 value={lang}
-                className="capitalize text-base text-gray-700"
+                className="bg-gray-800 text-gray-200"
               >
                 {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>
@@ -353,71 +401,87 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className={`container mx-auto py-3 min-w-full ${isFullscreen ? 'pt-20' : ''}`}>
-        <div className={`grid grid-cols-1 ${isFullscreen ? '' : 'lg:grid-cols-2'} gap-3`}>
+      <div
+        className={`container mx-auto py-3 min-w-full ${
+          isFullscreen ? "pt-20" : ""
+        }`}
+      >
+        <div
+          className={`grid grid-cols-1 ${
+            isFullscreen ? "" : "lg:grid-cols-2"
+          } gap-4 px-4`}
+        >
           {!isFullscreen && (
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body p-0">
-                <div className="tabs tabs-bordered flex flex-wrap sm:flex-nowrap">
-                  <div className="flex w-full overflow-x-auto">
-                    <button
-                      className={`tab gap-2 ${
-                        activeTab === "description" ? "tab-active" : ""
-                      }`}
-                      onClick={() => setActiveTab("description")}
-                    >
-                      <FileText className="w-4 h-4" />
-                      Description
-                    </button>
-                    <button
-                      className={`tab gap-2 ${
-                        activeTab === "submissions" ? "tab-active" : ""
-                      }`}
-                      onClick={() => setActiveTab("submissions")}
-                    >
-                      <Code2 className="w-4 h-4" />
-                      Submissions
-                    </button>
-                    <button
-                      className={`tab gap-2 ${
-                        activeTab === "discussion" ? "tab-active" : ""
-                      }`}
-                      onClick={() => setActiveTab("discussion")}
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      Discussion
-                    </button>
-                    <button
-                      className={`tab gap-2 ${
-                        activeTab === "hints" ? "tab-active" : ""
-                      }`}
-                      onClick={() => setActiveTab("hints")}
-                    >
-                      <Lightbulb className="w-4 h-4" />
-                      Hints
-                    </button>
-                    <button
-                      className={`tab gap-2 ${
-                        activeTab === "solution" ? "tab-active" : ""
-                      }`}
-                      onClick={() => setActiveTab("solution")}
-                    >
-                      <BookOpenText className="w-4 h-4" />
-                      Solution
-                    </button>
-                    <button
-                      className="tab gap-2"
-                      onClick={() => setOpenBugModal(true)}
-                    >
-                      <Bug className="w-4 h-4" />
-                      Report
-                    </button>
-                  </div>
-                </div>
+            <div className="card bg-gray-850 shadow-xl border border-gray-700">
+  <div className="card-body p-0">
+    <div className="tabs tabs-boxed bg-gray-800 flex flex-wrap sm:flex-nowrap px-2">
+      <div className="flex w-full overflow-x-auto gap-2 py-2">
+        <button
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+            ${activeTab === "description"
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+            }`}
+          onClick={() => setActiveTab("description")}
+        >
+          <FileText className="w-4 h-4" />
+          Description
+        </button>
 
-                <div className="p-6">{renderTabContent()}</div>
-              </div>
-            </div>
+        <button
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+            ${activeTab === "submissions"
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+            }`}
+          onClick={() => setActiveTab("submissions")}
+        >
+          <Code2 className="w-4 h-4" />
+          Submissions
+        </button>
+
+        <button
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+            ${activeTab === "discussion"
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+            }`}
+          onClick={() => setActiveTab("discussion")}
+        >
+          <MessageSquare className="w-4 h-4" />
+          Discussion
+        </button>
+
+        <button
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+            ${activeTab === "hints"
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+            }`}
+          onClick={() => setActiveTab("hints")}
+        >
+          <Lightbulb className="w-4 h-4" />
+          Hints
+        </button>
+
+        <button
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+            ${activeTab === "solution"
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+            }`}
+          onClick={() => setActiveTab("solution")}
+        >
+          <BookOpenText className="w-4 h-4" />
+          Solution
+        </button>
+      </div>
+    </div>
+
+    <div className="p-6">{renderTabContent()}</div>
+  </div>
+</div>
+
           )}
 
           <ResizableEditor
@@ -430,28 +494,39 @@ const ProblemPage = () => {
         </div>
 
         {!isFullscreen && (
-          <div className="card bg-base-100 shadow-xl mt-6">
+          <div className="card bg-gray-850 shadow-xl mt-6 border border-gray-700 mx-4">
             <div className="card-body">
               {submission ? (
                 <SubmissionResults submission={submission} />
               ) : (
                 <>
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold">Test Cases</h3>
+                    <h3 className="text-xl font-bold text-indigo-400">
+                      Test Cases
+                    </h3>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="table table-zebra w-full">
+                    <table className="table w-full">
                       <thead>
-                        <tr>
-                          <th>Input</th>
-                          <th>Expected Output</th>
+                        <tr className="border-gray-700">
+                          <th className="bg-gray-800 text-gray-300">Input</th>
+                          <th className="bg-gray-800 text-gray-300">
+                            Expected Output
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {testcases.map((testcase, index) => (
-                          <tr key={index}>
-                            <td className="font-mono">{testcase.input}</td>
-                            <td className="font-mono">{testcase.output}</td>
+                          <tr
+                            key={index}
+                            className="border-gray-700 hover:bg-gray-800"
+                          >
+                            <td className="font-mono text-gray-300">
+                              {testcase.input}
+                            </td>
+                            <td className="font-mono text-gray-300">
+                              {testcase.output}
+                            </td>
                           </tr>
                         ))}
                       </tbody>

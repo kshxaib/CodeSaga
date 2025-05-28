@@ -1,4 +1,11 @@
 import { db } from "../libs/db.js";
+import Razorpay from "razorpay";
+import crypto from "crypto";
+
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,  
+});
 
 export const createPlaylist = async (req, res) => {
   const { name, description="", isPaid = false, price = 0 } = req.body;
@@ -318,34 +325,178 @@ export const getUnpurchasedPaidPlaylists = async (req, res) => {
   }
 };
 
-export const purchasePlaylist = async (req, res) => {
-  const {playlistId} = req.params 
+export const initiatePlaylistPurchase = async (req, res) => {
+  const { playlistId } = req.params;
   if (!playlistId) {
     return res.status(400).json({ success: false, message: "Playlist ID is required" });
   }
 
   try {
     const userId = req.user.id;
-    const existingPurchase = await db.playlistPurchase.findFirst({
-      where: {
-        userId,
-        playlistId,
-      },
+    
+    // Check if playlist exists and is paid
+    const playlist = await db.playlist.findUnique({
+      where: { id: playlistId }
     });
+
+    if (!playlist) {
+      return res.status(404).json({ success: false, message: "Playlist not found" });
+    }
+
+    if (!playlist.isPaid) {
+      return res.status(400).json({ success: false, message: "This playlist is free" });
+    }
+
+    // Check if already purchased
+    const existingPurchase = await db.playlistPurchase.findFirst({
+      where: { userId, playlistId }
+    });
+
     if (existingPurchase) {
       return res.status(409).json({ success: false, message: "Playlist already purchased" });
     }
+
+    // Create Razorpay order
+    const receipt = `pl_${playlistId.slice(0, 10)}_u_${userId.slice(0, 10)}`;
+    const options = {
+      amount: playlist.price * 100, // amount in paise
+      currency: "INR",
+      receipt: receipt,
+      notes: {
+        playlistId,
+        userId,
+      }
+    };
+
+    const razorpayOrder = await razorpayInstance.orders.create(options);
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment initiated",
+      order: razorpayOrder,
+      key: process.env.RAZORPAY_KEY_ID
+    });
+
+  } catch (error) {
+    console.error("Error initiating payment:", error);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Error while initiating payment",
+    });
+  }
+};
+
+export const verifyPlaylistPurchase = async (req, res) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature, playlistId } = req.body;
+  console.log("request received", razorpay_payment_id, razorpay_order_id, razorpay_signature, playlistId);
+
+  try {
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !playlistId) {
+      console.error("Missing payment verification fields");
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields for payment verification",
+      });
+    }
+
+    const userId = req.user.id;
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      console.error("Invalid payment signature", {
+        expected: expectedSignature,
+        received: razorpay_signature
+      });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment signature",
+      });
+    }
+
+    const existingPurchase = await db.playlistPurchase.findFirst({
+      where: { userId, playlistId }
+    });
+
+    if (existingPurchase) {
+      console.warn("Duplicate purchase attempt", { userId, playlistId });
+      return res.status(409).json({
+        success: false,
+        message: "Playlist already purchased",
+      });
+    }
+
     const purchase = await db.playlistPurchase.create({
       data: {
         userId,
         playlistId,
+        paymentId: razorpay_payment_id,
+        paymentOrderId: razorpay_order_id,
+        paymentSignature: razorpay_signature,
       },
       include: {
         playlist: true,
       },
     });
-    return res.status(200).json({ success: true, message: `${purchase.playlist.name} Playlist purchased successfully`, playlist:purchase.playlist });
+
+    console.log("Purchase successful", purchase);
+
+    return res.status(200).json({
+  success: true,
+  message: `${purchase.playlist.name} playlist purchased successfully`,
+  purchase: {
+    id: purchase.id,
+    playlist: purchase.playlist,
+    paymentId: purchase.paymentId,
+  },
+});
+
   } catch (error) {
-    return res.status(500).json({ success: false, message: "Error while purchasing playlist" });
+    console.error("Payment verification error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred during payment verification",
+    });
   }
-}
+};
+
+export const getPurchaseHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const purchases = await db.playlistPurchase.findMany({
+      where: { userId },
+      include: {
+        playlist: {
+          include: {
+            problems: {
+              include: {
+                problem: true
+              }
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Purchase history fetched successfully",
+      purchases
+    });
+
+  } catch (error) {
+    console.error("Error fetching purchase history:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while fetching purchase history"
+    });
+  }
+}; 
