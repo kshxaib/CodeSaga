@@ -1,25 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import {
-  Play,
-  FileText,
-  MessageSquare,
-  Lightbulb,
-  Bookmark,
-  Share2,
-  Clock,
-  Terminal,
-  Code2,
-  Users,
-  ThumbsUp,
-  Loader,
-  ThumbsDown,
-  Star,
-  CircleArrowLeft,
-  Bug,
-  BookOpenText,
-  Lock,
-} from "lucide-react";
+import { Play, FileText, MessageSquare, Lightbulb, Bookmark, Share2, Clock, Terminal, Code2, Users,  ThumbsUp, Loader, ThumbsDown, Star, CircleArrowLeft, Bug, BookOpenText,Lock,} from "lucide-react";
 import { useProblemStore } from "../../store/useProblemStore";
 import { useExecutionStore } from "../../store/useExecutionStore";
 import { useSubmissionStore } from "../../store/useSubmissionStore";
@@ -31,6 +12,7 @@ import AddToPlaylist from "../AddToPlaylist";
 import BugModal from "./BugModal";
 import DiscussionSection from "./DiscussionSection";
 import ResizableEditor from "./ResizableEditor";
+import {useAICodeCompletion} from "./useAICodeCompletion"
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -59,6 +41,17 @@ const ProblemPage = () => {
   const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
   const { isExecuting, executeCode, submission } = useExecutionStore();
+
+   const [cursorPosition, setCursorPosition] = useState({
+    lineNumber: 1,
+    column: 1,
+  });
+  const [isAICompletionActive, setIsAICompletionActive] = useState(false);
+  const [completionText, setCompletionText] = useState("");
+  const [isLoadingCompletion, setIsLoadingCompletion] = useState(false);
+  const editorRef = useRef(null);
+
+   const { getCodeCompletion } = useAICodeCompletion();
 
   useEffect(() => {
     getProblemById(id);
@@ -130,6 +123,67 @@ const ProblemPage = () => {
   const handleAddtoPlaylist = (problemId) => {
     setSelectedProblemId(problemId);
     setAddToPlaylistModalOpen(true);
+  };
+
+  const handleAcceptCompletion = (acceptedText) => {
+    if (!editorRef.current) return;
+
+    const editor = editorRef.current;
+    const position = editor.getPosition();
+    
+    editor.executeEdits("ai-completion", [{
+      range: {
+        startLineNumber: position.lineNumber,
+        startColumn: position.column,
+        endLineNumber: position.lineNumber,
+        endColumn: position.column
+      },
+      text: acceptedText,
+      forceMoveMarkers: true
+    }]);
+
+    editor.setPosition({
+      lineNumber: position.lineNumber,
+      column: position.column + acceptedText.length
+    });
+    editor.focus();
+
+    setCompletionText("");
+  };
+
+  const handleRejectCompletion = () => {
+    setCompletionText("");
+  };
+
+  const handleEditorMount = (editor) => {
+    editorRef.current = editor;
+    editor.onDidChangeCursorPosition((e) => {
+      setCursorPosition({
+        lineNumber: e.position.lineNumber,
+        column: e.position.column
+      });
+    });
+  };
+
+  const handleAICompletion = async (context, prompt) => {
+    if (!isAICompletionActive || !prompt.trim()) return;
+    
+    setIsLoadingCompletion(true);
+    try {
+      const completion = await getCodeCompletion(
+        prompt,
+        context || code,
+        selectedLanguage
+      );
+      
+      if (completion.success) {
+        setCompletionText(completion.completion);
+      }
+    } catch (error) {
+      console.error("AI completion error:", error);
+    } finally {
+      setIsLoadingCompletion(false);
+    }
   };
 
   const successRate =
@@ -485,11 +539,20 @@ const ProblemPage = () => {
           )}
 
           <ResizableEditor
-            code={code}
-            language={selectedLanguage}
-            onCodeChange={(value) => setCode(value || "")}
-            onRunCode={handleRunCode}
-            isExecuting={isExecuting}
+            ref={editorRef}
+        code={code}
+        language={selectedLanguage}
+        onCodeChange={(value) => setCode(value || "")}
+        onRunCode={handleRunCode}
+        isExecuting={isExecuting}
+        isAICompletionActive={isAICompletionActive}
+        onToggleAICompletion={() => setIsAICompletionActive(!isAICompletionActive)}
+        completionText={completionText}
+        onAcceptCompletion={handleAcceptCompletion}
+        onRejectCompletion={handleRejectCompletion}
+        onRequestCompletion={handleAICompletion}
+        onEditorMount={handleEditorMount}
+        isLoadingCompletion={isLoadingCompletion}
           />
         </div>
 

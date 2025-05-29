@@ -5,6 +5,7 @@ import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
+
 import authRoutes from "./routes/auth.routes.js";
 import problemRoutes from "./routes/problem.route.js";
 import executeRoutes from "./routes/execute.routes.js";
@@ -12,6 +13,7 @@ import submissionRoutes from "./routes/submission.route.js";
 import playlistRoutes from "./routes/playlist.route.js";
 import userRoutes from "./routes/user.route.js";
 import reportRoutes from "./routes/report.route.js";
+import aiRoutes from "./routes/ai.routes.js";
 
 import initializeSocket from "./libs/socketHandler.js";
 
@@ -50,6 +52,7 @@ app.use("/api/v1/execute-code", executeRoutes);
 app.use("/api/v1/submission", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
 app.use("/api/v1/problems/report", reportRoutes);
+app.use("/api/v1/ai", aiRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
