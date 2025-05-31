@@ -1,7 +1,10 @@
 import { Server } from "socket.io";
 import { db } from "./db.js";
+import { invitationEvents } from "./events.js";
 
 const socketRateLimits = new Map();
+const activeCollaborations = new Map();
+const connectedUsers = new Map();
 
 const checkRateLimit = (socket) => {
   const ip = socket.handshake.address;
@@ -44,10 +47,27 @@ const initializeSocket = (io) => {
       next();
     });
 
+    socket.on("authenticate", (userId) => {
+      connectedUsers.set(socket.id, userId);
+      socket.join(`user:${userId}`); 
+      socket.join(`notifications:${userId}`); 
+      console.log(`User ${userId} authenticated with socket ${socket.id}`);
+    });
+
+    socket.on("invitationEvent", (data) => {
+      switch(data.type) {
+        case 'invitationCreated':
+          invitationEvents.emit('invitationCreated', data.invitation);
+          break;
+        case 'invitationStatusUpdated':
+          invitationEvents.emit('invitationStatusUpdated', data.invitation);
+          break;
+      }
+    });
+
     socket.on("joinDiscussion", async (problemId) => {
       try {
         socket.join(`problem:${problemId}`);
-        console.log(`Client ${socket.id} joined problem discussion: ${problemId}`);
 
         const messages = await db.discussionMessage.findMany({
           where: { discussion: { problemId } },
@@ -168,10 +188,132 @@ const initializeSocket = (io) => {
       }
     });
 
+     socket.on("subscribeToNotifications", (userId) => {
+      socket.join(`notifications:${userId}`);
+      console.log(`User ${userId} subscribed to notifications`);
+    });
+
+    // Real-time Collaboration for Problem Solving
+    socket.on("joinProblemSession", ({ problemId, userId }) => {
+      socket.join(`collab:${problemId}:${userId}`);
+      console.log(`User ${userId} joined problem session for ${problemId}`);
+    });
+
+    // Handle code updates during collaboration
+    socket.on("codeUpdate", ({ problemId, userId, code, language }) => {
+      // Broadcast to all collaborators except sender
+      socket.to(`collab:${problemId}:${userId}`).emit("codeUpdate", { code, language });
+    });
+
+    // Handle cursor position updates
+    socket.on("cursorUpdate", ({ problemId, userId, position }) => {
+      socket.to(`collab:${problemId}:${userId}`).emit("cursorUpdate", { 
+        userId, 
+        position 
+      });
+    });
+
+    socket.on('joinCollaboration', async ({collaborationId, userId}) => {
+      try {
+        const collaboration = await db.problemCollaboration.findUnique({
+          where: {id: collaborationId},
+          include: {
+            participants: {
+              select: {id: true, username: true, image: true}
+            },
+            problem: {
+              select: { title: true }
+            }
+          }
+        })
+
+         if (!collaboration.participants.some(p => p.id === userId)) {
+            throw new Error('User not part of this collaboration');
+         }
+
+          if (!activeCollaborations.has(collaborationId)) {
+    activeCollaborations.set(collaborationId, new Set());
+  }
+  activeCollaborations.get(collaborationId).add(userId);
+
+   socket.join(`collaboration:${collaborationId}`);
+
+           // Send current collaboration data to user
+        socket.emit("collaborationState", {
+          id: collaboration.id,
+          problemId: collaboration.problemId,
+          problemTitle: collaboration.problem.title,
+          code: collaboration.currentCode,
+          language: collaboration.language,
+          participants: collaboration.participants
+        });
+
+        // Notify others about new participant
+        socket.to(`collaboration:${collaborationId}`).emit('participantJoined', {
+          userId,
+          username: collaboration.participants.find(p => p.id === userId)?.username
+        });
+
+        // Broadcast active participants
+        io.to(`collaboration:${collaborationId}`).emit('activeParticipants', {
+          participants: Array.from(activeCollaborations.get(collaborationId))
+        });
+      } catch (error) {
+         socket.emit('collaborationError', error.message);
+      }
+    })
+
+    socket.on("updateCollaborationCode", async ({ collaborationId, userId, code, language }) => {
+      try {
+        const collaboration = await db.problemCollaboration.findUnique({
+          where: { id: collaborationId },
+          include: {
+            participants: {
+              select: { id: true }
+            }
+          }
+        });
+
+        if (!collaboration.participants.some(p => p.id === userId)) {
+          throw new Error('Unauthorized update');
+        }
+
+        await db.problemCollaboration.update({
+          where: { id: collaborationId }, 
+          data: { currentCode: code, language }
+        });
+
+        socket.to(`collaboration:${collaborationId}`).emit('codeUpdate', {
+          userId,
+          code,
+          language
+        });
+
+      } catch (error) {
+        socket.emit('collaborationError', error.message);
+      }
+    })
+
     socket.on("disconnect", () => {
-      console.log("Client disconnected", socket.id);
+      const userId = connectedUsers.get(socket.id);
+      if (userId) {
+        console.log(`User ${userId} disconnected`);
+        connectedUsers.delete(socket.id);
+        
+        // Notify collaborators about disconnection
+        socket.broadcast.emit("userDisconnected", { userId });
+      } else {
+        console.log("Anonymous client disconnected", socket.id);
+      }
+    });
+
+     // Error Handler
+    socket.on("error", (error) => {
+      console.error("Socket error:", error);
     });
   });
+
+  return {io, invitationEvents}
 };
 
 export default initializeSocket;

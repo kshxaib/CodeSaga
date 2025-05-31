@@ -144,6 +144,13 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FollowScalarFieldEnum = {
+  id: 'id',
+  followerId: 'followerId',
+  followingId: 'followingId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ProblemScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -293,6 +300,38 @@ exports.Prisma.DiscussionUpvoteScalarFieldEnum = {
   messageId: 'messageId'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  content: 'content',
+  isRead: 'isRead',
+  referenceId: 'referenceId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProblemInvitationScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProblemCollaborationScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  initiatorId: 'initiatorId',
+  maxParticipants: 'maxParticipants',
+  currentCode: 'currentCode',
+  language: 'language',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -319,7 +358,8 @@ exports.Prisma.NullsOrder = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
-  USER: 'USER'
+  USER: 'USER',
+  PRO: 'PRO'
 };
 
 exports.Difficulty = exports.$Enums.Difficulty = {
@@ -336,8 +376,24 @@ exports.ReportReason = exports.$Enums.ReportReason = {
   OTHER: 'OTHER'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  INVITATION: 'INVITATION',
+  ACCEPTED_INVITATION: 'ACCEPTED_INVITATION',
+  PROBLEM_SOLVED: 'PROBLEM_SOLVED',
+  NEW_FOLLOWER: 'NEW_FOLLOWER',
+  GENERAL: 'GENERAL'
+};
+
+exports.InvitationStatus = exports.$Enums.InvitationStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
+  Follow: 'Follow',
   Problem: 'Problem',
   ProblemReaction: 'ProblemReaction',
   Submission: 'Submission',
@@ -351,7 +407,10 @@ exports.Prisma.ModelName = {
   ProblemDiscussion: 'ProblemDiscussion',
   DiscussionMessage: 'DiscussionMessage',
   DiscussionReply: 'DiscussionReply',
-  DiscussionUpvote: 'DiscussionUpvote'
+  DiscussionUpvote: 'DiscussionUpvote',
+  Notification: 'Notification',
+  ProblemInvitation: 'ProblemInvitation',
+  ProblemCollaboration: 'ProblemCollaboration'
 };
 
 /**

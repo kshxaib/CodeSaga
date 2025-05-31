@@ -150,10 +150,13 @@ export const updateProfile = async (req, res) => {
 
 export const searchUser = async (req, res) => {
   const { username } = req.query;
-  const currentUserId = req.user.id;
+  const currentUserId = req.user?.id;
 
-  if (!username) {
+  console.log("Authenticated user:", req.user);
+
+  if (!username || typeof username !== "string" || username.trim().length === 0) {
     return res.status(400).json({
+      success: false,
       error: "Username query parameter is required",
     });
   }
@@ -177,194 +180,342 @@ export const searchUser = async (req, res) => {
         bio: true,
         followerCount: true,
         followingCount: true,
+        followers: {
+          where: {
+            followerId: currentUserId,
+          },
+          select: {
+            id: true,
+          },
+        },
       },
       take: 10,
     });
 
-    if (users.length === 0) {
+    if (!users || users.length === 0) {
       return res.status(404).json({
+        success: false,
         error: "No users found matching your query",
       });
     }
 
+    const result = users.map(user => ({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      image: user.image,
+      bio: user.bio,
+      followerCount: user.followerCount,
+      followingCount: user.followingCount,
+      isFollowing: user.followers.length > 0,
+    }));
+
     return res.status(200).json({
       success: true,
       message: "Users found successfully",
-      users,
+      users: result,
     });
   } catch (error) {
     console.error("Error searching users:", error);
     return res.status(500).json({
+      success: false,
       error: "Internal server error while searching users",
     });
   }
 };
 
 export const followUser = async (req, res) => {
-  const cuurentUserId = req.user.id;
-  const { userId } = req.params;
+  const currentUserId = req.user.id;
+  const userId = decodeURIComponent(req.params.userId);
 
   if (!userId) {
-    return res.status(400).json({
-      error: "User ID is required",
-    });
+    return res.status(400).json({ success: false, message: "User ID is required" });
   }
 
-  if (cuurentUserId === userId) {
-    return res.status(400).json({
-      error: "You cannot follow yourself",
-    });
+  if (currentUserId === userId) {
+    return res.status(400).json({ success: false, message: "You cannot follow yourself" });
   }
 
   try {
-    const user = await db.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
+    const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) {
-      return res.status(404).json({
-        error: "User not found",
-      });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    const currentUser = await db.user.findUnique({
+    const existingFollow = await db.follow.findUnique({
       where: {
-        id: cuurentUserId,
-      },
-      include: {
-        followers: true,
-      },
-    });
-
-    const isFollowing = currentUser.followers.some(
-      (follower) => follower.id === userId
-    );
-    if (isFollowing) {
-      return res.status(400).json({
-        error: "You are already following this user",
-      });
-    }
-
-    await db.user.update({
-      where: { id: cuurentUserId },
-      data: {
-        following: {
-          connect: { id: userId },
-        },
-        followingCount: {
-          increment: 1,
+        followerId_followingId: {
+          followerId: currentUserId,
+          followingId: userId,
         },
       },
     });
 
-    await db.user.update({
-      where: {
-        id: userId,
-      },
+    if (existingFollow) {
+      return res.status(400).json({ success: false, message: "You are already following this user" });
+    }
+
+    const [follow, currentUserUpdated, userUpdated] = await db.$transaction([
+      db.follow.create({
+        data: {
+          followerId: currentUserId,
+          followingId: userId,
+        },
+      }),
+      db.user.update({
+        where: { id: currentUserId },
+        data: { followingCount: { increment: 1 } },
+      }),
+      db.user.update({
+        where: { id: userId },
+        data: { followerCount: { increment: 1 } },
+      }),
+    ]);
+
+    const currentUser = await db.user.findUnique({ where: { id: currentUserId } });
+
+    const notification = await db.notification.create({
       data: {
-        followers: {
-          connect: { id: cuurentUserId },
-        },
-        followerCount: {
-          increment: 1,
-        },
+        userId,
+        type: 'NEW_FOLLOWER',
+        content: `${currentUser.username} started following you!`,
+        referenceId: currentUserId,
       },
+    });
+
+    req.io.to(`notifications:${userId}`).emit('newNotification', notification);
+    req.io.to(`notifications:${userId}`).emit('newFollower', {
+      followerId: currentUserId,
+      followerUsername: currentUser.username,
     });
 
     return res.status(200).json({
       success: true,
       message: `You are now following ${user.name}`,
+      followedUser: {
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        image: user.image,
+        followerCount: userUpdated.followerCount,
+        followingCount: userUpdated.followingCount,
+        isFollowing: true,
+      },
     });
   } catch (error) {
     console.error("Error following user:", error);
-    return res.status(500).json({
-      error: "Internal server error while following user",
-    });
+    return res.status(500).json({ success: false, message: "Internal server error while following user" });
   }
 };
 
 export const unfollowUser = async (req, res) => {
-  const { userId } = req.params;
   const currentUserId = req.user.id;
+  const { userId } = req.params;
 
   if (!userId) {
-    return res.status(400).json({
-      error: "User ID is required",
-    });
+    return res.status(400).json({ error: "User ID is required" });
   }
 
   if (currentUserId === userId) {
-    return res.status(400).json({
-      error: "You cannot unfollow yourself",
-    });
+    return res.status(400).json({ error: "You cannot unfollow yourself" });
   }
 
   try {
-    const user = await db.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
+    const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) {
-      return res.status(404).json({
-        error: "User not found",
-      });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    const currentUser = await db.user.findUnique({
+    const existingFollow = await db.follow.findUnique({
       where: {
-        id: currentUserId,
-      },
-      include: {
-        following: true,
+        followerId_followingId: {
+          followerId: currentUserId,
+          followingId: userId,
+        },
       },
     });
 
-    const isFollowing = currentUser.following.some(
-      (following) => following.id === userId
-    );
-
-    if (!isFollowing) {
-      return res.status(400).json({
-        error: "You are not following this user",
-      });
+    if (!existingFollow) {
+      return res.status(400).json({ error: "You are not following this user" });
     }
+
+    await db.follow.delete({
+      where: {
+        followerId_followingId: {
+          followerId: currentUserId,
+          followingId: userId,
+        },
+      },
+    });
 
     await db.user.update({
       where: { id: currentUserId },
-      data: {
-        following: {
-          disconnect: { id: userId },
-        },
-        followingCount: {
-          decrement: 1,
-        },
-      },
+      data: { followingCount: { decrement: 1 } },
     });
-
     await db.user.update({
       where: { id: userId },
-      data: {
-        followers: {
-          disconnect: { id: currentUserId },
-        },
-        followerCount: {
-          decrement: 1,
-        },
-      },
+      data: { followerCount: { decrement: 1 } },
     });
 
     return res.status(200).json({
       success: true,
       message: `You have unfollowed ${user.name}`,
+      unfollowedUser: {
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        image: user.image,
+        isFollowing: false,
+      },
     });
   } catch (error) {
     console.error("Error unfollowing user:", error);
+    return res.status(500).json({ error: "Internal server error while unfollowing user" });
+  }
+};
+
+export const fetchFollowers = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const followers = await db.follow.findMany({
+      where: { followingId: userId },
+      include: {
+        follower: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            image: true,
+            bio: true,
+          },
+        },
+      },
+    });
+
+    if (!followers.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No followers found",
+      });
+    }
+
+    const followerIds = followers.map(f => f.follower.id);
+
+    const followingOfCurrentUser = await db.follow.findMany({
+      where: {
+        followerId: userId,
+        followingId: { in: followerIds },
+      },
+      select: { followingId: true },
+    });
+
+    const followingSet = new Set(followingOfCurrentUser.map(f => f.followingId));
+
+    const followerUsers = followers.map(f => ({
+      ...f.follower,
+      isFollowing: followingSet.has(f.follower.id),
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: "Followers fetched successfully",
+      followers: followerUsers,
+    });
+  } catch (error) {
+    console.error("Error fetching followers:", error);
     return res.status(500).json({
-      error: "Internal server error while unfollowing user",
+      error: "Internal server error while fetching followers",
     });
   }
 };
+
+export const fetchFollowing = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const following = await db.follow.findMany({
+      where: { followerId: userId },
+      include: {
+        following: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            image: true,
+            bio: true,
+          },
+        },
+      },
+    });
+
+    if (!following.length) {
+      return res.status(404).json({
+        success: false,
+        message: "Not following anyone yet",
+      });
+    }
+
+    const followingUsers = following.map(f => f.following);
+
+    return res.status(200).json({
+      success: true,
+      message: "Following list fetched successfully",
+      following: followingUsers,
+    });
+  } catch (error) {
+    console.error("Error fetching following list:", error);
+    return res.status(500).json({
+      error: "Internal server error while fetching following list",
+    });
+  }
+};
+
+export const getUserByUsername = async (req, res) => {
+  const { username } = req.params;
+  const currentUserId = req.user?.id;
+
+  try {
+    const user = await db.user.findUnique({
+      where: { username },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        image: true,
+        bio: true,
+        role: true,
+        followers: {
+          where: { followerId: currentUserId },
+          select: { followerId: true }
+        },
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+          }
+        }
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const isFollowing = user.followers.length > 0;
+    delete user.followers;
+
+    return res.status(200).json({
+      user: {
+        ...user,
+        isFollowing,
+        followerCount: user._count.followers,
+    followingCount: user._count.following
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching user by username:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}

@@ -17,13 +17,29 @@ import ReportTable from "./components/admin/ReportTable";
 import Profile from "./components/Profile";
 import MyPlaylists from "./components/MyPlaylists";
 import StorePage from "./components/StorePage";
+import CollaborationPage from "./components/CollaborationPage";
+import InvitationsPage from "./components/InvitationsPage"
+import { useUserStore } from "./store/useUserStore";
+import SocialPage from "./components/SocialPage";
+import ProfilePage from "./components/ProfilePage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { disconnectSocket, initializeSocket } = useUserStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+   useEffect(() => {
+  if (authUser) {
+    initializeSocket(authUser.id);
+  }
+
+  return () => {
+    disconnectSocket();
+  };
+}, [authUser]);
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -45,10 +61,14 @@ const App = () => {
 
         {/* Authenticated routes with Layout */}
         <Route element={<Layout />}>
+          <Route path="/profile/:username" element={<ProfilePage />} />
+          <Route path="/social" element={<SocialPage />} />
+          <Route path="/collaboration/:collaborationId" element={<CollaborationPage />} />
+          <Route path="/invitations" element={<InvitationsPage />} />
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
-        <Route path="/my-playlists" element={authUser ? <MyPlaylists /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
+          <Route path="/my-playlists" element={authUser ? <MyPlaylists /> : <Navigate to="/login" />} />
           <Route path="/problems" element={authUser ? <AllProblemsPage /> : <Navigate to="/login" />} />
           <Route path="/problem/:id" element={authUser ? <ProblemPage /> : <Navigate to="/login" />} />
           <Route path="/reports" element={authUser ? <ReportTable /> : <Navigate to="/login" />} />
@@ -59,11 +79,10 @@ const App = () => {
           </Route>
         </Route>
 
-        {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
-};
+}
 
-export default App;
+export default App

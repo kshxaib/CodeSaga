@@ -13,9 +13,12 @@ import submissionRoutes from "./routes/submission.route.js";
 import playlistRoutes from "./routes/playlist.route.js";
 import userRoutes from "./routes/user.route.js";
 import reportRoutes from "./routes/report.route.js";
-import aiRoutes from "./routes/ai.routes.js";
+import invitationRoutes from "./routes/invitation.routes.js";
+import notificationRoutes from "./routes/notification.route.js";
+import collaborationRoutes from "./routes/collaboration.route.js";
 
 import initializeSocket from "./libs/socketHandler.js";
+import { invitationEvents } from "./libs/events.js";
 
 dotenv.config();
 const app = express();
@@ -30,7 +33,14 @@ const io = new Server(httpServer, {
   },
 });
 
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+})
+
 initializeSocket(io);
+
+app.set('invitationEvents', invitationEvents)
 
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -52,7 +62,13 @@ app.use("/api/v1/execute-code", executeRoutes);
 app.use("/api/v1/submission", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
 app.use("/api/v1/problems/report", reportRoutes);
-app.use("/api/v1/ai", aiRoutes);
+app.use("/api/v1/invitations", invitationRoutes)
+app.use("/api/v1/notifications", notificationRoutes)
+app.use("/api/v1/collaboration", collaborationRoutes)
+
+invitationEvents.on('invitationCreated', (invitation) => {
+  io.emit('newInvitation', invitation); 
+})
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

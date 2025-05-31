@@ -16,7 +16,6 @@ export const useDiscussionStore = create((set, get) => ({
   messagesContainerRef: null,
   tempMessageIds: new Set(),
 
-  // Initialize socket connection
   initializeSocket: (problemId, currentUser) => {
     const newSocket = io(import.meta.env.VITE_API_URL, {
       path: "/socket.io",
@@ -55,8 +54,7 @@ export const useDiscussionStore = create((set, get) => ({
     };
   },
 
-  // Socket event handlers
-  handleNewMessage: (message) => {
+    handleNewMessage: (message) => {
     if (get().tempMessageIds.has(message.id)) return;
     
     set((state) => {
@@ -106,7 +104,6 @@ export const useDiscussionStore = create((set, get) => ({
     showToast({ error: "Failed to connect to discussion" });
   },
 
-  // Message handling
   sendMessage: async (content, problemId) => {
     const { socket, currentUser } = get();
     if (!content.trim() || !socket || !currentUser) return;

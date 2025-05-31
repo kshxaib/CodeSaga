@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Follow
+ * 
+ */
+export type Follow = $Result.DefaultSelection<Prisma.$FollowPayload>
+/**
  * Model Problem
  * 
  */
@@ -88,6 +93,21 @@ export type DiscussionReply = $Result.DefaultSelection<Prisma.$DiscussionReplyPa
  * 
  */
 export type DiscussionUpvote = $Result.DefaultSelection<Prisma.$DiscussionUpvotePayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model ProblemInvitation
+ * 
+ */
+export type ProblemInvitation = $Result.DefaultSelection<Prisma.$ProblemInvitationPayload>
+/**
+ * Model ProblemCollaboration
+ * 
+ */
+export type ProblemCollaboration = $Result.DefaultSelection<Prisma.$ProblemCollaborationPayload>
 
 /**
  * Enums
@@ -95,7 +115,8 @@ export type DiscussionUpvote = $Result.DefaultSelection<Prisma.$DiscussionUpvote
 export namespace $Enums {
   export const UserRole: {
   ADMIN: 'ADMIN',
-  USER: 'USER'
+  USER: 'USER',
+  PRO: 'PRO'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -120,6 +141,27 @@ export const ReportReason: {
 
 export type ReportReason = (typeof ReportReason)[keyof typeof ReportReason]
 
+
+export const NotificationType: {
+  INVITATION: 'INVITATION',
+  ACCEPTED_INVITATION: 'ACCEPTED_INVITATION',
+  PROBLEM_SOLVED: 'PROBLEM_SOLVED',
+  NEW_FOLLOWER: 'NEW_FOLLOWER',
+  GENERAL: 'GENERAL'
+};
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const InvitationStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type InvitationStatus = (typeof InvitationStatus)[keyof typeof InvitationStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -133,6 +175,14 @@ export const Difficulty: typeof $Enums.Difficulty
 export type ReportReason = $Enums.ReportReason
 
 export const ReportReason: typeof $Enums.ReportReason
+
+export type NotificationType = $Enums.NotificationType
+
+export const NotificationType: typeof $Enums.NotificationType
+
+export type InvitationStatus = $Enums.InvitationStatus
+
+export const InvitationStatus: typeof $Enums.InvitationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -268,6 +318,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Follows
+    * const follows = await prisma.follow.findMany()
+    * ```
+    */
+  get follow(): Prisma.FollowDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.problem`: Exposes CRUD operations for the **Problem** model.
@@ -408,6 +468,36 @@ export class PrismaClient<
     * ```
     */
   get discussionUpvote(): Prisma.DiscussionUpvoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.problemInvitation`: Exposes CRUD operations for the **ProblemInvitation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProblemInvitations
+    * const problemInvitations = await prisma.problemInvitation.findMany()
+    * ```
+    */
+  get problemInvitation(): Prisma.ProblemInvitationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.problemCollaboration`: Exposes CRUD operations for the **ProblemCollaboration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProblemCollaborations
+    * const problemCollaborations = await prisma.problemCollaboration.findMany()
+    * ```
+    */
+  get problemCollaboration(): Prisma.ProblemCollaborationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -849,6 +939,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    Follow: 'Follow',
     Problem: 'Problem',
     ProblemReaction: 'ProblemReaction',
     Submission: 'Submission',
@@ -862,7 +953,10 @@ export namespace Prisma {
     ProblemDiscussion: 'ProblemDiscussion',
     DiscussionMessage: 'DiscussionMessage',
     DiscussionReply: 'DiscussionReply',
-    DiscussionUpvote: 'DiscussionUpvote'
+    DiscussionUpvote: 'DiscussionUpvote',
+    Notification: 'Notification',
+    ProblemInvitation: 'ProblemInvitation',
+    ProblemCollaboration: 'ProblemCollaboration'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -881,7 +975,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "playlistPurchase" | "problemInPlaylist" | "badge" | "problemReport" | "problemDiscussion" | "discussionMessage" | "discussionReply" | "discussionUpvote"
+      modelProps: "user" | "follow" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "playlistPurchase" | "problemInPlaylist" | "badge" | "problemReport" | "problemDiscussion" | "discussionMessage" | "discussionReply" | "discussionUpvote" | "notification" | "problemInvitation" | "problemCollaboration"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -956,6 +1050,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Follow: {
+        payload: Prisma.$FollowPayload<ExtArgs>
+        fields: Prisma.FollowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FollowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FollowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          findFirst: {
+            args: Prisma.FollowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FollowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          findMany: {
+            args: Prisma.FollowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          create: {
+            args: Prisma.FollowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          createMany: {
+            args: Prisma.FollowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FollowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          delete: {
+            args: Prisma.FollowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          update: {
+            args: Prisma.FollowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          deleteMany: {
+            args: Prisma.FollowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FollowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FollowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
+          }
+          upsert: {
+            args: Prisma.FollowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
+          }
+          aggregate: {
+            args: Prisma.FollowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFollow>
+          }
+          groupBy: {
+            args: Prisma.FollowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FollowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FollowCountArgs<ExtArgs>
+            result: $Utils.Optional<FollowCountAggregateOutputType> | number
           }
         }
       }
@@ -1995,6 +2163,228 @@ export namespace Prisma {
           }
         }
       }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProblemInvitation: {
+        payload: Prisma.$ProblemInvitationPayload<ExtArgs>
+        fields: Prisma.ProblemInvitationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProblemInvitationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProblemInvitationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          findFirst: {
+            args: Prisma.ProblemInvitationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProblemInvitationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          findMany: {
+            args: Prisma.ProblemInvitationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+          }
+          create: {
+            args: Prisma.ProblemInvitationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          createMany: {
+            args: Prisma.ProblemInvitationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProblemInvitationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+          }
+          delete: {
+            args: Prisma.ProblemInvitationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          update: {
+            args: Prisma.ProblemInvitationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProblemInvitationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProblemInvitationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProblemInvitationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProblemInvitationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+          }
+          aggregate: {
+            args: Prisma.ProblemInvitationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProblemInvitation>
+          }
+          groupBy: {
+            args: Prisma.ProblemInvitationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProblemInvitationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProblemInvitationCountArgs<ExtArgs>
+            result: $Utils.Optional<ProblemInvitationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProblemCollaboration: {
+        payload: Prisma.$ProblemCollaborationPayload<ExtArgs>
+        fields: Prisma.ProblemCollaborationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProblemCollaborationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          findFirst: {
+            args: Prisma.ProblemCollaborationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProblemCollaborationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          findMany: {
+            args: Prisma.ProblemCollaborationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+          }
+          create: {
+            args: Prisma.ProblemCollaborationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          createMany: {
+            args: Prisma.ProblemCollaborationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProblemCollaborationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+          }
+          delete: {
+            args: Prisma.ProblemCollaborationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          update: {
+            args: Prisma.ProblemCollaborationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProblemCollaborationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProblemCollaborationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProblemCollaborationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+          }
+          aggregate: {
+            args: Prisma.ProblemCollaborationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProblemCollaboration>
+          }
+          groupBy: {
+            args: Prisma.ProblemCollaborationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProblemCollaborationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProblemCollaborationCountArgs<ExtArgs>
+            result: $Utils.Optional<ProblemCollaborationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2080,6 +2470,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    follow?: FollowOmit
     problem?: ProblemOmit
     problemReaction?: ProblemReactionOmit
     submission?: SubmissionOmit
@@ -2094,6 +2485,9 @@ export namespace Prisma {
     discussionMessage?: DiscussionMessageOmit
     discussionReply?: DiscussionReplyOmit
     discussionUpvote?: DiscussionUpvoteOmit
+    notification?: NotificationOmit
+    problemInvitation?: ProblemInvitationOmit
+    problemCollaboration?: ProblemCollaborationOmit
   }
 
   /* Types for Logging */
@@ -2199,6 +2593,11 @@ export namespace Prisma {
     discussionReplies: number
     discussionUpvotes: number
     playlistPurchases: number
+    sentInvitations: number
+    receivedInvitations: number
+    participatingCollaborations: number
+    notifications: number
+    initiatedCollaborations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2213,6 +2612,11 @@ export namespace Prisma {
     discussionReplies?: boolean | UserCountOutputTypeCountDiscussionRepliesArgs
     discussionUpvotes?: boolean | UserCountOutputTypeCountDiscussionUpvotesArgs
     playlistPurchases?: boolean | UserCountOutputTypeCountPlaylistPurchasesArgs
+    sentInvitations?: boolean | UserCountOutputTypeCountSentInvitationsArgs
+    receivedInvitations?: boolean | UserCountOutputTypeCountReceivedInvitationsArgs
+    participatingCollaborations?: boolean | UserCountOutputTypeCountParticipatingCollaborationsArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    initiatedCollaborations?: boolean | UserCountOutputTypeCountInitiatedCollaborationsArgs
   }
 
   // Custom InputTypes
@@ -2230,14 +2634,14 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountFollowersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+    where?: FollowWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountFollowingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+    where?: FollowWhereInput
   }
 
   /**
@@ -2303,12 +2707,49 @@ export namespace Prisma {
     where?: PlaylistPurchaseWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSentInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemInvitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReceivedInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemInvitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountParticipatingCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemCollaborationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInitiatedCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemCollaborationWhereInput
+  }
+
 
   /**
    * Count Type ProblemCountOutputType
    */
 
   export type ProblemCountOutputType = {
+    invitations: number
+    collaborations: number
     submission: number
     solvedBy: number
     problemsPlaylists: number
@@ -2317,6 +2758,8 @@ export namespace Prisma {
   }
 
   export type ProblemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invitations?: boolean | ProblemCountOutputTypeCountInvitationsArgs
+    collaborations?: boolean | ProblemCountOutputTypeCountCollaborationsArgs
     submission?: boolean | ProblemCountOutputTypeCountSubmissionArgs
     solvedBy?: boolean | ProblemCountOutputTypeCountSolvedByArgs
     problemsPlaylists?: boolean | ProblemCountOutputTypeCountProblemsPlaylistsArgs
@@ -2333,6 +2776,20 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProblemCountOutputType
      */
     select?: ProblemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProblemCountOutputType without action
+   */
+  export type ProblemCountOutputTypeCountInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemInvitationWhereInput
+  }
+
+  /**
+   * ProblemCountOutputType without action
+   */
+  export type ProblemCountOutputTypeCountCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemCollaborationWhereInput
   }
 
   /**
@@ -2510,6 +2967,37 @@ export namespace Prisma {
    */
   export type DiscussionMessageCountOutputTypeCountUpvotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DiscussionUpvoteWhereInput
+  }
+
+
+  /**
+   * Count Type ProblemCollaborationCountOutputType
+   */
+
+  export type ProblemCollaborationCountOutputType = {
+    participants: number
+  }
+
+  export type ProblemCollaborationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    participants?: boolean | ProblemCollaborationCountOutputTypeCountParticipantsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProblemCollaborationCountOutputType without action
+   */
+  export type ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaborationCountOutputType
+     */
+    select?: ProblemCollaborationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProblemCollaborationCountOutputType without action
+   */
+  export type ProblemCollaborationCountOutputTypeCountParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -2862,6 +3350,11 @@ export namespace Prisma {
     discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
     discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     playlistPurchases?: boolean | User$playlistPurchasesArgs<ExtArgs>
+    sentInvitations?: boolean | User$sentInvitationsArgs<ExtArgs>
+    receivedInvitations?: boolean | User$receivedInvitationsArgs<ExtArgs>
+    participatingCollaborations?: boolean | User$participatingCollaborationsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    initiatedCollaborations?: boolean | User$initiatedCollaborationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2950,6 +3443,11 @@ export namespace Prisma {
     discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
     discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     playlistPurchases?: boolean | User$playlistPurchasesArgs<ExtArgs>
+    sentInvitations?: boolean | User$sentInvitationsArgs<ExtArgs>
+    receivedInvitations?: boolean | User$receivedInvitationsArgs<ExtArgs>
+    participatingCollaborations?: boolean | User$participatingCollaborationsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    initiatedCollaborations?: boolean | User$initiatedCollaborationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2958,8 +3456,8 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      followers: Prisma.$UserPayload<ExtArgs>[]
-      following: Prisma.$UserPayload<ExtArgs>[]
+      followers: Prisma.$FollowPayload<ExtArgs>[]
+      following: Prisma.$FollowPayload<ExtArgs>[]
       problems: Prisma.$ProblemPayload<ExtArgs>[]
       submission: Prisma.$SubmissionPayload<ExtArgs>[]
       problemSolved: Prisma.$ProblemSolvedPayload<ExtArgs>[]
@@ -2969,6 +3467,11 @@ export namespace Prisma {
       discussionReplies: Prisma.$DiscussionReplyPayload<ExtArgs>[]
       discussionUpvotes: Prisma.$DiscussionUpvotePayload<ExtArgs>[]
       playlistPurchases: Prisma.$PlaylistPurchasePayload<ExtArgs>[]
+      sentInvitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
+      receivedInvitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
+      participatingCollaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      initiatedCollaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3386,8 +3889,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problems<T extends User$problemsArgs<ExtArgs> = {}>(args?: Subset<T, User$problemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submission<T extends User$submissionArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problemSolved<T extends User$problemSolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$problemSolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3397,6 +3900,11 @@ export namespace Prisma {
     discussionReplies<T extends User$discussionRepliesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discussionUpvotes<T extends User$discussionUpvotesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionUpvotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     playlistPurchases<T extends User$playlistPurchasesArgs<ExtArgs> = {}>(args?: Subset<T, User$playlistPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlaylistPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sentInvitations<T extends User$sentInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    receivedInvitations<T extends User$receivedInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participatingCollaborations<T extends User$participatingCollaborationsArgs<ExtArgs> = {}>(args?: Subset<T, User$participatingCollaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    initiatedCollaborations<T extends User$initiatedCollaborationsArgs<ExtArgs> = {}>(args?: Subset<T, User$initiatedCollaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3839,23 +4347,23 @@ export namespace Prisma {
    */
   export type User$followersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Follow
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: FollowSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the Follow
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: FollowOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: FollowInclude<ExtArgs> | null
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    cursor?: FollowWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
   }
 
   /**
@@ -3863,23 +4371,23 @@ export namespace Prisma {
    */
   export type User$followingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Follow
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: FollowSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the Follow
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: FollowOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: FollowInclude<ExtArgs> | null
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    cursor?: FollowWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
   }
 
   /**
@@ -4099,6 +4607,126 @@ export namespace Prisma {
   }
 
   /**
+   * User.sentInvitations
+   */
+  export type User$sentInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    where?: ProblemInvitationWhereInput
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    cursor?: ProblemInvitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * User.receivedInvitations
+   */
+  export type User$receivedInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    where?: ProblemInvitationWhereInput
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    cursor?: ProblemInvitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * User.participatingCollaborations
+   */
+  export type User$participatingCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    where?: ProblemCollaborationWhereInput
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    cursor?: ProblemCollaborationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.initiatedCollaborations
+   */
+  export type User$initiatedCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    where?: ProblemCollaborationWhereInput
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    cursor?: ProblemCollaborationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4114,6 +4742,1059 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Follow
+   */
+
+  export type AggregateFollow = {
+    _count: FollowCountAggregateOutputType | null
+    _min: FollowMinAggregateOutputType | null
+    _max: FollowMaxAggregateOutputType | null
+  }
+
+  export type FollowMinAggregateOutputType = {
+    id: string | null
+    followerId: string | null
+    followingId: string | null
+    createdAt: Date | null
+  }
+
+  export type FollowMaxAggregateOutputType = {
+    id: string | null
+    followerId: string | null
+    followingId: string | null
+    createdAt: Date | null
+  }
+
+  export type FollowCountAggregateOutputType = {
+    id: number
+    followerId: number
+    followingId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FollowMinAggregateInputType = {
+    id?: true
+    followerId?: true
+    followingId?: true
+    createdAt?: true
+  }
+
+  export type FollowMaxAggregateInputType = {
+    id?: true
+    followerId?: true
+    followingId?: true
+    createdAt?: true
+  }
+
+  export type FollowCountAggregateInputType = {
+    id?: true
+    followerId?: true
+    followingId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FollowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Follow to aggregate.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Follows
+    **/
+    _count?: true | FollowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FollowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FollowMaxAggregateInputType
+  }
+
+  export type GetFollowAggregateType<T extends FollowAggregateArgs> = {
+        [P in keyof T & keyof AggregateFollow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFollow[P]>
+      : GetScalarType<T[P], AggregateFollow[P]>
+  }
+
+
+
+
+  export type FollowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FollowWhereInput
+    orderBy?: FollowOrderByWithAggregationInput | FollowOrderByWithAggregationInput[]
+    by: FollowScalarFieldEnum[] | FollowScalarFieldEnum
+    having?: FollowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FollowCountAggregateInputType | true
+    _min?: FollowMinAggregateInputType
+    _max?: FollowMaxAggregateInputType
+  }
+
+  export type FollowGroupByOutputType = {
+    id: string
+    followerId: string
+    followingId: string
+    createdAt: Date
+    _count: FollowCountAggregateOutputType | null
+    _min: FollowMinAggregateOutputType | null
+    _max: FollowMaxAggregateOutputType | null
+  }
+
+  type GetFollowGroupByPayload<T extends FollowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FollowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FollowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FollowGroupByOutputType[P]>
+            : GetScalarType<T[P], FollowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FollowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerId?: boolean
+    followingId?: boolean
+    createdAt?: boolean
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerId?: boolean
+    followingId?: boolean
+    createdAt?: boolean
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    followerId?: boolean
+    followingId?: boolean
+    createdAt?: boolean
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["follow"]>
+
+  export type FollowSelectScalar = {
+    id?: boolean
+    followerId?: boolean
+    followingId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FollowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "followerId" | "followingId" | "createdAt", ExtArgs["result"]["follow"]>
+  export type FollowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FollowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FollowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    follower?: boolean | UserDefaultArgs<ExtArgs>
+    following?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FollowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Follow"
+    objects: {
+      follower: Prisma.$UserPayload<ExtArgs>
+      following: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      followerId: string
+      followingId: string
+      createdAt: Date
+    }, ExtArgs["result"]["follow"]>
+    composites: {}
+  }
+
+  type FollowGetPayload<S extends boolean | null | undefined | FollowDefaultArgs> = $Result.GetResult<Prisma.$FollowPayload, S>
+
+  type FollowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FollowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FollowCountAggregateInputType | true
+    }
+
+  export interface FollowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Follow'], meta: { name: 'Follow' } }
+    /**
+     * Find zero or one Follow that matches the filter.
+     * @param {FollowFindUniqueArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FollowFindUniqueArgs>(args: SelectSubset<T, FollowFindUniqueArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Follow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FollowFindUniqueOrThrowArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FollowFindUniqueOrThrowArgs>(args: SelectSubset<T, FollowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Follow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindFirstArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FollowFindFirstArgs>(args?: SelectSubset<T, FollowFindFirstArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Follow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindFirstOrThrowArgs} args - Arguments to find a Follow
+     * @example
+     * // Get one Follow
+     * const follow = await prisma.follow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FollowFindFirstOrThrowArgs>(args?: SelectSubset<T, FollowFindFirstOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Follows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Follows
+     * const follows = await prisma.follow.findMany()
+     * 
+     * // Get first 10 Follows
+     * const follows = await prisma.follow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const followWithIdOnly = await prisma.follow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FollowFindManyArgs>(args?: SelectSubset<T, FollowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Follow.
+     * @param {FollowCreateArgs} args - Arguments to create a Follow.
+     * @example
+     * // Create one Follow
+     * const Follow = await prisma.follow.create({
+     *   data: {
+     *     // ... data to create a Follow
+     *   }
+     * })
+     * 
+     */
+    create<T extends FollowCreateArgs>(args: SelectSubset<T, FollowCreateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Follows.
+     * @param {FollowCreateManyArgs} args - Arguments to create many Follows.
+     * @example
+     * // Create many Follows
+     * const follow = await prisma.follow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FollowCreateManyArgs>(args?: SelectSubset<T, FollowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Follows and returns the data saved in the database.
+     * @param {FollowCreateManyAndReturnArgs} args - Arguments to create many Follows.
+     * @example
+     * // Create many Follows
+     * const follow = await prisma.follow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Follows and only return the `id`
+     * const followWithIdOnly = await prisma.follow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FollowCreateManyAndReturnArgs>(args?: SelectSubset<T, FollowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Follow.
+     * @param {FollowDeleteArgs} args - Arguments to delete one Follow.
+     * @example
+     * // Delete one Follow
+     * const Follow = await prisma.follow.delete({
+     *   where: {
+     *     // ... filter to delete one Follow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FollowDeleteArgs>(args: SelectSubset<T, FollowDeleteArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Follow.
+     * @param {FollowUpdateArgs} args - Arguments to update one Follow.
+     * @example
+     * // Update one Follow
+     * const follow = await prisma.follow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FollowUpdateArgs>(args: SelectSubset<T, FollowUpdateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Follows.
+     * @param {FollowDeleteManyArgs} args - Arguments to filter Follows to delete.
+     * @example
+     * // Delete a few Follows
+     * const { count } = await prisma.follow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FollowDeleteManyArgs>(args?: SelectSubset<T, FollowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Follows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Follows
+     * const follow = await prisma.follow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FollowUpdateManyArgs>(args: SelectSubset<T, FollowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Follows and returns the data updated in the database.
+     * @param {FollowUpdateManyAndReturnArgs} args - Arguments to update many Follows.
+     * @example
+     * // Update many Follows
+     * const follow = await prisma.follow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Follows and only return the `id`
+     * const followWithIdOnly = await prisma.follow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FollowUpdateManyAndReturnArgs>(args: SelectSubset<T, FollowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Follow.
+     * @param {FollowUpsertArgs} args - Arguments to update or create a Follow.
+     * @example
+     * // Update or create a Follow
+     * const follow = await prisma.follow.upsert({
+     *   create: {
+     *     // ... data to create a Follow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Follow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FollowUpsertArgs>(args: SelectSubset<T, FollowUpsertArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Follows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowCountArgs} args - Arguments to filter Follows to count.
+     * @example
+     * // Count the number of Follows
+     * const count = await prisma.follow.count({
+     *   where: {
+     *     // ... the filter for the Follows we want to count
+     *   }
+     * })
+    **/
+    count<T extends FollowCountArgs>(
+      args?: Subset<T, FollowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FollowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Follow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FollowAggregateArgs>(args: Subset<T, FollowAggregateArgs>): Prisma.PrismaPromise<GetFollowAggregateType<T>>
+
+    /**
+     * Group by Follow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FollowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FollowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FollowGroupByArgs['orderBy'] }
+        : { orderBy?: FollowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FollowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFollowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Follow model
+   */
+  readonly fields: FollowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Follow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FollowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    follower<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    following<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Follow model
+   */
+  interface FollowFieldRefs {
+    readonly id: FieldRef<"Follow", 'String'>
+    readonly followerId: FieldRef<"Follow", 'String'>
+    readonly followingId: FieldRef<"Follow", 'String'>
+    readonly createdAt: FieldRef<"Follow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Follow findUnique
+   */
+  export type FollowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow findUniqueOrThrow
+   */
+  export type FollowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow findFirst
+   */
+  export type FollowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Follows.
+     */
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow findFirstOrThrow
+   */
+  export type FollowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follow to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Follows.
+     */
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow findMany
+   */
+  export type FollowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter, which Follows to fetch.
+     */
+    where?: FollowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Follows to fetch.
+     */
+    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Follows.
+     */
+    cursor?: FollowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Follows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Follows.
+     */
+    skip?: number
+    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * Follow create
+   */
+  export type FollowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Follow.
+     */
+    data: XOR<FollowCreateInput, FollowUncheckedCreateInput>
+  }
+
+  /**
+   * Follow createMany
+   */
+  export type FollowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Follows.
+     */
+    data: FollowCreateManyInput | FollowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Follow createManyAndReturn
+   */
+  export type FollowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * The data used to create many Follows.
+     */
+    data: FollowCreateManyInput | FollowCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Follow update
+   */
+  export type FollowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Follow.
+     */
+    data: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
+    /**
+     * Choose, which Follow to update.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow updateMany
+   */
+  export type FollowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Follows.
+     */
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
+    /**
+     * Filter which Follows to update
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Follow updateManyAndReturn
+   */
+  export type FollowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * The data used to update Follows.
+     */
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
+    /**
+     * Filter which Follows to update
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Follow upsert
+   */
+  export type FollowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Follow to update in case it exists.
+     */
+    where: FollowWhereUniqueInput
+    /**
+     * In case the Follow found by the `where` argument doesn't exist, create a new Follow with this data.
+     */
+    create: XOR<FollowCreateInput, FollowUncheckedCreateInput>
+    /**
+     * In case the Follow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
+  }
+
+  /**
+   * Follow delete
+   */
+  export type FollowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
+    /**
+     * Filter which Follow to delete.
+     */
+    where: FollowWhereUniqueInput
+  }
+
+  /**
+   * Follow deleteMany
+   */
+  export type FollowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Follows to delete
+     */
+    where?: FollowWhereInput
+    /**
+     * Limit how many Follows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Follow without action
+   */
+  export type FollowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Follow
+     */
+    select?: FollowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Follow
+     */
+    omit?: FollowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FollowInclude<ExtArgs> | null
   }
 
 
@@ -4407,6 +6088,8 @@ export namespace Prisma {
     dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    invitations?: boolean | Problem$invitationsArgs<ExtArgs>
+    collaborations?: boolean | Problem$collaborationsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
@@ -4486,6 +6169,8 @@ export namespace Prisma {
 
   export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "isPaid" | "askedIn" | "likes" | "dislikes" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
   export type ProblemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invitations?: boolean | Problem$invitationsArgs<ExtArgs>
+    collaborations?: boolean | Problem$collaborationsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
@@ -4504,6 +6189,8 @@ export namespace Prisma {
   export type $ProblemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Problem"
     objects: {
+      invitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
+      collaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
       submission: Prisma.$SubmissionPayload<ExtArgs>[]
       solvedBy: Prisma.$ProblemSolvedPayload<ExtArgs>[]
@@ -4925,6 +6612,8 @@ export namespace Prisma {
    */
   export interface Prisma__ProblemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    invitations<T extends Problem$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    collaborations<T extends Problem$collaborationsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$collaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     submission<T extends Problem$submissionArgs<ExtArgs> = {}>(args?: Subset<T, Problem$submissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solvedBy<T extends Problem$solvedByArgs<ExtArgs> = {}>(args?: Subset<T, Problem$solvedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5372,6 +7061,54 @@ export namespace Prisma {
      * Limit how many Problems to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Problem.invitations
+   */
+  export type Problem$invitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    where?: ProblemInvitationWhereInput
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    cursor?: ProblemInvitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * Problem.collaborations
+   */
+  export type Problem$collaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    where?: ProblemCollaborationWhereInput
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    cursor?: ProblemCollaborationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
   }
 
   /**
@@ -19749,6 +21486,3372 @@ export namespace Prisma {
 
 
   /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.NotificationType | null
+    content: string | null
+    isRead: boolean | null
+    referenceId: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.NotificationType | null
+    content: string | null
+    isRead: boolean | null
+    referenceId: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    content: number
+    isRead: number
+    referenceId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    isRead?: true
+    referenceId?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    isRead?: true
+    referenceId?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    isRead?: true
+    referenceId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.NotificationType
+    content: string
+    isRead: boolean
+    referenceId: string | null
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    isRead?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    isRead?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    isRead?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    isRead?: boolean
+    referenceId?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "isRead" | "referenceId" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.NotificationType
+      content: string
+      isRead: boolean
+      referenceId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly userId: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'NotificationType'>
+    readonly content: FieldRef<"Notification", 'String'>
+    readonly isRead: FieldRef<"Notification", 'Boolean'>
+    readonly referenceId: FieldRef<"Notification", 'String'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProblemInvitation
+   */
+
+  export type AggregateProblemInvitation = {
+    _count: ProblemInvitationCountAggregateOutputType | null
+    _min: ProblemInvitationMinAggregateOutputType | null
+    _max: ProblemInvitationMaxAggregateOutputType | null
+  }
+
+  export type ProblemInvitationMinAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    senderId: string | null
+    receiverId: string | null
+    status: $Enums.InvitationStatus | null
+    message: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemInvitationMaxAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    senderId: string | null
+    receiverId: string | null
+    status: $Enums.InvitationStatus | null
+    message: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemInvitationCountAggregateOutputType = {
+    id: number
+    problemId: number
+    senderId: number
+    receiverId: number
+    status: number
+    message: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProblemInvitationMinAggregateInputType = {
+    id?: true
+    problemId?: true
+    senderId?: true
+    receiverId?: true
+    status?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemInvitationMaxAggregateInputType = {
+    id?: true
+    problemId?: true
+    senderId?: true
+    receiverId?: true
+    status?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemInvitationCountAggregateInputType = {
+    id?: true
+    problemId?: true
+    senderId?: true
+    receiverId?: true
+    status?: true
+    message?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProblemInvitationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemInvitation to aggregate.
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemInvitations to fetch.
+     */
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProblemInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProblemInvitations
+    **/
+    _count?: true | ProblemInvitationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProblemInvitationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProblemInvitationMaxAggregateInputType
+  }
+
+  export type GetProblemInvitationAggregateType<T extends ProblemInvitationAggregateArgs> = {
+        [P in keyof T & keyof AggregateProblemInvitation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProblemInvitation[P]>
+      : GetScalarType<T[P], AggregateProblemInvitation[P]>
+  }
+
+
+
+
+  export type ProblemInvitationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemInvitationWhereInput
+    orderBy?: ProblemInvitationOrderByWithAggregationInput | ProblemInvitationOrderByWithAggregationInput[]
+    by: ProblemInvitationScalarFieldEnum[] | ProblemInvitationScalarFieldEnum
+    having?: ProblemInvitationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProblemInvitationCountAggregateInputType | true
+    _min?: ProblemInvitationMinAggregateInputType
+    _max?: ProblemInvitationMaxAggregateInputType
+  }
+
+  export type ProblemInvitationGroupByOutputType = {
+    id: string
+    problemId: string
+    senderId: string
+    receiverId: string
+    status: $Enums.InvitationStatus
+    message: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ProblemInvitationCountAggregateOutputType | null
+    _min: ProblemInvitationMinAggregateOutputType | null
+    _max: ProblemInvitationMaxAggregateOutputType | null
+  }
+
+  type GetProblemInvitationGroupByPayload<T extends ProblemInvitationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProblemInvitationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProblemInvitationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProblemInvitationGroupByOutputType[P]>
+            : GetScalarType<T[P], ProblemInvitationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProblemInvitationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemInvitation"]>
+
+  export type ProblemInvitationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemInvitation"]>
+
+  export type ProblemInvitationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemInvitation"]>
+
+  export type ProblemInvitationSelectScalar = {
+    id?: boolean
+    problemId?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProblemInvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "senderId" | "receiverId" | "status" | "message" | "createdAt" | "updatedAt", ExtArgs["result"]["problemInvitation"]>
+  export type ProblemInvitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProblemInvitationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProblemInvitationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ProblemInvitationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProblemInvitation"
+    objects: {
+      problem: Prisma.$ProblemPayload<ExtArgs>
+      sender: Prisma.$UserPayload<ExtArgs>
+      receiver: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      problemId: string
+      senderId: string
+      receiverId: string
+      status: $Enums.InvitationStatus
+      message: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["problemInvitation"]>
+    composites: {}
+  }
+
+  type ProblemInvitationGetPayload<S extends boolean | null | undefined | ProblemInvitationDefaultArgs> = $Result.GetResult<Prisma.$ProblemInvitationPayload, S>
+
+  type ProblemInvitationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProblemInvitationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProblemInvitationCountAggregateInputType | true
+    }
+
+  export interface ProblemInvitationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemInvitation'], meta: { name: 'ProblemInvitation' } }
+    /**
+     * Find zero or one ProblemInvitation that matches the filter.
+     * @param {ProblemInvitationFindUniqueArgs} args - Arguments to find a ProblemInvitation
+     * @example
+     * // Get one ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProblemInvitationFindUniqueArgs>(args: SelectSubset<T, ProblemInvitationFindUniqueArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProblemInvitation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProblemInvitationFindUniqueOrThrowArgs} args - Arguments to find a ProblemInvitation
+     * @example
+     * // Get one ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProblemInvitationFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemInvitationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemInvitation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationFindFirstArgs} args - Arguments to find a ProblemInvitation
+     * @example
+     * // Get one ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProblemInvitationFindFirstArgs>(args?: SelectSubset<T, ProblemInvitationFindFirstArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemInvitation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationFindFirstOrThrowArgs} args - Arguments to find a ProblemInvitation
+     * @example
+     * // Get one ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProblemInvitationFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemInvitationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProblemInvitations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProblemInvitations
+     * const problemInvitations = await prisma.problemInvitation.findMany()
+     * 
+     * // Get first 10 ProblemInvitations
+     * const problemInvitations = await prisma.problemInvitation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const problemInvitationWithIdOnly = await prisma.problemInvitation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProblemInvitationFindManyArgs>(args?: SelectSubset<T, ProblemInvitationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProblemInvitation.
+     * @param {ProblemInvitationCreateArgs} args - Arguments to create a ProblemInvitation.
+     * @example
+     * // Create one ProblemInvitation
+     * const ProblemInvitation = await prisma.problemInvitation.create({
+     *   data: {
+     *     // ... data to create a ProblemInvitation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProblemInvitationCreateArgs>(args: SelectSubset<T, ProblemInvitationCreateArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProblemInvitations.
+     * @param {ProblemInvitationCreateManyArgs} args - Arguments to create many ProblemInvitations.
+     * @example
+     * // Create many ProblemInvitations
+     * const problemInvitation = await prisma.problemInvitation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProblemInvitationCreateManyArgs>(args?: SelectSubset<T, ProblemInvitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProblemInvitations and returns the data saved in the database.
+     * @param {ProblemInvitationCreateManyAndReturnArgs} args - Arguments to create many ProblemInvitations.
+     * @example
+     * // Create many ProblemInvitations
+     * const problemInvitation = await prisma.problemInvitation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProblemInvitations and only return the `id`
+     * const problemInvitationWithIdOnly = await prisma.problemInvitation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProblemInvitationCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemInvitationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProblemInvitation.
+     * @param {ProblemInvitationDeleteArgs} args - Arguments to delete one ProblemInvitation.
+     * @example
+     * // Delete one ProblemInvitation
+     * const ProblemInvitation = await prisma.problemInvitation.delete({
+     *   where: {
+     *     // ... filter to delete one ProblemInvitation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProblemInvitationDeleteArgs>(args: SelectSubset<T, ProblemInvitationDeleteArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProblemInvitation.
+     * @param {ProblemInvitationUpdateArgs} args - Arguments to update one ProblemInvitation.
+     * @example
+     * // Update one ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProblemInvitationUpdateArgs>(args: SelectSubset<T, ProblemInvitationUpdateArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProblemInvitations.
+     * @param {ProblemInvitationDeleteManyArgs} args - Arguments to filter ProblemInvitations to delete.
+     * @example
+     * // Delete a few ProblemInvitations
+     * const { count } = await prisma.problemInvitation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProblemInvitationDeleteManyArgs>(args?: SelectSubset<T, ProblemInvitationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemInvitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProblemInvitations
+     * const problemInvitation = await prisma.problemInvitation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProblemInvitationUpdateManyArgs>(args: SelectSubset<T, ProblemInvitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemInvitations and returns the data updated in the database.
+     * @param {ProblemInvitationUpdateManyAndReturnArgs} args - Arguments to update many ProblemInvitations.
+     * @example
+     * // Update many ProblemInvitations
+     * const problemInvitation = await prisma.problemInvitation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProblemInvitations and only return the `id`
+     * const problemInvitationWithIdOnly = await prisma.problemInvitation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProblemInvitationUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemInvitationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProblemInvitation.
+     * @param {ProblemInvitationUpsertArgs} args - Arguments to update or create a ProblemInvitation.
+     * @example
+     * // Update or create a ProblemInvitation
+     * const problemInvitation = await prisma.problemInvitation.upsert({
+     *   create: {
+     *     // ... data to create a ProblemInvitation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProblemInvitation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProblemInvitationUpsertArgs>(args: SelectSubset<T, ProblemInvitationUpsertArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProblemInvitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationCountArgs} args - Arguments to filter ProblemInvitations to count.
+     * @example
+     * // Count the number of ProblemInvitations
+     * const count = await prisma.problemInvitation.count({
+     *   where: {
+     *     // ... the filter for the ProblemInvitations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProblemInvitationCountArgs>(
+      args?: Subset<T, ProblemInvitationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProblemInvitationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProblemInvitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProblemInvitationAggregateArgs>(args: Subset<T, ProblemInvitationAggregateArgs>): Prisma.PrismaPromise<GetProblemInvitationAggregateType<T>>
+
+    /**
+     * Group by ProblemInvitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemInvitationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProblemInvitationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProblemInvitationGroupByArgs['orderBy'] }
+        : { orderBy?: ProblemInvitationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProblemInvitationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemInvitationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProblemInvitation model
+   */
+  readonly fields: ProblemInvitationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProblemInvitation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProblemInvitationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProblemInvitation model
+   */
+  interface ProblemInvitationFieldRefs {
+    readonly id: FieldRef<"ProblemInvitation", 'String'>
+    readonly problemId: FieldRef<"ProblemInvitation", 'String'>
+    readonly senderId: FieldRef<"ProblemInvitation", 'String'>
+    readonly receiverId: FieldRef<"ProblemInvitation", 'String'>
+    readonly status: FieldRef<"ProblemInvitation", 'InvitationStatus'>
+    readonly message: FieldRef<"ProblemInvitation", 'String'>
+    readonly createdAt: FieldRef<"ProblemInvitation", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProblemInvitation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProblemInvitation findUnique
+   */
+  export type ProblemInvitationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemInvitation to fetch.
+     */
+    where: ProblemInvitationWhereUniqueInput
+  }
+
+  /**
+   * ProblemInvitation findUniqueOrThrow
+   */
+  export type ProblemInvitationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemInvitation to fetch.
+     */
+    where: ProblemInvitationWhereUniqueInput
+  }
+
+  /**
+   * ProblemInvitation findFirst
+   */
+  export type ProblemInvitationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemInvitation to fetch.
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemInvitations to fetch.
+     */
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemInvitations.
+     */
+    cursor?: ProblemInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemInvitations.
+     */
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemInvitation findFirstOrThrow
+   */
+  export type ProblemInvitationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemInvitation to fetch.
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemInvitations to fetch.
+     */
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemInvitations.
+     */
+    cursor?: ProblemInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemInvitations.
+     */
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemInvitation findMany
+   */
+  export type ProblemInvitationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemInvitations to fetch.
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemInvitations to fetch.
+     */
+    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProblemInvitations.
+     */
+    cursor?: ProblemInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemInvitations.
+     */
+    skip?: number
+    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemInvitation create
+   */
+  export type ProblemInvitationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProblemInvitation.
+     */
+    data: XOR<ProblemInvitationCreateInput, ProblemInvitationUncheckedCreateInput>
+  }
+
+  /**
+   * ProblemInvitation createMany
+   */
+  export type ProblemInvitationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProblemInvitations.
+     */
+    data: ProblemInvitationCreateManyInput | ProblemInvitationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProblemInvitation createManyAndReturn
+   */
+  export type ProblemInvitationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProblemInvitations.
+     */
+    data: ProblemInvitationCreateManyInput | ProblemInvitationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemInvitation update
+   */
+  export type ProblemInvitationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProblemInvitation.
+     */
+    data: XOR<ProblemInvitationUpdateInput, ProblemInvitationUncheckedUpdateInput>
+    /**
+     * Choose, which ProblemInvitation to update.
+     */
+    where: ProblemInvitationWhereUniqueInput
+  }
+
+  /**
+   * ProblemInvitation updateMany
+   */
+  export type ProblemInvitationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProblemInvitations.
+     */
+    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemInvitations to update
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * Limit how many ProblemInvitations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemInvitation updateManyAndReturn
+   */
+  export type ProblemInvitationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * The data used to update ProblemInvitations.
+     */
+    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemInvitations to update
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * Limit how many ProblemInvitations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemInvitation upsert
+   */
+  export type ProblemInvitationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProblemInvitation to update in case it exists.
+     */
+    where: ProblemInvitationWhereUniqueInput
+    /**
+     * In case the ProblemInvitation found by the `where` argument doesn't exist, create a new ProblemInvitation with this data.
+     */
+    create: XOR<ProblemInvitationCreateInput, ProblemInvitationUncheckedCreateInput>
+    /**
+     * In case the ProblemInvitation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProblemInvitationUpdateInput, ProblemInvitationUncheckedUpdateInput>
+  }
+
+  /**
+   * ProblemInvitation delete
+   */
+  export type ProblemInvitationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+    /**
+     * Filter which ProblemInvitation to delete.
+     */
+    where: ProblemInvitationWhereUniqueInput
+  }
+
+  /**
+   * ProblemInvitation deleteMany
+   */
+  export type ProblemInvitationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemInvitations to delete
+     */
+    where?: ProblemInvitationWhereInput
+    /**
+     * Limit how many ProblemInvitations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemInvitation without action
+   */
+  export type ProblemInvitationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemInvitation
+     */
+    select?: ProblemInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemInvitation
+     */
+    omit?: ProblemInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemInvitationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProblemCollaboration
+   */
+
+  export type AggregateProblemCollaboration = {
+    _count: ProblemCollaborationCountAggregateOutputType | null
+    _avg: ProblemCollaborationAvgAggregateOutputType | null
+    _sum: ProblemCollaborationSumAggregateOutputType | null
+    _min: ProblemCollaborationMinAggregateOutputType | null
+    _max: ProblemCollaborationMaxAggregateOutputType | null
+  }
+
+  export type ProblemCollaborationAvgAggregateOutputType = {
+    maxParticipants: number | null
+  }
+
+  export type ProblemCollaborationSumAggregateOutputType = {
+    maxParticipants: number | null
+  }
+
+  export type ProblemCollaborationMinAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    initiatorId: string | null
+    maxParticipants: number | null
+    currentCode: string | null
+    language: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemCollaborationMaxAggregateOutputType = {
+    id: string | null
+    problemId: string | null
+    initiatorId: string | null
+    maxParticipants: number | null
+    currentCode: string | null
+    language: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProblemCollaborationCountAggregateOutputType = {
+    id: number
+    problemId: number
+    initiatorId: number
+    maxParticipants: number
+    currentCode: number
+    language: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProblemCollaborationAvgAggregateInputType = {
+    maxParticipants?: true
+  }
+
+  export type ProblemCollaborationSumAggregateInputType = {
+    maxParticipants?: true
+  }
+
+  export type ProblemCollaborationMinAggregateInputType = {
+    id?: true
+    problemId?: true
+    initiatorId?: true
+    maxParticipants?: true
+    currentCode?: true
+    language?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemCollaborationMaxAggregateInputType = {
+    id?: true
+    problemId?: true
+    initiatorId?: true
+    maxParticipants?: true
+    currentCode?: true
+    language?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProblemCollaborationCountAggregateInputType = {
+    id?: true
+    problemId?: true
+    initiatorId?: true
+    maxParticipants?: true
+    currentCode?: true
+    language?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProblemCollaborationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemCollaboration to aggregate.
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemCollaborations to fetch.
+     */
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProblemCollaborationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemCollaborations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemCollaborations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProblemCollaborations
+    **/
+    _count?: true | ProblemCollaborationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProblemCollaborationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProblemCollaborationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProblemCollaborationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProblemCollaborationMaxAggregateInputType
+  }
+
+  export type GetProblemCollaborationAggregateType<T extends ProblemCollaborationAggregateArgs> = {
+        [P in keyof T & keyof AggregateProblemCollaboration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProblemCollaboration[P]>
+      : GetScalarType<T[P], AggregateProblemCollaboration[P]>
+  }
+
+
+
+
+  export type ProblemCollaborationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProblemCollaborationWhereInput
+    orderBy?: ProblemCollaborationOrderByWithAggregationInput | ProblemCollaborationOrderByWithAggregationInput[]
+    by: ProblemCollaborationScalarFieldEnum[] | ProblemCollaborationScalarFieldEnum
+    having?: ProblemCollaborationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProblemCollaborationCountAggregateInputType | true
+    _avg?: ProblemCollaborationAvgAggregateInputType
+    _sum?: ProblemCollaborationSumAggregateInputType
+    _min?: ProblemCollaborationMinAggregateInputType
+    _max?: ProblemCollaborationMaxAggregateInputType
+  }
+
+  export type ProblemCollaborationGroupByOutputType = {
+    id: string
+    problemId: string
+    initiatorId: string
+    maxParticipants: number
+    currentCode: string
+    language: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ProblemCollaborationCountAggregateOutputType | null
+    _avg: ProblemCollaborationAvgAggregateOutputType | null
+    _sum: ProblemCollaborationSumAggregateOutputType | null
+    _min: ProblemCollaborationMinAggregateOutputType | null
+    _max: ProblemCollaborationMaxAggregateOutputType | null
+  }
+
+  type GetProblemCollaborationGroupByPayload<T extends ProblemCollaborationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProblemCollaborationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProblemCollaborationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProblemCollaborationGroupByOutputType[P]>
+            : GetScalarType<T[P], ProblemCollaborationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProblemCollaborationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    initiatorId?: boolean
+    maxParticipants?: boolean
+    currentCode?: boolean
+    language?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+    participants?: boolean | ProblemCollaboration$participantsArgs<ExtArgs>
+    _count?: boolean | ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemCollaboration"]>
+
+  export type ProblemCollaborationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    initiatorId?: boolean
+    maxParticipants?: boolean
+    currentCode?: boolean
+    language?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemCollaboration"]>
+
+  export type ProblemCollaborationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    problemId?: boolean
+    initiatorId?: boolean
+    maxParticipants?: boolean
+    currentCode?: boolean
+    language?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["problemCollaboration"]>
+
+  export type ProblemCollaborationSelectScalar = {
+    id?: boolean
+    problemId?: boolean
+    initiatorId?: boolean
+    maxParticipants?: boolean
+    currentCode?: boolean
+    language?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProblemCollaborationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "initiatorId" | "maxParticipants" | "currentCode" | "language" | "createdAt" | "updatedAt", ExtArgs["result"]["problemCollaboration"]>
+  export type ProblemCollaborationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+    participants?: boolean | ProblemCollaboration$participantsArgs<ExtArgs>
+    _count?: boolean | ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProblemCollaborationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProblemCollaborationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ProblemCollaborationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProblemCollaboration"
+    objects: {
+      problem: Prisma.$ProblemPayload<ExtArgs>
+      initiator: Prisma.$UserPayload<ExtArgs>
+      participants: Prisma.$UserPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      problemId: string
+      initiatorId: string
+      maxParticipants: number
+      currentCode: string
+      language: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["problemCollaboration"]>
+    composites: {}
+  }
+
+  type ProblemCollaborationGetPayload<S extends boolean | null | undefined | ProblemCollaborationDefaultArgs> = $Result.GetResult<Prisma.$ProblemCollaborationPayload, S>
+
+  type ProblemCollaborationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProblemCollaborationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProblemCollaborationCountAggregateInputType | true
+    }
+
+  export interface ProblemCollaborationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemCollaboration'], meta: { name: 'ProblemCollaboration' } }
+    /**
+     * Find zero or one ProblemCollaboration that matches the filter.
+     * @param {ProblemCollaborationFindUniqueArgs} args - Arguments to find a ProblemCollaboration
+     * @example
+     * // Get one ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProblemCollaborationFindUniqueArgs>(args: SelectSubset<T, ProblemCollaborationFindUniqueArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProblemCollaboration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProblemCollaborationFindUniqueOrThrowArgs} args - Arguments to find a ProblemCollaboration
+     * @example
+     * // Get one ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProblemCollaborationFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemCollaboration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationFindFirstArgs} args - Arguments to find a ProblemCollaboration
+     * @example
+     * // Get one ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProblemCollaborationFindFirstArgs>(args?: SelectSubset<T, ProblemCollaborationFindFirstArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProblemCollaboration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationFindFirstOrThrowArgs} args - Arguments to find a ProblemCollaboration
+     * @example
+     * // Get one ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProblemCollaborationFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemCollaborationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProblemCollaborations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProblemCollaborations
+     * const problemCollaborations = await prisma.problemCollaboration.findMany()
+     * 
+     * // Get first 10 ProblemCollaborations
+     * const problemCollaborations = await prisma.problemCollaboration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProblemCollaborationFindManyArgs>(args?: SelectSubset<T, ProblemCollaborationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProblemCollaboration.
+     * @param {ProblemCollaborationCreateArgs} args - Arguments to create a ProblemCollaboration.
+     * @example
+     * // Create one ProblemCollaboration
+     * const ProblemCollaboration = await prisma.problemCollaboration.create({
+     *   data: {
+     *     // ... data to create a ProblemCollaboration
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProblemCollaborationCreateArgs>(args: SelectSubset<T, ProblemCollaborationCreateArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProblemCollaborations.
+     * @param {ProblemCollaborationCreateManyArgs} args - Arguments to create many ProblemCollaborations.
+     * @example
+     * // Create many ProblemCollaborations
+     * const problemCollaboration = await prisma.problemCollaboration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProblemCollaborationCreateManyArgs>(args?: SelectSubset<T, ProblemCollaborationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProblemCollaborations and returns the data saved in the database.
+     * @param {ProblemCollaborationCreateManyAndReturnArgs} args - Arguments to create many ProblemCollaborations.
+     * @example
+     * // Create many ProblemCollaborations
+     * const problemCollaboration = await prisma.problemCollaboration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProblemCollaborations and only return the `id`
+     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProblemCollaborationCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemCollaborationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProblemCollaboration.
+     * @param {ProblemCollaborationDeleteArgs} args - Arguments to delete one ProblemCollaboration.
+     * @example
+     * // Delete one ProblemCollaboration
+     * const ProblemCollaboration = await prisma.problemCollaboration.delete({
+     *   where: {
+     *     // ... filter to delete one ProblemCollaboration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProblemCollaborationDeleteArgs>(args: SelectSubset<T, ProblemCollaborationDeleteArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProblemCollaboration.
+     * @param {ProblemCollaborationUpdateArgs} args - Arguments to update one ProblemCollaboration.
+     * @example
+     * // Update one ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProblemCollaborationUpdateArgs>(args: SelectSubset<T, ProblemCollaborationUpdateArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProblemCollaborations.
+     * @param {ProblemCollaborationDeleteManyArgs} args - Arguments to filter ProblemCollaborations to delete.
+     * @example
+     * // Delete a few ProblemCollaborations
+     * const { count } = await prisma.problemCollaboration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProblemCollaborationDeleteManyArgs>(args?: SelectSubset<T, ProblemCollaborationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemCollaborations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProblemCollaborations
+     * const problemCollaboration = await prisma.problemCollaboration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProblemCollaborationUpdateManyArgs>(args: SelectSubset<T, ProblemCollaborationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProblemCollaborations and returns the data updated in the database.
+     * @param {ProblemCollaborationUpdateManyAndReturnArgs} args - Arguments to update many ProblemCollaborations.
+     * @example
+     * // Update many ProblemCollaborations
+     * const problemCollaboration = await prisma.problemCollaboration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProblemCollaborations and only return the `id`
+     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProblemCollaborationUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProblemCollaboration.
+     * @param {ProblemCollaborationUpsertArgs} args - Arguments to update or create a ProblemCollaboration.
+     * @example
+     * // Update or create a ProblemCollaboration
+     * const problemCollaboration = await prisma.problemCollaboration.upsert({
+     *   create: {
+     *     // ... data to create a ProblemCollaboration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProblemCollaboration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProblemCollaborationUpsertArgs>(args: SelectSubset<T, ProblemCollaborationUpsertArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProblemCollaborations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationCountArgs} args - Arguments to filter ProblemCollaborations to count.
+     * @example
+     * // Count the number of ProblemCollaborations
+     * const count = await prisma.problemCollaboration.count({
+     *   where: {
+     *     // ... the filter for the ProblemCollaborations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProblemCollaborationCountArgs>(
+      args?: Subset<T, ProblemCollaborationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProblemCollaborationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProblemCollaboration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProblemCollaborationAggregateArgs>(args: Subset<T, ProblemCollaborationAggregateArgs>): Prisma.PrismaPromise<GetProblemCollaborationAggregateType<T>>
+
+    /**
+     * Group by ProblemCollaboration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProblemCollaborationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProblemCollaborationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProblemCollaborationGroupByArgs['orderBy'] }
+        : { orderBy?: ProblemCollaborationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProblemCollaborationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemCollaborationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProblemCollaboration model
+   */
+  readonly fields: ProblemCollaborationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProblemCollaboration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProblemCollaborationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    initiator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    participants<T extends ProblemCollaboration$participantsArgs<ExtArgs> = {}>(args?: Subset<T, ProblemCollaboration$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProblemCollaboration model
+   */
+  interface ProblemCollaborationFieldRefs {
+    readonly id: FieldRef<"ProblemCollaboration", 'String'>
+    readonly problemId: FieldRef<"ProblemCollaboration", 'String'>
+    readonly initiatorId: FieldRef<"ProblemCollaboration", 'String'>
+    readonly maxParticipants: FieldRef<"ProblemCollaboration", 'Int'>
+    readonly currentCode: FieldRef<"ProblemCollaboration", 'String'>
+    readonly language: FieldRef<"ProblemCollaboration", 'String'>
+    readonly createdAt: FieldRef<"ProblemCollaboration", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProblemCollaboration", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProblemCollaboration findUnique
+   */
+  export type ProblemCollaborationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemCollaboration to fetch.
+     */
+    where: ProblemCollaborationWhereUniqueInput
+  }
+
+  /**
+   * ProblemCollaboration findUniqueOrThrow
+   */
+  export type ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemCollaboration to fetch.
+     */
+    where: ProblemCollaborationWhereUniqueInput
+  }
+
+  /**
+   * ProblemCollaboration findFirst
+   */
+  export type ProblemCollaborationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemCollaboration to fetch.
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemCollaborations to fetch.
+     */
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemCollaborations.
+     */
+    cursor?: ProblemCollaborationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemCollaborations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemCollaborations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemCollaborations.
+     */
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemCollaboration findFirstOrThrow
+   */
+  export type ProblemCollaborationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemCollaboration to fetch.
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemCollaborations to fetch.
+     */
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProblemCollaborations.
+     */
+    cursor?: ProblemCollaborationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemCollaborations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemCollaborations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProblemCollaborations.
+     */
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemCollaboration findMany
+   */
+  export type ProblemCollaborationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProblemCollaborations to fetch.
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProblemCollaborations to fetch.
+     */
+    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProblemCollaborations.
+     */
+    cursor?: ProblemCollaborationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProblemCollaborations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProblemCollaborations.
+     */
+    skip?: number
+    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemCollaboration create
+   */
+  export type ProblemCollaborationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProblemCollaboration.
+     */
+    data: XOR<ProblemCollaborationCreateInput, ProblemCollaborationUncheckedCreateInput>
+  }
+
+  /**
+   * ProblemCollaboration createMany
+   */
+  export type ProblemCollaborationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProblemCollaborations.
+     */
+    data: ProblemCollaborationCreateManyInput | ProblemCollaborationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProblemCollaboration createManyAndReturn
+   */
+  export type ProblemCollaborationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProblemCollaborations.
+     */
+    data: ProblemCollaborationCreateManyInput | ProblemCollaborationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemCollaboration update
+   */
+  export type ProblemCollaborationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProblemCollaboration.
+     */
+    data: XOR<ProblemCollaborationUpdateInput, ProblemCollaborationUncheckedUpdateInput>
+    /**
+     * Choose, which ProblemCollaboration to update.
+     */
+    where: ProblemCollaborationWhereUniqueInput
+  }
+
+  /**
+   * ProblemCollaboration updateMany
+   */
+  export type ProblemCollaborationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProblemCollaborations.
+     */
+    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemCollaborations to update
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * Limit how many ProblemCollaborations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemCollaboration updateManyAndReturn
+   */
+  export type ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * The data used to update ProblemCollaborations.
+     */
+    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProblemCollaborations to update
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * Limit how many ProblemCollaborations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProblemCollaboration upsert
+   */
+  export type ProblemCollaborationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProblemCollaboration to update in case it exists.
+     */
+    where: ProblemCollaborationWhereUniqueInput
+    /**
+     * In case the ProblemCollaboration found by the `where` argument doesn't exist, create a new ProblemCollaboration with this data.
+     */
+    create: XOR<ProblemCollaborationCreateInput, ProblemCollaborationUncheckedCreateInput>
+    /**
+     * In case the ProblemCollaboration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProblemCollaborationUpdateInput, ProblemCollaborationUncheckedUpdateInput>
+  }
+
+  /**
+   * ProblemCollaboration delete
+   */
+  export type ProblemCollaborationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+    /**
+     * Filter which ProblemCollaboration to delete.
+     */
+    where: ProblemCollaborationWhereUniqueInput
+  }
+
+  /**
+   * ProblemCollaboration deleteMany
+   */
+  export type ProblemCollaborationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProblemCollaborations to delete
+     */
+    where?: ProblemCollaborationWhereInput
+    /**
+     * Limit how many ProblemCollaborations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProblemCollaboration.participants
+   */
+  export type ProblemCollaboration$participantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * ProblemCollaboration without action
+   */
+  export type ProblemCollaborationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProblemCollaboration
+     */
+    select?: ProblemCollaborationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProblemCollaboration
+     */
+    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProblemCollaborationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19787,6 +24890,16 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const FollowScalarFieldEnum: {
+    id: 'id',
+    followerId: 'followerId',
+    followingId: 'followingId',
+    createdAt: 'createdAt'
+  };
+
+  export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
   export const ProblemScalarFieldEnum: {
@@ -19980,6 +25093,47 @@ export namespace Prisma {
   export type DiscussionUpvoteScalarFieldEnum = (typeof DiscussionUpvoteScalarFieldEnum)[keyof typeof DiscussionUpvoteScalarFieldEnum]
 
 
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    content: 'content',
+    isRead: 'isRead',
+    referenceId: 'referenceId',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const ProblemInvitationScalarFieldEnum: {
+    id: 'id',
+    problemId: 'problemId',
+    senderId: 'senderId',
+    receiverId: 'receiverId',
+    status: 'status',
+    message: 'message',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProblemInvitationScalarFieldEnum = (typeof ProblemInvitationScalarFieldEnum)[keyof typeof ProblemInvitationScalarFieldEnum]
+
+
+  export const ProblemCollaborationScalarFieldEnum: {
+    id: 'id',
+    problemId: 'problemId',
+    initiatorId: 'initiatorId',
+    maxParticipants: 'maxParticipants',
+    currentCode: 'currentCode',
+    language: 'language',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProblemCollaborationScalarFieldEnum = (typeof ProblemCollaborationScalarFieldEnum)[keyof typeof ProblemCollaborationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -20131,6 +25285,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'NotificationType'
+   */
+  export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'NotificationType[]'
+   */
+  export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvitationStatus'
+   */
+  export type EnumInvitationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvitationStatus[]'
+   */
+  export type ListEnumInvitationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -20172,8 +25354,8 @@ export namespace Prisma {
     badges?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    followers?: UserListRelationFilter
-    following?: UserListRelationFilter
+    followers?: FollowListRelationFilter
+    following?: FollowListRelationFilter
     problems?: ProblemListRelationFilter
     submission?: SubmissionListRelationFilter
     problemSolved?: ProblemSolvedListRelationFilter
@@ -20183,6 +25365,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyListRelationFilter
     discussionUpvotes?: DiscussionUpvoteListRelationFilter
     playlistPurchases?: PlaylistPurchaseListRelationFilter
+    sentInvitations?: ProblemInvitationListRelationFilter
+    receivedInvitations?: ProblemInvitationListRelationFilter
+    participatingCollaborations?: ProblemCollaborationListRelationFilter
+    notifications?: NotificationListRelationFilter
+    initiatedCollaborations?: ProblemCollaborationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -20207,8 +25394,8 @@ export namespace Prisma {
     badges?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    followers?: UserOrderByRelationAggregateInput
-    following?: UserOrderByRelationAggregateInput
+    followers?: FollowOrderByRelationAggregateInput
+    following?: FollowOrderByRelationAggregateInput
     problems?: ProblemOrderByRelationAggregateInput
     submission?: SubmissionOrderByRelationAggregateInput
     problemSolved?: ProblemSolvedOrderByRelationAggregateInput
@@ -20218,6 +25405,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyOrderByRelationAggregateInput
     discussionUpvotes?: DiscussionUpvoteOrderByRelationAggregateInput
     playlistPurchases?: PlaylistPurchaseOrderByRelationAggregateInput
+    sentInvitations?: ProblemInvitationOrderByRelationAggregateInput
+    receivedInvitations?: ProblemInvitationOrderByRelationAggregateInput
+    participatingCollaborations?: ProblemCollaborationOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    initiatedCollaborations?: ProblemCollaborationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -20245,8 +25437,8 @@ export namespace Prisma {
     badges?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    followers?: UserListRelationFilter
-    following?: UserListRelationFilter
+    followers?: FollowListRelationFilter
+    following?: FollowListRelationFilter
     problems?: ProblemListRelationFilter
     submission?: SubmissionListRelationFilter
     problemSolved?: ProblemSolvedListRelationFilter
@@ -20256,6 +25448,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyListRelationFilter
     discussionUpvotes?: DiscussionUpvoteListRelationFilter
     playlistPurchases?: PlaylistPurchaseListRelationFilter
+    sentInvitations?: ProblemInvitationListRelationFilter
+    receivedInvitations?: ProblemInvitationListRelationFilter
+    participatingCollaborations?: ProblemCollaborationListRelationFilter
+    notifications?: NotificationListRelationFilter
+    initiatedCollaborations?: ProblemCollaborationListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20314,6 +25511,60 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
+  export type FollowWhereInput = {
+    AND?: FollowWhereInput | FollowWhereInput[]
+    OR?: FollowWhereInput[]
+    NOT?: FollowWhereInput | FollowWhereInput[]
+    id?: StringFilter<"Follow"> | string
+    followerId?: StringFilter<"Follow"> | string
+    followingId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+    follower?: XOR<UserScalarRelationFilter, UserWhereInput>
+    following?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FollowOrderByWithRelationInput = {
+    id?: SortOrder
+    followerId?: SortOrder
+    followingId?: SortOrder
+    createdAt?: SortOrder
+    follower?: UserOrderByWithRelationInput
+    following?: UserOrderByWithRelationInput
+  }
+
+  export type FollowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    followerId_followingId?: FollowFollowerIdFollowingIdCompoundUniqueInput
+    AND?: FollowWhereInput | FollowWhereInput[]
+    OR?: FollowWhereInput[]
+    NOT?: FollowWhereInput | FollowWhereInput[]
+    followerId?: StringFilter<"Follow"> | string
+    followingId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+    follower?: XOR<UserScalarRelationFilter, UserWhereInput>
+    following?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "followerId_followingId">
+
+  export type FollowOrderByWithAggregationInput = {
+    id?: SortOrder
+    followerId?: SortOrder
+    followingId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FollowCountOrderByAggregateInput
+    _max?: FollowMaxOrderByAggregateInput
+    _min?: FollowMinOrderByAggregateInput
+  }
+
+  export type FollowScalarWhereWithAggregatesInput = {
+    AND?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
+    OR?: FollowScalarWhereWithAggregatesInput[]
+    NOT?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Follow"> | string
+    followerId?: StringWithAggregatesFilter<"Follow"> | string
+    followingId?: StringWithAggregatesFilter<"Follow"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Follow"> | Date | string
+  }
+
   export type ProblemWhereInput = {
     AND?: ProblemWhereInput | ProblemWhereInput[]
     OR?: ProblemWhereInput[]
@@ -20337,6 +25588,8 @@ export namespace Prisma {
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
+    invitations?: ProblemInvitationListRelationFilter
+    collaborations?: ProblemCollaborationListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
@@ -20365,6 +25618,8 @@ export namespace Prisma {
     dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    invitations?: ProblemInvitationOrderByRelationAggregateInput
+    collaborations?: ProblemCollaborationOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
     submission?: SubmissionOrderByRelationAggregateInput
     solvedBy?: ProblemSolvedOrderByRelationAggregateInput
@@ -20396,6 +25651,8 @@ export namespace Prisma {
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
+    invitations?: ProblemInvitationListRelationFilter
+    collaborations?: ProblemCollaborationListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
@@ -21332,6 +26589,227 @@ export namespace Prisma {
     messageId?: StringWithAggregatesFilter<"DiscussionUpvote"> | string
   }
 
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    content?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    referenceId?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    isRead?: SortOrder
+    referenceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    content?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    referenceId?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    isRead?: SortOrder
+    referenceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    userId?: StringWithAggregatesFilter<"Notification"> | string
+    type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
+    content?: StringWithAggregatesFilter<"Notification"> | string
+    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
+    referenceId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
+  export type ProblemInvitationWhereInput = {
+    AND?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
+    OR?: ProblemInvitationWhereInput[]
+    NOT?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
+    id?: StringFilter<"ProblemInvitation"> | string
+    problemId?: StringFilter<"ProblemInvitation"> | string
+    senderId?: StringFilter<"ProblemInvitation"> | string
+    receiverId?: StringFilter<"ProblemInvitation"> | string
+    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
+    message?: StringNullableFilter<"ProblemInvitation"> | string | null
+    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ProblemInvitationOrderByWithRelationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    message?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    problem?: ProblemOrderByWithRelationInput
+    sender?: UserOrderByWithRelationInput
+    receiver?: UserOrderByWithRelationInput
+  }
+
+  export type ProblemInvitationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    problemId_senderId_receiverId?: ProblemInvitationProblemIdSenderIdReceiverIdCompoundUniqueInput
+    AND?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
+    OR?: ProblemInvitationWhereInput[]
+    NOT?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
+    problemId?: StringFilter<"ProblemInvitation"> | string
+    senderId?: StringFilter<"ProblemInvitation"> | string
+    receiverId?: StringFilter<"ProblemInvitation"> | string
+    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
+    message?: StringNullableFilter<"ProblemInvitation"> | string | null
+    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "problemId_senderId_receiverId">
+
+  export type ProblemInvitationOrderByWithAggregationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    message?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProblemInvitationCountOrderByAggregateInput
+    _max?: ProblemInvitationMaxOrderByAggregateInput
+    _min?: ProblemInvitationMinOrderByAggregateInput
+  }
+
+  export type ProblemInvitationScalarWhereWithAggregatesInput = {
+    AND?: ProblemInvitationScalarWhereWithAggregatesInput | ProblemInvitationScalarWhereWithAggregatesInput[]
+    OR?: ProblemInvitationScalarWhereWithAggregatesInput[]
+    NOT?: ProblemInvitationScalarWhereWithAggregatesInput | ProblemInvitationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProblemInvitation"> | string
+    problemId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
+    senderId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
+    receiverId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
+    status?: EnumInvitationStatusWithAggregatesFilter<"ProblemInvitation"> | $Enums.InvitationStatus
+    message?: StringNullableWithAggregatesFilter<"ProblemInvitation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProblemInvitation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProblemInvitation"> | Date | string
+  }
+
+  export type ProblemCollaborationWhereInput = {
+    AND?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
+    OR?: ProblemCollaborationWhereInput[]
+    NOT?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
+    id?: StringFilter<"ProblemCollaboration"> | string
+    problemId?: StringFilter<"ProblemCollaboration"> | string
+    initiatorId?: StringFilter<"ProblemCollaboration"> | string
+    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
+    currentCode?: StringFilter<"ProblemCollaboration"> | string
+    language?: StringFilter<"ProblemCollaboration"> | string
+    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    initiator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    participants?: UserListRelationFilter
+  }
+
+  export type ProblemCollaborationOrderByWithRelationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    initiatorId?: SortOrder
+    maxParticipants?: SortOrder
+    currentCode?: SortOrder
+    language?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    problem?: ProblemOrderByWithRelationInput
+    initiator?: UserOrderByWithRelationInput
+    participants?: UserOrderByRelationAggregateInput
+  }
+
+  export type ProblemCollaborationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    problemId_initiatorId?: ProblemCollaborationProblemIdInitiatorIdCompoundUniqueInput
+    AND?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
+    OR?: ProblemCollaborationWhereInput[]
+    NOT?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
+    problemId?: StringFilter<"ProblemCollaboration"> | string
+    initiatorId?: StringFilter<"ProblemCollaboration"> | string
+    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
+    currentCode?: StringFilter<"ProblemCollaboration"> | string
+    language?: StringFilter<"ProblemCollaboration"> | string
+    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+    initiator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    participants?: UserListRelationFilter
+  }, "id" | "problemId_initiatorId">
+
+  export type ProblemCollaborationOrderByWithAggregationInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    initiatorId?: SortOrder
+    maxParticipants?: SortOrder
+    currentCode?: SortOrder
+    language?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProblemCollaborationCountOrderByAggregateInput
+    _avg?: ProblemCollaborationAvgOrderByAggregateInput
+    _max?: ProblemCollaborationMaxOrderByAggregateInput
+    _min?: ProblemCollaborationMinOrderByAggregateInput
+    _sum?: ProblemCollaborationSumOrderByAggregateInput
+  }
+
+  export type ProblemCollaborationScalarWhereWithAggregatesInput = {
+    AND?: ProblemCollaborationScalarWhereWithAggregatesInput | ProblemCollaborationScalarWhereWithAggregatesInput[]
+    OR?: ProblemCollaborationScalarWhereWithAggregatesInput[]
+    NOT?: ProblemCollaborationScalarWhereWithAggregatesInput | ProblemCollaborationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
+    problemId?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
+    initiatorId?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
+    maxParticipants?: IntWithAggregatesFilter<"ProblemCollaboration"> | number
+    currentCode?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
+    language?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProblemCollaboration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProblemCollaboration"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -21354,8 +26832,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -21365,6 +26843,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -21389,8 +26872,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -21400,6 +26883,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUpdateInput = {
@@ -21424,8 +26912,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -21435,6 +26923,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -21459,8 +26952,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -21470,6 +26963,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21544,6 +27042,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FollowCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    follower: UserCreateNestedOneWithoutFollowingInput
+    following: UserCreateNestedOneWithoutFollowersInput
+  }
+
+  export type FollowUncheckedCreateInput = {
+    id?: string
+    followerId: string
+    followingId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
+    following?: UserUpdateOneRequiredWithoutFollowersNestedInput
+  }
+
+  export type FollowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerId?: StringFieldUpdateOperationsInput | string
+    followingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowCreateManyInput = {
+    id?: string
+    followerId: string
+    followingId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerId?: StringFieldUpdateOperationsInput | string
+    followingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProblemCreateInput = {
     id?: string
     title: string
@@ -21563,6 +27108,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -21591,6 +27138,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -21617,6 +27166,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -21645,6 +27196,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -22611,6 +28164,228 @@ export namespace Prisma {
     messageId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type NotificationCreateInput = {
+    id?: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    userId: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationCreateInput = {
+    id?: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutInvitationsInput
+    sender: UserCreateNestedOneWithoutSentInvitationsInput
+    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
+  }
+
+  export type ProblemInvitationUncheckedCreateInput = {
+    id?: string
+    problemId: string
+    senderId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemInvitationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
+  }
+
+  export type ProblemInvitationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationCreateManyInput = {
+    id?: string
+    problemId: string
+    senderId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemInvitationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationCreateInput = {
+    id?: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutCollaborationsInput
+    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
+    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationUncheckedCreateInput = {
+    id?: string
+    problemId: string
+    initiatorId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
+    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
+    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationCreateManyInput = {
+    id?: string
+    problemId: string
+    initiatorId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemCollaborationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22704,10 +28479,10 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
+  export type FollowListRelationFilter = {
+    every?: FollowWhereInput
+    some?: FollowWhereInput
+    none?: FollowWhereInput
   }
 
   export type ProblemListRelationFilter = {
@@ -22764,12 +28539,30 @@ export namespace Prisma {
     none?: PlaylistPurchaseWhereInput
   }
 
+  export type ProblemInvitationListRelationFilter = {
+    every?: ProblemInvitationWhereInput
+    some?: ProblemInvitationWhereInput
+    none?: ProblemInvitationWhereInput
+  }
+
+  export type ProblemCollaborationListRelationFilter = {
+    every?: ProblemCollaborationWhereInput
+    some?: ProblemCollaborationWhereInput
+    none?: ProblemCollaborationWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type UserOrderByRelationAggregateInput = {
+  export type FollowOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22806,6 +28599,18 @@ export namespace Prisma {
   }
 
   export type PlaylistPurchaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProblemInvitationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProblemCollaborationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23009,6 +28814,37 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
+    followerId: string
+    followingId: string
+  }
+
+  export type FollowCountOrderByAggregateInput = {
+    id?: SortOrder
+    followerId?: SortOrder
+    followingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FollowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    followerId?: SortOrder
+    followingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FollowMinOrderByAggregateInput = {
+    id?: SortOrder
+    followerId?: SortOrder
+    followingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumDifficultyFilter<$PrismaModel = never> = {
     equals?: $Enums.Difficulty | EnumDifficultyFieldRefInput<$PrismaModel>
     in?: $Enums.Difficulty[] | ListEnumDifficultyFieldRefInput<$PrismaModel>
@@ -23027,11 +28863,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type ProblemInPlaylistListRelationFilter = {
@@ -23642,16 +29473,177 @@ export namespace Prisma {
     messageId?: SortOrder
   }
 
-  export type UserCreateNestedManyWithoutFollowingInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type EnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
   }
 
-  export type UserCreateNestedManyWithoutFollowersInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput> | UserCreateWithoutFollowersInput[] | UserUncheckedCreateWithoutFollowersInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput | UserCreateOrConnectWithoutFollowersInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    isRead?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    isRead?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    isRead?: SortOrder
+    referenceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+  }
+
+  export type EnumInvitationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationStatusFilter<$PrismaModel> | $Enums.InvitationStatus
+  }
+
+  export type ProblemInvitationProblemIdSenderIdReceiverIdCompoundUniqueInput = {
+    problemId: string
+    senderId: string
+    receiverId: string
+  }
+
+  export type ProblemInvitationCountOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemInvitationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemInvitationMinOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumInvitationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvitationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvitationStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvitationStatusFilter<$PrismaModel>
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProblemCollaborationProblemIdInitiatorIdCompoundUniqueInput = {
+    problemId: string
+    initiatorId: string
+  }
+
+  export type ProblemCollaborationCountOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    initiatorId?: SortOrder
+    maxParticipants?: SortOrder
+    currentCode?: SortOrder
+    language?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemCollaborationAvgOrderByAggregateInput = {
+    maxParticipants?: SortOrder
+  }
+
+  export type ProblemCollaborationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    initiatorId?: SortOrder
+    maxParticipants?: SortOrder
+    currentCode?: SortOrder
+    language?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemCollaborationMinOrderByAggregateInput = {
+    id?: SortOrder
+    problemId?: SortOrder
+    initiatorId?: SortOrder
+    maxParticipants?: SortOrder
+    currentCode?: SortOrder
+    language?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProblemCollaborationSumOrderByAggregateInput = {
+    maxParticipants?: SortOrder
+  }
+
+  export type FollowCreateNestedManyWithoutFollowingInput = {
+    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
+    createMany?: FollowCreateManyFollowingInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type FollowCreateNestedManyWithoutFollowerInput = {
+    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
+    createMany?: FollowCreateManyFollowerInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
   }
 
   export type ProblemCreateNestedManyWithoutUserInput = {
@@ -23717,16 +29709,52 @@ export namespace Prisma {
     connect?: PlaylistPurchaseWhereUniqueInput | PlaylistPurchaseWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutFollowingInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ProblemInvitationCreateNestedManyWithoutSenderInput = {
+    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
+    createMany?: ProblemInvitationCreateManySenderInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutFollowersInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput> | UserCreateWithoutFollowersInput[] | UserUncheckedCreateWithoutFollowersInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput | UserCreateOrConnectWithoutFollowersInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ProblemInvitationCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
+    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationCreateNestedManyWithoutParticipantsInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationCreateNestedManyWithoutInitiatorInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
+    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  }
+
+  export type FollowUncheckedCreateNestedManyWithoutFollowingInput = {
+    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
+    createMany?: FollowCreateManyFollowingInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type FollowUncheckedCreateNestedManyWithoutFollowerInput = {
+    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
+    createMany?: FollowCreateManyFollowerInputEnvelope
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
   }
 
   export type ProblemUncheckedCreateNestedManyWithoutUserInput = {
@@ -23792,6 +29820,40 @@ export namespace Prisma {
     connect?: PlaylistPurchaseWhereUniqueInput | PlaylistPurchaseWhereUniqueInput[]
   }
 
+  export type ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput = {
+    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
+    createMany?: ProblemInvitationCreateManySenderInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+  }
+
+  export type ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
+    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
+    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -23820,30 +29882,32 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type UserUpdateManyWithoutFollowingNestedInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutFollowingInput | UserUpsertWithWhereUniqueWithoutFollowingInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutFollowingInput | UserUpdateWithWhereUniqueWithoutFollowingInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutFollowingInput | UserUpdateManyWithWhereWithoutFollowingInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type FollowUpdateManyWithoutFollowingNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingInput | FollowUpsertWithWhereUniqueWithoutFollowingInput[]
+    createMany?: FollowCreateManyFollowingInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
-  export type UserUpdateManyWithoutFollowersNestedInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput> | UserCreateWithoutFollowersInput[] | UserUncheckedCreateWithoutFollowersInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput | UserCreateOrConnectWithoutFollowersInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutFollowersInput | UserUpsertWithWhereUniqueWithoutFollowersInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutFollowersInput | UserUpdateWithWhereUniqueWithoutFollowersInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutFollowersInput | UserUpdateManyWithWhereWithoutFollowersInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type FollowUpdateManyWithoutFollowerNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerInput | FollowUpsertWithWhereUniqueWithoutFollowerInput[]
+    createMany?: FollowCreateManyFollowerInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowerInput | FollowUpdateWithWhereUniqueWithoutFollowerInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowerInput | FollowUpdateManyWithWhereWithoutFollowerInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
   export type ProblemUpdateManyWithoutUserNestedInput = {
@@ -23972,30 +30036,101 @@ export namespace Prisma {
     deleteMany?: PlaylistPurchaseScalarWhereInput | PlaylistPurchaseScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutFollowingNestedInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput> | UserCreateWithoutFollowingInput[] | UserUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput | UserCreateOrConnectWithoutFollowingInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutFollowingInput | UserUpsertWithWhereUniqueWithoutFollowingInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutFollowingInput | UserUpdateWithWhereUniqueWithoutFollowingInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutFollowingInput | UserUpdateManyWithWhereWithoutFollowingInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ProblemInvitationUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput | ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: ProblemInvitationCreateManySenderInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput | ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutSenderInput | ProblemInvitationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutFollowersNestedInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput> | UserCreateWithoutFollowersInput[] | UserUncheckedCreateWithoutFollowersInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput | UserCreateOrConnectWithoutFollowersInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutFollowersInput | UserUpsertWithWhereUniqueWithoutFollowersInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutFollowersInput | UserUpdateWithWhereUniqueWithoutFollowersInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutFollowersInput | UserUpdateManyWithWhereWithoutFollowersInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ProblemInvitationUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutReceiverInput | ProblemInvitationUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUpdateManyWithoutParticipantsNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput[]
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput | ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUpdateManyWithoutInitiatorNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput[]
+    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput | ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowingNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingInput | FollowUpsertWithWhereUniqueWithoutFollowingInput[]
+    createMany?: FollowCreateManyFollowingInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowerNestedInput = {
+    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
+    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
+    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerInput | FollowUpsertWithWhereUniqueWithoutFollowerInput[]
+    createMany?: FollowCreateManyFollowerInputEnvelope
+    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    update?: FollowUpdateWithWhereUniqueWithoutFollowerInput | FollowUpdateWithWhereUniqueWithoutFollowerInput[]
+    updateMany?: FollowUpdateManyWithWhereWithoutFollowerInput | FollowUpdateManyWithWhereWithoutFollowerInput[]
+    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
   export type ProblemUncheckedUpdateManyWithoutUserNestedInput = {
@@ -24124,12 +30259,123 @@ export namespace Prisma {
     deleteMany?: PlaylistPurchaseScalarWhereInput | PlaylistPurchaseScalarWhereInput[]
   }
 
+  export type ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput | ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: ProblemInvitationCreateManySenderInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput | ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutSenderInput | ProblemInvitationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutReceiverInput | ProblemInvitationUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput[]
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput | ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput[]
+    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput | ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutFollowingInput = {
+    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFollowersInput = {
+    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFollowingNestedInput = {
+    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
+    upsert?: UserUpsertWithoutFollowingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowingInput, UserUpdateWithoutFollowingInput>, UserUncheckedUpdateWithoutFollowingInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutFollowersNestedInput = {
+    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput
+    upsert?: UserUpsertWithoutFollowersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowersInput, UserUpdateWithoutFollowersInput>, UserUncheckedUpdateWithoutFollowersInput>
+  }
+
   export type ProblemCreatetagsInput = {
     set: string[]
   }
 
   export type ProblemCreateaskedInInput = {
     set: string[]
+  }
+
+  export type ProblemInvitationCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutProblemsInput = {
@@ -24171,6 +30417,20 @@ export namespace Prisma {
     connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
     createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
     connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
+  }
+
+  export type ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+  }
+
+  export type ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
+    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
   }
 
   export type SubmissionUncheckedCreateNestedManyWithoutProblemInput = {
@@ -24224,6 +30484,34 @@ export namespace Prisma {
   export type ProblemUpdateaskedInInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type ProblemInvitationUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput | ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput | ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutProblemInput | ProblemInvitationUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutProblemInput | ProblemCollaborationUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutProblemsNestedInput = {
@@ -24302,6 +30590,34 @@ export namespace Prisma {
     update?: ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput[]
     updateMany?: ProblemDiscussionUpdateManyWithWhereWithoutProblemInput | ProblemDiscussionUpdateManyWithWhereWithoutProblemInput[]
     deleteMany?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput | ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
+    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
+    update?: ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput | ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutProblemInput | ProblemInvitationUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
+    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
+    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutProblemInput | ProblemCollaborationUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
   }
 
   export type SubmissionUncheckedUpdateManyWithoutProblemNestedInput = {
@@ -24904,6 +31220,136 @@ export namespace Prisma {
     update?: XOR<XOR<DiscussionMessageUpdateToOneWithWhereWithoutUpvotesInput, DiscussionMessageUpdateWithoutUpvotesInput>, DiscussionMessageUncheckedUpdateWithoutUpvotesInput>
   }
 
+  export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumNotificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NotificationType
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type ProblemCreateNestedOneWithoutInvitationsInput = {
+    create?: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutInvitationsInput
+    connect?: ProblemWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSentInvitationsInput = {
+    create?: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentInvitationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReceivedInvitationsInput = {
+    create?: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedInvitationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumInvitationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvitationStatus
+  }
+
+  export type ProblemUpdateOneRequiredWithoutInvitationsNestedInput = {
+    create?: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutInvitationsInput
+    upsert?: ProblemUpsertWithoutInvitationsInput
+    connect?: ProblemWhereUniqueInput
+    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutInvitationsInput, ProblemUpdateWithoutInvitationsInput>, ProblemUncheckedUpdateWithoutInvitationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSentInvitationsNestedInput = {
+    create?: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentInvitationsInput
+    upsert?: UserUpsertWithoutSentInvitationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentInvitationsInput, UserUpdateWithoutSentInvitationsInput>, UserUncheckedUpdateWithoutSentInvitationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput = {
+    create?: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedInvitationsInput
+    upsert?: UserUpsertWithoutReceivedInvitationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedInvitationsInput, UserUpdateWithoutReceivedInvitationsInput>, UserUncheckedUpdateWithoutReceivedInvitationsInput>
+  }
+
+  export type ProblemCreateNestedOneWithoutCollaborationsInput = {
+    create?: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutCollaborationsInput
+    connect?: ProblemWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutInitiatedCollaborationsInput = {
+    create?: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInitiatedCollaborationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutParticipatingCollaborationsInput = {
+    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput = {
+    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type ProblemUpdateOneRequiredWithoutCollaborationsNestedInput = {
+    create?: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutCollaborationsInput
+    upsert?: ProblemUpsertWithoutCollaborationsInput
+    connect?: ProblemWhereUniqueInput
+    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutCollaborationsInput, ProblemUpdateWithoutCollaborationsInput>, ProblemUncheckedUpdateWithoutCollaborationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput = {
+    create?: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInitiatedCollaborationsInput
+    upsert?: UserUpsertWithoutInitiatedCollaborationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInitiatedCollaborationsInput, UserUpdateWithoutInitiatedCollaborationsInput>, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
+  }
+
+  export type UserUpdateManyWithoutParticipatingCollaborationsNestedInput = {
+    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput | UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput = {
+    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput | UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -25179,150 +31625,82 @@ export namespace Prisma {
     _max?: NestedEnumReportReasonFilter<$PrismaModel>
   }
 
-  export type UserCreateWithoutFollowingInput = {
+  export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  }
+
+  export type NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvitationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationStatusFilter<$PrismaModel> | $Enums.InvitationStatus
+  }
+
+  export type NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvitationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvitationStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvitationStatusFilter<$PrismaModel>
+  }
+
+  export type FollowCreateWithoutFollowingInput = {
     id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    follower: UserCreateNestedOneWithoutFollowingInput
   }
 
-  export type UserUncheckedCreateWithoutFollowingInput = {
+  export type FollowUncheckedCreateWithoutFollowingInput = {
     id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
+    followerId: string
     createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutFollowingInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+  export type FollowCreateOrConnectWithoutFollowingInput = {
+    where: FollowWhereUniqueInput
+    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
   }
 
-  export type UserCreateWithoutFollowersInput = {
+  export type FollowCreateManyFollowingInputEnvelope = {
+    data: FollowCreateManyFollowingInput | FollowCreateManyFollowingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FollowCreateWithoutFollowerInput = {
     id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    updatedAt?: Date | string
-    following?: UserCreateNestedManyWithoutFollowersInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    following: UserCreateNestedOneWithoutFollowersInput
   }
 
-  export type UserUncheckedCreateWithoutFollowersInput = {
+  export type FollowUncheckedCreateWithoutFollowerInput = {
     id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
+    followingId: string
     createdAt?: Date | string
-    updatedAt?: Date | string
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutFollowersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+  export type FollowCreateOrConnectWithoutFollowerInput = {
+    where: FollowWhereUniqueInput
+    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
+  }
+
+  export type FollowCreateManyFollowerInputEnvelope = {
+    data: FollowCreateManyFollowerInput | FollowCreateManyFollowerInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProblemCreateWithoutUserInput = {
@@ -25344,6 +31722,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -25370,6 +31750,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -25621,63 +32003,193 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithWhereUniqueWithoutFollowingInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+  export type ProblemInvitationCreateWithoutSenderInput = {
+    id?: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutInvitationsInput
+    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
   }
 
-  export type UserUpdateWithWhereUniqueWithoutFollowingInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
+  export type ProblemInvitationUncheckedCreateWithoutSenderInput = {
+    id?: string
+    problemId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUpdateManyWithWhereWithoutFollowingInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutFollowingInput>
+  export type ProblemInvitationCreateOrConnectWithoutSenderInput = {
+    where: ProblemInvitationWhereUniqueInput
+    create: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput>
   }
 
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    bio?: StringNullableFilter<"User"> | string | null
-    linkedin?: StringNullableFilter<"User"> | string | null
-    portfolio?: StringNullableFilter<"User"> | string | null
-    email?: StringFilter<"User"> | string
-    image?: StringNullableFilter<"User"> | string | null
-    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    password?: StringFilter<"User"> | string
-    forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
-    forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
-    provider?: StringNullableFilter<"User"> | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    followerCount?: IntFilter<"User"> | number
-    followingCount?: IntFilter<"User"> | number
-    badges?: JsonFilter<"User">
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
+  export type ProblemInvitationCreateManySenderInputEnvelope = {
+    data: ProblemInvitationCreateManySenderInput | ProblemInvitationCreateManySenderInput[]
+    skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithWhereUniqueWithoutFollowersInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
-    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+  export type ProblemInvitationCreateWithoutReceiverInput = {
+    id?: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutInvitationsInput
+    sender: UserCreateNestedOneWithoutSentInvitationsInput
   }
 
-  export type UserUpdateWithWhereUniqueWithoutFollowersInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
+  export type ProblemInvitationUncheckedCreateWithoutReceiverInput = {
+    id?: string
+    problemId: string
+    senderId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUpdateManyWithWhereWithoutFollowersInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutFollowersInput>
+  export type ProblemInvitationCreateOrConnectWithoutReceiverInput = {
+    where: ProblemInvitationWhereUniqueInput
+    create: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type ProblemInvitationCreateManyReceiverInputEnvelope = {
+    data: ProblemInvitationCreateManyReceiverInput | ProblemInvitationCreateManyReceiverInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProblemCollaborationCreateWithoutParticipantsInput = {
+    id?: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutCollaborationsInput
+    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
+  }
+
+  export type ProblemCollaborationUncheckedCreateWithoutParticipantsInput = {
+    id?: string
+    problemId: string
+    initiatorId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemCollaborationCreateOrConnectWithoutParticipantsInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    create: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput>
+  }
+
+  export type NotificationCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProblemCollaborationCreateWithoutInitiatorInput = {
+    id?: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutCollaborationsInput
+    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationUncheckedCreateWithoutInitiatorInput = {
+    id?: string
+    problemId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationCreateOrConnectWithoutInitiatorInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    create: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput>
+  }
+
+  export type ProblemCollaborationCreateManyInitiatorInputEnvelope = {
+    data: ProblemCollaborationCreateManyInitiatorInput | ProblemCollaborationCreateManyInitiatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FollowUpsertWithWhereUniqueWithoutFollowingInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
+    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowingInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowingInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
+  }
+
+  export type FollowScalarWhereInput = {
+    AND?: FollowScalarWhereInput | FollowScalarWhereInput[]
+    OR?: FollowScalarWhereInput[]
+    NOT?: FollowScalarWhereInput | FollowScalarWhereInput[]
+    id?: StringFilter<"Follow"> | string
+    followerId?: StringFilter<"Follow"> | string
+    followingId?: StringFilter<"Follow"> | string
+    createdAt?: DateTimeFilter<"Follow"> | Date | string
+  }
+
+  export type FollowUpsertWithWhereUniqueWithoutFollowerInput = {
+    where: FollowWhereUniqueInput
+    update: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
+    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
+  }
+
+  export type FollowUpdateWithWhereUniqueWithoutFollowerInput = {
+    where: FollowWhereUniqueInput
+    data: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
+  }
+
+  export type FollowUpdateManyWithWhereWithoutFollowerInput = {
+    where: FollowScalarWhereInput
+    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowerInput>
   }
 
   export type ProblemUpsertWithWhereUniqueWithoutUserInput = {
@@ -25953,6 +32465,533 @@ export namespace Prisma {
     purchaseDate?: DateTimeFilter<"PlaylistPurchase"> | Date | string
   }
 
+  export type ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput = {
+    where: ProblemInvitationWhereUniqueInput
+    update: XOR<ProblemInvitationUpdateWithoutSenderInput, ProblemInvitationUncheckedUpdateWithoutSenderInput>
+    create: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput>
+  }
+
+  export type ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput = {
+    where: ProblemInvitationWhereUniqueInput
+    data: XOR<ProblemInvitationUpdateWithoutSenderInput, ProblemInvitationUncheckedUpdateWithoutSenderInput>
+  }
+
+  export type ProblemInvitationUpdateManyWithWhereWithoutSenderInput = {
+    where: ProblemInvitationScalarWhereInput
+    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutSenderInput>
+  }
+
+  export type ProblemInvitationScalarWhereInput = {
+    AND?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+    OR?: ProblemInvitationScalarWhereInput[]
+    NOT?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
+    id?: StringFilter<"ProblemInvitation"> | string
+    problemId?: StringFilter<"ProblemInvitation"> | string
+    senderId?: StringFilter<"ProblemInvitation"> | string
+    receiverId?: StringFilter<"ProblemInvitation"> | string
+    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
+    message?: StringNullableFilter<"ProblemInvitation"> | string | null
+    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
+  }
+
+  export type ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput = {
+    where: ProblemInvitationWhereUniqueInput
+    update: XOR<ProblemInvitationUpdateWithoutReceiverInput, ProblemInvitationUncheckedUpdateWithoutReceiverInput>
+    create: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput = {
+    where: ProblemInvitationWhereUniqueInput
+    data: XOR<ProblemInvitationUpdateWithoutReceiverInput, ProblemInvitationUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type ProblemInvitationUpdateManyWithWhereWithoutReceiverInput = {
+    where: ProblemInvitationScalarWhereInput
+    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutReceiverInput>
+  }
+
+  export type ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    update: XOR<ProblemCollaborationUpdateWithoutParticipantsInput, ProblemCollaborationUncheckedUpdateWithoutParticipantsInput>
+    create: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput>
+  }
+
+  export type ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    data: XOR<ProblemCollaborationUpdateWithoutParticipantsInput, ProblemCollaborationUncheckedUpdateWithoutParticipantsInput>
+  }
+
+  export type ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput = {
+    where: ProblemCollaborationScalarWhereInput
+    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutParticipantsInput>
+  }
+
+  export type ProblemCollaborationScalarWhereInput = {
+    AND?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+    OR?: ProblemCollaborationScalarWhereInput[]
+    NOT?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+    id?: StringFilter<"ProblemCollaboration"> | string
+    problemId?: StringFilter<"ProblemCollaboration"> | string
+    initiatorId?: StringFilter<"ProblemCollaboration"> | string
+    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
+    currentCode?: StringFilter<"ProblemCollaboration"> | string
+    language?: StringFilter<"ProblemCollaboration"> | string
+    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    content?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    referenceId?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+  }
+
+  export type ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    update: XOR<ProblemCollaborationUpdateWithoutInitiatorInput, ProblemCollaborationUncheckedUpdateWithoutInitiatorInput>
+    create: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput>
+  }
+
+  export type ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    data: XOR<ProblemCollaborationUpdateWithoutInitiatorInput, ProblemCollaborationUncheckedUpdateWithoutInitiatorInput>
+  }
+
+  export type ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput = {
+    where: ProblemCollaborationScalarWhereInput
+    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutInitiatorInput>
+  }
+
+  export type UserCreateWithoutFollowingInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutFollowingInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutFollowingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+  }
+
+  export type UserCreateWithoutFollowersInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutFollowersInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutFollowersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+  }
+
+  export type UserUpsertWithoutFollowingInput = {
+    update: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
+    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFollowingInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
+  }
+
+  export type UserUpdateWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUpsertWithoutFollowersInput = {
+    update: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
+    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFollowersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
+  }
+
+  export type UserUpdateWithoutFollowersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFollowersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type ProblemInvitationCreateWithoutProblemInput = {
+    id?: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentInvitationsInput
+    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
+  }
+
+  export type ProblemInvitationUncheckedCreateWithoutProblemInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemInvitationCreateOrConnectWithoutProblemInput = {
+    where: ProblemInvitationWhereUniqueInput
+    create: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemInvitationCreateManyProblemInputEnvelope = {
+    data: ProblemInvitationCreateManyProblemInput | ProblemInvitationCreateManyProblemInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProblemCollaborationCreateWithoutProblemInput = {
+    id?: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
+    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationUncheckedCreateWithoutProblemInput = {
+    id?: string
+    initiatorId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
+  }
+
+  export type ProblemCollaborationCreateOrConnectWithoutProblemInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    create: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemCollaborationCreateManyProblemInputEnvelope = {
+    data: ProblemCollaborationCreateManyProblemInput | ProblemCollaborationCreateManyProblemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutProblemsInput = {
     id?: string
     name: string
@@ -25975,8 +33014,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -25985,6 +33024,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutProblemsInput = {
@@ -26009,8 +33053,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -26019,6 +33063,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutProblemsInput = {
@@ -26170,6 +33219,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput = {
+    where: ProblemInvitationWhereUniqueInput
+    update: XOR<ProblemInvitationUpdateWithoutProblemInput, ProblemInvitationUncheckedUpdateWithoutProblemInput>
+    create: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput = {
+    where: ProblemInvitationWhereUniqueInput
+    data: XOR<ProblemInvitationUpdateWithoutProblemInput, ProblemInvitationUncheckedUpdateWithoutProblemInput>
+  }
+
+  export type ProblemInvitationUpdateManyWithWhereWithoutProblemInput = {
+    where: ProblemInvitationScalarWhereInput
+    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutProblemInput>
+  }
+
+  export type ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    update: XOR<ProblemCollaborationUpdateWithoutProblemInput, ProblemCollaborationUncheckedUpdateWithoutProblemInput>
+    create: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput>
+  }
+
+  export type ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput = {
+    where: ProblemCollaborationWhereUniqueInput
+    data: XOR<ProblemCollaborationUpdateWithoutProblemInput, ProblemCollaborationUncheckedUpdateWithoutProblemInput>
+  }
+
+  export type ProblemCollaborationUpdateManyWithWhereWithoutProblemInput = {
+    where: ProblemCollaborationScalarWhereInput
+    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutProblemInput>
+  }
+
   export type UserUpsertWithoutProblemsInput = {
     update: XOR<UserUpdateWithoutProblemsInput, UserUncheckedUpdateWithoutProblemsInput>
     create: XOR<UserCreateWithoutProblemsInput, UserUncheckedCreateWithoutProblemsInput>
@@ -26203,8 +33284,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -26213,6 +33294,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemsInput = {
@@ -26237,8 +33323,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -26247,6 +33333,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type SubmissionUpsertWithWhereUniqueWithoutProblemInput = {
@@ -26372,8 +33463,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -26382,6 +33473,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -26406,8 +33502,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -26416,6 +33512,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -26442,6 +33543,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -26469,6 +33572,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -26553,8 +33658,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -26563,6 +33668,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -26587,8 +33697,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -26597,6 +33707,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type ProblemUpsertWithoutSubmissionInput = {
@@ -26629,6 +33744,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -26656,6 +33773,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -26803,8 +33922,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -26813,6 +33932,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutProblemSolvedInput = {
@@ -26837,8 +33961,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -26847,6 +33971,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutProblemSolvedInput = {
@@ -26873,6 +34002,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -26900,6 +34031,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -26944,8 +34077,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -26954,6 +34087,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemSolvedInput = {
@@ -26978,8 +34116,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -26988,6 +34126,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type ProblemUpsertWithoutSolvedByInput = {
@@ -27020,6 +34163,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -27047,6 +34192,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -27127,8 +34274,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -27137,6 +34284,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistsInput = {
@@ -27161,8 +34313,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -27171,6 +34323,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistsInput = {
@@ -27243,8 +34400,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -27253,6 +34410,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
@@ -27277,8 +34439,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -27287,6 +34449,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserCreateWithoutPlaylistPurchasesInput = {
@@ -27311,8 +34478,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -27321,6 +34488,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistPurchasesInput = {
@@ -27345,8 +34517,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -27355,6 +34527,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistPurchasesInput = {
@@ -27424,8 +34601,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -27434,6 +34611,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistPurchasesInput = {
@@ -27458,8 +34640,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -27468,6 +34650,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type PlaylistUpsertWithoutPurchasesInput = {
@@ -27553,6 +34740,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -27580,6 +34769,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -27656,6 +34847,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -27683,6 +34876,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -27708,6 +34903,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -27735,6 +34932,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -27768,8 +34967,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -27778,6 +34977,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutSubmittedReportsInput = {
@@ -27802,8 +35006,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -27812,6 +35016,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutSubmittedReportsInput = {
@@ -27849,6 +35058,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -27876,6 +35087,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -27915,8 +35128,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -27925,6 +35138,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmittedReportsInput = {
@@ -27949,8 +35167,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -27959,6 +35177,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type ProblemCreateWithoutDiscussionsInput = {
@@ -27980,6 +35203,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -28007,6 +35232,8 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -28078,6 +35305,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -28105,6 +35334,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -28168,8 +35399,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -28178,6 +35409,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionMessagesInput = {
@@ -28202,8 +35438,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -28212,6 +35448,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionMessagesInput = {
@@ -28323,8 +35564,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -28333,6 +35574,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionMessagesInput = {
@@ -28357,8 +35603,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -28367,6 +35613,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput = {
@@ -28448,8 +35699,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -28458,6 +35709,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionRepliesInput = {
@@ -28482,8 +35738,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -28492,6 +35748,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionRepliesInput = {
@@ -28563,8 +35824,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -28573,6 +35834,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionRepliesInput = {
@@ -28597,8 +35863,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -28607,6 +35873,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserCreateWithoutDiscussionUpvotesInput = {
@@ -28631,8 +35902,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserCreateNestedManyWithoutFollowingInput
-    following?: UserCreateNestedManyWithoutFollowersInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -28641,6 +35912,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionUpvotesInput = {
@@ -28665,8 +35941,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: UserUncheckedCreateNestedManyWithoutFollowingInput
-    following?: UserUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -28675,6 +35951,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionUpvotesInput = {
@@ -28740,8 +36021,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    following?: UserUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -28750,6 +36031,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionUpvotesInput = {
@@ -28774,8 +36060,8 @@ export namespace Prisma {
     badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -28784,6 +36070,11 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
   }
 
   export type DiscussionMessageUpsertWithoutUpvotesInput = {
@@ -28815,6 +36106,1088 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     replies?: DiscussionReplyUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type UserCreateWithoutNotificationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type ProblemCreateWithoutInvitationsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
+    user: UserCreateNestedOneWithoutProblemsInput
+    submission?: SubmissionCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemUncheckedCreateWithoutInvitationsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    userId: string
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemCreateOrConnectWithoutInvitationsInput = {
+    where: ProblemWhereUniqueInput
+    create: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
+  }
+
+  export type UserCreateWithoutSentInvitationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutSentInvitationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutSentInvitationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
+  }
+
+  export type UserCreateWithoutReceivedInvitationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutReceivedInvitationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutReceivedInvitationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
+  }
+
+  export type ProblemUpsertWithoutInvitationsInput = {
+    update: XOR<ProblemUpdateWithoutInvitationsInput, ProblemUncheckedUpdateWithoutInvitationsInput>
+    create: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
+    where?: ProblemWhereInput
+  }
+
+  export type ProblemUpdateToOneWithWhereWithoutInvitationsInput = {
+    where?: ProblemWhereInput
+    data: XOR<ProblemUpdateWithoutInvitationsInput, ProblemUncheckedUpdateWithoutInvitationsInput>
+  }
+
+  export type ProblemUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
+    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
+    submission?: SubmissionUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
+  }
+
+  export type ProblemUncheckedUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    userId?: StringFieldUpdateOperationsInput | string
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
+  }
+
+  export type UserUpsertWithoutSentInvitationsInput = {
+    update: XOR<UserUpdateWithoutSentInvitationsInput, UserUncheckedUpdateWithoutSentInvitationsInput>
+    create: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSentInvitationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSentInvitationsInput, UserUncheckedUpdateWithoutSentInvitationsInput>
+  }
+
+  export type UserUpdateWithoutSentInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSentInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUpsertWithoutReceivedInvitationsInput = {
+    update: XOR<UserUpdateWithoutReceivedInvitationsInput, UserUncheckedUpdateWithoutReceivedInvitationsInput>
+    create: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReceivedInvitationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReceivedInvitationsInput, UserUncheckedUpdateWithoutReceivedInvitationsInput>
+  }
+
+  export type UserUpdateWithoutReceivedInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReceivedInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type ProblemCreateWithoutCollaborationsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
+    user: UserCreateNestedOneWithoutProblemsInput
+    submission?: SubmissionCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemUncheckedCreateWithoutCollaborationsInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    userId: string
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    isPaid?: boolean
+    askedIn?: ProblemCreateaskedInInput | string[]
+    likes?: number
+    dislikes?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
+    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemCreateOrConnectWithoutCollaborationsInput = {
+    where: ProblemWhereUniqueInput
+    create: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
+  }
+
+  export type UserCreateWithoutInitiatedCollaborationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInitiatedCollaborationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInitiatedCollaborationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
+  }
+
+  export type UserCreateWithoutParticipatingCollaborationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserUncheckedCreateWithoutParticipatingCollaborationsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    followerCount?: number
+    followingCount?: number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  }
+
+  export type UserCreateOrConnectWithoutParticipatingCollaborationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput>
+  }
+
+  export type ProblemUpsertWithoutCollaborationsInput = {
+    update: XOR<ProblemUpdateWithoutCollaborationsInput, ProblemUncheckedUpdateWithoutCollaborationsInput>
+    create: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
+    where?: ProblemWhereInput
+  }
+
+  export type ProblemUpdateToOneWithWhereWithoutCollaborationsInput = {
+    where?: ProblemWhereInput
+    data: XOR<ProblemUpdateWithoutCollaborationsInput, ProblemUncheckedUpdateWithoutCollaborationsInput>
+  }
+
+  export type ProblemUpdateWithoutCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
+    submission?: SubmissionUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
+  }
+
+  export type ProblemUncheckedUpdateWithoutCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    userId?: StringFieldUpdateOperationsInput | string
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    askedIn?: ProblemUpdateaskedInInput | string[]
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
+    problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
+    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
+  }
+
+  export type UserUpsertWithoutInitiatedCollaborationsInput = {
+    update: XOR<UserUpdateWithoutInitiatedCollaborationsInput, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
+    create: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInitiatedCollaborationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInitiatedCollaborationsInput, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
+  }
+
+  export type UserUpdateWithoutInitiatedCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInitiatedCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutParticipatingCollaborationsInput, UserUncheckedUpdateWithoutParticipatingCollaborationsInput>
+    create: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutParticipatingCollaborationsInput, UserUncheckedUpdateWithoutParticipatingCollaborationsInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutParticipatingCollaborationsInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    username?: StringFilter<"User"> | string
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedin?: StringNullableFilter<"User"> | string | null
+    portfolio?: StringNullableFilter<"User"> | string | null
+    email?: StringFilter<"User"> | string
+    image?: StringNullableFilter<"User"> | string | null
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    password?: StringFilter<"User"> | string
+    forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
+    forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    provider?: StringNullableFilter<"User"> | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    followerCount?: IntFilter<"User"> | number
+    followingCount?: IntFilter<"User"> | number
+    badges?: JsonFilter<"User">
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type FollowCreateManyFollowingInput = {
+    id?: string
+    followerId: string
+    createdAt?: Date | string
+  }
+
+  export type FollowCreateManyFollowerInput = {
+    id?: string
+    followingId: string
+    createdAt?: Date | string
   }
 
   export type ProblemCreateManyUserInput = {
@@ -28910,188 +37283,79 @@ export namespace Prisma {
     purchaseDate?: Date | string
   }
 
-  export type UserUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUpdateManyWithoutFollowingNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+  export type ProblemInvitationCreateManySenderInput = {
+    id?: string
+    problemId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: UserUncheckedUpdateManyWithoutFollowingNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  export type ProblemInvitationCreateManyReceiverInput = {
+    id?: string
+    problemId: string
+    senderId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateManyWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type NotificationCreateManyUserInput = {
+    id?: string
+    type: $Enums.NotificationType
+    content: string
+    isRead?: boolean
+    referenceId?: string | null
+    createdAt?: Date | string
   }
 
-  export type UserUpdateWithoutFollowersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    following?: UserUpdateManyWithoutFollowersNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+  export type ProblemCollaborationCreateManyInitiatorInput = {
+    id?: string
+    problemId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateWithoutFollowersInput = {
+  export type FollowUpdateWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    following?: UserUncheckedUpdateManyWithoutFollowersNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
   }
 
-  export type UserUncheckedUpdateManyWithoutFollowersInput = {
+  export type FollowUncheckedUpdateWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
+    followerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUpdateWithoutFollowerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    following?: UserUpdateOneRequiredWithoutFollowersNestedInput
+  }
+
+  export type FollowUncheckedUpdateWithoutFollowerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FollowUncheckedUpdateManyWithoutFollowerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    followingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProblemUpdateWithoutUserInput = {
@@ -29113,6 +37377,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -29139,6 +37405,8 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
+    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -29393,6 +37661,178 @@ export namespace Prisma {
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProblemInvitationUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
+  }
+
+  export type ProblemInvitationUncheckedUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
+  }
+
+  export type ProblemInvitationUncheckedUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
+    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    content?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    referenceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationUpdateWithoutInitiatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
+    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateWithoutInitiatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutInitiatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationCreateManyProblemInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    status?: $Enums.InvitationStatus
+    message?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProblemCollaborationCreateManyProblemInput = {
+    id?: string
+    initiatorId: string
+    maxParticipants?: number
+    currentCode: string
+    language: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SubmissionCreateManyProblemInput = {
     id?: string
     userId: string
@@ -29436,6 +37876,68 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ProblemInvitationUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
+  }
+
+  export type ProblemInvitationUncheckedUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemInvitationUncheckedUpdateManyWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProblemCollaborationUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
+    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
+  }
+
+  export type ProblemCollaborationUncheckedUpdateManyWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    initiatorId?: StringFieldUpdateOperationsInput | string
+    maxParticipants?: IntFieldUpdateOperationsInput | number
+    currentCode?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubmissionUpdateWithoutProblemInput = {
@@ -29787,6 +38289,108 @@ export namespace Prisma {
   export type DiscussionUpvoteUncheckedUpdateManyWithoutMessageInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUpdateWithoutParticipatingCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutParticipatingCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
+    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
+    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
+    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
+    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutParticipatingCollaborationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    password?: StringFieldUpdateOperationsInput | string
+    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
+    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followerCount?: IntFieldUpdateOperationsInput | number
+    followingCount?: IntFieldUpdateOperationsInput | number
+    badges?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -11,6 +11,7 @@ datasource db {
 enum UserRole {
   ADMIN
   USER
+  PRO
 }
 
 enum Difficulty {
@@ -25,6 +26,21 @@ enum ReportReason {
   DUPLICATE
   INAPPROPRIATE
   OTHER
+}
+
+enum NotificationType {
+  INVITATION
+  ACCEPTED_INVITATION
+  PROBLEM_SOLVED
+  NEW_FOLLOWER
+  GENERAL
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
 }
 
 model User {
@@ -46,29 +62,46 @@ model User {
   longestStreak  Int       @default(0)
   lastSolvedDate DateTime?
 
-  followers      User[] @relation("UserFollows")
-  following      User[] @relation("UserFollows")
+  followers Follow[] @relation("Followers")
+  following Follow[] @relation("Following")
   followerCount  Int    @default(0)
   followingCount Int    @default(0)
 
   badges Json @default("[]")
 
-  problems           Problem[]
-  submission         Submission[]
-  problemSolved      ProblemSolved[]
-  playlists          Playlist[]
-  submittedReports   ProblemReport[]
-  discussionMessages DiscussionMessage[]
-  discussionReplies  DiscussionReply[]
-  discussionUpvotes  DiscussionUpvote[]
-  playlistPurchases PlaylistPurchase[]
+  problems            Problem[]
+  submission          Submission[]
+  problemSolved       ProblemSolved[]
+  playlists           Playlist[]
+  submittedReports    ProblemReport[]
+  discussionMessages  DiscussionMessage[]
+  discussionReplies   DiscussionReply[]
+  discussionUpvotes   DiscussionUpvote[]
+  playlistPurchases   PlaylistPurchase[]
+  sentInvitations     ProblemInvitation[] @relation("SentInvitations")
+  receivedInvitations ProblemInvitation[] @relation("ReceivedInvitations")
+  participatingCollaborations ProblemCollaboration[] @relation("CollaborationParticipants")
+  notifications       Notification[]
+  initiatedCollaborations ProblemCollaboration[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Follow {
+  id          String   @id @default(uuid())
+  followerId  String
+  followingId String
+  follower    User     @relation("Following", fields: [followerId], references: [id])
+  following   User     @relation("Followers", fields: [followingId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
 model Problem {
-  id                 String     @id @default(uuid())
+  id                 String              @id @default(uuid())
   title              String
   description        String
   difficulty         Difficulty
@@ -81,8 +114,10 @@ model Problem {
   testcases          Json
   codeSnippets       Json
   referenceSolutions Json
-  isPaid           Boolean @default(false)
-  askedIn String[] @default([])
+  isPaid             Boolean             @default(false)
+  askedIn            String[]            @default([])
+  invitations        ProblemInvitation[]
+  collaborations ProblemCollaboration[]
 
   likes    Int @default(0)
   dislikes Int @default(0)
@@ -169,12 +204,12 @@ model Playlist {
   description String?
   userId      String
   isPaid      Boolean @default(false)
-  price       Int?  @default(0)
+  price       Int?    @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  problems ProblemInPlaylist[]
+  problems  ProblemInPlaylist[]
   purchases PlaylistPurchase[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -183,13 +218,13 @@ model Playlist {
 }
 
 model PlaylistPurchase {
-  id          String   @id @default(uuid())
-  userId      String
-  paymentId   String
-  paymentOrderId String
+  id               String   @id @default(uuid())
+  userId           String
+  paymentId        String
+  paymentOrderId   String
   paymentSignature String
-  playlistId  String
-  purchaseDate DateTime @default(now())
+  playlistId       String
+  purchaseDate     DateTime @default(now())
 
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
@@ -225,8 +260,8 @@ model ProblemReport {
   problemId   String
   userId      String
   reason      ReportReason
-  description String? 
-  status      String       @default("PENDING") 
+  description String?
+  status      String       @default("PENDING")
   createdAt   DateTime     @default(now())
 
   problem Problem @relation(fields: [problemId], references: [id])
@@ -278,4 +313,51 @@ model DiscussionUpvote {
   message DiscussionMessage @relation(fields: [messageId], references: [id])
 
   @@unique([userId, messageId])
+}
+
+model Notification {
+  id          String           @id @default(uuid())
+  userId      String
+  type        NotificationType
+  content     String
+  isRead      Boolean          @default(false)
+  referenceId String?
+  createdAt DateTime @default(now())
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ProblemInvitation {
+  id         String           @id @default(uuid())
+  problemId  String
+  senderId   String
+  receiverId String
+  status     InvitationStatus @default(PENDING)
+  message    String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  problem  Problem @relation(fields: [problemId], references: [id])
+  sender   User    @relation("SentInvitations", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User    @relation("ReceivedInvitations", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([problemId, senderId, receiverId])
+  @@index([receiverId, status])
+}
+
+model ProblemCollaboration {
+  id           String   @id @default(uuid())
+  problemId    String
+  problem      Problem  @relation(fields: [problemId], references: [id])
+  initiatorId  String
+  initiator    User     @relation(fields: [initiatorId], references: [id])
+  participants User[]   @relation("CollaborationParticipants")
+  maxParticipants Int   @default(5) 
+  currentCode  String
+  language     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([problemId, initiatorId])
 }
