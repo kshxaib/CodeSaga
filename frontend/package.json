@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.1.6",
     "axios": "^1.9.0",
     "daisyui": "^5.0.35",
+    "framer-motion": "^12.15.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.509.0",
     "moment": "^2.30.1",

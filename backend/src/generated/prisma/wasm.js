@@ -379,6 +379,7 @@ exports.ReportReason = exports.$Enums.ReportReason = {
 exports.NotificationType = exports.$Enums.NotificationType = {
   INVITATION: 'INVITATION',
   ACCEPTED_INVITATION: 'ACCEPTED_INVITATION',
+  COLLABORATION_JOINED: 'COLLABORATION_JOINED',
   PROBLEM_SOLVED: 'PROBLEM_SOLVED',
   NEW_FOLLOWER: 'NEW_FOLLOWER',
   GENERAL: 'GENERAL'

@@ -31,6 +31,7 @@ enum ReportReason {
 enum NotificationType {
   INVITATION
   ACCEPTED_INVITATION
+  COLLABORATION_JOINED
   PROBLEM_SOLVED
   NEW_FOLLOWER
   GENERAL
@@ -358,6 +359,4 @@ model ProblemCollaboration {
   language        String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-
-  @@unique([problemId, initiatorId])
 }

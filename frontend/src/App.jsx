@@ -17,29 +17,26 @@ import ReportTable from "./components/admin/ReportTable";
 import Profile from "./components/Profile";
 import MyPlaylists from "./components/MyPlaylists";
 import StorePage from "./components/StorePage";
-import CollaborationPage from "./components/CollaborationPage";
-import InvitationsPage from "./components/InvitationsPage"
-import { useUserStore } from "./store/useUserStore";
-import SocialPage from "./components/SocialPage";
 import ProfilePage from "./components/ProfilePage";
+import BreakZone from "./components/BreakZone/BreakZone";
+import GuessTheOutput from "./components/BreakZone/CodingGames/GuessTheOutput";
+import RegexRush from "./components/BreakZone/CodingGames/RegexRush";
+import SpeedTypingTest from "./components/BreakZone/CodingGames/SpeedTypingTest";
+import BugHunt from "./components/BreakZone/CodingGames/BugHunt";
+import BinaryClicker from "./components/BreakZone/CodingGames/BinaryClicker ";
+import ShortcutNinja from "./components/BreakZone/CodingGames/ShortcutNinja";
+import EmojiPictionary from "./components/BreakZone/CodingGames/EmojiPictionary";
+import RopeBurning from "./components/BreakZone/BrainTeasers/RopeBurning";
+import RiverCrossing from "./components/BreakZone/BrainTeasers/RiverCrossing";
+
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { disconnectSocket, initializeSocket } = useUserStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-   useEffect(() => {
-  if (authUser) {
-    initializeSocket(authUser.id);
-  }
-
-  return () => {
-    disconnectSocket();
-  };
-}, [authUser]);
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -61,10 +58,18 @@ const App = () => {
 
         {/* Authenticated routes with Layout */}
         <Route element={<Layout />}>
+        <Route path="break-zone" element={<BreakZone/>}/>
+        <Route path="/games/bug-hunt" element={<BugHunt/>}/>
+        <Route path="/games/guess-output" element={<GuessTheOutput/>}/>
+        <Route path="/games/regex-rush" element={<RegexRush/>}/>
+        <Route path="/games/typing-test" element={<SpeedTypingTest/>}/>
+        <Route path="/games/binary-clicker" element={<BinaryClicker/>}/>
+        <Route path="/games/shortcut-ninja" element={<ShortcutNinja/>}/>
+        <Route path="/games/emoji-pictionary" element={<EmojiPictionary/>}/>
+        <Route path="/puzzles/rope-burning" element={<RopeBurning/>}/>
+        <Route path="/puzzles/river-crossing" element={<RiverCrossing/>}/>
+
           <Route path="/profile/:username" element={<ProfilePage />} />
-          <Route path="/social" element={<SocialPage />} />
-          <Route path="/collaboration/:collaborationId" element={<CollaborationPage />} />
-          <Route path="/invitations" element={<InvitationsPage />} />
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />
           <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />

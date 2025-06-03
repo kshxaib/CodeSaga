@@ -3,13 +3,14 @@ import { db } from "./db.js";
 import { invitationEvents } from "./events.js";
 
 const socketRateLimits = new Map();
-const activeCollaborations = new Map();
+export const activeCollaborations = new Map();
 const connectedUsers = new Map();
+export const userSockets = new Map();
 
 const checkRateLimit = (socket) => {
   const ip = socket.handshake.address;
   const now = Date.now();
-  const windowMs = 15 * 60 * 1000; 
+  const windowMs = 15 * 60 * 1000;
   const max = 100;
 
   if (!socketRateLimits.has(ip)) {
@@ -49,13 +50,14 @@ const initializeSocket = (io) => {
 
     socket.on("authenticate", (userId) => {
       connectedUsers.set(socket.id, userId);
-      socket.join(`user:${userId}`); 
-      socket.join(`notifications:${userId}`); 
+      userSockets.set(userId, socket.id);
+      socket.join(`user:${userId}`);
+      socket.join(`notifications:${userId}`);
       console.log(`User ${userId} authenticated with socket ${socket.id}`);
     });
 
     socket.on("invitationEvent", (data) => {
-      switch(data.type) {
+      switch (data.type) {
         case 'invitationCreated':
           invitationEvents.emit('invitationCreated', data.invitation);
           break;
@@ -188,132 +190,212 @@ const initializeSocket = (io) => {
       }
     });
 
-     socket.on("subscribeToNotifications", (userId) => {
+    socket.on("subscribeToNotifications", (userId) => {
       socket.join(`notifications:${userId}`);
       console.log(`User ${userId} subscribed to notifications`);
     });
 
-    // Real-time Collaboration for Problem Solving
-    socket.on("joinProblemSession", ({ problemId, userId }) => {
-      socket.join(`collab:${problemId}:${userId}`);
-      console.log(`User ${userId} joined problem session for ${problemId}`);
+
+    // Collaboration System
+    socket.on("sendInvitation", async ({ problemId, receiverId }) => {
+      try {
+        const senderId = connectedUsers.get(socket.id);
+        if (!senderId) throw new Error("Not authenticated");
+
+        // Check if users are connected
+        if (!userSockets.has(receiverId)) {
+          return socket.emit("invitationError", "User is not online");
+        }
+
+        // Check if already collaborating
+        if (activeCollaborations.has(senderId) || activeCollaborations.has(receiverId)) {
+          return socket.emit("invitationError", "User is already in a collaboration");
+        }
+
+        // Create invitation
+        const invitation = {
+          id: uuidv4(),
+          senderId,
+          receiverId,
+          problemId,
+          status: "PENDING",
+          createdAt: new Date()
+        };
+
+        // Send to receiver
+        io.to(userSockets.get(receiverId)).emit("receiveInvitation", invitation);
+
+        // Send back to sender
+        socket.emit("invitationSent", invitation);
+      } catch (error) {
+        socket.emit("invitationError", error.message);
+      }
     });
 
-    // Handle code updates during collaboration
-    socket.on("codeUpdate", ({ problemId, userId, code, language }) => {
-      // Broadcast to all collaborators except sender
-      socket.to(`collab:${problemId}:${userId}`).emit("codeUpdate", { code, language });
+    socket.on("respondToInvitation", ({ invitationId, response, problemId }) => {
+      try {
+        const userId = connectedUsers.get(socket.id);
+        if (!userId) throw new Error("Not authenticated");
+
+        // In a real app, you'd validate this with your database
+        const invitation = {
+          id: invitationId,
+          status: response ? "ACCEPTED" : "DECLINED"
+        };
+
+        // Notify sender
+        const senderSocket = userSockets.get(invitation.senderId);
+        if (senderSocket) {
+          io.to(senderSocket).emit("invitationResponse", {
+            invitationId,
+            response,
+            problemId
+          });
+        }
+
+        if (response) {
+          // Create collaboration room
+          const roomId = `collab:${invitationId}`;
+          const participants = [invitation.senderId, userId];
+
+          // Join both users to the room
+          participants.forEach(id => {
+            if (userSockets.has(id)) {
+              io.to(userSockets.get(id)).emit("joinCollaboration", {
+                roomId,
+                problemId,
+                partner: participants.find(p => p !== id)
+              });
+              socket.join(roomId);
+            }
+          });
+
+          // Track active collaboration
+          activeCollaborations.set(invitation.senderId, roomId);
+          activeCollaborations.set(userId, roomId);
+          collaborationRooms.set(roomId, {
+            participants,
+            problemId,
+            code: "", // Initial code
+            language: "JAVASCRIPT" // Default language
+          });
+        }
+      } catch (error) {
+        socket.emit("collaborationError", error.message);
+      }
     });
 
-    // Handle cursor position updates
-    socket.on("cursorUpdate", ({ problemId, userId, position }) => {
-      socket.to(`collab:${problemId}:${userId}`).emit("cursorUpdate", { 
-        userId, 
-        position 
+    socket.on("updateCollaborationCode", ({ roomId, code, language }) => {
+      try {
+        const userId = connectedUsers.get(socket.id);
+        if (!userId) throw new Error("Not authenticated");
+        if (!collaborationRooms.has(roomId)) throw new Error("Invalid room");
+
+        const room = collaborationRooms.get(roomId);
+        if (!room.participants.includes(userId)) throw new Error("Not authorized");
+
+        // Update room state
+        room.code = code;
+        room.language = language;
+
+        // Broadcast to other participants
+        socket.to(roomId).emit("codeUpdated", { code, language });
+      } catch (error) {
+        socket.emit("collaborationError", error.message);
+      }
+    });
+
+    socket.on("leaveCollaboration", ({ roomId }) => {
+      try {
+        const userId = connectedUsers.get(socket.id);
+        if (!userId) throw new Error("Not authenticated");
+        if (!collaborationRooms.has(roomId)) return;
+
+        const room = collaborationRooms.get(roomId);
+
+        // Remove user from active collaborations
+        activeCollaborations.delete(userId);
+
+        // Notify other participants
+        socket.to(roomId).emit("partnerLeft", { userId });
+
+        // Clean up if room is empty
+        const remainingParticipants = room.participants.filter(id =>
+          id !== userId && activeCollaborations.get(id) === roomId
+        );
+
+        if (remainingParticipants.length === 0) {
+          collaborationRooms.delete(roomId);
+        }
+      } catch (error) {
+        console.error("Error leaving collaboration:", error);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected", socket.id);
+      const userId = connectedUsers.get(socket.id);
+      if (userId) {
+        connectedUsers.delete(socket.id);
+        userSockets.delete(userId);
+      }
+
+      // Handle leaving collaborations on disconnect
+      activeCollaborations.forEach((collab, collabId) => {
+        if (collab.sockets.has(socket.id)) {
+          collab.sockets.delete(socket.id);
+          if (userId) {
+            const userSocketsInCollab = Array.from(collab.sockets).filter(sockId => {
+              return connectedUsers.get(sockId) === userId;
+            });
+
+            if (userSocketsInCollab.length === 0) {
+              // Remove user from participants
+              db.problemCollaboration.update({
+                where: { id: collabId },
+                data: {
+                  participants: {
+                    disconnect: { id: userId }
+                  }
+                }
+              });
+
+              collab.participants = collab.participants.filter(p => p.id !== userId);
+              io.to(`collaboration:${collabId}`).emit("participantLeft", {
+                userId,
+                participants: collab.participants
+              });
+            }
+          }
+        }
       });
     });
 
-    socket.on('joinCollaboration', async ({collaborationId, userId}) => {
-      try {
-        const collaboration = await db.problemCollaboration.findUnique({
-          where: {id: collaborationId},
-          include: {
-            participants: {
-              select: {id: true, username: true, image: true}
-            },
-            problem: {
-              select: { title: true }
-            }
-          }
-        })
-
-         if (!collaboration.participants.some(p => p.id === userId)) {
-            throw new Error('User not part of this collaboration');
-         }
-
-          if (!activeCollaborations.has(collaborationId)) {
-    activeCollaborations.set(collaborationId, new Set());
-  }
-  activeCollaborations.get(collaborationId).add(userId);
-
-   socket.join(`collaboration:${collaborationId}`);
-
-           // Send current collaboration data to user
-        socket.emit("collaborationState", {
-          id: collaboration.id,
-          problemId: collaboration.problemId,
-          problemTitle: collaboration.problem.title,
-          code: collaboration.currentCode,
-          language: collaboration.language,
-          participants: collaboration.participants
-        });
-
-        // Notify others about new participant
-        socket.to(`collaboration:${collaborationId}`).emit('participantJoined', {
-          userId,
-          username: collaboration.participants.find(p => p.id === userId)?.username
-        });
-
-        // Broadcast active participants
-        io.to(`collaboration:${collaborationId}`).emit('activeParticipants', {
-          participants: Array.from(activeCollaborations.get(collaborationId))
-        });
-      } catch (error) {
-         socket.emit('collaborationError', error.message);
-      }
-    })
-
-    socket.on("updateCollaborationCode", async ({ collaborationId, userId, code, language }) => {
-      try {
-        const collaboration = await db.problemCollaboration.findUnique({
-          where: { id: collaborationId },
-          include: {
-            participants: {
-              select: { id: true }
-            }
-          }
-        });
-
-        if (!collaboration.participants.some(p => p.id === userId)) {
-          throw new Error('Unauthorized update');
-        }
-
-        await db.problemCollaboration.update({
-          where: { id: collaborationId }, 
-          data: { currentCode: code, language }
-        });
-
-        socket.to(`collaboration:${collaborationId}`).emit('codeUpdate', {
-          userId,
-          code,
-          language
-        });
-
-      } catch (error) {
-        socket.emit('collaborationError', error.message);
-      }
-    })
-
     socket.on("disconnect", () => {
       const userId = connectedUsers.get(socket.id);
-      if (userId) {
-        console.log(`User ${userId} disconnected`);
-        connectedUsers.delete(socket.id);
-        
-        // Notify collaborators about disconnection
-        socket.broadcast.emit("userDisconnected", { userId });
-      } else {
-        console.log("Anonymous client disconnected", socket.id);
+      if (userId && activeCollaborations.has(userId)) {
+        const roomId = activeCollaborations.get(userId);
+        socket.to(roomId).emit("partnerDisconnected", { userId });
+        activeCollaborations.delete(userId);
+
+        const room = collaborationRooms.get(roomId);
+        if (room) {
+          const remaining = room.participants.filter(id => id !== userId);
+          if (remaining.length === 0) {
+            collaborationRooms.delete(roomId);
+          }
+        }
       }
+      connectedUsers.delete(socket.id);
     });
 
-     // Error Handler
+    // Error Handler
     socket.on("error", (error) => {
       console.error("Socket error:", error);
     });
   });
 
-  return {io, invitationEvents}
+  return { io, invitationEvents }
 };
 
 export default initializeSocket;

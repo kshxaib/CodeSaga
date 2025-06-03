@@ -1,63 +1,13 @@
 import { db } from "../libs/db.js";
+import { activeCollaborations } from "../libs/socketHandler.js";
 
-export const getCollaborationByProblem = async (req, res) => {
-    try {
-        const { problemId } = req.query;
-        const userId = req.user.id;
-
-        const collaboration = await db.problemCollaboration.findFirst({
-            where: { 
-                problemId,
-                participants: { some: { id: userId } }
-            },
-            include: {
-                participants: {
-                    select: {
-                        id: true,
-                        username: true,
-                        image: true
-                    }
-                }
-            }
-        });
-
-        if (!collaboration) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'No collaboration found for this problem' 
-            });
-        }
-
-        return res.json({
-            success: true,
-            data: {
-                id: collaboration.id,
-                problemId: collaboration.problemId,
-                participants: collaboration.participants,
-                currentCode: collaboration.currentCode,
-                language: collaboration.language,
-                maxParticipants: collaboration.maxParticipants
-            }
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ 
-            success: false,
-            message: 'Internal server error' 
-        });
-    }
-};
-
-export const getCollaborationById = async (req, res) => {
+export const getCollaboration = async (req, res) => {
     try {
         const { collaborationId } = req.params;
         const userId = req.user.id;
 
         const collaboration = await db.problemCollaboration.findUnique({
-            where: { 
-                id: collaborationId,
-                participants: { some: { id: userId } }
-            },
+            where: { id: collaborationId },
             include: {
                 participants: {
                     select: {
@@ -69,36 +19,31 @@ export const getCollaborationById = async (req, res) => {
                 problem: {
                     select: {
                         id: true,
-                        title: true
+                        title: true,
+                        description: true,
+                        codeSnippets: true
                     }
                 }
             }
         });
 
-        if (!collaboration) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'Collaboration not found or access denied' 
+        if (!collaboration || !collaboration.participants.some(p => p.id === userId)) {
+            return res.status(403).json({
+                success: false,
+                message: "You don't have access to this collaboration"
             });
         }
 
-        return res.json({
+        return res.status(200).json({
             success: true,
-            data: {
-                id: collaboration.id,
-                problemId: collaboration.problemId,
-                problemTitle: collaboration.problem.title,
-                participants: collaboration.participants,
-                currentCode: collaboration.currentCode,
-                language: collaboration.language,
-                maxParticipants: collaboration.maxParticipants
-            }
+            collaboration
         });
+
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ 
+        console.error("Error getting collaboration:", error);
+        res.status(500).json({
             success: false,
-            message: 'Internal server error' 
+            message: "Error getting collaboration"
         });
     }
 };
@@ -112,16 +57,14 @@ export const updateCollaborationCode = async (req, res) => {
         const collaboration = await db.problemCollaboration.findUnique({
             where: { id: collaborationId },
             include: {
-                participants: {
-                    select: { id: true }
-                }
+                participants: true
             }
         });
 
-        if (!collaboration.participants.some(p => p.id === userId)) {
+        if (!collaboration || !collaboration.participants.some(p => p.id === userId)) {
             return res.status(403).json({
                 success: false,
-                message: 'Unauthorized to update this collaboration'
+                message: "You don't have access to this collaboration"
             });
         }
 
@@ -139,20 +82,166 @@ export const updateCollaborationCode = async (req, res) => {
             }
         });
 
-        return res.json({
-            success: true,
-            data: {
-                id: updatedCollaboration.id,
-                currentCode: updatedCollaboration.currentCode,
-                language: updatedCollaboration.language,
-                participants: updatedCollaboration.participants
-            }
+        // Broadcast the update to all collaboration participants
+        req.io.to(`collaboration:${collaborationId}`).emit("codeUpdated", {
+            code,
+            language,
+            updatedBy: userId,
+            timestamp: new Date()
         });
+
+        return res.status(200).json({
+            success: true,
+            collaboration: updatedCollaboration
+        });
+
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             success: false,
-            message: 'Failed to update collaboration' 
+            message: 'Failed to update collaboration'
         });
     }
 };
+
+export const leaveCollaboration = async (req, res) => {
+    try {
+        const { collaborationId } = req.params;
+        const userId = req.user.id;
+
+        const collaboration = await db.problemCollaboration.findUnique({
+            where: { id: collaborationId },
+            include: { participants: true }
+        });
+
+        if (!collaboration || !collaboration.participants.some(p => p.id === userId)) {
+            return res.status(403).json({
+                success: false,
+                message: "You don't have access to this collaboration"
+            });
+        }
+
+        await db.problemCollaboration.update({
+            where: { id: collaborationId },
+            data: {
+                participants: {
+                    disconnect: { id: userId }
+                }
+            }
+        });
+
+        req.io.to(`collaboration:${collaborationId}`).emit("participantLeft", {
+            userId,
+            username: req.user.username,
+            activeParticipants: Array.from(activeCollaborations.get(collaborationId) || [])
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Left collaboration successfully"
+        });
+
+    } catch (error) {
+        console.error("Error leaving collaboration:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error leaving collaboration"
+        });
+    }
+};
+
+export const createCollaboration = async (req, res) => {
+    try {
+        const { problemId } = req.body;
+        const userId = req.user.id;
+
+        const problem = await db.problem.findUnique({
+            where: { id: problemId }
+        });
+
+        if (!problem) {
+            return res.status(404).json({ success: false, message: "Problem not found" });
+        }
+
+        const existingCollab = await db.problemCollaboration.findFirst({
+            where: {
+                problemId,
+                participants: {
+                    some: { id: userId }
+                }
+            }
+        });
+
+        if (existingCollab) {
+            return res.status(200).json({
+                success: true,
+                collaborationId: existingCollab.id
+            });
+        }
+
+        const newCollab = await db.problemCollaboration.create({
+            data: {
+                problem: { connect: { id: problemId } },
+                participants: { connect: { id: userId } },
+                currentCode: problem?.codeSnippets?.JAVASCRIPT || "",
+                language: "JAVASCRIPT"
+            }
+        });
+
+        return res.status(201).json({
+            success: true,
+            collaborationId: newCollab.id
+        });
+    } catch (error) {
+        console.error("Failed to create collaboration:", error);
+        res.status(500).json({ success: false, message: "Error creating collaboration" });
+    }
+};
+
+export const joinCollaboration = async (req, res) => {
+    try {
+        const { collaborationId } = req.params
+        const userId = req.user.id
+
+        const collaboration = await db.problemCollaboration.findUnique({
+            where: { id: collaborationId },
+            include: {
+                participants: true,
+                initiator: true
+            }
+        })
+
+        if (!collaboration) {
+            return res.status(404).json({
+                success: false,
+                message: "Collaboration not found"
+            })
+        }
+
+        const isAlreadyParticipant = collaboration.participants.some(p => p.id === userId)
+
+        if (isAlreadyParticipant) {
+            return res.status(200).json({ success: true, message: "Already a participant" });
+        }
+        await db.problemCollaboration.update({
+            where: { id: collaborationId },
+            data: {
+                participants: {
+                    connect: { id: userId }
+                }
+            }
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Initiator joined the collaboration successfully"
+        });
+    } catch (error) {
+        console.error("Error joining collaboration:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error joining collaboration"
+        });
+
+    }
+}

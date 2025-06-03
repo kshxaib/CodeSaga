@@ -1,11 +1,13 @@
 import express from "express"
 import {authMiddleware} from "../middleware/auth.middleware.js"
-import {getCollaborationById, getCollaborationByProblem, updateCollaborationCode} from "../controllers/collaboration.controller.js"
+import { createCollaboration, getCollaboration, joinCollaboration, leaveCollaboration, updateCollaborationCode} from "../controllers/collaboration.controller.js"
 
 const collaborationRoutes = express.Router();
 
-collaborationRoutes.get('/', authMiddleware, getCollaborationByProblem);
-collaborationRoutes.get('/:collaborationId', authMiddleware, getCollaborationById);
-collaborationRoutes.put('/:collaborationId', authMiddleware, updateCollaborationCode);
+collaborationRoutes.post("/", authMiddleware, createCollaboration);
+collaborationRoutes.get("/:collaborationId", authMiddleware, getCollaboration);
+collaborationRoutes.post("/:collaborationId/join", authMiddleware, joinCollaboration);
+collaborationRoutes.put("/:collaborationId/code", authMiddleware, updateCollaborationCode);
+collaborationRoutes.post("/:collaborationId/leave", authMiddleware, leaveCollaboration);
 
 export default collaborationRoutes

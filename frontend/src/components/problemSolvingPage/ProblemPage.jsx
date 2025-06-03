@@ -30,8 +30,6 @@ import AddToPlaylist from "../AddToPlaylist";
 import BugModal from "./BugModal";
 import DiscussionSection from "./DiscussionSection";
 import ResizableEditor from "./ResizableEditor";
-import InviteModal from "../InviteModal";
-import useInvitationStore from "../../store/useInvitationStore";
 
 const ProblemPage = () => {
   const { id } = useParams();

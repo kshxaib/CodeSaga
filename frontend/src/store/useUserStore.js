@@ -3,9 +3,7 @@ import { axiosInstance } from "../libs/axios";
 import { showToast } from "../libs/showToast";
 import io from 'socket.io-client';
 import { toast } from "sonner";
-import useNotificationStore from "./useNotificationStore";
 
-let socket;
 
 export const useUserStore = create((set, get) => ({
   user: null,
@@ -157,55 +155,4 @@ export const useUserStore = create((set, get) => ({
     }
   },
 
-  clearSearchResults: () => set({ searchResults: [] }),
-
-  initializeSocket: (userId) => {
-    if (socket && socket.connected) return socket;
-
-    socket = io(import.meta.env.VITE_API_URL, {
-      withCredentials: true,
-    });
-
-    socket.on("connect", () => {
-      if (userId) {
-        socket.emit("subscribeToNotifications", userId);
-      }
-    });
-
-    socket.on("newNotification", (notification) => {
-      console.log("Received new notification:", notification);
-      toast.success(notification.content);
-      useNotificationStore.getState().incrementUnreadCount();
-      console.log("Calling fetchNotifications...");
-      useNotificationStore.getState().fetchNotifications();
-    });
-
-    socket.on("newFollower", (followerInfo) => {
-      toast.success(`${followerInfo.followerUsername} followed you!`);
-      useNotificationStore.getState().incrementUnreadCount();
-      useNotificationStore.getState().fetchNotifications();
-    });
-
-    set({ socket });
-    return socket;
-  },
-
-  disconnectSocket: () => {
-    const socketInstance = get().socket;
-    if (socketInstance) {
-      socketInstance.disconnect();
-      set({ socket: null });
-    }
-  },
-
-  logoutCleanup: () => {
-    get().disconnectSocket();
-    set({
-      user: null,
-      followers: [],
-      following: [],
-      searchResults: [],
-      viewedProfile: null,
-    });
-  },
 }));

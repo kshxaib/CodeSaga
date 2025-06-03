@@ -145,6 +145,7 @@ export type ReportReason = (typeof ReportReason)[keyof typeof ReportReason]
 export const NotificationType: {
   INVITATION: 'INVITATION',
   ACCEPTED_INVITATION: 'ACCEPTED_INVITATION',
+  COLLABORATION_JOINED: 'COLLABORATION_JOINED',
   PROBLEM_SOLVED: 'PROBLEM_SOLVED',
   NEW_FOLLOWER: 'NEW_FOLLOWER',
   GENERAL: 'GENERAL'
@@ -26764,7 +26765,6 @@ export namespace Prisma {
 
   export type ProblemCollaborationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    problemId_initiatorId?: ProblemCollaborationProblemIdInitiatorIdCompoundUniqueInput
     AND?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
     OR?: ProblemCollaborationWhereInput[]
     NOT?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
@@ -26778,7 +26778,7 @@ export namespace Prisma {
     problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
     initiator?: XOR<UserScalarRelationFilter, UserWhereInput>
     participants?: UserListRelationFilter
-  }, "id" | "problemId_initiatorId">
+  }, "id">
 
   export type ProblemCollaborationOrderByWithAggregationInput = {
     id?: SortOrder
@@ -29584,11 +29584,6 @@ export namespace Prisma {
 
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type ProblemCollaborationProblemIdInitiatorIdCompoundUniqueInput = {
-    problemId: string
-    initiatorId: string
   }
 
   export type ProblemCollaborationCountOrderByAggregateInput = {

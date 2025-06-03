@@ -14,9 +14,7 @@ import {
 } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 import { useUserStore } from "../store/useUserStore";
-import useNotificationStore from "../store/useNotificationStore";
 import { debounce } from "lodash";
-import UserCard from "./UserCard";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
@@ -34,8 +32,6 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
   const location = useLocation();
-  const navigate = useNavigate();
-  const { unreadCount, fetchNotifications } = useNotificationStore();
 
   const debouncedSearch = debounce((query) => {
     if (query.trim()) {
@@ -45,17 +41,6 @@ const Navbar = () => {
     }
   }, 300);
 
-  useEffect(() => {
-    if (authUser?.id) {
-      console.log("Navbar fetching notifications...");
-      fetchNotifications();
-    }
-  }, [authUser?.id]);
-
-  useEffect(() => {
-    debouncedSearch(searchQuery);
-    return () => debouncedSearch.cancel();
-  }, [searchQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,27 +58,11 @@ const Navbar = () => {
 
   const handleLinkClick = () => setDropdownOpen(false);
 
-  const handleFollow = async (userId) => {
-    try {
-      await followUser(userId);
-    } catch (error) {
-      console.error("Failed to follow user:", error);
-    }
-  };
-
-  const handleUnfollow = async (userId) => {
-    try {
-      await unfollowUser(userId);
-    } catch (error) {
-      console.error("Failed to unfollow user:", error);
-    }
-  };
-
   const navLinks = [
     { label: "Home", path: "/home" },
     { label: "Problems", path: "/problems" },
-    { label: "Contest", path: "/contest" },
     { label: "Store", path: "/store" },
+    { label: "Break Zone", path: "/break-zone" },
   ];
 
   return (
@@ -149,21 +118,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {isSearchFocused && searchResults.length > 0 && (
-            <div className="absolute right-0 mt-2 w-64 bg-gray-800 border border-purple-500/30 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-              {searchResults.map((user) => (
-                <UserCard
-                  key={user.id}
-                  user={user}
-                  context="search"
-                  isFollowing={user.isFollowing}
-                  currentUserId={authUser?.id}
-                  onFollow={() => handleFollow(user.id)}
-                  onUnfollow={() => handleUnfollow(user.id)}
-                />
-              ))}
-            </div>
-          )}
+          
         </div>
 
         <div className="flex items-center gap-2 text-sm text-gray-300">
@@ -172,19 +127,6 @@ const Navbar = () => {
             {authUser?.currentStreak || 0} days
           </span>
         </div>
-
-        <Link
-          to="/invitations"
-          className="flex items-center px-3 py-2 rounded-lg hover:bg-gray-800 relative"
-        >
-          <Mail className="w-5 h-5 mr-2" />
-          <span className="hidden md:inline">Invitations</span>
-          {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-              {unreadCount}
-            </span>
-          )}
-        </Link>
 
         <div ref={dropdownRef} className="relative">
           <button
@@ -226,17 +168,6 @@ const Navbar = () => {
                 >
                   <Bookmark className="w-4 h-4 text-purple-400" />
                   My Playlists
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/social"
-                  onClick={handleLinkClick}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-purple-500/20 hover:text-white transition text-sm text-gray-300"
-                >
-                  <Users className="w-4 h-4 text-green-400" />
-                  Social
                 </Link>
               </li>
 

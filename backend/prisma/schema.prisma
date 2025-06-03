@@ -31,6 +31,7 @@ enum ReportReason {
 enum NotificationType {
   INVITATION
   ACCEPTED_INVITATION
+  COLLABORATION_JOINED
   PROBLEM_SOLVED
   NEW_FOLLOWER
   GENERAL
@@ -78,11 +79,7 @@ model User {
   discussionReplies   DiscussionReply[]
   discussionUpvotes   DiscussionUpvote[]
   playlistPurchases   PlaylistPurchase[]
-  sentInvitations     ProblemInvitation[] @relation("SentInvitations")
-  receivedInvitations ProblemInvitation[] @relation("ReceivedInvitations")
-  participatingCollaborations ProblemCollaboration[] @relation("CollaborationParticipants")
   notifications       Notification[]
-  initiatedCollaborations ProblemCollaboration[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -116,8 +113,6 @@ model Problem {
   referenceSolutions Json
   isPaid             Boolean             @default(false)
   askedIn            String[]            @default([])
-  invitations        ProblemInvitation[]
-  collaborations ProblemCollaboration[]
 
   likes    Int @default(0)
   dislikes Int @default(0)
@@ -328,36 +323,3 @@ model Notification {
   @@index([userId])
 }
 
-model ProblemInvitation {
-  id         String           @id @default(uuid())
-  problemId  String
-  senderId   String
-  receiverId String
-  status     InvitationStatus @default(PENDING)
-  message    String?
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-
-  problem  Problem @relation(fields: [problemId], references: [id])
-  sender   User    @relation("SentInvitations", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver User    @relation("ReceivedInvitations", fields: [receiverId], references: [id], onDelete: Cascade)
-
-  @@unique([problemId, senderId, receiverId])
-  @@index([receiverId, status])
-}
-
-model ProblemCollaboration {
-  id           String   @id @default(uuid())
-  problemId    String
-  problem      Problem  @relation(fields: [problemId], references: [id])
-  initiatorId  String
-  initiator    User     @relation(fields: [initiatorId], references: [id])
-  participants User[]   @relation("CollaborationParticipants")
-  maxParticipants Int   @default(5) 
-  currentCode  String
-  language     String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@unique([problemId, initiatorId])
-}
