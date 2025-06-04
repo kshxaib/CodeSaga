@@ -19,11 +19,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
- * Model Follow
- * 
- */
-export type Follow = $Result.DefaultSelection<Prisma.$FollowPayload>
-/**
  * Model Problem
  * 
  */
@@ -64,11 +59,6 @@ export type PlaylistPurchase = $Result.DefaultSelection<Prisma.$PlaylistPurchase
  */
 export type ProblemInPlaylist = $Result.DefaultSelection<Prisma.$ProblemInPlaylistPayload>
 /**
- * Model Badge
- * 
- */
-export type Badge = $Result.DefaultSelection<Prisma.$BadgePayload>
-/**
  * Model ProblemReport
  * 
  */
@@ -99,15 +89,15 @@ export type DiscussionUpvote = $Result.DefaultSelection<Prisma.$DiscussionUpvote
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 /**
- * Model ProblemInvitation
+ * Model DevLog
  * 
  */
-export type ProblemInvitation = $Result.DefaultSelection<Prisma.$ProblemInvitationPayload>
+export type DevLog = $Result.DefaultSelection<Prisma.$DevLogPayload>
 /**
- * Model ProblemCollaboration
+ * Model DevLogReaction
  * 
  */
-export type ProblemCollaboration = $Result.DefaultSelection<Prisma.$ProblemCollaborationPayload>
+export type DevLogReaction = $Result.DefaultSelection<Prisma.$DevLogReactionPayload>
 
 /**
  * Enums
@@ -163,6 +153,15 @@ export const InvitationStatus: {
 
 export type InvitationStatus = (typeof InvitationStatus)[keyof typeof InvitationStatus]
 
+
+export const ReactionType: {
+  HEART: 'HEART',
+  LAUGH: 'LAUGH',
+  LAMP: 'LAMP'
+};
+
+export type ReactionType = (typeof ReactionType)[keyof typeof ReactionType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -184,6 +183,10 @@ export const NotificationType: typeof $Enums.NotificationType
 export type InvitationStatus = $Enums.InvitationStatus
 
 export const InvitationStatus: typeof $Enums.InvitationStatus
+
+export type ReactionType = $Enums.ReactionType
+
+export const ReactionType: typeof $Enums.ReactionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -321,16 +324,6 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Follows
-    * const follows = await prisma.follow.findMany()
-    * ```
-    */
-  get follow(): Prisma.FollowDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.problem`: Exposes CRUD operations for the **Problem** model.
     * Example usage:
     * ```ts
@@ -411,16 +404,6 @@ export class PrismaClient<
   get problemInPlaylist(): Prisma.ProblemInPlaylistDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.badge`: Exposes CRUD operations for the **Badge** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Badges
-    * const badges = await prisma.badge.findMany()
-    * ```
-    */
-  get badge(): Prisma.BadgeDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.problemReport`: Exposes CRUD operations for the **ProblemReport** model.
     * Example usage:
     * ```ts
@@ -481,24 +464,24 @@ export class PrismaClient<
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.problemInvitation`: Exposes CRUD operations for the **ProblemInvitation** model.
+   * `prisma.devLog`: Exposes CRUD operations for the **DevLog** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ProblemInvitations
-    * const problemInvitations = await prisma.problemInvitation.findMany()
+    * // Fetch zero or more DevLogs
+    * const devLogs = await prisma.devLog.findMany()
     * ```
     */
-  get problemInvitation(): Prisma.ProblemInvitationDelegate<ExtArgs, ClientOptions>;
+  get devLog(): Prisma.DevLogDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.problemCollaboration`: Exposes CRUD operations for the **ProblemCollaboration** model.
+   * `prisma.devLogReaction`: Exposes CRUD operations for the **DevLogReaction** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ProblemCollaborations
-    * const problemCollaborations = await prisma.problemCollaboration.findMany()
+    * // Fetch zero or more DevLogReactions
+    * const devLogReactions = await prisma.devLogReaction.findMany()
     * ```
     */
-  get problemCollaboration(): Prisma.ProblemCollaborationDelegate<ExtArgs, ClientOptions>;
+  get devLogReaction(): Prisma.DevLogReactionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -940,7 +923,6 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Follow: 'Follow',
     Problem: 'Problem',
     ProblemReaction: 'ProblemReaction',
     Submission: 'Submission',
@@ -949,15 +931,14 @@ export namespace Prisma {
     Playlist: 'Playlist',
     PlaylistPurchase: 'PlaylistPurchase',
     ProblemInPlaylist: 'ProblemInPlaylist',
-    Badge: 'Badge',
     ProblemReport: 'ProblemReport',
     ProblemDiscussion: 'ProblemDiscussion',
     DiscussionMessage: 'DiscussionMessage',
     DiscussionReply: 'DiscussionReply',
     DiscussionUpvote: 'DiscussionUpvote',
     Notification: 'Notification',
-    ProblemInvitation: 'ProblemInvitation',
-    ProblemCollaboration: 'ProblemCollaboration'
+    DevLog: 'DevLog',
+    DevLogReaction: 'DevLogReaction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -976,7 +957,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "follow" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "playlistPurchase" | "problemInPlaylist" | "badge" | "problemReport" | "problemDiscussion" | "discussionMessage" | "discussionReply" | "discussionUpvote" | "notification" | "problemInvitation" | "problemCollaboration"
+      modelProps: "user" | "problem" | "problemReaction" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "playlistPurchase" | "problemInPlaylist" | "problemReport" | "problemDiscussion" | "discussionMessage" | "discussionReply" | "discussionUpvote" | "notification" | "devLog" | "devLogReaction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1051,80 +1032,6 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
-      Follow: {
-        payload: Prisma.$FollowPayload<ExtArgs>
-        fields: Prisma.FollowFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.FollowFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.FollowFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          findFirst: {
-            args: Prisma.FollowFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.FollowFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          findMany: {
-            args: Prisma.FollowFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
-          }
-          create: {
-            args: Prisma.FollowCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          createMany: {
-            args: Prisma.FollowCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.FollowCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
-          }
-          delete: {
-            args: Prisma.FollowDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          update: {
-            args: Prisma.FollowUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          deleteMany: {
-            args: Prisma.FollowDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.FollowUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.FollowUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>[]
-          }
-          upsert: {
-            args: Prisma.FollowUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FollowPayload>
-          }
-          aggregate: {
-            args: Prisma.FollowAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFollow>
-          }
-          groupBy: {
-            args: Prisma.FollowGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FollowGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.FollowCountArgs<ExtArgs>
-            result: $Utils.Optional<FollowCountAggregateOutputType> | number
           }
         }
       }
@@ -1720,80 +1627,6 @@ export namespace Prisma {
           }
         }
       }
-      Badge: {
-        payload: Prisma.$BadgePayload<ExtArgs>
-        fields: Prisma.BadgeFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.BadgeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.BadgeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          findFirst: {
-            args: Prisma.BadgeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.BadgeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          findMany: {
-            args: Prisma.BadgeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>[]
-          }
-          create: {
-            args: Prisma.BadgeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          createMany: {
-            args: Prisma.BadgeCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.BadgeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>[]
-          }
-          delete: {
-            args: Prisma.BadgeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          update: {
-            args: Prisma.BadgeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          deleteMany: {
-            args: Prisma.BadgeDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.BadgeUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.BadgeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>[]
-          }
-          upsert: {
-            args: Prisma.BadgeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BadgePayload>
-          }
-          aggregate: {
-            args: Prisma.BadgeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateBadge>
-          }
-          groupBy: {
-            args: Prisma.BadgeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<BadgeGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.BadgeCountArgs<ExtArgs>
-            result: $Utils.Optional<BadgeCountAggregateOutputType> | number
-          }
-        }
-      }
       ProblemReport: {
         payload: Prisma.$ProblemReportPayload<ExtArgs>
         fields: Prisma.ProblemReportFieldRefs
@@ -2238,151 +2071,151 @@ export namespace Prisma {
           }
         }
       }
-      ProblemInvitation: {
-        payload: Prisma.$ProblemInvitationPayload<ExtArgs>
-        fields: Prisma.ProblemInvitationFieldRefs
+      DevLog: {
+        payload: Prisma.$DevLogPayload<ExtArgs>
+        fields: Prisma.DevLogFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ProblemInvitationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload> | null
+            args: Prisma.DevLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ProblemInvitationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           findFirst: {
-            args: Prisma.ProblemInvitationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload> | null
+            args: Prisma.DevLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ProblemInvitationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           findMany: {
-            args: Prisma.ProblemInvitationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+            args: Prisma.DevLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>[]
           }
           create: {
-            args: Prisma.ProblemInvitationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           createMany: {
-            args: Prisma.ProblemInvitationCreateManyArgs<ExtArgs>
+            args: Prisma.DevLogCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ProblemInvitationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+            args: Prisma.DevLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>[]
           }
           delete: {
-            args: Prisma.ProblemInvitationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           update: {
-            args: Prisma.ProblemInvitationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           deleteMany: {
-            args: Prisma.ProblemInvitationDeleteManyArgs<ExtArgs>
+            args: Prisma.DevLogDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ProblemInvitationUpdateManyArgs<ExtArgs>
+            args: Prisma.DevLogUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ProblemInvitationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>[]
+            args: Prisma.DevLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>[]
           }
           upsert: {
-            args: Prisma.ProblemInvitationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemInvitationPayload>
+            args: Prisma.DevLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogPayload>
           }
           aggregate: {
-            args: Prisma.ProblemInvitationAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProblemInvitation>
+            args: Prisma.DevLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDevLog>
           }
           groupBy: {
-            args: Prisma.ProblemInvitationGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProblemInvitationGroupByOutputType>[]
+            args: Prisma.DevLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DevLogGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ProblemInvitationCountArgs<ExtArgs>
-            result: $Utils.Optional<ProblemInvitationCountAggregateOutputType> | number
+            args: Prisma.DevLogCountArgs<ExtArgs>
+            result: $Utils.Optional<DevLogCountAggregateOutputType> | number
           }
         }
       }
-      ProblemCollaboration: {
-        payload: Prisma.$ProblemCollaborationPayload<ExtArgs>
-        fields: Prisma.ProblemCollaborationFieldRefs
+      DevLogReaction: {
+        payload: Prisma.$DevLogReactionPayload<ExtArgs>
+        fields: Prisma.DevLogReactionFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ProblemCollaborationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload> | null
+            args: Prisma.DevLogReactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           findFirst: {
-            args: Prisma.ProblemCollaborationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload> | null
+            args: Prisma.DevLogReactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ProblemCollaborationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           findMany: {
-            args: Prisma.ProblemCollaborationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+            args: Prisma.DevLogReactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>[]
           }
           create: {
-            args: Prisma.ProblemCollaborationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           createMany: {
-            args: Prisma.ProblemCollaborationCreateManyArgs<ExtArgs>
+            args: Prisma.DevLogReactionCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ProblemCollaborationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+            args: Prisma.DevLogReactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>[]
           }
           delete: {
-            args: Prisma.ProblemCollaborationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           update: {
-            args: Prisma.ProblemCollaborationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           deleteMany: {
-            args: Prisma.ProblemCollaborationDeleteManyArgs<ExtArgs>
+            args: Prisma.DevLogReactionDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ProblemCollaborationUpdateManyArgs<ExtArgs>
+            args: Prisma.DevLogReactionUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>[]
+            args: Prisma.DevLogReactionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>[]
           }
           upsert: {
-            args: Prisma.ProblemCollaborationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProblemCollaborationPayload>
+            args: Prisma.DevLogReactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DevLogReactionPayload>
           }
           aggregate: {
-            args: Prisma.ProblemCollaborationAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProblemCollaboration>
+            args: Prisma.DevLogReactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDevLogReaction>
           }
           groupBy: {
-            args: Prisma.ProblemCollaborationGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProblemCollaborationGroupByOutputType>[]
+            args: Prisma.DevLogReactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DevLogReactionGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ProblemCollaborationCountArgs<ExtArgs>
-            result: $Utils.Optional<ProblemCollaborationCountAggregateOutputType> | number
+            args: Prisma.DevLogReactionCountArgs<ExtArgs>
+            result: $Utils.Optional<DevLogReactionCountAggregateOutputType> | number
           }
         }
       }
@@ -2471,7 +2304,6 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
-    follow?: FollowOmit
     problem?: ProblemOmit
     problemReaction?: ProblemReactionOmit
     submission?: SubmissionOmit
@@ -2480,15 +2312,14 @@ export namespace Prisma {
     playlist?: PlaylistOmit
     playlistPurchase?: PlaylistPurchaseOmit
     problemInPlaylist?: ProblemInPlaylistOmit
-    badge?: BadgeOmit
     problemReport?: ProblemReportOmit
     problemDiscussion?: ProblemDiscussionOmit
     discussionMessage?: DiscussionMessageOmit
     discussionReply?: DiscussionReplyOmit
     discussionUpvote?: DiscussionUpvoteOmit
     notification?: NotificationOmit
-    problemInvitation?: ProblemInvitationOmit
-    problemCollaboration?: ProblemCollaborationOmit
+    devLog?: DevLogOmit
+    devLogReaction?: DevLogReactionOmit
   }
 
   /* Types for Logging */
@@ -2583,8 +2414,6 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    followers: number
-    following: number
     problems: number
     submission: number
     problemSolved: number
@@ -2594,16 +2423,12 @@ export namespace Prisma {
     discussionReplies: number
     discussionUpvotes: number
     playlistPurchases: number
-    sentInvitations: number
-    receivedInvitations: number
-    participatingCollaborations: number
     notifications: number
-    initiatedCollaborations: number
+    devLogs: number
+    devLogReactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    followers?: boolean | UserCountOutputTypeCountFollowersArgs
-    following?: boolean | UserCountOutputTypeCountFollowingArgs
     problems?: boolean | UserCountOutputTypeCountProblemsArgs
     submission?: boolean | UserCountOutputTypeCountSubmissionArgs
     problemSolved?: boolean | UserCountOutputTypeCountProblemSolvedArgs
@@ -2613,11 +2438,9 @@ export namespace Prisma {
     discussionReplies?: boolean | UserCountOutputTypeCountDiscussionRepliesArgs
     discussionUpvotes?: boolean | UserCountOutputTypeCountDiscussionUpvotesArgs
     playlistPurchases?: boolean | UserCountOutputTypeCountPlaylistPurchasesArgs
-    sentInvitations?: boolean | UserCountOutputTypeCountSentInvitationsArgs
-    receivedInvitations?: boolean | UserCountOutputTypeCountReceivedInvitationsArgs
-    participatingCollaborations?: boolean | UserCountOutputTypeCountParticipatingCollaborationsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-    initiatedCollaborations?: boolean | UserCountOutputTypeCountInitiatedCollaborationsArgs
+    devLogs?: boolean | UserCountOutputTypeCountDevLogsArgs
+    devLogReactions?: boolean | UserCountOutputTypeCountDevLogReactionsArgs
   }
 
   // Custom InputTypes
@@ -2629,20 +2452,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountFollowersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FollowWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountFollowingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FollowWhereInput
   }
 
   /**
@@ -2711,27 +2520,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSentInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemInvitationWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountReceivedInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemInvitationWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountParticipatingCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemCollaborationWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
@@ -2739,8 +2527,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountInitiatedCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemCollaborationWhereInput
+  export type UserCountOutputTypeCountDevLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DevLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDevLogReactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DevLogReactionWhereInput
   }
 
 
@@ -2749,8 +2544,6 @@ export namespace Prisma {
    */
 
   export type ProblemCountOutputType = {
-    invitations: number
-    collaborations: number
     submission: number
     solvedBy: number
     problemsPlaylists: number
@@ -2759,8 +2552,6 @@ export namespace Prisma {
   }
 
   export type ProblemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    invitations?: boolean | ProblemCountOutputTypeCountInvitationsArgs
-    collaborations?: boolean | ProblemCountOutputTypeCountCollaborationsArgs
     submission?: boolean | ProblemCountOutputTypeCountSubmissionArgs
     solvedBy?: boolean | ProblemCountOutputTypeCountSolvedByArgs
     problemsPlaylists?: boolean | ProblemCountOutputTypeCountProblemsPlaylistsArgs
@@ -2777,20 +2568,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProblemCountOutputType
      */
     select?: ProblemCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProblemCountOutputType without action
-   */
-  export type ProblemCountOutputTypeCountInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemInvitationWhereInput
-  }
-
-  /**
-   * ProblemCountOutputType without action
-   */
-  export type ProblemCountOutputTypeCountCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemCollaborationWhereInput
   }
 
   /**
@@ -2972,33 +2749,33 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ProblemCollaborationCountOutputType
+   * Count Type DevLogCountOutputType
    */
 
-  export type ProblemCollaborationCountOutputType = {
-    participants: number
+  export type DevLogCountOutputType = {
+    reactions: number
   }
 
-  export type ProblemCollaborationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    participants?: boolean | ProblemCollaborationCountOutputTypeCountParticipantsArgs
+  export type DevLogCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reactions?: boolean | DevLogCountOutputTypeCountReactionsArgs
   }
 
   // Custom InputTypes
   /**
-   * ProblemCollaborationCountOutputType without action
+   * DevLogCountOutputType without action
    */
-  export type ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaborationCountOutputType
+     * Select specific fields to fetch from the DevLogCountOutputType
      */
-    select?: ProblemCollaborationCountOutputTypeSelect<ExtArgs> | null
+    select?: DevLogCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * ProblemCollaborationCountOutputType without action
+   * DevLogCountOutputType without action
    */
-  export type ProblemCollaborationCountOutputTypeCountParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+  export type DevLogCountOutputTypeCountReactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DevLogReactionWhereInput
   }
 
 
@@ -3021,15 +2798,11 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
-    followerCount: number | null
-    followingCount: number | null
   }
 
   export type UserSumAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
-    followerCount: number | null
-    followingCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3049,8 +2822,6 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
-    followerCount: number | null
-    followingCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3072,8 +2843,6 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
-    followerCount: number | null
-    followingCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3095,9 +2864,6 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastSolvedDate: number
-    followerCount: number
-    followingCount: number
-    badges: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3107,15 +2873,11 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
-    followerCount?: true
-    followingCount?: true
   }
 
   export type UserSumAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
-    followerCount?: true
-    followingCount?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -3135,8 +2897,6 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
-    followerCount?: true
-    followingCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3158,8 +2918,6 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
-    followerCount?: true
-    followingCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3181,9 +2939,6 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
-    followerCount?: true
-    followingCount?: true
-    badges?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3292,9 +3047,6 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastSolvedDate: Date | null
-    followerCount: number
-    followingCount: number
-    badges: JsonValue
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -3335,13 +3087,8 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
-    followerCount?: boolean
-    followingCount?: boolean
-    badges?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    followers?: boolean | User$followersArgs<ExtArgs>
-    following?: boolean | User$followingArgs<ExtArgs>
     problems?: boolean | User$problemsArgs<ExtArgs>
     submission?: boolean | User$submissionArgs<ExtArgs>
     problemSolved?: boolean | User$problemSolvedArgs<ExtArgs>
@@ -3351,11 +3098,9 @@ export namespace Prisma {
     discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
     discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     playlistPurchases?: boolean | User$playlistPurchasesArgs<ExtArgs>
-    sentInvitations?: boolean | User$sentInvitationsArgs<ExtArgs>
-    receivedInvitations?: boolean | User$receivedInvitationsArgs<ExtArgs>
-    participatingCollaborations?: boolean | User$participatingCollaborationsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    initiatedCollaborations?: boolean | User$initiatedCollaborationsArgs<ExtArgs>
+    devLogs?: boolean | User$devLogsArgs<ExtArgs>
+    devLogReactions?: boolean | User$devLogReactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3376,9 +3121,6 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
-    followerCount?: boolean
-    followingCount?: boolean
-    badges?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3400,9 +3142,6 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
-    followerCount?: boolean
-    followingCount?: boolean
-    badges?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3424,17 +3163,12 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
-    followerCount?: boolean
-    followingCount?: boolean
-    badges?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "provider" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "followerCount" | "followingCount" | "badges" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "provider" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    followers?: boolean | User$followersArgs<ExtArgs>
-    following?: boolean | User$followingArgs<ExtArgs>
     problems?: boolean | User$problemsArgs<ExtArgs>
     submission?: boolean | User$submissionArgs<ExtArgs>
     problemSolved?: boolean | User$problemSolvedArgs<ExtArgs>
@@ -3444,11 +3178,9 @@ export namespace Prisma {
     discussionReplies?: boolean | User$discussionRepliesArgs<ExtArgs>
     discussionUpvotes?: boolean | User$discussionUpvotesArgs<ExtArgs>
     playlistPurchases?: boolean | User$playlistPurchasesArgs<ExtArgs>
-    sentInvitations?: boolean | User$sentInvitationsArgs<ExtArgs>
-    receivedInvitations?: boolean | User$receivedInvitationsArgs<ExtArgs>
-    participatingCollaborations?: boolean | User$participatingCollaborationsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    initiatedCollaborations?: boolean | User$initiatedCollaborationsArgs<ExtArgs>
+    devLogs?: boolean | User$devLogsArgs<ExtArgs>
+    devLogReactions?: boolean | User$devLogReactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3457,8 +3189,6 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      followers: Prisma.$FollowPayload<ExtArgs>[]
-      following: Prisma.$FollowPayload<ExtArgs>[]
       problems: Prisma.$ProblemPayload<ExtArgs>[]
       submission: Prisma.$SubmissionPayload<ExtArgs>[]
       problemSolved: Prisma.$ProblemSolvedPayload<ExtArgs>[]
@@ -3468,11 +3198,9 @@ export namespace Prisma {
       discussionReplies: Prisma.$DiscussionReplyPayload<ExtArgs>[]
       discussionUpvotes: Prisma.$DiscussionUpvotePayload<ExtArgs>[]
       playlistPurchases: Prisma.$PlaylistPurchasePayload<ExtArgs>[]
-      sentInvitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
-      receivedInvitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
-      participatingCollaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      initiatedCollaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
+      devLogs: Prisma.$DevLogPayload<ExtArgs>[]
+      devLogReactions: Prisma.$DevLogReactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3491,9 +3219,6 @@ export namespace Prisma {
       currentStreak: number
       longestStreak: number
       lastSolvedDate: Date | null
-      followerCount: number
-      followingCount: number
-      badges: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3890,8 +3615,6 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problems<T extends User$problemsArgs<ExtArgs> = {}>(args?: Subset<T, User$problemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submission<T extends User$submissionArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problemSolved<T extends User$problemSolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$problemSolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3901,11 +3624,9 @@ export namespace Prisma {
     discussionReplies<T extends User$discussionRepliesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discussionUpvotes<T extends User$discussionUpvotesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussionUpvotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussionUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     playlistPurchases<T extends User$playlistPurchasesArgs<ExtArgs> = {}>(args?: Subset<T, User$playlistPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlaylistPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sentInvitations<T extends User$sentInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    receivedInvitations<T extends User$receivedInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    participatingCollaborations<T extends User$participatingCollaborationsArgs<ExtArgs> = {}>(args?: Subset<T, User$participatingCollaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    initiatedCollaborations<T extends User$initiatedCollaborationsArgs<ExtArgs> = {}>(args?: Subset<T, User$initiatedCollaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    devLogs<T extends User$devLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$devLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    devLogReactions<T extends User$devLogReactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$devLogReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3951,9 +3672,6 @@ export namespace Prisma {
     readonly currentStreak: FieldRef<"User", 'Int'>
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastSolvedDate: FieldRef<"User", 'DateTime'>
-    readonly followerCount: FieldRef<"User", 'Int'>
-    readonly followingCount: FieldRef<"User", 'Int'>
-    readonly badges: FieldRef<"User", 'Json'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -4344,54 +4062,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.followers
-   */
-  export type User$followersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    where?: FollowWhereInput
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    cursor?: FollowWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
-  }
-
-  /**
-   * User.following
-   */
-  export type User$followingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    where?: FollowWhereInput
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    cursor?: FollowWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
-  }
-
-  /**
    * User.problems
    */
   export type User$problemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4608,78 +4278,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.sentInvitations
-   */
-  export type User$sentInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    where?: ProblemInvitationWhereInput
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    cursor?: ProblemInvitationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * User.receivedInvitations
-   */
-  export type User$receivedInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    where?: ProblemInvitationWhereInput
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    cursor?: ProblemInvitationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * User.participatingCollaborations
-   */
-  export type User$participatingCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemCollaboration
-     */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemCollaboration
-     */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
-    where?: ProblemCollaborationWhereInput
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
-    cursor?: ProblemCollaborationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
-  }
-
-  /**
    * User.notifications
    */
   export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4704,27 +4302,51 @@ export namespace Prisma {
   }
 
   /**
-   * User.initiatedCollaborations
+   * User.devLogs
    */
-  export type User$initiatedCollaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$devLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
-    where?: ProblemCollaborationWhereInput
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
-    cursor?: ProblemCollaborationWhereUniqueInput
+    include?: DevLogInclude<ExtArgs> | null
+    where?: DevLogWhereInput
+    orderBy?: DevLogOrderByWithRelationInput | DevLogOrderByWithRelationInput[]
+    cursor?: DevLogWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+    distinct?: DevLogScalarFieldEnum | DevLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.devLogReactions
+   */
+  export type User$devLogReactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    where?: DevLogReactionWhereInput
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    cursor?: DevLogReactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DevLogReactionScalarFieldEnum | DevLogReactionScalarFieldEnum[]
   }
 
   /**
@@ -4743,1059 +4365,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Follow
-   */
-
-  export type AggregateFollow = {
-    _count: FollowCountAggregateOutputType | null
-    _min: FollowMinAggregateOutputType | null
-    _max: FollowMaxAggregateOutputType | null
-  }
-
-  export type FollowMinAggregateOutputType = {
-    id: string | null
-    followerId: string | null
-    followingId: string | null
-    createdAt: Date | null
-  }
-
-  export type FollowMaxAggregateOutputType = {
-    id: string | null
-    followerId: string | null
-    followingId: string | null
-    createdAt: Date | null
-  }
-
-  export type FollowCountAggregateOutputType = {
-    id: number
-    followerId: number
-    followingId: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type FollowMinAggregateInputType = {
-    id?: true
-    followerId?: true
-    followingId?: true
-    createdAt?: true
-  }
-
-  export type FollowMaxAggregateInputType = {
-    id?: true
-    followerId?: true
-    followingId?: true
-    createdAt?: true
-  }
-
-  export type FollowCountAggregateInputType = {
-    id?: true
-    followerId?: true
-    followingId?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type FollowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Follow to aggregate.
-     */
-    where?: FollowWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Follows to fetch.
-     */
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: FollowWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Follows from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Follows.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Follows
-    **/
-    _count?: true | FollowCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: FollowMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: FollowMaxAggregateInputType
-  }
-
-  export type GetFollowAggregateType<T extends FollowAggregateArgs> = {
-        [P in keyof T & keyof AggregateFollow]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateFollow[P]>
-      : GetScalarType<T[P], AggregateFollow[P]>
-  }
-
-
-
-
-  export type FollowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FollowWhereInput
-    orderBy?: FollowOrderByWithAggregationInput | FollowOrderByWithAggregationInput[]
-    by: FollowScalarFieldEnum[] | FollowScalarFieldEnum
-    having?: FollowScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: FollowCountAggregateInputType | true
-    _min?: FollowMinAggregateInputType
-    _max?: FollowMaxAggregateInputType
-  }
-
-  export type FollowGroupByOutputType = {
-    id: string
-    followerId: string
-    followingId: string
-    createdAt: Date
-    _count: FollowCountAggregateOutputType | null
-    _min: FollowMinAggregateOutputType | null
-    _max: FollowMaxAggregateOutputType | null
-  }
-
-  type GetFollowGroupByPayload<T extends FollowGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<FollowGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof FollowGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], FollowGroupByOutputType[P]>
-            : GetScalarType<T[P], FollowGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type FollowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    followerId?: boolean
-    followingId?: boolean
-    createdAt?: boolean
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["follow"]>
-
-  export type FollowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    followerId?: boolean
-    followingId?: boolean
-    createdAt?: boolean
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["follow"]>
-
-  export type FollowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    followerId?: boolean
-    followingId?: boolean
-    createdAt?: boolean
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["follow"]>
-
-  export type FollowSelectScalar = {
-    id?: boolean
-    followerId?: boolean
-    followingId?: boolean
-    createdAt?: boolean
-  }
-
-  export type FollowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "followerId" | "followingId" | "createdAt", ExtArgs["result"]["follow"]>
-  export type FollowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type FollowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type FollowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    follower?: boolean | UserDefaultArgs<ExtArgs>
-    following?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $FollowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Follow"
-    objects: {
-      follower: Prisma.$UserPayload<ExtArgs>
-      following: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      followerId: string
-      followingId: string
-      createdAt: Date
-    }, ExtArgs["result"]["follow"]>
-    composites: {}
-  }
-
-  type FollowGetPayload<S extends boolean | null | undefined | FollowDefaultArgs> = $Result.GetResult<Prisma.$FollowPayload, S>
-
-  type FollowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FollowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FollowCountAggregateInputType | true
-    }
-
-  export interface FollowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Follow'], meta: { name: 'Follow' } }
-    /**
-     * Find zero or one Follow that matches the filter.
-     * @param {FollowFindUniqueArgs} args - Arguments to find a Follow
-     * @example
-     * // Get one Follow
-     * const follow = await prisma.follow.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends FollowFindUniqueArgs>(args: SelectSubset<T, FollowFindUniqueArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Follow that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {FollowFindUniqueOrThrowArgs} args - Arguments to find a Follow
-     * @example
-     * // Get one Follow
-     * const follow = await prisma.follow.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends FollowFindUniqueOrThrowArgs>(args: SelectSubset<T, FollowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Follow that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowFindFirstArgs} args - Arguments to find a Follow
-     * @example
-     * // Get one Follow
-     * const follow = await prisma.follow.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends FollowFindFirstArgs>(args?: SelectSubset<T, FollowFindFirstArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Follow that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowFindFirstOrThrowArgs} args - Arguments to find a Follow
-     * @example
-     * // Get one Follow
-     * const follow = await prisma.follow.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends FollowFindFirstOrThrowArgs>(args?: SelectSubset<T, FollowFindFirstOrThrowArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Follows that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Follows
-     * const follows = await prisma.follow.findMany()
-     * 
-     * // Get first 10 Follows
-     * const follows = await prisma.follow.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const followWithIdOnly = await prisma.follow.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends FollowFindManyArgs>(args?: SelectSubset<T, FollowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Follow.
-     * @param {FollowCreateArgs} args - Arguments to create a Follow.
-     * @example
-     * // Create one Follow
-     * const Follow = await prisma.follow.create({
-     *   data: {
-     *     // ... data to create a Follow
-     *   }
-     * })
-     * 
-     */
-    create<T extends FollowCreateArgs>(args: SelectSubset<T, FollowCreateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Follows.
-     * @param {FollowCreateManyArgs} args - Arguments to create many Follows.
-     * @example
-     * // Create many Follows
-     * const follow = await prisma.follow.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends FollowCreateManyArgs>(args?: SelectSubset<T, FollowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Follows and returns the data saved in the database.
-     * @param {FollowCreateManyAndReturnArgs} args - Arguments to create many Follows.
-     * @example
-     * // Create many Follows
-     * const follow = await prisma.follow.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Follows and only return the `id`
-     * const followWithIdOnly = await prisma.follow.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends FollowCreateManyAndReturnArgs>(args?: SelectSubset<T, FollowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Follow.
-     * @param {FollowDeleteArgs} args - Arguments to delete one Follow.
-     * @example
-     * // Delete one Follow
-     * const Follow = await prisma.follow.delete({
-     *   where: {
-     *     // ... filter to delete one Follow
-     *   }
-     * })
-     * 
-     */
-    delete<T extends FollowDeleteArgs>(args: SelectSubset<T, FollowDeleteArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Follow.
-     * @param {FollowUpdateArgs} args - Arguments to update one Follow.
-     * @example
-     * // Update one Follow
-     * const follow = await prisma.follow.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends FollowUpdateArgs>(args: SelectSubset<T, FollowUpdateArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Follows.
-     * @param {FollowDeleteManyArgs} args - Arguments to filter Follows to delete.
-     * @example
-     * // Delete a few Follows
-     * const { count } = await prisma.follow.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends FollowDeleteManyArgs>(args?: SelectSubset<T, FollowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Follows.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Follows
-     * const follow = await prisma.follow.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends FollowUpdateManyArgs>(args: SelectSubset<T, FollowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Follows and returns the data updated in the database.
-     * @param {FollowUpdateManyAndReturnArgs} args - Arguments to update many Follows.
-     * @example
-     * // Update many Follows
-     * const follow = await prisma.follow.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Follows and only return the `id`
-     * const followWithIdOnly = await prisma.follow.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends FollowUpdateManyAndReturnArgs>(args: SelectSubset<T, FollowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Follow.
-     * @param {FollowUpsertArgs} args - Arguments to update or create a Follow.
-     * @example
-     * // Update or create a Follow
-     * const follow = await prisma.follow.upsert({
-     *   create: {
-     *     // ... data to create a Follow
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Follow we want to update
-     *   }
-     * })
-     */
-    upsert<T extends FollowUpsertArgs>(args: SelectSubset<T, FollowUpsertArgs<ExtArgs>>): Prisma__FollowClient<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Follows.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowCountArgs} args - Arguments to filter Follows to count.
-     * @example
-     * // Count the number of Follows
-     * const count = await prisma.follow.count({
-     *   where: {
-     *     // ... the filter for the Follows we want to count
-     *   }
-     * })
-    **/
-    count<T extends FollowCountArgs>(
-      args?: Subset<T, FollowCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], FollowCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Follow.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends FollowAggregateArgs>(args: Subset<T, FollowAggregateArgs>): Prisma.PrismaPromise<GetFollowAggregateType<T>>
-
-    /**
-     * Group by Follow.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FollowGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends FollowGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FollowGroupByArgs['orderBy'] }
-        : { orderBy?: FollowGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, FollowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFollowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Follow model
-   */
-  readonly fields: FollowFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Follow.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__FollowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    follower<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    following<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Follow model
-   */
-  interface FollowFieldRefs {
-    readonly id: FieldRef<"Follow", 'String'>
-    readonly followerId: FieldRef<"Follow", 'String'>
-    readonly followingId: FieldRef<"Follow", 'String'>
-    readonly createdAt: FieldRef<"Follow", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Follow findUnique
-   */
-  export type FollowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter, which Follow to fetch.
-     */
-    where: FollowWhereUniqueInput
-  }
-
-  /**
-   * Follow findUniqueOrThrow
-   */
-  export type FollowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter, which Follow to fetch.
-     */
-    where: FollowWhereUniqueInput
-  }
-
-  /**
-   * Follow findFirst
-   */
-  export type FollowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter, which Follow to fetch.
-     */
-    where?: FollowWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Follows to fetch.
-     */
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Follows.
-     */
-    cursor?: FollowWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Follows from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Follows.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Follows.
-     */
-    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
-  }
-
-  /**
-   * Follow findFirstOrThrow
-   */
-  export type FollowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter, which Follow to fetch.
-     */
-    where?: FollowWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Follows to fetch.
-     */
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Follows.
-     */
-    cursor?: FollowWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Follows from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Follows.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Follows.
-     */
-    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
-  }
-
-  /**
-   * Follow findMany
-   */
-  export type FollowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter, which Follows to fetch.
-     */
-    where?: FollowWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Follows to fetch.
-     */
-    orderBy?: FollowOrderByWithRelationInput | FollowOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Follows.
-     */
-    cursor?: FollowWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Follows from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Follows.
-     */
-    skip?: number
-    distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
-  }
-
-  /**
-   * Follow create
-   */
-  export type FollowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Follow.
-     */
-    data: XOR<FollowCreateInput, FollowUncheckedCreateInput>
-  }
-
-  /**
-   * Follow createMany
-   */
-  export type FollowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Follows.
-     */
-    data: FollowCreateManyInput | FollowCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Follow createManyAndReturn
-   */
-  export type FollowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * The data used to create many Follows.
-     */
-    data: FollowCreateManyInput | FollowCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Follow update
-   */
-  export type FollowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Follow.
-     */
-    data: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
-    /**
-     * Choose, which Follow to update.
-     */
-    where: FollowWhereUniqueInput
-  }
-
-  /**
-   * Follow updateMany
-   */
-  export type FollowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Follows.
-     */
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
-    /**
-     * Filter which Follows to update
-     */
-    where?: FollowWhereInput
-    /**
-     * Limit how many Follows to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Follow updateManyAndReturn
-   */
-  export type FollowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * The data used to update Follows.
-     */
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyInput>
-    /**
-     * Filter which Follows to update
-     */
-    where?: FollowWhereInput
-    /**
-     * Limit how many Follows to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Follow upsert
-   */
-  export type FollowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Follow to update in case it exists.
-     */
-    where: FollowWhereUniqueInput
-    /**
-     * In case the Follow found by the `where` argument doesn't exist, create a new Follow with this data.
-     */
-    create: XOR<FollowCreateInput, FollowUncheckedCreateInput>
-    /**
-     * In case the Follow was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<FollowUpdateInput, FollowUncheckedUpdateInput>
-  }
-
-  /**
-   * Follow delete
-   */
-  export type FollowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
-    /**
-     * Filter which Follow to delete.
-     */
-    where: FollowWhereUniqueInput
-  }
-
-  /**
-   * Follow deleteMany
-   */
-  export type FollowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Follows to delete
-     */
-    where?: FollowWhereInput
-    /**
-     * Limit how many Follows to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Follow without action
-   */
-  export type FollowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Follow
-     */
-    select?: FollowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Follow
-     */
-    omit?: FollowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FollowInclude<ExtArgs> | null
   }
 
 
@@ -6089,8 +4658,6 @@ export namespace Prisma {
     dislikes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    invitations?: boolean | Problem$invitationsArgs<ExtArgs>
-    collaborations?: boolean | Problem$collaborationsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
@@ -6170,8 +4737,6 @@ export namespace Prisma {
 
   export type ProblemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "difficulty" | "tags" | "userId" | "examples" | "constraints" | "hints" | "editorial" | "testcases" | "codeSnippets" | "referenceSolutions" | "isPaid" | "askedIn" | "likes" | "dislikes" | "createdAt" | "updatedAt", ExtArgs["result"]["problem"]>
   export type ProblemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    invitations?: boolean | Problem$invitationsArgs<ExtArgs>
-    collaborations?: boolean | Problem$collaborationsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
@@ -6190,8 +4755,6 @@ export namespace Prisma {
   export type $ProblemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Problem"
     objects: {
-      invitations: Prisma.$ProblemInvitationPayload<ExtArgs>[]
-      collaborations: Prisma.$ProblemCollaborationPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
       submission: Prisma.$SubmissionPayload<ExtArgs>[]
       solvedBy: Prisma.$ProblemSolvedPayload<ExtArgs>[]
@@ -6613,8 +5176,6 @@ export namespace Prisma {
    */
   export interface Prisma__ProblemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    invitations<T extends Problem$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    collaborations<T extends Problem$collaborationsArgs<ExtArgs> = {}>(args?: Subset<T, Problem$collaborationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     submission<T extends Problem$submissionArgs<ExtArgs> = {}>(args?: Subset<T, Problem$submissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solvedBy<T extends Problem$solvedByArgs<ExtArgs> = {}>(args?: Subset<T, Problem$solvedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7062,54 +5623,6 @@ export namespace Prisma {
      * Limit how many Problems to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Problem.invitations
-   */
-  export type Problem$invitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    where?: ProblemInvitationWhereInput
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    cursor?: ProblemInvitationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * Problem.collaborations
-   */
-  export type Problem$collaborationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemCollaboration
-     */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemCollaboration
-     */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
-    where?: ProblemCollaborationWhereInput
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
-    cursor?: ProblemCollaborationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
   }
 
   /**
@@ -15056,1014 +13569,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Badge
-   */
-
-  export type AggregateBadge = {
-    _count: BadgeCountAggregateOutputType | null
-    _min: BadgeMinAggregateOutputType | null
-    _max: BadgeMaxAggregateOutputType | null
-  }
-
-  export type BadgeMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    icon: string | null
-    description: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type BadgeMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    icon: string | null
-    description: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type BadgeCountAggregateOutputType = {
-    id: number
-    name: number
-    icon: number
-    description: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type BadgeMinAggregateInputType = {
-    id?: true
-    name?: true
-    icon?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type BadgeMaxAggregateInputType = {
-    id?: true
-    name?: true
-    icon?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type BadgeCountAggregateInputType = {
-    id?: true
-    name?: true
-    icon?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type BadgeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Badge to aggregate.
-     */
-    where?: BadgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Badges to fetch.
-     */
-    orderBy?: BadgeOrderByWithRelationInput | BadgeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: BadgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Badges from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Badges.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Badges
-    **/
-    _count?: true | BadgeCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: BadgeMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: BadgeMaxAggregateInputType
-  }
-
-  export type GetBadgeAggregateType<T extends BadgeAggregateArgs> = {
-        [P in keyof T & keyof AggregateBadge]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateBadge[P]>
-      : GetScalarType<T[P], AggregateBadge[P]>
-  }
-
-
-
-
-  export type BadgeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BadgeWhereInput
-    orderBy?: BadgeOrderByWithAggregationInput | BadgeOrderByWithAggregationInput[]
-    by: BadgeScalarFieldEnum[] | BadgeScalarFieldEnum
-    having?: BadgeScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: BadgeCountAggregateInputType | true
-    _min?: BadgeMinAggregateInputType
-    _max?: BadgeMaxAggregateInputType
-  }
-
-  export type BadgeGroupByOutputType = {
-    id: string
-    name: string
-    icon: string
-    description: string
-    createdAt: Date
-    updatedAt: Date
-    _count: BadgeCountAggregateOutputType | null
-    _min: BadgeMinAggregateOutputType | null
-    _max: BadgeMaxAggregateOutputType | null
-  }
-
-  type GetBadgeGroupByPayload<T extends BadgeGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<BadgeGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof BadgeGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], BadgeGroupByOutputType[P]>
-            : GetScalarType<T[P], BadgeGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type BadgeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["badge"]>
-
-  export type BadgeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["badge"]>
-
-  export type BadgeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["badge"]>
-
-  export type BadgeSelectScalar = {
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type BadgeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "icon" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["badge"]>
-
-  export type $BadgePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Badge"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      icon: string
-      description: string
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["badge"]>
-    composites: {}
-  }
-
-  type BadgeGetPayload<S extends boolean | null | undefined | BadgeDefaultArgs> = $Result.GetResult<Prisma.$BadgePayload, S>
-
-  type BadgeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<BadgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: BadgeCountAggregateInputType | true
-    }
-
-  export interface BadgeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Badge'], meta: { name: 'Badge' } }
-    /**
-     * Find zero or one Badge that matches the filter.
-     * @param {BadgeFindUniqueArgs} args - Arguments to find a Badge
-     * @example
-     * // Get one Badge
-     * const badge = await prisma.badge.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends BadgeFindUniqueArgs>(args: SelectSubset<T, BadgeFindUniqueArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Badge that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {BadgeFindUniqueOrThrowArgs} args - Arguments to find a Badge
-     * @example
-     * // Get one Badge
-     * const badge = await prisma.badge.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends BadgeFindUniqueOrThrowArgs>(args: SelectSubset<T, BadgeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Badge that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeFindFirstArgs} args - Arguments to find a Badge
-     * @example
-     * // Get one Badge
-     * const badge = await prisma.badge.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends BadgeFindFirstArgs>(args?: SelectSubset<T, BadgeFindFirstArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Badge that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeFindFirstOrThrowArgs} args - Arguments to find a Badge
-     * @example
-     * // Get one Badge
-     * const badge = await prisma.badge.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends BadgeFindFirstOrThrowArgs>(args?: SelectSubset<T, BadgeFindFirstOrThrowArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Badges that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Badges
-     * const badges = await prisma.badge.findMany()
-     * 
-     * // Get first 10 Badges
-     * const badges = await prisma.badge.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const badgeWithIdOnly = await prisma.badge.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends BadgeFindManyArgs>(args?: SelectSubset<T, BadgeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Badge.
-     * @param {BadgeCreateArgs} args - Arguments to create a Badge.
-     * @example
-     * // Create one Badge
-     * const Badge = await prisma.badge.create({
-     *   data: {
-     *     // ... data to create a Badge
-     *   }
-     * })
-     * 
-     */
-    create<T extends BadgeCreateArgs>(args: SelectSubset<T, BadgeCreateArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Badges.
-     * @param {BadgeCreateManyArgs} args - Arguments to create many Badges.
-     * @example
-     * // Create many Badges
-     * const badge = await prisma.badge.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends BadgeCreateManyArgs>(args?: SelectSubset<T, BadgeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Badges and returns the data saved in the database.
-     * @param {BadgeCreateManyAndReturnArgs} args - Arguments to create many Badges.
-     * @example
-     * // Create many Badges
-     * const badge = await prisma.badge.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Badges and only return the `id`
-     * const badgeWithIdOnly = await prisma.badge.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends BadgeCreateManyAndReturnArgs>(args?: SelectSubset<T, BadgeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Badge.
-     * @param {BadgeDeleteArgs} args - Arguments to delete one Badge.
-     * @example
-     * // Delete one Badge
-     * const Badge = await prisma.badge.delete({
-     *   where: {
-     *     // ... filter to delete one Badge
-     *   }
-     * })
-     * 
-     */
-    delete<T extends BadgeDeleteArgs>(args: SelectSubset<T, BadgeDeleteArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Badge.
-     * @param {BadgeUpdateArgs} args - Arguments to update one Badge.
-     * @example
-     * // Update one Badge
-     * const badge = await prisma.badge.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends BadgeUpdateArgs>(args: SelectSubset<T, BadgeUpdateArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Badges.
-     * @param {BadgeDeleteManyArgs} args - Arguments to filter Badges to delete.
-     * @example
-     * // Delete a few Badges
-     * const { count } = await prisma.badge.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends BadgeDeleteManyArgs>(args?: SelectSubset<T, BadgeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Badges.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Badges
-     * const badge = await prisma.badge.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends BadgeUpdateManyArgs>(args: SelectSubset<T, BadgeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Badges and returns the data updated in the database.
-     * @param {BadgeUpdateManyAndReturnArgs} args - Arguments to update many Badges.
-     * @example
-     * // Update many Badges
-     * const badge = await prisma.badge.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Badges and only return the `id`
-     * const badgeWithIdOnly = await prisma.badge.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends BadgeUpdateManyAndReturnArgs>(args: SelectSubset<T, BadgeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Badge.
-     * @param {BadgeUpsertArgs} args - Arguments to update or create a Badge.
-     * @example
-     * // Update or create a Badge
-     * const badge = await prisma.badge.upsert({
-     *   create: {
-     *     // ... data to create a Badge
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Badge we want to update
-     *   }
-     * })
-     */
-    upsert<T extends BadgeUpsertArgs>(args: SelectSubset<T, BadgeUpsertArgs<ExtArgs>>): Prisma__BadgeClient<$Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Badges.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeCountArgs} args - Arguments to filter Badges to count.
-     * @example
-     * // Count the number of Badges
-     * const count = await prisma.badge.count({
-     *   where: {
-     *     // ... the filter for the Badges we want to count
-     *   }
-     * })
-    **/
-    count<T extends BadgeCountArgs>(
-      args?: Subset<T, BadgeCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], BadgeCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Badge.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends BadgeAggregateArgs>(args: Subset<T, BadgeAggregateArgs>): Prisma.PrismaPromise<GetBadgeAggregateType<T>>
-
-    /**
-     * Group by Badge.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {BadgeGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends BadgeGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BadgeGroupByArgs['orderBy'] }
-        : { orderBy?: BadgeGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, BadgeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBadgeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Badge model
-   */
-  readonly fields: BadgeFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Badge.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__BadgeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Badge model
-   */
-  interface BadgeFieldRefs {
-    readonly id: FieldRef<"Badge", 'String'>
-    readonly name: FieldRef<"Badge", 'String'>
-    readonly icon: FieldRef<"Badge", 'String'>
-    readonly description: FieldRef<"Badge", 'String'>
-    readonly createdAt: FieldRef<"Badge", 'DateTime'>
-    readonly updatedAt: FieldRef<"Badge", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Badge findUnique
-   */
-  export type BadgeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter, which Badge to fetch.
-     */
-    where: BadgeWhereUniqueInput
-  }
-
-  /**
-   * Badge findUniqueOrThrow
-   */
-  export type BadgeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter, which Badge to fetch.
-     */
-    where: BadgeWhereUniqueInput
-  }
-
-  /**
-   * Badge findFirst
-   */
-  export type BadgeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter, which Badge to fetch.
-     */
-    where?: BadgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Badges to fetch.
-     */
-    orderBy?: BadgeOrderByWithRelationInput | BadgeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Badges.
-     */
-    cursor?: BadgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Badges from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Badges.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Badges.
-     */
-    distinct?: BadgeScalarFieldEnum | BadgeScalarFieldEnum[]
-  }
-
-  /**
-   * Badge findFirstOrThrow
-   */
-  export type BadgeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter, which Badge to fetch.
-     */
-    where?: BadgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Badges to fetch.
-     */
-    orderBy?: BadgeOrderByWithRelationInput | BadgeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Badges.
-     */
-    cursor?: BadgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Badges from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Badges.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Badges.
-     */
-    distinct?: BadgeScalarFieldEnum | BadgeScalarFieldEnum[]
-  }
-
-  /**
-   * Badge findMany
-   */
-  export type BadgeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter, which Badges to fetch.
-     */
-    where?: BadgeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Badges to fetch.
-     */
-    orderBy?: BadgeOrderByWithRelationInput | BadgeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Badges.
-     */
-    cursor?: BadgeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Badges from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Badges.
-     */
-    skip?: number
-    distinct?: BadgeScalarFieldEnum | BadgeScalarFieldEnum[]
-  }
-
-  /**
-   * Badge create
-   */
-  export type BadgeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Badge.
-     */
-    data: XOR<BadgeCreateInput, BadgeUncheckedCreateInput>
-  }
-
-  /**
-   * Badge createMany
-   */
-  export type BadgeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Badges.
-     */
-    data: BadgeCreateManyInput | BadgeCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Badge createManyAndReturn
-   */
-  export type BadgeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * The data used to create many Badges.
-     */
-    data: BadgeCreateManyInput | BadgeCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Badge update
-   */
-  export type BadgeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Badge.
-     */
-    data: XOR<BadgeUpdateInput, BadgeUncheckedUpdateInput>
-    /**
-     * Choose, which Badge to update.
-     */
-    where: BadgeWhereUniqueInput
-  }
-
-  /**
-   * Badge updateMany
-   */
-  export type BadgeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Badges.
-     */
-    data: XOR<BadgeUpdateManyMutationInput, BadgeUncheckedUpdateManyInput>
-    /**
-     * Filter which Badges to update
-     */
-    where?: BadgeWhereInput
-    /**
-     * Limit how many Badges to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Badge updateManyAndReturn
-   */
-  export type BadgeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * The data used to update Badges.
-     */
-    data: XOR<BadgeUpdateManyMutationInput, BadgeUncheckedUpdateManyInput>
-    /**
-     * Filter which Badges to update
-     */
-    where?: BadgeWhereInput
-    /**
-     * Limit how many Badges to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Badge upsert
-   */
-  export type BadgeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Badge to update in case it exists.
-     */
-    where: BadgeWhereUniqueInput
-    /**
-     * In case the Badge found by the `where` argument doesn't exist, create a new Badge with this data.
-     */
-    create: XOR<BadgeCreateInput, BadgeUncheckedCreateInput>
-    /**
-     * In case the Badge was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<BadgeUpdateInput, BadgeUncheckedUpdateInput>
-  }
-
-  /**
-   * Badge delete
-   */
-  export type BadgeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-    /**
-     * Filter which Badge to delete.
-     */
-    where: BadgeWhereUniqueInput
-  }
-
-  /**
-   * Badge deleteMany
-   */
-  export type BadgeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Badges to delete
-     */
-    where?: BadgeWhereInput
-    /**
-     * Limit how many Badges to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Badge without action
-   */
-  export type BadgeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Badge
-     */
-    select?: BadgeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Badge
-     */
-    omit?: BadgeOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model ProblemReport
    */
 
@@ -22571,1545 +20076,433 @@ export namespace Prisma {
 
 
   /**
-   * Model ProblemInvitation
+   * Model DevLog
    */
 
-  export type AggregateProblemInvitation = {
-    _count: ProblemInvitationCountAggregateOutputType | null
-    _min: ProblemInvitationMinAggregateOutputType | null
-    _max: ProblemInvitationMaxAggregateOutputType | null
+  export type AggregateDevLog = {
+    _count: DevLogCountAggregateOutputType | null
+    _avg: DevLogAvgAggregateOutputType | null
+    _sum: DevLogSumAggregateOutputType | null
+    _min: DevLogMinAggregateOutputType | null
+    _max: DevLogMaxAggregateOutputType | null
   }
 
-  export type ProblemInvitationMinAggregateOutputType = {
+  export type DevLogAvgAggregateOutputType = {
+    upvotes: number | null
+  }
+
+  export type DevLogSumAggregateOutputType = {
+    upvotes: number | null
+  }
+
+  export type DevLogMinAggregateOutputType = {
     id: string | null
-    problemId: string | null
-    senderId: string | null
-    receiverId: string | null
-    status: $Enums.InvitationStatus | null
-    message: string | null
+    userId: string | null
+    title: string | null
+    description: string | null
+    isAnonymous: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    upvotes: number | null
   }
 
-  export type ProblemInvitationMaxAggregateOutputType = {
+  export type DevLogMaxAggregateOutputType = {
     id: string | null
-    problemId: string | null
-    senderId: string | null
-    receiverId: string | null
-    status: $Enums.InvitationStatus | null
-    message: string | null
+    userId: string | null
+    title: string | null
+    description: string | null
+    isAnonymous: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    upvotes: number | null
   }
 
-  export type ProblemInvitationCountAggregateOutputType = {
+  export type DevLogCountAggregateOutputType = {
     id: number
-    problemId: number
-    senderId: number
-    receiverId: number
-    status: number
-    message: number
+    userId: number
+    title: number
+    tags: number
+    description: number
+    isAnonymous: number
     createdAt: number
     updatedAt: number
+    upvotes: number
     _all: number
   }
 
 
-  export type ProblemInvitationMinAggregateInputType = {
-    id?: true
-    problemId?: true
-    senderId?: true
-    receiverId?: true
-    status?: true
-    message?: true
-    createdAt?: true
-    updatedAt?: true
+  export type DevLogAvgAggregateInputType = {
+    upvotes?: true
   }
 
-  export type ProblemInvitationMaxAggregateInputType = {
-    id?: true
-    problemId?: true
-    senderId?: true
-    receiverId?: true
-    status?: true
-    message?: true
-    createdAt?: true
-    updatedAt?: true
+  export type DevLogSumAggregateInputType = {
+    upvotes?: true
   }
 
-  export type ProblemInvitationCountAggregateInputType = {
+  export type DevLogMinAggregateInputType = {
     id?: true
-    problemId?: true
-    senderId?: true
-    receiverId?: true
-    status?: true
-    message?: true
+    userId?: true
+    title?: true
+    description?: true
+    isAnonymous?: true
     createdAt?: true
     updatedAt?: true
+    upvotes?: true
+  }
+
+  export type DevLogMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    description?: true
+    isAnonymous?: true
+    createdAt?: true
+    updatedAt?: true
+    upvotes?: true
+  }
+
+  export type DevLogCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    tags?: true
+    description?: true
+    isAnonymous?: true
+    createdAt?: true
+    updatedAt?: true
+    upvotes?: true
     _all?: true
   }
 
-  export type ProblemInvitationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ProblemInvitation to aggregate.
+     * Filter which DevLog to aggregate.
      */
-    where?: ProblemInvitationWhereInput
+    where?: DevLogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProblemInvitations to fetch.
+     * Determine the order of DevLogs to fetch.
      */
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
+    orderBy?: DevLogOrderByWithRelationInput | DevLogOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ProblemInvitationWhereUniqueInput
+    cursor?: DevLogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProblemInvitations from the position of the cursor.
+     * Take `±n` DevLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProblemInvitations.
+     * Skip the first `n` DevLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ProblemInvitations
+     * Count returned DevLogs
     **/
-    _count?: true | ProblemInvitationCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ProblemInvitationMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ProblemInvitationMaxAggregateInputType
-  }
-
-  export type GetProblemInvitationAggregateType<T extends ProblemInvitationAggregateArgs> = {
-        [P in keyof T & keyof AggregateProblemInvitation]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateProblemInvitation[P]>
-      : GetScalarType<T[P], AggregateProblemInvitation[P]>
-  }
-
-
-
-
-  export type ProblemInvitationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemInvitationWhereInput
-    orderBy?: ProblemInvitationOrderByWithAggregationInput | ProblemInvitationOrderByWithAggregationInput[]
-    by: ProblemInvitationScalarFieldEnum[] | ProblemInvitationScalarFieldEnum
-    having?: ProblemInvitationScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ProblemInvitationCountAggregateInputType | true
-    _min?: ProblemInvitationMinAggregateInputType
-    _max?: ProblemInvitationMaxAggregateInputType
-  }
-
-  export type ProblemInvitationGroupByOutputType = {
-    id: string
-    problemId: string
-    senderId: string
-    receiverId: string
-    status: $Enums.InvitationStatus
-    message: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: ProblemInvitationCountAggregateOutputType | null
-    _min: ProblemInvitationMinAggregateOutputType | null
-    _max: ProblemInvitationMaxAggregateOutputType | null
-  }
-
-  type GetProblemInvitationGroupByPayload<T extends ProblemInvitationGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ProblemInvitationGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ProblemInvitationGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ProblemInvitationGroupByOutputType[P]>
-            : GetScalarType<T[P], ProblemInvitationGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ProblemInvitationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    problemId?: boolean
-    senderId?: boolean
-    receiverId?: boolean
-    status?: boolean
-    message?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemInvitation"]>
-
-  export type ProblemInvitationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    problemId?: boolean
-    senderId?: boolean
-    receiverId?: boolean
-    status?: boolean
-    message?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemInvitation"]>
-
-  export type ProblemInvitationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    problemId?: boolean
-    senderId?: boolean
-    receiverId?: boolean
-    status?: boolean
-    message?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemInvitation"]>
-
-  export type ProblemInvitationSelectScalar = {
-    id?: boolean
-    problemId?: boolean
-    senderId?: boolean
-    receiverId?: boolean
-    status?: boolean
-    message?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type ProblemInvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "senderId" | "receiverId" | "status" | "message" | "createdAt" | "updatedAt", ExtArgs["result"]["problemInvitation"]>
-  export type ProblemInvitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type ProblemInvitationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type ProblemInvitationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    sender?: boolean | UserDefaultArgs<ExtArgs>
-    receiver?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $ProblemInvitationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ProblemInvitation"
-    objects: {
-      problem: Prisma.$ProblemPayload<ExtArgs>
-      sender: Prisma.$UserPayload<ExtArgs>
-      receiver: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      problemId: string
-      senderId: string
-      receiverId: string
-      status: $Enums.InvitationStatus
-      message: string | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["problemInvitation"]>
-    composites: {}
-  }
-
-  type ProblemInvitationGetPayload<S extends boolean | null | undefined | ProblemInvitationDefaultArgs> = $Result.GetResult<Prisma.$ProblemInvitationPayload, S>
-
-  type ProblemInvitationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProblemInvitationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProblemInvitationCountAggregateInputType | true
-    }
-
-  export interface ProblemInvitationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemInvitation'], meta: { name: 'ProblemInvitation' } }
-    /**
-     * Find zero or one ProblemInvitation that matches the filter.
-     * @param {ProblemInvitationFindUniqueArgs} args - Arguments to find a ProblemInvitation
-     * @example
-     * // Get one ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ProblemInvitationFindUniqueArgs>(args: SelectSubset<T, ProblemInvitationFindUniqueArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one ProblemInvitation that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ProblemInvitationFindUniqueOrThrowArgs} args - Arguments to find a ProblemInvitation
-     * @example
-     * // Get one ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ProblemInvitationFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemInvitationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ProblemInvitation that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationFindFirstArgs} args - Arguments to find a ProblemInvitation
-     * @example
-     * // Get one ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ProblemInvitationFindFirstArgs>(args?: SelectSubset<T, ProblemInvitationFindFirstArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ProblemInvitation that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationFindFirstOrThrowArgs} args - Arguments to find a ProblemInvitation
-     * @example
-     * // Get one ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ProblemInvitationFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemInvitationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more ProblemInvitations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ProblemInvitations
-     * const problemInvitations = await prisma.problemInvitation.findMany()
-     * 
-     * // Get first 10 ProblemInvitations
-     * const problemInvitations = await prisma.problemInvitation.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const problemInvitationWithIdOnly = await prisma.problemInvitation.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ProblemInvitationFindManyArgs>(args?: SelectSubset<T, ProblemInvitationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a ProblemInvitation.
-     * @param {ProblemInvitationCreateArgs} args - Arguments to create a ProblemInvitation.
-     * @example
-     * // Create one ProblemInvitation
-     * const ProblemInvitation = await prisma.problemInvitation.create({
-     *   data: {
-     *     // ... data to create a ProblemInvitation
-     *   }
-     * })
-     * 
-     */
-    create<T extends ProblemInvitationCreateArgs>(args: SelectSubset<T, ProblemInvitationCreateArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many ProblemInvitations.
-     * @param {ProblemInvitationCreateManyArgs} args - Arguments to create many ProblemInvitations.
-     * @example
-     * // Create many ProblemInvitations
-     * const problemInvitation = await prisma.problemInvitation.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ProblemInvitationCreateManyArgs>(args?: SelectSubset<T, ProblemInvitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many ProblemInvitations and returns the data saved in the database.
-     * @param {ProblemInvitationCreateManyAndReturnArgs} args - Arguments to create many ProblemInvitations.
-     * @example
-     * // Create many ProblemInvitations
-     * const problemInvitation = await prisma.problemInvitation.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many ProblemInvitations and only return the `id`
-     * const problemInvitationWithIdOnly = await prisma.problemInvitation.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ProblemInvitationCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemInvitationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a ProblemInvitation.
-     * @param {ProblemInvitationDeleteArgs} args - Arguments to delete one ProblemInvitation.
-     * @example
-     * // Delete one ProblemInvitation
-     * const ProblemInvitation = await prisma.problemInvitation.delete({
-     *   where: {
-     *     // ... filter to delete one ProblemInvitation
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ProblemInvitationDeleteArgs>(args: SelectSubset<T, ProblemInvitationDeleteArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one ProblemInvitation.
-     * @param {ProblemInvitationUpdateArgs} args - Arguments to update one ProblemInvitation.
-     * @example
-     * // Update one ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ProblemInvitationUpdateArgs>(args: SelectSubset<T, ProblemInvitationUpdateArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more ProblemInvitations.
-     * @param {ProblemInvitationDeleteManyArgs} args - Arguments to filter ProblemInvitations to delete.
-     * @example
-     * // Delete a few ProblemInvitations
-     * const { count } = await prisma.problemInvitation.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ProblemInvitationDeleteManyArgs>(args?: SelectSubset<T, ProblemInvitationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ProblemInvitations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ProblemInvitations
-     * const problemInvitation = await prisma.problemInvitation.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ProblemInvitationUpdateManyArgs>(args: SelectSubset<T, ProblemInvitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ProblemInvitations and returns the data updated in the database.
-     * @param {ProblemInvitationUpdateManyAndReturnArgs} args - Arguments to update many ProblemInvitations.
-     * @example
-     * // Update many ProblemInvitations
-     * const problemInvitation = await prisma.problemInvitation.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more ProblemInvitations and only return the `id`
-     * const problemInvitationWithIdOnly = await prisma.problemInvitation.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ProblemInvitationUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemInvitationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one ProblemInvitation.
-     * @param {ProblemInvitationUpsertArgs} args - Arguments to update or create a ProblemInvitation.
-     * @example
-     * // Update or create a ProblemInvitation
-     * const problemInvitation = await prisma.problemInvitation.upsert({
-     *   create: {
-     *     // ... data to create a ProblemInvitation
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ProblemInvitation we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ProblemInvitationUpsertArgs>(args: SelectSubset<T, ProblemInvitationUpsertArgs<ExtArgs>>): Prisma__ProblemInvitationClient<$Result.GetResult<Prisma.$ProblemInvitationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of ProblemInvitations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationCountArgs} args - Arguments to filter ProblemInvitations to count.
-     * @example
-     * // Count the number of ProblemInvitations
-     * const count = await prisma.problemInvitation.count({
-     *   where: {
-     *     // ... the filter for the ProblemInvitations we want to count
-     *   }
-     * })
-    **/
-    count<T extends ProblemInvitationCountArgs>(
-      args?: Subset<T, ProblemInvitationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ProblemInvitationCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ProblemInvitation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ProblemInvitationAggregateArgs>(args: Subset<T, ProblemInvitationAggregateArgs>): Prisma.PrismaPromise<GetProblemInvitationAggregateType<T>>
-
-    /**
-     * Group by ProblemInvitation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemInvitationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ProblemInvitationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProblemInvitationGroupByArgs['orderBy'] }
-        : { orderBy?: ProblemInvitationGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ProblemInvitationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemInvitationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the ProblemInvitation model
-   */
-  readonly fields: ProblemInvitationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ProblemInvitation.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ProblemInvitationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the ProblemInvitation model
-   */
-  interface ProblemInvitationFieldRefs {
-    readonly id: FieldRef<"ProblemInvitation", 'String'>
-    readonly problemId: FieldRef<"ProblemInvitation", 'String'>
-    readonly senderId: FieldRef<"ProblemInvitation", 'String'>
-    readonly receiverId: FieldRef<"ProblemInvitation", 'String'>
-    readonly status: FieldRef<"ProblemInvitation", 'InvitationStatus'>
-    readonly message: FieldRef<"ProblemInvitation", 'String'>
-    readonly createdAt: FieldRef<"ProblemInvitation", 'DateTime'>
-    readonly updatedAt: FieldRef<"ProblemInvitation", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * ProblemInvitation findUnique
-   */
-  export type ProblemInvitationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter, which ProblemInvitation to fetch.
-     */
-    where: ProblemInvitationWhereUniqueInput
-  }
-
-  /**
-   * ProblemInvitation findUniqueOrThrow
-   */
-  export type ProblemInvitationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter, which ProblemInvitation to fetch.
-     */
-    where: ProblemInvitationWhereUniqueInput
-  }
-
-  /**
-   * ProblemInvitation findFirst
-   */
-  export type ProblemInvitationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter, which ProblemInvitation to fetch.
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ProblemInvitations to fetch.
-     */
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ProblemInvitations.
-     */
-    cursor?: ProblemInvitationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ProblemInvitations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ProblemInvitations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ProblemInvitations.
-     */
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * ProblemInvitation findFirstOrThrow
-   */
-  export type ProblemInvitationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter, which ProblemInvitation to fetch.
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ProblemInvitations to fetch.
-     */
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ProblemInvitations.
-     */
-    cursor?: ProblemInvitationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ProblemInvitations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ProblemInvitations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ProblemInvitations.
-     */
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * ProblemInvitation findMany
-   */
-  export type ProblemInvitationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter, which ProblemInvitations to fetch.
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ProblemInvitations to fetch.
-     */
-    orderBy?: ProblemInvitationOrderByWithRelationInput | ProblemInvitationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ProblemInvitations.
-     */
-    cursor?: ProblemInvitationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ProblemInvitations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ProblemInvitations.
-     */
-    skip?: number
-    distinct?: ProblemInvitationScalarFieldEnum | ProblemInvitationScalarFieldEnum[]
-  }
-
-  /**
-   * ProblemInvitation create
-   */
-  export type ProblemInvitationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * The data needed to create a ProblemInvitation.
-     */
-    data: XOR<ProblemInvitationCreateInput, ProblemInvitationUncheckedCreateInput>
-  }
-
-  /**
-   * ProblemInvitation createMany
-   */
-  export type ProblemInvitationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many ProblemInvitations.
-     */
-    data: ProblemInvitationCreateManyInput | ProblemInvitationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * ProblemInvitation createManyAndReturn
-   */
-  export type ProblemInvitationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * The data used to create many ProblemInvitations.
-     */
-    data: ProblemInvitationCreateManyInput | ProblemInvitationCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ProblemInvitation update
-   */
-  export type ProblemInvitationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * The data needed to update a ProblemInvitation.
-     */
-    data: XOR<ProblemInvitationUpdateInput, ProblemInvitationUncheckedUpdateInput>
-    /**
-     * Choose, which ProblemInvitation to update.
-     */
-    where: ProblemInvitationWhereUniqueInput
-  }
-
-  /**
-   * ProblemInvitation updateMany
-   */
-  export type ProblemInvitationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update ProblemInvitations.
-     */
-    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyInput>
-    /**
-     * Filter which ProblemInvitations to update
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * Limit how many ProblemInvitations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ProblemInvitation updateManyAndReturn
-   */
-  export type ProblemInvitationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * The data used to update ProblemInvitations.
-     */
-    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyInput>
-    /**
-     * Filter which ProblemInvitations to update
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * Limit how many ProblemInvitations to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ProblemInvitation upsert
-   */
-  export type ProblemInvitationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * The filter to search for the ProblemInvitation to update in case it exists.
-     */
-    where: ProblemInvitationWhereUniqueInput
-    /**
-     * In case the ProblemInvitation found by the `where` argument doesn't exist, create a new ProblemInvitation with this data.
-     */
-    create: XOR<ProblemInvitationCreateInput, ProblemInvitationUncheckedCreateInput>
-    /**
-     * In case the ProblemInvitation was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ProblemInvitationUpdateInput, ProblemInvitationUncheckedUpdateInput>
-  }
-
-  /**
-   * ProblemInvitation delete
-   */
-  export type ProblemInvitationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-    /**
-     * Filter which ProblemInvitation to delete.
-     */
-    where: ProblemInvitationWhereUniqueInput
-  }
-
-  /**
-   * ProblemInvitation deleteMany
-   */
-  export type ProblemInvitationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ProblemInvitations to delete
-     */
-    where?: ProblemInvitationWhereInput
-    /**
-     * Limit how many ProblemInvitations to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * ProblemInvitation without action
-   */
-  export type ProblemInvitationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProblemInvitation
-     */
-    select?: ProblemInvitationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProblemInvitation
-     */
-    omit?: ProblemInvitationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProblemInvitationInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model ProblemCollaboration
-   */
-
-  export type AggregateProblemCollaboration = {
-    _count: ProblemCollaborationCountAggregateOutputType | null
-    _avg: ProblemCollaborationAvgAggregateOutputType | null
-    _sum: ProblemCollaborationSumAggregateOutputType | null
-    _min: ProblemCollaborationMinAggregateOutputType | null
-    _max: ProblemCollaborationMaxAggregateOutputType | null
-  }
-
-  export type ProblemCollaborationAvgAggregateOutputType = {
-    maxParticipants: number | null
-  }
-
-  export type ProblemCollaborationSumAggregateOutputType = {
-    maxParticipants: number | null
-  }
-
-  export type ProblemCollaborationMinAggregateOutputType = {
-    id: string | null
-    problemId: string | null
-    initiatorId: string | null
-    maxParticipants: number | null
-    currentCode: string | null
-    language: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ProblemCollaborationMaxAggregateOutputType = {
-    id: string | null
-    problemId: string | null
-    initiatorId: string | null
-    maxParticipants: number | null
-    currentCode: string | null
-    language: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ProblemCollaborationCountAggregateOutputType = {
-    id: number
-    problemId: number
-    initiatorId: number
-    maxParticipants: number
-    currentCode: number
-    language: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type ProblemCollaborationAvgAggregateInputType = {
-    maxParticipants?: true
-  }
-
-  export type ProblemCollaborationSumAggregateInputType = {
-    maxParticipants?: true
-  }
-
-  export type ProblemCollaborationMinAggregateInputType = {
-    id?: true
-    problemId?: true
-    initiatorId?: true
-    maxParticipants?: true
-    currentCode?: true
-    language?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ProblemCollaborationMaxAggregateInputType = {
-    id?: true
-    problemId?: true
-    initiatorId?: true
-    maxParticipants?: true
-    currentCode?: true
-    language?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ProblemCollaborationCountAggregateInputType = {
-    id?: true
-    problemId?: true
-    initiatorId?: true
-    maxParticipants?: true
-    currentCode?: true
-    language?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type ProblemCollaborationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ProblemCollaboration to aggregate.
-     */
-    where?: ProblemCollaborationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ProblemCollaborations to fetch.
-     */
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ProblemCollaborationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ProblemCollaborations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ProblemCollaborations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ProblemCollaborations
-    **/
-    _count?: true | ProblemCollaborationCountAggregateInputType
+    _count?: true | DevLogCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: ProblemCollaborationAvgAggregateInputType
+    _avg?: DevLogAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: ProblemCollaborationSumAggregateInputType
+    _sum?: DevLogSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ProblemCollaborationMinAggregateInputType
+    _min?: DevLogMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ProblemCollaborationMaxAggregateInputType
+    _max?: DevLogMaxAggregateInputType
   }
 
-  export type GetProblemCollaborationAggregateType<T extends ProblemCollaborationAggregateArgs> = {
-        [P in keyof T & keyof AggregateProblemCollaboration]: P extends '_count' | 'count'
+  export type GetDevLogAggregateType<T extends DevLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateDevLog]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateProblemCollaboration[P]>
-      : GetScalarType<T[P], AggregateProblemCollaboration[P]>
+        : GetScalarType<T[P], AggregateDevLog[P]>
+      : GetScalarType<T[P], AggregateDevLog[P]>
   }
 
 
 
 
-  export type ProblemCollaborationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProblemCollaborationWhereInput
-    orderBy?: ProblemCollaborationOrderByWithAggregationInput | ProblemCollaborationOrderByWithAggregationInput[]
-    by: ProblemCollaborationScalarFieldEnum[] | ProblemCollaborationScalarFieldEnum
-    having?: ProblemCollaborationScalarWhereWithAggregatesInput
+  export type DevLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DevLogWhereInput
+    orderBy?: DevLogOrderByWithAggregationInput | DevLogOrderByWithAggregationInput[]
+    by: DevLogScalarFieldEnum[] | DevLogScalarFieldEnum
+    having?: DevLogScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ProblemCollaborationCountAggregateInputType | true
-    _avg?: ProblemCollaborationAvgAggregateInputType
-    _sum?: ProblemCollaborationSumAggregateInputType
-    _min?: ProblemCollaborationMinAggregateInputType
-    _max?: ProblemCollaborationMaxAggregateInputType
+    _count?: DevLogCountAggregateInputType | true
+    _avg?: DevLogAvgAggregateInputType
+    _sum?: DevLogSumAggregateInputType
+    _min?: DevLogMinAggregateInputType
+    _max?: DevLogMaxAggregateInputType
   }
 
-  export type ProblemCollaborationGroupByOutputType = {
+  export type DevLogGroupByOutputType = {
     id: string
-    problemId: string
-    initiatorId: string
-    maxParticipants: number
-    currentCode: string
-    language: string
+    userId: string
+    title: string
+    tags: string[]
+    description: string
+    isAnonymous: boolean
     createdAt: Date
     updatedAt: Date
-    _count: ProblemCollaborationCountAggregateOutputType | null
-    _avg: ProblemCollaborationAvgAggregateOutputType | null
-    _sum: ProblemCollaborationSumAggregateOutputType | null
-    _min: ProblemCollaborationMinAggregateOutputType | null
-    _max: ProblemCollaborationMaxAggregateOutputType | null
+    upvotes: number
+    _count: DevLogCountAggregateOutputType | null
+    _avg: DevLogAvgAggregateOutputType | null
+    _sum: DevLogSumAggregateOutputType | null
+    _min: DevLogMinAggregateOutputType | null
+    _max: DevLogMaxAggregateOutputType | null
   }
 
-  type GetProblemCollaborationGroupByPayload<T extends ProblemCollaborationGroupByArgs> = Prisma.PrismaPromise<
+  type GetDevLogGroupByPayload<T extends DevLogGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ProblemCollaborationGroupByOutputType, T['by']> &
+      PickEnumerable<DevLogGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ProblemCollaborationGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof DevLogGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ProblemCollaborationGroupByOutputType[P]>
-            : GetScalarType<T[P], ProblemCollaborationGroupByOutputType[P]>
+              : GetScalarType<T[P], DevLogGroupByOutputType[P]>
+            : GetScalarType<T[P], DevLogGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ProblemCollaborationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DevLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    problemId?: boolean
-    initiatorId?: boolean
-    maxParticipants?: boolean
-    currentCode?: boolean
-    language?: boolean
+    userId?: boolean
+    title?: boolean
+    tags?: boolean
+    description?: boolean
+    isAnonymous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
-    participants?: boolean | ProblemCollaboration$participantsArgs<ExtArgs>
-    _count?: boolean | ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemCollaboration"]>
+    upvotes?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    reactions?: boolean | DevLog$reactionsArgs<ExtArgs>
+    _count?: boolean | DevLogCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLog"]>
 
-  export type ProblemCollaborationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DevLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    problemId?: boolean
-    initiatorId?: boolean
-    maxParticipants?: boolean
-    currentCode?: boolean
-    language?: boolean
+    userId?: boolean
+    title?: boolean
+    tags?: boolean
+    description?: boolean
+    isAnonymous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemCollaboration"]>
+    upvotes?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLog"]>
 
-  export type ProblemCollaborationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DevLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    problemId?: boolean
-    initiatorId?: boolean
-    maxParticipants?: boolean
-    currentCode?: boolean
-    language?: boolean
+    userId?: boolean
+    title?: boolean
+    tags?: boolean
+    description?: boolean
+    isAnonymous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["problemCollaboration"]>
+    upvotes?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLog"]>
 
-  export type ProblemCollaborationSelectScalar = {
+  export type DevLogSelectScalar = {
     id?: boolean
-    problemId?: boolean
-    initiatorId?: boolean
-    maxParticipants?: boolean
-    currentCode?: boolean
-    language?: boolean
+    userId?: boolean
+    title?: boolean
+    tags?: boolean
+    description?: boolean
+    isAnonymous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    upvotes?: boolean
   }
 
-  export type ProblemCollaborationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "problemId" | "initiatorId" | "maxParticipants" | "currentCode" | "language" | "createdAt" | "updatedAt", ExtArgs["result"]["problemCollaboration"]>
-  export type ProblemCollaborationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
-    participants?: boolean | ProblemCollaboration$participantsArgs<ExtArgs>
-    _count?: boolean | ProblemCollaborationCountOutputTypeDefaultArgs<ExtArgs>
+  export type DevLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "tags" | "description" | "isAnonymous" | "createdAt" | "updatedAt" | "upvotes", ExtArgs["result"]["devLog"]>
+  export type DevLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    reactions?: boolean | DevLog$reactionsArgs<ExtArgs>
+    _count?: boolean | DevLogCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ProblemCollaborationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  export type DevLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type ProblemCollaborationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    initiator?: boolean | UserDefaultArgs<ExtArgs>
+  export type DevLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $ProblemCollaborationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ProblemCollaboration"
+  export type $DevLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DevLog"
     objects: {
-      problem: Prisma.$ProblemPayload<ExtArgs>
-      initiator: Prisma.$UserPayload<ExtArgs>
-      participants: Prisma.$UserPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
+      reactions: Prisma.$DevLogReactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      problemId: string
-      initiatorId: string
-      maxParticipants: number
-      currentCode: string
-      language: string
+      userId: string
+      title: string
+      tags: string[]
+      description: string
+      isAnonymous: boolean
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["problemCollaboration"]>
+      upvotes: number
+    }, ExtArgs["result"]["devLog"]>
     composites: {}
   }
 
-  type ProblemCollaborationGetPayload<S extends boolean | null | undefined | ProblemCollaborationDefaultArgs> = $Result.GetResult<Prisma.$ProblemCollaborationPayload, S>
+  type DevLogGetPayload<S extends boolean | null | undefined | DevLogDefaultArgs> = $Result.GetResult<Prisma.$DevLogPayload, S>
 
-  type ProblemCollaborationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProblemCollaborationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProblemCollaborationCountAggregateInputType | true
+  type DevLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DevLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DevLogCountAggregateInputType | true
     }
 
-  export interface ProblemCollaborationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProblemCollaboration'], meta: { name: 'ProblemCollaboration' } }
+  export interface DevLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DevLog'], meta: { name: 'DevLog' } }
     /**
-     * Find zero or one ProblemCollaboration that matches the filter.
-     * @param {ProblemCollaborationFindUniqueArgs} args - Arguments to find a ProblemCollaboration
+     * Find zero or one DevLog that matches the filter.
+     * @param {DevLogFindUniqueArgs} args - Arguments to find a DevLog
      * @example
-     * // Get one ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.findUnique({
+     * // Get one DevLog
+     * const devLog = await prisma.devLog.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ProblemCollaborationFindUniqueArgs>(args: SelectSubset<T, ProblemCollaborationFindUniqueArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends DevLogFindUniqueArgs>(args: SelectSubset<T, DevLogFindUniqueArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ProblemCollaboration that matches the filter or throw an error with `error.code='P2025'`
+     * Find one DevLog that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ProblemCollaborationFindUniqueOrThrowArgs} args - Arguments to find a ProblemCollaboration
+     * @param {DevLogFindUniqueOrThrowArgs} args - Arguments to find a DevLog
      * @example
-     * // Get one ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.findUniqueOrThrow({
+     * // Get one DevLog
+     * const devLog = await prisma.devLog.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ProblemCollaborationFindUniqueOrThrowArgs>(args: SelectSubset<T, ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends DevLogFindUniqueOrThrowArgs>(args: SelectSubset<T, DevLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProblemCollaboration that matches the filter.
+     * Find the first DevLog that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationFindFirstArgs} args - Arguments to find a ProblemCollaboration
+     * @param {DevLogFindFirstArgs} args - Arguments to find a DevLog
      * @example
-     * // Get one ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.findFirst({
+     * // Get one DevLog
+     * const devLog = await prisma.devLog.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ProblemCollaborationFindFirstArgs>(args?: SelectSubset<T, ProblemCollaborationFindFirstArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends DevLogFindFirstArgs>(args?: SelectSubset<T, DevLogFindFirstArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProblemCollaboration that matches the filter or
+     * Find the first DevLog that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationFindFirstOrThrowArgs} args - Arguments to find a ProblemCollaboration
+     * @param {DevLogFindFirstOrThrowArgs} args - Arguments to find a DevLog
      * @example
-     * // Get one ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.findFirstOrThrow({
+     * // Get one DevLog
+     * const devLog = await prisma.devLog.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ProblemCollaborationFindFirstOrThrowArgs>(args?: SelectSubset<T, ProblemCollaborationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends DevLogFindFirstOrThrowArgs>(args?: SelectSubset<T, DevLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ProblemCollaborations that matches the filter.
+     * Find zero or more DevLogs that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {DevLogFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ProblemCollaborations
-     * const problemCollaborations = await prisma.problemCollaboration.findMany()
+     * // Get all DevLogs
+     * const devLogs = await prisma.devLog.findMany()
      * 
-     * // Get first 10 ProblemCollaborations
-     * const problemCollaborations = await prisma.problemCollaboration.findMany({ take: 10 })
+     * // Get first 10 DevLogs
+     * const devLogs = await prisma.devLog.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.findMany({ select: { id: true } })
+     * const devLogWithIdOnly = await prisma.devLog.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ProblemCollaborationFindManyArgs>(args?: SelectSubset<T, ProblemCollaborationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends DevLogFindManyArgs>(args?: SelectSubset<T, DevLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ProblemCollaboration.
-     * @param {ProblemCollaborationCreateArgs} args - Arguments to create a ProblemCollaboration.
+     * Create a DevLog.
+     * @param {DevLogCreateArgs} args - Arguments to create a DevLog.
      * @example
-     * // Create one ProblemCollaboration
-     * const ProblemCollaboration = await prisma.problemCollaboration.create({
+     * // Create one DevLog
+     * const DevLog = await prisma.devLog.create({
      *   data: {
-     *     // ... data to create a ProblemCollaboration
+     *     // ... data to create a DevLog
      *   }
      * })
      * 
      */
-    create<T extends ProblemCollaborationCreateArgs>(args: SelectSubset<T, ProblemCollaborationCreateArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends DevLogCreateArgs>(args: SelectSubset<T, DevLogCreateArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ProblemCollaborations.
-     * @param {ProblemCollaborationCreateManyArgs} args - Arguments to create many ProblemCollaborations.
+     * Create many DevLogs.
+     * @param {DevLogCreateManyArgs} args - Arguments to create many DevLogs.
      * @example
-     * // Create many ProblemCollaborations
-     * const problemCollaboration = await prisma.problemCollaboration.createMany({
+     * // Create many DevLogs
+     * const devLog = await prisma.devLog.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ProblemCollaborationCreateManyArgs>(args?: SelectSubset<T, ProblemCollaborationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends DevLogCreateManyArgs>(args?: SelectSubset<T, DevLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ProblemCollaborations and returns the data saved in the database.
-     * @param {ProblemCollaborationCreateManyAndReturnArgs} args - Arguments to create many ProblemCollaborations.
+     * Create many DevLogs and returns the data saved in the database.
+     * @param {DevLogCreateManyAndReturnArgs} args - Arguments to create many DevLogs.
      * @example
-     * // Create many ProblemCollaborations
-     * const problemCollaboration = await prisma.problemCollaboration.createManyAndReturn({
+     * // Create many DevLogs
+     * const devLog = await prisma.devLog.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ProblemCollaborations and only return the `id`
-     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.createManyAndReturn({
+     * // Create many DevLogs and only return the `id`
+     * const devLogWithIdOnly = await prisma.devLog.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -24119,28 +20512,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ProblemCollaborationCreateManyAndReturnArgs>(args?: SelectSubset<T, ProblemCollaborationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends DevLogCreateManyAndReturnArgs>(args?: SelectSubset<T, DevLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ProblemCollaboration.
-     * @param {ProblemCollaborationDeleteArgs} args - Arguments to delete one ProblemCollaboration.
+     * Delete a DevLog.
+     * @param {DevLogDeleteArgs} args - Arguments to delete one DevLog.
      * @example
-     * // Delete one ProblemCollaboration
-     * const ProblemCollaboration = await prisma.problemCollaboration.delete({
+     * // Delete one DevLog
+     * const DevLog = await prisma.devLog.delete({
      *   where: {
-     *     // ... filter to delete one ProblemCollaboration
+     *     // ... filter to delete one DevLog
      *   }
      * })
      * 
      */
-    delete<T extends ProblemCollaborationDeleteArgs>(args: SelectSubset<T, ProblemCollaborationDeleteArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends DevLogDeleteArgs>(args: SelectSubset<T, DevLogDeleteArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ProblemCollaboration.
-     * @param {ProblemCollaborationUpdateArgs} args - Arguments to update one ProblemCollaboration.
+     * Update one DevLog.
+     * @param {DevLogUpdateArgs} args - Arguments to update one DevLog.
      * @example
-     * // Update one ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.update({
+     * // Update one DevLog
+     * const devLog = await prisma.devLog.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24150,30 +20543,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ProblemCollaborationUpdateArgs>(args: SelectSubset<T, ProblemCollaborationUpdateArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends DevLogUpdateArgs>(args: SelectSubset<T, DevLogUpdateArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ProblemCollaborations.
-     * @param {ProblemCollaborationDeleteManyArgs} args - Arguments to filter ProblemCollaborations to delete.
+     * Delete zero or more DevLogs.
+     * @param {DevLogDeleteManyArgs} args - Arguments to filter DevLogs to delete.
      * @example
-     * // Delete a few ProblemCollaborations
-     * const { count } = await prisma.problemCollaboration.deleteMany({
+     * // Delete a few DevLogs
+     * const { count } = await prisma.devLog.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ProblemCollaborationDeleteManyArgs>(args?: SelectSubset<T, ProblemCollaborationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends DevLogDeleteManyArgs>(args?: SelectSubset<T, DevLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProblemCollaborations.
+     * Update zero or more DevLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {DevLogUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ProblemCollaborations
-     * const problemCollaboration = await prisma.problemCollaboration.updateMany({
+     * // Update many DevLogs
+     * const devLog = await prisma.devLog.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24183,14 +20576,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ProblemCollaborationUpdateManyArgs>(args: SelectSubset<T, ProblemCollaborationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends DevLogUpdateManyArgs>(args: SelectSubset<T, DevLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProblemCollaborations and returns the data updated in the database.
-     * @param {ProblemCollaborationUpdateManyAndReturnArgs} args - Arguments to update many ProblemCollaborations.
+     * Update zero or more DevLogs and returns the data updated in the database.
+     * @param {DevLogUpdateManyAndReturnArgs} args - Arguments to update many DevLogs.
      * @example
-     * // Update many ProblemCollaborations
-     * const problemCollaboration = await prisma.problemCollaboration.updateManyAndReturn({
+     * // Update many DevLogs
+     * const devLog = await prisma.devLog.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24199,8 +20592,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ProblemCollaborations and only return the `id`
-     * const problemCollaborationWithIdOnly = await prisma.problemCollaboration.updateManyAndReturn({
+     * // Update zero or more DevLogs and only return the `id`
+     * const devLogWithIdOnly = await prisma.devLog.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -24213,56 +20606,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ProblemCollaborationUpdateManyAndReturnArgs>(args: SelectSubset<T, ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends DevLogUpdateManyAndReturnArgs>(args: SelectSubset<T, DevLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ProblemCollaboration.
-     * @param {ProblemCollaborationUpsertArgs} args - Arguments to update or create a ProblemCollaboration.
+     * Create or update one DevLog.
+     * @param {DevLogUpsertArgs} args - Arguments to update or create a DevLog.
      * @example
-     * // Update or create a ProblemCollaboration
-     * const problemCollaboration = await prisma.problemCollaboration.upsert({
+     * // Update or create a DevLog
+     * const devLog = await prisma.devLog.upsert({
      *   create: {
-     *     // ... data to create a ProblemCollaboration
+     *     // ... data to create a DevLog
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ProblemCollaboration we want to update
+     *     // ... the filter for the DevLog we want to update
      *   }
      * })
      */
-    upsert<T extends ProblemCollaborationUpsertArgs>(args: SelectSubset<T, ProblemCollaborationUpsertArgs<ExtArgs>>): Prisma__ProblemCollaborationClient<$Result.GetResult<Prisma.$ProblemCollaborationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends DevLogUpsertArgs>(args: SelectSubset<T, DevLogUpsertArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ProblemCollaborations.
+     * Count the number of DevLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationCountArgs} args - Arguments to filter ProblemCollaborations to count.
+     * @param {DevLogCountArgs} args - Arguments to filter DevLogs to count.
      * @example
-     * // Count the number of ProblemCollaborations
-     * const count = await prisma.problemCollaboration.count({
+     * // Count the number of DevLogs
+     * const count = await prisma.devLog.count({
      *   where: {
-     *     // ... the filter for the ProblemCollaborations we want to count
+     *     // ... the filter for the DevLogs we want to count
      *   }
      * })
     **/
-    count<T extends ProblemCollaborationCountArgs>(
-      args?: Subset<T, ProblemCollaborationCountArgs>,
+    count<T extends DevLogCountArgs>(
+      args?: Subset<T, DevLogCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ProblemCollaborationCountAggregateOutputType>
+          : GetScalarType<T['select'], DevLogCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ProblemCollaboration.
+     * Allows you to perform aggregations operations on a DevLog.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {DevLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -24282,13 +20675,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ProblemCollaborationAggregateArgs>(args: Subset<T, ProblemCollaborationAggregateArgs>): Prisma.PrismaPromise<GetProblemCollaborationAggregateType<T>>
+    aggregate<T extends DevLogAggregateArgs>(args: Subset<T, DevLogAggregateArgs>): Prisma.PrismaPromise<GetDevLogAggregateType<T>>
 
     /**
-     * Group by ProblemCollaboration.
+     * Group by DevLog.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProblemCollaborationGroupByArgs} args - Group by arguments.
+     * @param {DevLogGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -24303,14 +20696,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ProblemCollaborationGroupByArgs,
+      T extends DevLogGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProblemCollaborationGroupByArgs['orderBy'] }
-        : { orderBy?: ProblemCollaborationGroupByArgs['orderBy'] },
+        ? { orderBy: DevLogGroupByArgs['orderBy'] }
+        : { orderBy?: DevLogGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -24359,24 +20752,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ProblemCollaborationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProblemCollaborationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, DevLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDevLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ProblemCollaboration model
+   * Fields of the DevLog model
    */
-  readonly fields: ProblemCollaborationFieldRefs;
+  readonly fields: DevLogFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ProblemCollaboration.
+   * The delegate class that acts as a "Promise-like" for DevLog.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ProblemCollaborationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__DevLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    initiator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    participants<T extends ProblemCollaboration$participantsArgs<ExtArgs> = {}>(args?: Subset<T, ProblemCollaboration$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reactions<T extends DevLog$reactionsArgs<ExtArgs> = {}>(args?: Subset<T, DevLog$reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24403,452 +20795,1506 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ProblemCollaboration model
+   * Fields of the DevLog model
    */
-  interface ProblemCollaborationFieldRefs {
-    readonly id: FieldRef<"ProblemCollaboration", 'String'>
-    readonly problemId: FieldRef<"ProblemCollaboration", 'String'>
-    readonly initiatorId: FieldRef<"ProblemCollaboration", 'String'>
-    readonly maxParticipants: FieldRef<"ProblemCollaboration", 'Int'>
-    readonly currentCode: FieldRef<"ProblemCollaboration", 'String'>
-    readonly language: FieldRef<"ProblemCollaboration", 'String'>
-    readonly createdAt: FieldRef<"ProblemCollaboration", 'DateTime'>
-    readonly updatedAt: FieldRef<"ProblemCollaboration", 'DateTime'>
+  interface DevLogFieldRefs {
+    readonly id: FieldRef<"DevLog", 'String'>
+    readonly userId: FieldRef<"DevLog", 'String'>
+    readonly title: FieldRef<"DevLog", 'String'>
+    readonly tags: FieldRef<"DevLog", 'String[]'>
+    readonly description: FieldRef<"DevLog", 'String'>
+    readonly isAnonymous: FieldRef<"DevLog", 'Boolean'>
+    readonly createdAt: FieldRef<"DevLog", 'DateTime'>
+    readonly updatedAt: FieldRef<"DevLog", 'DateTime'>
+    readonly upvotes: FieldRef<"DevLog", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * ProblemCollaboration findUnique
+   * DevLog findUnique
    */
-  export type ProblemCollaborationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter, which ProblemCollaboration to fetch.
+     * Filter, which DevLog to fetch.
      */
-    where: ProblemCollaborationWhereUniqueInput
+    where: DevLogWhereUniqueInput
   }
 
   /**
-   * ProblemCollaboration findUniqueOrThrow
+   * DevLog findUniqueOrThrow
    */
-  export type ProblemCollaborationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter, which ProblemCollaboration to fetch.
+     * Filter, which DevLog to fetch.
      */
-    where: ProblemCollaborationWhereUniqueInput
+    where: DevLogWhereUniqueInput
   }
 
   /**
-   * ProblemCollaboration findFirst
+   * DevLog findFirst
    */
-  export type ProblemCollaborationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter, which ProblemCollaboration to fetch.
+     * Filter, which DevLog to fetch.
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProblemCollaborations to fetch.
+     * Determine the order of DevLogs to fetch.
      */
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    orderBy?: DevLogOrderByWithRelationInput | DevLogOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProblemCollaborations.
+     * Sets the position for searching for DevLogs.
      */
-    cursor?: ProblemCollaborationWhereUniqueInput
+    cursor?: DevLogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProblemCollaborations from the position of the cursor.
+     * Take `±n` DevLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProblemCollaborations.
+     * Skip the first `n` DevLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProblemCollaborations.
+     * Filter by unique combinations of DevLogs.
      */
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+    distinct?: DevLogScalarFieldEnum | DevLogScalarFieldEnum[]
   }
 
   /**
-   * ProblemCollaboration findFirstOrThrow
+   * DevLog findFirstOrThrow
    */
-  export type ProblemCollaborationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter, which ProblemCollaboration to fetch.
+     * Filter, which DevLog to fetch.
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProblemCollaborations to fetch.
+     * Determine the order of DevLogs to fetch.
      */
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    orderBy?: DevLogOrderByWithRelationInput | DevLogOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProblemCollaborations.
+     * Sets the position for searching for DevLogs.
      */
-    cursor?: ProblemCollaborationWhereUniqueInput
+    cursor?: DevLogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProblemCollaborations from the position of the cursor.
+     * Take `±n` DevLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProblemCollaborations.
+     * Skip the first `n` DevLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProblemCollaborations.
+     * Filter by unique combinations of DevLogs.
      */
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+    distinct?: DevLogScalarFieldEnum | DevLogScalarFieldEnum[]
   }
 
   /**
-   * ProblemCollaboration findMany
+   * DevLog findMany
    */
-  export type ProblemCollaborationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter, which ProblemCollaborations to fetch.
+     * Filter, which DevLogs to fetch.
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProblemCollaborations to fetch.
+     * Determine the order of DevLogs to fetch.
      */
-    orderBy?: ProblemCollaborationOrderByWithRelationInput | ProblemCollaborationOrderByWithRelationInput[]
+    orderBy?: DevLogOrderByWithRelationInput | DevLogOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ProblemCollaborations.
+     * Sets the position for listing DevLogs.
      */
-    cursor?: ProblemCollaborationWhereUniqueInput
+    cursor?: DevLogWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProblemCollaborations from the position of the cursor.
+     * Take `±n` DevLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProblemCollaborations.
+     * Skip the first `n` DevLogs.
      */
     skip?: number
-    distinct?: ProblemCollaborationScalarFieldEnum | ProblemCollaborationScalarFieldEnum[]
+    distinct?: DevLogScalarFieldEnum | DevLogScalarFieldEnum[]
   }
 
   /**
-   * ProblemCollaboration create
+   * DevLog create
    */
-  export type ProblemCollaborationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * The data needed to create a ProblemCollaboration.
+     * The data needed to create a DevLog.
      */
-    data: XOR<ProblemCollaborationCreateInput, ProblemCollaborationUncheckedCreateInput>
+    data: XOR<DevLogCreateInput, DevLogUncheckedCreateInput>
   }
 
   /**
-   * ProblemCollaboration createMany
+   * DevLog createMany
    */
-  export type ProblemCollaborationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many ProblemCollaborations.
+     * The data used to create many DevLogs.
      */
-    data: ProblemCollaborationCreateManyInput | ProblemCollaborationCreateManyInput[]
+    data: DevLogCreateManyInput | DevLogCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ProblemCollaboration createManyAndReturn
+   * DevLog createManyAndReturn
    */
-  export type ProblemCollaborationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelectCreateManyAndReturn<ExtArgs> | null
+    select?: DevLogSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
-     * The data used to create many ProblemCollaborations.
+     * The data used to create many DevLogs.
      */
-    data: ProblemCollaborationCreateManyInput | ProblemCollaborationCreateManyInput[]
+    data: DevLogCreateManyInput | DevLogCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: DevLogIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ProblemCollaboration update
+   * DevLog update
    */
-  export type ProblemCollaborationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * The data needed to update a ProblemCollaboration.
+     * The data needed to update a DevLog.
      */
-    data: XOR<ProblemCollaborationUpdateInput, ProblemCollaborationUncheckedUpdateInput>
+    data: XOR<DevLogUpdateInput, DevLogUncheckedUpdateInput>
     /**
-     * Choose, which ProblemCollaboration to update.
+     * Choose, which DevLog to update.
      */
-    where: ProblemCollaborationWhereUniqueInput
+    where: DevLogWhereUniqueInput
   }
 
   /**
-   * ProblemCollaboration updateMany
+   * DevLog updateMany
    */
-  export type ProblemCollaborationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update ProblemCollaborations.
+     * The data used to update DevLogs.
      */
-    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyInput>
+    data: XOR<DevLogUpdateManyMutationInput, DevLogUncheckedUpdateManyInput>
     /**
-     * Filter which ProblemCollaborations to update
+     * Filter which DevLogs to update
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
-     * Limit how many ProblemCollaborations to update.
+     * Limit how many DevLogs to update.
      */
     limit?: number
   }
 
   /**
-   * ProblemCollaboration updateManyAndReturn
+   * DevLog updateManyAndReturn
    */
-  export type ProblemCollaborationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: DevLogSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
-     * The data used to update ProblemCollaborations.
+     * The data used to update DevLogs.
      */
-    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyInput>
+    data: XOR<DevLogUpdateManyMutationInput, DevLogUncheckedUpdateManyInput>
     /**
-     * Filter which ProblemCollaborations to update
+     * Filter which DevLogs to update
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
-     * Limit how many ProblemCollaborations to update.
+     * Limit how many DevLogs to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: DevLogIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ProblemCollaboration upsert
+   * DevLog upsert
    */
-  export type ProblemCollaborationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * The filter to search for the ProblemCollaboration to update in case it exists.
+     * The filter to search for the DevLog to update in case it exists.
      */
-    where: ProblemCollaborationWhereUniqueInput
+    where: DevLogWhereUniqueInput
     /**
-     * In case the ProblemCollaboration found by the `where` argument doesn't exist, create a new ProblemCollaboration with this data.
+     * In case the DevLog found by the `where` argument doesn't exist, create a new DevLog with this data.
      */
-    create: XOR<ProblemCollaborationCreateInput, ProblemCollaborationUncheckedCreateInput>
+    create: XOR<DevLogCreateInput, DevLogUncheckedCreateInput>
     /**
-     * In case the ProblemCollaboration was found with the provided `where` argument, update it with this data.
+     * In case the DevLog was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ProblemCollaborationUpdateInput, ProblemCollaborationUncheckedUpdateInput>
+    update: XOR<DevLogUpdateInput, DevLogUncheckedUpdateInput>
   }
 
   /**
-   * ProblemCollaboration delete
+   * DevLog delete
    */
-  export type ProblemCollaborationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
     /**
-     * Filter which ProblemCollaboration to delete.
+     * Filter which DevLog to delete.
      */
-    where: ProblemCollaborationWhereUniqueInput
+    where: DevLogWhereUniqueInput
   }
 
   /**
-   * ProblemCollaboration deleteMany
+   * DevLog deleteMany
    */
-  export type ProblemCollaborationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ProblemCollaborations to delete
+     * Filter which DevLogs to delete
      */
-    where?: ProblemCollaborationWhereInput
+    where?: DevLogWhereInput
     /**
-     * Limit how many ProblemCollaborations to delete.
+     * Limit how many DevLogs to delete.
      */
     limit?: number
   }
 
   /**
-   * ProblemCollaboration.participants
+   * DevLog.reactions
    */
-  export type ProblemCollaboration$participantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLog$reactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the DevLogReaction
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: DevLogReactionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the DevLogReaction
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: DevLogReactionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: DevLogReactionInclude<ExtArgs> | null
+    where?: DevLogReactionWhereInput
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    cursor?: DevLogReactionWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: DevLogReactionScalarFieldEnum | DevLogReactionScalarFieldEnum[]
   }
 
   /**
-   * ProblemCollaboration without action
+   * DevLog without action
    */
-  export type ProblemCollaborationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DevLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProblemCollaboration
+     * Select specific fields to fetch from the DevLog
      */
-    select?: ProblemCollaborationSelect<ExtArgs> | null
+    select?: DevLogSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProblemCollaboration
+     * Omit specific fields from the DevLog
      */
-    omit?: ProblemCollaborationOmit<ExtArgs> | null
+    omit?: DevLogOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProblemCollaborationInclude<ExtArgs> | null
+    include?: DevLogInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DevLogReaction
+   */
+
+  export type AggregateDevLogReaction = {
+    _count: DevLogReactionCountAggregateOutputType | null
+    _min: DevLogReactionMinAggregateOutputType | null
+    _max: DevLogReactionMaxAggregateOutputType | null
+  }
+
+  export type DevLogReactionMinAggregateOutputType = {
+    id: string | null
+    devLogId: string | null
+    userId: string | null
+    type: $Enums.ReactionType | null
+  }
+
+  export type DevLogReactionMaxAggregateOutputType = {
+    id: string | null
+    devLogId: string | null
+    userId: string | null
+    type: $Enums.ReactionType | null
+  }
+
+  export type DevLogReactionCountAggregateOutputType = {
+    id: number
+    devLogId: number
+    userId: number
+    type: number
+    _all: number
+  }
+
+
+  export type DevLogReactionMinAggregateInputType = {
+    id?: true
+    devLogId?: true
+    userId?: true
+    type?: true
+  }
+
+  export type DevLogReactionMaxAggregateInputType = {
+    id?: true
+    devLogId?: true
+    userId?: true
+    type?: true
+  }
+
+  export type DevLogReactionCountAggregateInputType = {
+    id?: true
+    devLogId?: true
+    userId?: true
+    type?: true
+    _all?: true
+  }
+
+  export type DevLogReactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DevLogReaction to aggregate.
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DevLogReactions to fetch.
+     */
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DevLogReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DevLogReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DevLogReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DevLogReactions
+    **/
+    _count?: true | DevLogReactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DevLogReactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DevLogReactionMaxAggregateInputType
+  }
+
+  export type GetDevLogReactionAggregateType<T extends DevLogReactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateDevLogReaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDevLogReaction[P]>
+      : GetScalarType<T[P], AggregateDevLogReaction[P]>
+  }
+
+
+
+
+  export type DevLogReactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DevLogReactionWhereInput
+    orderBy?: DevLogReactionOrderByWithAggregationInput | DevLogReactionOrderByWithAggregationInput[]
+    by: DevLogReactionScalarFieldEnum[] | DevLogReactionScalarFieldEnum
+    having?: DevLogReactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DevLogReactionCountAggregateInputType | true
+    _min?: DevLogReactionMinAggregateInputType
+    _max?: DevLogReactionMaxAggregateInputType
+  }
+
+  export type DevLogReactionGroupByOutputType = {
+    id: string
+    devLogId: string
+    userId: string
+    type: $Enums.ReactionType
+    _count: DevLogReactionCountAggregateOutputType | null
+    _min: DevLogReactionMinAggregateOutputType | null
+    _max: DevLogReactionMaxAggregateOutputType | null
+  }
+
+  type GetDevLogReactionGroupByPayload<T extends DevLogReactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DevLogReactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DevLogReactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DevLogReactionGroupByOutputType[P]>
+            : GetScalarType<T[P], DevLogReactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DevLogReactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    devLogId?: boolean
+    userId?: boolean
+    type?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLogReaction"]>
+
+  export type DevLogReactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    devLogId?: boolean
+    userId?: boolean
+    type?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLogReaction"]>
+
+  export type DevLogReactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    devLogId?: boolean
+    userId?: boolean
+    type?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["devLogReaction"]>
+
+  export type DevLogReactionSelectScalar = {
+    id?: boolean
+    devLogId?: boolean
+    userId?: boolean
+    type?: boolean
+  }
+
+  export type DevLogReactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "devLogId" | "userId" | "type", ExtArgs["result"]["devLogReaction"]>
+  export type DevLogReactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }
+  export type DevLogReactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }
+  export type DevLogReactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    devLog?: boolean | DevLogDefaultArgs<ExtArgs>
+  }
+
+  export type $DevLogReactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DevLogReaction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      devLog: Prisma.$DevLogPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      devLogId: string
+      userId: string
+      type: $Enums.ReactionType
+    }, ExtArgs["result"]["devLogReaction"]>
+    composites: {}
+  }
+
+  type DevLogReactionGetPayload<S extends boolean | null | undefined | DevLogReactionDefaultArgs> = $Result.GetResult<Prisma.$DevLogReactionPayload, S>
+
+  type DevLogReactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DevLogReactionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DevLogReactionCountAggregateInputType | true
+    }
+
+  export interface DevLogReactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DevLogReaction'], meta: { name: 'DevLogReaction' } }
+    /**
+     * Find zero or one DevLogReaction that matches the filter.
+     * @param {DevLogReactionFindUniqueArgs} args - Arguments to find a DevLogReaction
+     * @example
+     * // Get one DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DevLogReactionFindUniqueArgs>(args: SelectSubset<T, DevLogReactionFindUniqueArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DevLogReaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DevLogReactionFindUniqueOrThrowArgs} args - Arguments to find a DevLogReaction
+     * @example
+     * // Get one DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DevLogReactionFindUniqueOrThrowArgs>(args: SelectSubset<T, DevLogReactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DevLogReaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionFindFirstArgs} args - Arguments to find a DevLogReaction
+     * @example
+     * // Get one DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DevLogReactionFindFirstArgs>(args?: SelectSubset<T, DevLogReactionFindFirstArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DevLogReaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionFindFirstOrThrowArgs} args - Arguments to find a DevLogReaction
+     * @example
+     * // Get one DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DevLogReactionFindFirstOrThrowArgs>(args?: SelectSubset<T, DevLogReactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DevLogReactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DevLogReactions
+     * const devLogReactions = await prisma.devLogReaction.findMany()
+     * 
+     * // Get first 10 DevLogReactions
+     * const devLogReactions = await prisma.devLogReaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const devLogReactionWithIdOnly = await prisma.devLogReaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DevLogReactionFindManyArgs>(args?: SelectSubset<T, DevLogReactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DevLogReaction.
+     * @param {DevLogReactionCreateArgs} args - Arguments to create a DevLogReaction.
+     * @example
+     * // Create one DevLogReaction
+     * const DevLogReaction = await prisma.devLogReaction.create({
+     *   data: {
+     *     // ... data to create a DevLogReaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends DevLogReactionCreateArgs>(args: SelectSubset<T, DevLogReactionCreateArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DevLogReactions.
+     * @param {DevLogReactionCreateManyArgs} args - Arguments to create many DevLogReactions.
+     * @example
+     * // Create many DevLogReactions
+     * const devLogReaction = await prisma.devLogReaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DevLogReactionCreateManyArgs>(args?: SelectSubset<T, DevLogReactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DevLogReactions and returns the data saved in the database.
+     * @param {DevLogReactionCreateManyAndReturnArgs} args - Arguments to create many DevLogReactions.
+     * @example
+     * // Create many DevLogReactions
+     * const devLogReaction = await prisma.devLogReaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DevLogReactions and only return the `id`
+     * const devLogReactionWithIdOnly = await prisma.devLogReaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DevLogReactionCreateManyAndReturnArgs>(args?: SelectSubset<T, DevLogReactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DevLogReaction.
+     * @param {DevLogReactionDeleteArgs} args - Arguments to delete one DevLogReaction.
+     * @example
+     * // Delete one DevLogReaction
+     * const DevLogReaction = await prisma.devLogReaction.delete({
+     *   where: {
+     *     // ... filter to delete one DevLogReaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DevLogReactionDeleteArgs>(args: SelectSubset<T, DevLogReactionDeleteArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DevLogReaction.
+     * @param {DevLogReactionUpdateArgs} args - Arguments to update one DevLogReaction.
+     * @example
+     * // Update one DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DevLogReactionUpdateArgs>(args: SelectSubset<T, DevLogReactionUpdateArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DevLogReactions.
+     * @param {DevLogReactionDeleteManyArgs} args - Arguments to filter DevLogReactions to delete.
+     * @example
+     * // Delete a few DevLogReactions
+     * const { count } = await prisma.devLogReaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DevLogReactionDeleteManyArgs>(args?: SelectSubset<T, DevLogReactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DevLogReactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DevLogReactions
+     * const devLogReaction = await prisma.devLogReaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DevLogReactionUpdateManyArgs>(args: SelectSubset<T, DevLogReactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DevLogReactions and returns the data updated in the database.
+     * @param {DevLogReactionUpdateManyAndReturnArgs} args - Arguments to update many DevLogReactions.
+     * @example
+     * // Update many DevLogReactions
+     * const devLogReaction = await prisma.devLogReaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DevLogReactions and only return the `id`
+     * const devLogReactionWithIdOnly = await prisma.devLogReaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DevLogReactionUpdateManyAndReturnArgs>(args: SelectSubset<T, DevLogReactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DevLogReaction.
+     * @param {DevLogReactionUpsertArgs} args - Arguments to update or create a DevLogReaction.
+     * @example
+     * // Update or create a DevLogReaction
+     * const devLogReaction = await prisma.devLogReaction.upsert({
+     *   create: {
+     *     // ... data to create a DevLogReaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DevLogReaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DevLogReactionUpsertArgs>(args: SelectSubset<T, DevLogReactionUpsertArgs<ExtArgs>>): Prisma__DevLogReactionClient<$Result.GetResult<Prisma.$DevLogReactionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DevLogReactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionCountArgs} args - Arguments to filter DevLogReactions to count.
+     * @example
+     * // Count the number of DevLogReactions
+     * const count = await prisma.devLogReaction.count({
+     *   where: {
+     *     // ... the filter for the DevLogReactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends DevLogReactionCountArgs>(
+      args?: Subset<T, DevLogReactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DevLogReactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DevLogReaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DevLogReactionAggregateArgs>(args: Subset<T, DevLogReactionAggregateArgs>): Prisma.PrismaPromise<GetDevLogReactionAggregateType<T>>
+
+    /**
+     * Group by DevLogReaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DevLogReactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DevLogReactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DevLogReactionGroupByArgs['orderBy'] }
+        : { orderBy?: DevLogReactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DevLogReactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDevLogReactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DevLogReaction model
+   */
+  readonly fields: DevLogReactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DevLogReaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DevLogReactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    devLog<T extends DevLogDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DevLogDefaultArgs<ExtArgs>>): Prisma__DevLogClient<$Result.GetResult<Prisma.$DevLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DevLogReaction model
+   */
+  interface DevLogReactionFieldRefs {
+    readonly id: FieldRef<"DevLogReaction", 'String'>
+    readonly devLogId: FieldRef<"DevLogReaction", 'String'>
+    readonly userId: FieldRef<"DevLogReaction", 'String'>
+    readonly type: FieldRef<"DevLogReaction", 'ReactionType'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DevLogReaction findUnique
+   */
+  export type DevLogReactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter, which DevLogReaction to fetch.
+     */
+    where: DevLogReactionWhereUniqueInput
+  }
+
+  /**
+   * DevLogReaction findUniqueOrThrow
+   */
+  export type DevLogReactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter, which DevLogReaction to fetch.
+     */
+    where: DevLogReactionWhereUniqueInput
+  }
+
+  /**
+   * DevLogReaction findFirst
+   */
+  export type DevLogReactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter, which DevLogReaction to fetch.
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DevLogReactions to fetch.
+     */
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DevLogReactions.
+     */
+    cursor?: DevLogReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DevLogReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DevLogReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DevLogReactions.
+     */
+    distinct?: DevLogReactionScalarFieldEnum | DevLogReactionScalarFieldEnum[]
+  }
+
+  /**
+   * DevLogReaction findFirstOrThrow
+   */
+  export type DevLogReactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter, which DevLogReaction to fetch.
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DevLogReactions to fetch.
+     */
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DevLogReactions.
+     */
+    cursor?: DevLogReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DevLogReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DevLogReactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DevLogReactions.
+     */
+    distinct?: DevLogReactionScalarFieldEnum | DevLogReactionScalarFieldEnum[]
+  }
+
+  /**
+   * DevLogReaction findMany
+   */
+  export type DevLogReactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter, which DevLogReactions to fetch.
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DevLogReactions to fetch.
+     */
+    orderBy?: DevLogReactionOrderByWithRelationInput | DevLogReactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DevLogReactions.
+     */
+    cursor?: DevLogReactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DevLogReactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DevLogReactions.
+     */
+    skip?: number
+    distinct?: DevLogReactionScalarFieldEnum | DevLogReactionScalarFieldEnum[]
+  }
+
+  /**
+   * DevLogReaction create
+   */
+  export type DevLogReactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DevLogReaction.
+     */
+    data: XOR<DevLogReactionCreateInput, DevLogReactionUncheckedCreateInput>
+  }
+
+  /**
+   * DevLogReaction createMany
+   */
+  export type DevLogReactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DevLogReactions.
+     */
+    data: DevLogReactionCreateManyInput | DevLogReactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DevLogReaction createManyAndReturn
+   */
+  export type DevLogReactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * The data used to create many DevLogReactions.
+     */
+    data: DevLogReactionCreateManyInput | DevLogReactionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DevLogReaction update
+   */
+  export type DevLogReactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DevLogReaction.
+     */
+    data: XOR<DevLogReactionUpdateInput, DevLogReactionUncheckedUpdateInput>
+    /**
+     * Choose, which DevLogReaction to update.
+     */
+    where: DevLogReactionWhereUniqueInput
+  }
+
+  /**
+   * DevLogReaction updateMany
+   */
+  export type DevLogReactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DevLogReactions.
+     */
+    data: XOR<DevLogReactionUpdateManyMutationInput, DevLogReactionUncheckedUpdateManyInput>
+    /**
+     * Filter which DevLogReactions to update
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * Limit how many DevLogReactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DevLogReaction updateManyAndReturn
+   */
+  export type DevLogReactionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * The data used to update DevLogReactions.
+     */
+    data: XOR<DevLogReactionUpdateManyMutationInput, DevLogReactionUncheckedUpdateManyInput>
+    /**
+     * Filter which DevLogReactions to update
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * Limit how many DevLogReactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DevLogReaction upsert
+   */
+  export type DevLogReactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DevLogReaction to update in case it exists.
+     */
+    where: DevLogReactionWhereUniqueInput
+    /**
+     * In case the DevLogReaction found by the `where` argument doesn't exist, create a new DevLogReaction with this data.
+     */
+    create: XOR<DevLogReactionCreateInput, DevLogReactionUncheckedCreateInput>
+    /**
+     * In case the DevLogReaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DevLogReactionUpdateInput, DevLogReactionUncheckedUpdateInput>
+  }
+
+  /**
+   * DevLogReaction delete
+   */
+  export type DevLogReactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
+    /**
+     * Filter which DevLogReaction to delete.
+     */
+    where: DevLogReactionWhereUniqueInput
+  }
+
+  /**
+   * DevLogReaction deleteMany
+   */
+  export type DevLogReactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DevLogReactions to delete
+     */
+    where?: DevLogReactionWhereInput
+    /**
+     * Limit how many DevLogReactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DevLogReaction without action
+   */
+  export type DevLogReactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DevLogReaction
+     */
+    select?: DevLogReactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DevLogReaction
+     */
+    omit?: DevLogReactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DevLogReactionInclude<ExtArgs> | null
   }
 
 
@@ -24883,24 +22329,11 @@ export namespace Prisma {
     currentStreak: 'currentStreak',
     longestStreak: 'longestStreak',
     lastSolvedDate: 'lastSolvedDate',
-    followerCount: 'followerCount',
-    followingCount: 'followingCount',
-    badges: 'badges',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-  export const FollowScalarFieldEnum: {
-    id: 'id',
-    followerId: 'followerId',
-    followingId: 'followingId',
-    createdAt: 'createdAt'
-  };
-
-  export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
   export const ProblemScalarFieldEnum: {
@@ -25026,18 +22459,6 @@ export namespace Prisma {
   export type ProblemInPlaylistScalarFieldEnum = (typeof ProblemInPlaylistScalarFieldEnum)[keyof typeof ProblemInPlaylistScalarFieldEnum]
 
 
-  export const BadgeScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    icon: 'icon',
-    description: 'description',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum]
-
-
   export const ProblemReportScalarFieldEnum: {
     id: 'id',
     problemId: 'problemId',
@@ -25107,32 +22528,29 @@ export namespace Prisma {
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
-  export const ProblemInvitationScalarFieldEnum: {
+  export const DevLogScalarFieldEnum: {
     id: 'id',
-    problemId: 'problemId',
-    senderId: 'senderId',
-    receiverId: 'receiverId',
-    status: 'status',
-    message: 'message',
+    userId: 'userId',
+    title: 'title',
+    tags: 'tags',
+    description: 'description',
+    isAnonymous: 'isAnonymous',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    upvotes: 'upvotes'
   };
 
-  export type ProblemInvitationScalarFieldEnum = (typeof ProblemInvitationScalarFieldEnum)[keyof typeof ProblemInvitationScalarFieldEnum]
+  export type DevLogScalarFieldEnum = (typeof DevLogScalarFieldEnum)[keyof typeof DevLogScalarFieldEnum]
 
 
-  export const ProblemCollaborationScalarFieldEnum: {
+  export const DevLogReactionScalarFieldEnum: {
     id: 'id',
-    problemId: 'problemId',
-    initiatorId: 'initiatorId',
-    maxParticipants: 'maxParticipants',
-    currentCode: 'currentCode',
-    language: 'language',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    devLogId: 'devLogId',
+    userId: 'userId',
+    type: 'type'
   };
 
-  export type ProblemCollaborationScalarFieldEnum = (typeof ProblemCollaborationScalarFieldEnum)[keyof typeof ProblemCollaborationScalarFieldEnum]
+  export type DevLogReactionScalarFieldEnum = (typeof DevLogReactionScalarFieldEnum)[keyof typeof DevLogReactionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -25158,6 +22576,14 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -25165,14 +22591,6 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -25237,20 +22655,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
    * Reference to a field of type 'Difficulty'
    */
   export type EnumDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Difficulty'>
@@ -25261,6 +22665,20 @@ export namespace Prisma {
    * Reference to a field of type 'Difficulty[]'
    */
   export type ListEnumDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Difficulty[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -25300,16 +22718,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'InvitationStatus'
+   * Reference to a field of type 'ReactionType'
    */
-  export type EnumInvitationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationStatus'>
+  export type EnumReactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReactionType'>
     
 
 
   /**
-   * Reference to a field of type 'InvitationStatus[]'
+   * Reference to a field of type 'ReactionType[]'
    */
-  export type ListEnumInvitationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationStatus[]'>
+  export type ListEnumReactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReactionType[]'>
     
 
 
@@ -25350,13 +22768,8 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    followerCount?: IntFilter<"User"> | number
-    followingCount?: IntFilter<"User"> | number
-    badges?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    followers?: FollowListRelationFilter
-    following?: FollowListRelationFilter
     problems?: ProblemListRelationFilter
     submission?: SubmissionListRelationFilter
     problemSolved?: ProblemSolvedListRelationFilter
@@ -25366,11 +22779,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyListRelationFilter
     discussionUpvotes?: DiscussionUpvoteListRelationFilter
     playlistPurchases?: PlaylistPurchaseListRelationFilter
-    sentInvitations?: ProblemInvitationListRelationFilter
-    receivedInvitations?: ProblemInvitationListRelationFilter
-    participatingCollaborations?: ProblemCollaborationListRelationFilter
     notifications?: NotificationListRelationFilter
-    initiatedCollaborations?: ProblemCollaborationListRelationFilter
+    devLogs?: DevLogListRelationFilter
+    devLogReactions?: DevLogReactionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -25390,13 +22801,8 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
-    badges?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    followers?: FollowOrderByRelationAggregateInput
-    following?: FollowOrderByRelationAggregateInput
     problems?: ProblemOrderByRelationAggregateInput
     submission?: SubmissionOrderByRelationAggregateInput
     problemSolved?: ProblemSolvedOrderByRelationAggregateInput
@@ -25406,11 +22812,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyOrderByRelationAggregateInput
     discussionUpvotes?: DiscussionUpvoteOrderByRelationAggregateInput
     playlistPurchases?: PlaylistPurchaseOrderByRelationAggregateInput
-    sentInvitations?: ProblemInvitationOrderByRelationAggregateInput
-    receivedInvitations?: ProblemInvitationOrderByRelationAggregateInput
-    participatingCollaborations?: ProblemCollaborationOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
-    initiatedCollaborations?: ProblemCollaborationOrderByRelationAggregateInput
+    devLogs?: DevLogOrderByRelationAggregateInput
+    devLogReactions?: DevLogReactionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -25433,13 +22837,8 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    followerCount?: IntFilter<"User"> | number
-    followingCount?: IntFilter<"User"> | number
-    badges?: JsonFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    followers?: FollowListRelationFilter
-    following?: FollowListRelationFilter
     problems?: ProblemListRelationFilter
     submission?: SubmissionListRelationFilter
     problemSolved?: ProblemSolvedListRelationFilter
@@ -25449,11 +22848,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyListRelationFilter
     discussionUpvotes?: DiscussionUpvoteListRelationFilter
     playlistPurchases?: PlaylistPurchaseListRelationFilter
-    sentInvitations?: ProblemInvitationListRelationFilter
-    receivedInvitations?: ProblemInvitationListRelationFilter
-    participatingCollaborations?: ProblemCollaborationListRelationFilter
     notifications?: NotificationListRelationFilter
-    initiatedCollaborations?: ProblemCollaborationListRelationFilter
+    devLogs?: DevLogListRelationFilter
+    devLogReactions?: DevLogReactionListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -25473,9 +22870,6 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
-    badges?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -25505,65 +22899,8 @@ export namespace Prisma {
     currentStreak?: IntWithAggregatesFilter<"User"> | number
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    followerCount?: IntWithAggregatesFilter<"User"> | number
-    followingCount?: IntWithAggregatesFilter<"User"> | number
-    badges?: JsonWithAggregatesFilter<"User">
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-  }
-
-  export type FollowWhereInput = {
-    AND?: FollowWhereInput | FollowWhereInput[]
-    OR?: FollowWhereInput[]
-    NOT?: FollowWhereInput | FollowWhereInput[]
-    id?: StringFilter<"Follow"> | string
-    followerId?: StringFilter<"Follow"> | string
-    followingId?: StringFilter<"Follow"> | string
-    createdAt?: DateTimeFilter<"Follow"> | Date | string
-    follower?: XOR<UserScalarRelationFilter, UserWhereInput>
-    following?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type FollowOrderByWithRelationInput = {
-    id?: SortOrder
-    followerId?: SortOrder
-    followingId?: SortOrder
-    createdAt?: SortOrder
-    follower?: UserOrderByWithRelationInput
-    following?: UserOrderByWithRelationInput
-  }
-
-  export type FollowWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    followerId_followingId?: FollowFollowerIdFollowingIdCompoundUniqueInput
-    AND?: FollowWhereInput | FollowWhereInput[]
-    OR?: FollowWhereInput[]
-    NOT?: FollowWhereInput | FollowWhereInput[]
-    followerId?: StringFilter<"Follow"> | string
-    followingId?: StringFilter<"Follow"> | string
-    createdAt?: DateTimeFilter<"Follow"> | Date | string
-    follower?: XOR<UserScalarRelationFilter, UserWhereInput>
-    following?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "followerId_followingId">
-
-  export type FollowOrderByWithAggregationInput = {
-    id?: SortOrder
-    followerId?: SortOrder
-    followingId?: SortOrder
-    createdAt?: SortOrder
-    _count?: FollowCountOrderByAggregateInput
-    _max?: FollowMaxOrderByAggregateInput
-    _min?: FollowMinOrderByAggregateInput
-  }
-
-  export type FollowScalarWhereWithAggregatesInput = {
-    AND?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
-    OR?: FollowScalarWhereWithAggregatesInput[]
-    NOT?: FollowScalarWhereWithAggregatesInput | FollowScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Follow"> | string
-    followerId?: StringWithAggregatesFilter<"Follow"> | string
-    followingId?: StringWithAggregatesFilter<"Follow"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Follow"> | Date | string
   }
 
   export type ProblemWhereInput = {
@@ -25589,8 +22926,6 @@ export namespace Prisma {
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
-    invitations?: ProblemInvitationListRelationFilter
-    collaborations?: ProblemCollaborationListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
@@ -25619,8 +22954,6 @@ export namespace Prisma {
     dislikes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    invitations?: ProblemInvitationOrderByRelationAggregateInput
-    collaborations?: ProblemCollaborationOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
     submission?: SubmissionOrderByRelationAggregateInput
     solvedBy?: ProblemSolvedOrderByRelationAggregateInput
@@ -25652,8 +22985,6 @@ export namespace Prisma {
     dislikes?: IntFilter<"Problem"> | number
     createdAt?: DateTimeFilter<"Problem"> | Date | string
     updatedAt?: DateTimeFilter<"Problem"> | Date | string
-    invitations?: ProblemInvitationListRelationFilter
-    collaborations?: ProblemCollaborationListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
@@ -26231,63 +23562,6 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ProblemInPlaylist"> | Date | string
   }
 
-  export type BadgeWhereInput = {
-    AND?: BadgeWhereInput | BadgeWhereInput[]
-    OR?: BadgeWhereInput[]
-    NOT?: BadgeWhereInput | BadgeWhereInput[]
-    id?: StringFilter<"Badge"> | string
-    name?: StringFilter<"Badge"> | string
-    icon?: StringFilter<"Badge"> | string
-    description?: StringFilter<"Badge"> | string
-    createdAt?: DateTimeFilter<"Badge"> | Date | string
-    updatedAt?: DateTimeFilter<"Badge"> | Date | string
-  }
-
-  export type BadgeOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    icon?: SortOrder
-    description?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type BadgeWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    name?: string
-    AND?: BadgeWhereInput | BadgeWhereInput[]
-    OR?: BadgeWhereInput[]
-    NOT?: BadgeWhereInput | BadgeWhereInput[]
-    icon?: StringFilter<"Badge"> | string
-    description?: StringFilter<"Badge"> | string
-    createdAt?: DateTimeFilter<"Badge"> | Date | string
-    updatedAt?: DateTimeFilter<"Badge"> | Date | string
-  }, "id" | "name">
-
-  export type BadgeOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    icon?: SortOrder
-    description?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: BadgeCountOrderByAggregateInput
-    _max?: BadgeMaxOrderByAggregateInput
-    _min?: BadgeMinOrderByAggregateInput
-  }
-
-  export type BadgeScalarWhereWithAggregatesInput = {
-    AND?: BadgeScalarWhereWithAggregatesInput | BadgeScalarWhereWithAggregatesInput[]
-    OR?: BadgeScalarWhereWithAggregatesInput[]
-    NOT?: BadgeScalarWhereWithAggregatesInput | BadgeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Badge"> | string
-    name?: StringWithAggregatesFilter<"Badge"> | string
-    icon?: StringWithAggregatesFilter<"Badge"> | string
-    description?: StringWithAggregatesFilter<"Badge"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Badge"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Badge"> | Date | string
-  }
-
   export type ProblemReportWhereInput = {
     AND?: ProblemReportWhereInput | ProblemReportWhereInput[]
     OR?: ProblemReportWhereInput[]
@@ -26655,159 +23929,138 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
-  export type ProblemInvitationWhereInput = {
-    AND?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
-    OR?: ProblemInvitationWhereInput[]
-    NOT?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
-    id?: StringFilter<"ProblemInvitation"> | string
-    problemId?: StringFilter<"ProblemInvitation"> | string
-    senderId?: StringFilter<"ProblemInvitation"> | string
-    receiverId?: StringFilter<"ProblemInvitation"> | string
-    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
-    message?: StringNullableFilter<"ProblemInvitation"> | string | null
-    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
-    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type DevLogWhereInput = {
+    AND?: DevLogWhereInput | DevLogWhereInput[]
+    OR?: DevLogWhereInput[]
+    NOT?: DevLogWhereInput | DevLogWhereInput[]
+    id?: StringFilter<"DevLog"> | string
+    userId?: StringFilter<"DevLog"> | string
+    title?: StringFilter<"DevLog"> | string
+    tags?: StringNullableListFilter<"DevLog">
+    description?: StringFilter<"DevLog"> | string
+    isAnonymous?: BoolFilter<"DevLog"> | boolean
+    createdAt?: DateTimeFilter<"DevLog"> | Date | string
+    updatedAt?: DateTimeFilter<"DevLog"> | Date | string
+    upvotes?: IntFilter<"DevLog"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reactions?: DevLogReactionListRelationFilter
   }
 
-  export type ProblemInvitationOrderByWithRelationInput = {
+  export type DevLogOrderByWithRelationInput = {
     id?: SortOrder
-    problemId?: SortOrder
-    senderId?: SortOrder
-    receiverId?: SortOrder
-    status?: SortOrder
-    message?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    tags?: SortOrder
+    description?: SortOrder
+    isAnonymous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    problem?: ProblemOrderByWithRelationInput
-    sender?: UserOrderByWithRelationInput
-    receiver?: UserOrderByWithRelationInput
+    upvotes?: SortOrder
+    user?: UserOrderByWithRelationInput
+    reactions?: DevLogReactionOrderByRelationAggregateInput
   }
 
-  export type ProblemInvitationWhereUniqueInput = Prisma.AtLeast<{
+  export type DevLogWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    problemId_senderId_receiverId?: ProblemInvitationProblemIdSenderIdReceiverIdCompoundUniqueInput
-    AND?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
-    OR?: ProblemInvitationWhereInput[]
-    NOT?: ProblemInvitationWhereInput | ProblemInvitationWhereInput[]
-    problemId?: StringFilter<"ProblemInvitation"> | string
-    senderId?: StringFilter<"ProblemInvitation"> | string
-    receiverId?: StringFilter<"ProblemInvitation"> | string
-    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
-    message?: StringNullableFilter<"ProblemInvitation"> | string | null
-    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
-    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "problemId_senderId_receiverId">
-
-  export type ProblemInvitationOrderByWithAggregationInput = {
-    id?: SortOrder
-    problemId?: SortOrder
-    senderId?: SortOrder
-    receiverId?: SortOrder
-    status?: SortOrder
-    message?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: ProblemInvitationCountOrderByAggregateInput
-    _max?: ProblemInvitationMaxOrderByAggregateInput
-    _min?: ProblemInvitationMinOrderByAggregateInput
-  }
-
-  export type ProblemInvitationScalarWhereWithAggregatesInput = {
-    AND?: ProblemInvitationScalarWhereWithAggregatesInput | ProblemInvitationScalarWhereWithAggregatesInput[]
-    OR?: ProblemInvitationScalarWhereWithAggregatesInput[]
-    NOT?: ProblemInvitationScalarWhereWithAggregatesInput | ProblemInvitationScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ProblemInvitation"> | string
-    problemId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
-    senderId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
-    receiverId?: StringWithAggregatesFilter<"ProblemInvitation"> | string
-    status?: EnumInvitationStatusWithAggregatesFilter<"ProblemInvitation"> | $Enums.InvitationStatus
-    message?: StringNullableWithAggregatesFilter<"ProblemInvitation"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"ProblemInvitation"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ProblemInvitation"> | Date | string
-  }
-
-  export type ProblemCollaborationWhereInput = {
-    AND?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
-    OR?: ProblemCollaborationWhereInput[]
-    NOT?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
-    id?: StringFilter<"ProblemCollaboration"> | string
-    problemId?: StringFilter<"ProblemCollaboration"> | string
-    initiatorId?: StringFilter<"ProblemCollaboration"> | string
-    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
-    currentCode?: StringFilter<"ProblemCollaboration"> | string
-    language?: StringFilter<"ProblemCollaboration"> | string
-    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    initiator?: XOR<UserScalarRelationFilter, UserWhereInput>
-    participants?: UserListRelationFilter
-  }
-
-  export type ProblemCollaborationOrderByWithRelationInput = {
-    id?: SortOrder
-    problemId?: SortOrder
-    initiatorId?: SortOrder
-    maxParticipants?: SortOrder
-    currentCode?: SortOrder
-    language?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    problem?: ProblemOrderByWithRelationInput
-    initiator?: UserOrderByWithRelationInput
-    participants?: UserOrderByRelationAggregateInput
-  }
-
-  export type ProblemCollaborationWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
-    OR?: ProblemCollaborationWhereInput[]
-    NOT?: ProblemCollaborationWhereInput | ProblemCollaborationWhereInput[]
-    problemId?: StringFilter<"ProblemCollaboration"> | string
-    initiatorId?: StringFilter<"ProblemCollaboration"> | string
-    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
-    currentCode?: StringFilter<"ProblemCollaboration"> | string
-    language?: StringFilter<"ProblemCollaboration"> | string
-    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    initiator?: XOR<UserScalarRelationFilter, UserWhereInput>
-    participants?: UserListRelationFilter
+    AND?: DevLogWhereInput | DevLogWhereInput[]
+    OR?: DevLogWhereInput[]
+    NOT?: DevLogWhereInput | DevLogWhereInput[]
+    userId?: StringFilter<"DevLog"> | string
+    title?: StringFilter<"DevLog"> | string
+    tags?: StringNullableListFilter<"DevLog">
+    description?: StringFilter<"DevLog"> | string
+    isAnonymous?: BoolFilter<"DevLog"> | boolean
+    createdAt?: DateTimeFilter<"DevLog"> | Date | string
+    updatedAt?: DateTimeFilter<"DevLog"> | Date | string
+    upvotes?: IntFilter<"DevLog"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reactions?: DevLogReactionListRelationFilter
   }, "id">
 
-  export type ProblemCollaborationOrderByWithAggregationInput = {
+  export type DevLogOrderByWithAggregationInput = {
     id?: SortOrder
-    problemId?: SortOrder
-    initiatorId?: SortOrder
-    maxParticipants?: SortOrder
-    currentCode?: SortOrder
-    language?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    tags?: SortOrder
+    description?: SortOrder
+    isAnonymous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: ProblemCollaborationCountOrderByAggregateInput
-    _avg?: ProblemCollaborationAvgOrderByAggregateInput
-    _max?: ProblemCollaborationMaxOrderByAggregateInput
-    _min?: ProblemCollaborationMinOrderByAggregateInput
-    _sum?: ProblemCollaborationSumOrderByAggregateInput
+    upvotes?: SortOrder
+    _count?: DevLogCountOrderByAggregateInput
+    _avg?: DevLogAvgOrderByAggregateInput
+    _max?: DevLogMaxOrderByAggregateInput
+    _min?: DevLogMinOrderByAggregateInput
+    _sum?: DevLogSumOrderByAggregateInput
   }
 
-  export type ProblemCollaborationScalarWhereWithAggregatesInput = {
-    AND?: ProblemCollaborationScalarWhereWithAggregatesInput | ProblemCollaborationScalarWhereWithAggregatesInput[]
-    OR?: ProblemCollaborationScalarWhereWithAggregatesInput[]
-    NOT?: ProblemCollaborationScalarWhereWithAggregatesInput | ProblemCollaborationScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
-    problemId?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
-    initiatorId?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
-    maxParticipants?: IntWithAggregatesFilter<"ProblemCollaboration"> | number
-    currentCode?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
-    language?: StringWithAggregatesFilter<"ProblemCollaboration"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"ProblemCollaboration"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ProblemCollaboration"> | Date | string
+  export type DevLogScalarWhereWithAggregatesInput = {
+    AND?: DevLogScalarWhereWithAggregatesInput | DevLogScalarWhereWithAggregatesInput[]
+    OR?: DevLogScalarWhereWithAggregatesInput[]
+    NOT?: DevLogScalarWhereWithAggregatesInput | DevLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DevLog"> | string
+    userId?: StringWithAggregatesFilter<"DevLog"> | string
+    title?: StringWithAggregatesFilter<"DevLog"> | string
+    tags?: StringNullableListFilter<"DevLog">
+    description?: StringWithAggregatesFilter<"DevLog"> | string
+    isAnonymous?: BoolWithAggregatesFilter<"DevLog"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"DevLog"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DevLog"> | Date | string
+    upvotes?: IntWithAggregatesFilter<"DevLog"> | number
+  }
+
+  export type DevLogReactionWhereInput = {
+    AND?: DevLogReactionWhereInput | DevLogReactionWhereInput[]
+    OR?: DevLogReactionWhereInput[]
+    NOT?: DevLogReactionWhereInput | DevLogReactionWhereInput[]
+    id?: StringFilter<"DevLogReaction"> | string
+    devLogId?: StringFilter<"DevLogReaction"> | string
+    userId?: StringFilter<"DevLogReaction"> | string
+    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    devLog?: XOR<DevLogScalarRelationFilter, DevLogWhereInput>
+  }
+
+  export type DevLogReactionOrderByWithRelationInput = {
+    id?: SortOrder
+    devLogId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    user?: UserOrderByWithRelationInput
+    devLog?: DevLogOrderByWithRelationInput
+  }
+
+  export type DevLogReactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    devLogId_userId_type?: DevLogReactionDevLogIdUserIdTypeCompoundUniqueInput
+    AND?: DevLogReactionWhereInput | DevLogReactionWhereInput[]
+    OR?: DevLogReactionWhereInput[]
+    NOT?: DevLogReactionWhereInput | DevLogReactionWhereInput[]
+    devLogId?: StringFilter<"DevLogReaction"> | string
+    userId?: StringFilter<"DevLogReaction"> | string
+    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    devLog?: XOR<DevLogScalarRelationFilter, DevLogWhereInput>
+  }, "id" | "devLogId_userId_type">
+
+  export type DevLogReactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    devLogId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    _count?: DevLogReactionCountOrderByAggregateInput
+    _max?: DevLogReactionMaxOrderByAggregateInput
+    _min?: DevLogReactionMinOrderByAggregateInput
+  }
+
+  export type DevLogReactionScalarWhereWithAggregatesInput = {
+    AND?: DevLogReactionScalarWhereWithAggregatesInput | DevLogReactionScalarWhereWithAggregatesInput[]
+    OR?: DevLogReactionScalarWhereWithAggregatesInput[]
+    NOT?: DevLogReactionScalarWhereWithAggregatesInput | DevLogReactionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DevLogReaction"> | string
+    devLogId?: StringWithAggregatesFilter<"DevLogReaction"> | string
+    userId?: StringWithAggregatesFilter<"DevLogReaction"> | string
+    type?: EnumReactionTypeWithAggregatesFilter<"DevLogReaction"> | $Enums.ReactionType
   }
 
   export type UserCreateInput = {
@@ -26827,13 +24080,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -26843,11 +24091,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -26867,13 +24113,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -26883,11 +24124,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -26907,13 +24146,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -26923,11 +24157,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -26947,13 +24179,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -26963,11 +24190,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -26987,9 +24212,6 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27011,9 +24233,6 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27035,58 +24254,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowCreateInput = {
-    id?: string
-    createdAt?: Date | string
-    follower: UserCreateNestedOneWithoutFollowingInput
-    following: UserCreateNestedOneWithoutFollowersInput
-  }
-
-  export type FollowUncheckedCreateInput = {
-    id?: string
-    followerId: string
-    followingId: string
-    createdAt?: Date | string
-  }
-
-  export type FollowUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
-    following?: UserUpdateOneRequiredWithoutFollowersNestedInput
-  }
-
-  export type FollowUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followerId?: StringFieldUpdateOperationsInput | string
-    followingId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowCreateManyInput = {
-    id?: string
-    followerId: string
-    followingId: string
-    createdAt?: Date | string
-  }
-
-  export type FollowUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followerId?: StringFieldUpdateOperationsInput | string
-    followingId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProblemCreateInput = {
@@ -27108,8 +24277,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -27138,8 +24305,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -27166,8 +24331,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -27196,8 +24359,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -27811,69 +24972,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BadgeCreateInput = {
-    id?: string
-    name: string
-    icon: string
-    description: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type BadgeUncheckedCreateInput = {
-    id?: string
-    name: string
-    icon: string
-    description: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type BadgeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BadgeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BadgeCreateManyInput = {
-    id?: string
-    name: string
-    icon: string
-    description: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type BadgeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BadgeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ProblemReportCreateInput = {
     id?: string
     reason: $Enums.ReportReason
@@ -28233,157 +25331,138 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProblemInvitationCreateInput = {
+  export type DevLogCreateInput = {
     id?: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutInvitationsInput
-    sender: UserCreateNestedOneWithoutSentInvitationsInput
-    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
+    upvotes?: number
+    user: UserCreateNestedOneWithoutDevLogsInput
+    reactions?: DevLogReactionCreateNestedManyWithoutDevLogInput
   }
 
-  export type ProblemInvitationUncheckedCreateInput = {
+  export type DevLogUncheckedCreateInput = {
     id?: string
-    problemId: string
-    senderId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
+    userId: string
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    upvotes?: number
+    reactions?: DevLogReactionUncheckedCreateNestedManyWithoutDevLogInput
   }
 
-  export type ProblemInvitationUpdateInput = {
+  export type DevLogUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
-    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
-    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
+    upvotes?: IntFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutDevLogsNestedInput
+    reactions?: DevLogReactionUpdateManyWithoutDevLogNestedInput
   }
 
-  export type ProblemInvitationUncheckedUpdateInput = {
+  export type DevLogUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
+    reactions?: DevLogReactionUncheckedUpdateManyWithoutDevLogNestedInput
   }
 
-  export type ProblemInvitationCreateManyInput = {
+  export type DevLogCreateManyInput = {
     id?: string
-    problemId: string
-    senderId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
+    userId: string
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    upvotes?: number
   }
 
-  export type ProblemInvitationUpdateManyMutationInput = {
+  export type DevLogUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
   }
 
-  export type ProblemInvitationUncheckedUpdateManyInput = {
+  export type DevLogUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
   }
 
-  export type ProblemCollaborationCreateInput = {
+  export type DevLogReactionCreateInput = {
     id?: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutCollaborationsInput
-    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
-    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
+    type: $Enums.ReactionType
+    user: UserCreateNestedOneWithoutDevLogReactionsInput
+    devLog: DevLogCreateNestedOneWithoutReactionsInput
   }
 
-  export type ProblemCollaborationUncheckedCreateInput = {
+  export type DevLogReactionUncheckedCreateInput = {
     id?: string
-    problemId: string
-    initiatorId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
+    devLogId: string
+    userId: string
+    type: $Enums.ReactionType
   }
 
-  export type ProblemCollaborationUpdateInput = {
+  export type DevLogReactionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
-    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
-    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    user?: UserUpdateOneRequiredWithoutDevLogReactionsNestedInput
+    devLog?: DevLogUpdateOneRequiredWithoutReactionsNestedInput
   }
 
-  export type ProblemCollaborationUncheckedUpdateInput = {
+  export type DevLogReactionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
+    devLogId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
   }
 
-  export type ProblemCollaborationCreateManyInput = {
+  export type DevLogReactionCreateManyInput = {
     id?: string
-    problemId: string
-    initiatorId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    devLogId: string
+    userId: string
+    type: $Enums.ReactionType
   }
 
-  export type ProblemCollaborationUpdateManyMutationInput = {
+  export type DevLogReactionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
   }
 
-  export type ProblemCollaborationUncheckedUpdateManyInput = {
+  export type DevLogReactionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    devLogId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -28444,29 +25523,6 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -28477,12 +25533,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type FollowListRelationFilter = {
-    every?: FollowWhereInput
-    some?: FollowWhereInput
-    none?: FollowWhereInput
   }
 
   export type ProblemListRelationFilter = {
@@ -28539,31 +25589,27 @@ export namespace Prisma {
     none?: PlaylistPurchaseWhereInput
   }
 
-  export type ProblemInvitationListRelationFilter = {
-    every?: ProblemInvitationWhereInput
-    some?: ProblemInvitationWhereInput
-    none?: ProblemInvitationWhereInput
-  }
-
-  export type ProblemCollaborationListRelationFilter = {
-    every?: ProblemCollaborationWhereInput
-    some?: ProblemCollaborationWhereInput
-    none?: ProblemCollaborationWhereInput
-  }
-
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
     none?: NotificationWhereInput
   }
 
+  export type DevLogListRelationFilter = {
+    every?: DevLogWhereInput
+    some?: DevLogWhereInput
+    none?: DevLogWhereInput
+  }
+
+  export type DevLogReactionListRelationFilter = {
+    every?: DevLogReactionWhereInput
+    some?: DevLogReactionWhereInput
+    none?: DevLogReactionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type FollowOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type ProblemOrderByRelationAggregateInput = {
@@ -28602,15 +25648,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ProblemInvitationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProblemCollaborationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DevLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DevLogReactionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28631,9 +25677,6 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
-    badges?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28641,8 +25684,6 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -28662,8 +25703,6 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28685,8 +25724,6 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28694,8 +25731,6 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
-    followerCount?: SortOrder
-    followingCount?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -28773,32 +25808,6 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
-  }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -28812,37 +25821,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
-    followerId: string
-    followingId: string
-  }
-
-  export type FollowCountOrderByAggregateInput = {
-    id?: SortOrder
-    followerId?: SortOrder
-    followingId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type FollowMaxOrderByAggregateInput = {
-    id?: SortOrder
-    followerId?: SortOrder
-    followingId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type FollowMinOrderByAggregateInput = {
-    id?: SortOrder
-    followerId?: SortOrder
-    followingId?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type EnumDifficultyFilter<$PrismaModel = never> = {
@@ -28859,10 +25837,38 @@ export namespace Prisma {
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type ProblemInPlaylistListRelationFilter = {
@@ -28957,6 +25963,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDifficultyFilter<$PrismaModel>
     _max?: NestedEnumDifficultyFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -29291,33 +26323,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type BadgeCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    icon?: SortOrder
-    description?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type BadgeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    icon?: SortOrder
-    description?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type BadgeMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    icon?: SortOrder
-    description?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
   export type EnumReportReasonFilter<$PrismaModel = never> = {
     equals?: $Enums.ReportReason | EnumReportReasonFieldRefInput<$PrismaModel>
     in?: $Enums.ReportReason[] | ListEnumReportReasonFieldRefInput<$PrismaModel>
@@ -29520,125 +26525,95 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
-  export type EnumInvitationStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvitationStatusFilter<$PrismaModel> | $Enums.InvitationStatus
-  }
-
-  export type ProblemInvitationProblemIdSenderIdReceiverIdCompoundUniqueInput = {
-    problemId: string
-    senderId: string
-    receiverId: string
-  }
-
-  export type ProblemInvitationCountOrderByAggregateInput = {
+  export type DevLogCountOrderByAggregateInput = {
     id?: SortOrder
-    problemId?: SortOrder
-    senderId?: SortOrder
-    receiverId?: SortOrder
-    status?: SortOrder
-    message?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    tags?: SortOrder
+    description?: SortOrder
+    isAnonymous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    upvotes?: SortOrder
   }
 
-  export type ProblemInvitationMaxOrderByAggregateInput = {
+  export type DevLogAvgOrderByAggregateInput = {
+    upvotes?: SortOrder
+  }
+
+  export type DevLogMaxOrderByAggregateInput = {
     id?: SortOrder
-    problemId?: SortOrder
-    senderId?: SortOrder
-    receiverId?: SortOrder
-    status?: SortOrder
-    message?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    isAnonymous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    upvotes?: SortOrder
   }
 
-  export type ProblemInvitationMinOrderByAggregateInput = {
+  export type DevLogMinOrderByAggregateInput = {
     id?: SortOrder
-    problemId?: SortOrder
-    senderId?: SortOrder
-    receiverId?: SortOrder
-    status?: SortOrder
-    message?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    isAnonymous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    upvotes?: SortOrder
   }
 
-  export type EnumInvitationStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvitationStatus
+  export type DevLogSumOrderByAggregateInput = {
+    upvotes?: SortOrder
+  }
+
+  export type EnumReactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReactionTypeFilter<$PrismaModel> | $Enums.ReactionType
+  }
+
+  export type DevLogScalarRelationFilter = {
+    is?: DevLogWhereInput
+    isNot?: DevLogWhereInput
+  }
+
+  export type DevLogReactionDevLogIdUserIdTypeCompoundUniqueInput = {
+    devLogId: string
+    userId: string
+    type: $Enums.ReactionType
+  }
+
+  export type DevLogReactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    devLogId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+  }
+
+  export type DevLogReactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    devLogId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+  }
+
+  export type DevLogReactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    devLogId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+  }
+
+  export type EnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReactionType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumInvitationStatusFilter<$PrismaModel>
-    _max?: NestedEnumInvitationStatusFilter<$PrismaModel>
-  }
-
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProblemCollaborationCountOrderByAggregateInput = {
-    id?: SortOrder
-    problemId?: SortOrder
-    initiatorId?: SortOrder
-    maxParticipants?: SortOrder
-    currentCode?: SortOrder
-    language?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProblemCollaborationAvgOrderByAggregateInput = {
-    maxParticipants?: SortOrder
-  }
-
-  export type ProblemCollaborationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    problemId?: SortOrder
-    initiatorId?: SortOrder
-    maxParticipants?: SortOrder
-    currentCode?: SortOrder
-    language?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProblemCollaborationMinOrderByAggregateInput = {
-    id?: SortOrder
-    problemId?: SortOrder
-    initiatorId?: SortOrder
-    maxParticipants?: SortOrder
-    currentCode?: SortOrder
-    language?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProblemCollaborationSumOrderByAggregateInput = {
-    maxParticipants?: SortOrder
-  }
-
-  export type FollowCreateNestedManyWithoutFollowingInput = {
-    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
-    createMany?: FollowCreateManyFollowingInputEnvelope
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-  }
-
-  export type FollowCreateNestedManyWithoutFollowerInput = {
-    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
-    createMany?: FollowCreateManyFollowerInputEnvelope
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+    _min?: NestedEnumReactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumReactionTypeFilter<$PrismaModel>
   }
 
   export type ProblemCreateNestedManyWithoutUserInput = {
@@ -29704,26 +26679,6 @@ export namespace Prisma {
     connect?: PlaylistPurchaseWhereUniqueInput | PlaylistPurchaseWhereUniqueInput[]
   }
 
-  export type ProblemInvitationCreateNestedManyWithoutSenderInput = {
-    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
-    createMany?: ProblemInvitationCreateManySenderInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemInvitationCreateNestedManyWithoutReceiverInput = {
-    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
-    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemCollaborationCreateNestedManyWithoutParticipantsInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-  }
-
   export type NotificationCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -29731,25 +26686,18 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type ProblemCollaborationCreateNestedManyWithoutInitiatorInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
-    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  export type DevLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput> | DevLogCreateWithoutUserInput[] | DevLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogCreateOrConnectWithoutUserInput | DevLogCreateOrConnectWithoutUserInput[]
+    createMany?: DevLogCreateManyUserInputEnvelope
+    connect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
   }
 
-  export type FollowUncheckedCreateNestedManyWithoutFollowingInput = {
-    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
-    createMany?: FollowCreateManyFollowingInputEnvelope
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-  }
-
-  export type FollowUncheckedCreateNestedManyWithoutFollowerInput = {
-    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
-    createMany?: FollowCreateManyFollowerInputEnvelope
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  export type DevLogReactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput> | DevLogReactionCreateWithoutUserInput[] | DevLogReactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutUserInput | DevLogReactionCreateOrConnectWithoutUserInput[]
+    createMany?: DevLogReactionCreateManyUserInputEnvelope
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
   }
 
   export type ProblemUncheckedCreateNestedManyWithoutUserInput = {
@@ -29815,26 +26763,6 @@ export namespace Prisma {
     connect?: PlaylistPurchaseWhereUniqueInput | PlaylistPurchaseWhereUniqueInput[]
   }
 
-  export type ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput = {
-    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
-    createMany?: ProblemInvitationCreateManySenderInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput = {
-    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
-    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-  }
-
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -29842,11 +26770,18 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
-    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
+  export type DevLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput> | DevLogCreateWithoutUserInput[] | DevLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogCreateOrConnectWithoutUserInput | DevLogCreateOrConnectWithoutUserInput[]
+    createMany?: DevLogCreateManyUserInputEnvelope
+    connect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+  }
+
+  export type DevLogReactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput> | DevLogReactionCreateWithoutUserInput[] | DevLogReactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutUserInput | DevLogReactionCreateOrConnectWithoutUserInput[]
+    createMany?: DevLogReactionCreateManyUserInputEnvelope
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -29875,34 +26810,6 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type FollowUpdateManyWithoutFollowingNestedInput = {
-    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
-    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingInput | FollowUpsertWithWhereUniqueWithoutFollowingInput[]
-    createMany?: FollowCreateManyFollowingInputEnvelope
-    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
-    updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
-    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
-  }
-
-  export type FollowUpdateManyWithoutFollowerNestedInput = {
-    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
-    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerInput | FollowUpsertWithWhereUniqueWithoutFollowerInput[]
-    createMany?: FollowCreateManyFollowerInputEnvelope
-    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    update?: FollowUpdateWithWhereUniqueWithoutFollowerInput | FollowUpdateWithWhereUniqueWithoutFollowerInput[]
-    updateMany?: FollowUpdateManyWithWhereWithoutFollowerInput | FollowUpdateManyWithWhereWithoutFollowerInput[]
-    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
   export type ProblemUpdateManyWithoutUserNestedInput = {
@@ -30031,47 +26938,6 @@ export namespace Prisma {
     deleteMany?: PlaylistPurchaseScalarWhereInput | PlaylistPurchaseScalarWhereInput[]
   }
 
-  export type ProblemInvitationUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput | ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: ProblemInvitationCreateManySenderInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput | ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutSenderInput | ProblemInvitationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemInvitationUpdateManyWithoutReceiverNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput[]
-    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutReceiverInput | ProblemInvitationUpdateManyWithWhereWithoutReceiverInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemCollaborationUpdateManyWithoutParticipantsNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput[]
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput | ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
-  }
-
   export type NotificationUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -30086,46 +26952,32 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type ProblemCollaborationUpdateManyWithoutInitiatorNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput[]
-    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput | ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  export type DevLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput> | DevLogCreateWithoutUserInput[] | DevLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogCreateOrConnectWithoutUserInput | DevLogCreateOrConnectWithoutUserInput[]
+    upsert?: DevLogUpsertWithWhereUniqueWithoutUserInput | DevLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DevLogCreateManyUserInputEnvelope
+    set?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    disconnect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    delete?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    connect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    update?: DevLogUpdateWithWhereUniqueWithoutUserInput | DevLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DevLogUpdateManyWithWhereWithoutUserInput | DevLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DevLogScalarWhereInput | DevLogScalarWhereInput[]
   }
 
-  export type FollowUncheckedUpdateManyWithoutFollowingNestedInput = {
-    create?: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput> | FollowCreateWithoutFollowingInput[] | FollowUncheckedCreateWithoutFollowingInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
-    upsert?: FollowUpsertWithWhereUniqueWithoutFollowingInput | FollowUpsertWithWhereUniqueWithoutFollowingInput[]
-    createMany?: FollowCreateManyFollowingInputEnvelope
-    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
-    updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
-    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
-  }
-
-  export type FollowUncheckedUpdateManyWithoutFollowerNestedInput = {
-    create?: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput> | FollowCreateWithoutFollowerInput[] | FollowUncheckedCreateWithoutFollowerInput[]
-    connectOrCreate?: FollowCreateOrConnectWithoutFollowerInput | FollowCreateOrConnectWithoutFollowerInput[]
-    upsert?: FollowUpsertWithWhereUniqueWithoutFollowerInput | FollowUpsertWithWhereUniqueWithoutFollowerInput[]
-    createMany?: FollowCreateManyFollowerInputEnvelope
-    set?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    disconnect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    delete?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
-    update?: FollowUpdateWithWhereUniqueWithoutFollowerInput | FollowUpdateWithWhereUniqueWithoutFollowerInput[]
-    updateMany?: FollowUpdateManyWithWhereWithoutFollowerInput | FollowUpdateManyWithWhereWithoutFollowerInput[]
-    deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  export type DevLogReactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput> | DevLogReactionCreateWithoutUserInput[] | DevLogReactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutUserInput | DevLogReactionCreateOrConnectWithoutUserInput[]
+    upsert?: DevLogReactionUpsertWithWhereUniqueWithoutUserInput | DevLogReactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DevLogReactionCreateManyUserInputEnvelope
+    set?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    disconnect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    delete?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    update?: DevLogReactionUpdateWithWhereUniqueWithoutUserInput | DevLogReactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DevLogReactionUpdateManyWithWhereWithoutUserInput | DevLogReactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
   }
 
   export type ProblemUncheckedUpdateManyWithoutUserNestedInput = {
@@ -30254,47 +27106,6 @@ export namespace Prisma {
     deleteMany?: PlaylistPurchaseScalarWhereInput | PlaylistPurchaseScalarWhereInput[]
   }
 
-  export type ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput> | ProblemInvitationCreateWithoutSenderInput[] | ProblemInvitationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutSenderInput | ProblemInvitationCreateOrConnectWithoutSenderInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput | ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: ProblemInvitationCreateManySenderInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput | ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutSenderInput | ProblemInvitationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput> | ProblemInvitationCreateWithoutReceiverInput[] | ProblemInvitationUncheckedCreateWithoutReceiverInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutReceiverInput | ProblemInvitationCreateOrConnectWithoutReceiverInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput[]
-    createMany?: ProblemInvitationCreateManyReceiverInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput | ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutReceiverInput | ProblemInvitationUpdateManyWithWhereWithoutReceiverInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput> | ProblemCollaborationCreateWithoutParticipantsInput[] | ProblemCollaborationUncheckedCreateWithoutParticipantsInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutParticipantsInput | ProblemCollaborationCreateOrConnectWithoutParticipantsInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput[]
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput | ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput | ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
-  }
-
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -30309,46 +27120,32 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput> | ProblemCollaborationCreateWithoutInitiatorInput[] | ProblemCollaborationUncheckedCreateWithoutInitiatorInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutInitiatorInput | ProblemCollaborationCreateOrConnectWithoutInitiatorInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput[]
-    createMany?: ProblemCollaborationCreateManyInitiatorInputEnvelope
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput | ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput | ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
+  export type DevLogUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput> | DevLogCreateWithoutUserInput[] | DevLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogCreateOrConnectWithoutUserInput | DevLogCreateOrConnectWithoutUserInput[]
+    upsert?: DevLogUpsertWithWhereUniqueWithoutUserInput | DevLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DevLogCreateManyUserInputEnvelope
+    set?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    disconnect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    delete?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    connect?: DevLogWhereUniqueInput | DevLogWhereUniqueInput[]
+    update?: DevLogUpdateWithWhereUniqueWithoutUserInput | DevLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DevLogUpdateManyWithWhereWithoutUserInput | DevLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DevLogScalarWhereInput | DevLogScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutFollowingInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutFollowersInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutFollowingNestedInput = {
-    create?: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowingInput
-    upsert?: UserUpsertWithoutFollowingInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowingInput, UserUpdateWithoutFollowingInput>, UserUncheckedUpdateWithoutFollowingInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutFollowersNestedInput = {
-    create?: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutFollowersInput
-    upsert?: UserUpsertWithoutFollowersInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFollowersInput, UserUpdateWithoutFollowersInput>, UserUncheckedUpdateWithoutFollowersInput>
+  export type DevLogReactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput> | DevLogReactionCreateWithoutUserInput[] | DevLogReactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutUserInput | DevLogReactionCreateOrConnectWithoutUserInput[]
+    upsert?: DevLogReactionUpsertWithWhereUniqueWithoutUserInput | DevLogReactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DevLogReactionCreateManyUserInputEnvelope
+    set?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    disconnect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    delete?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    update?: DevLogReactionUpdateWithWhereUniqueWithoutUserInput | DevLogReactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DevLogReactionUpdateManyWithWhereWithoutUserInput | DevLogReactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
   }
 
   export type ProblemCreatetagsInput = {
@@ -30357,20 +27154,6 @@ export namespace Prisma {
 
   export type ProblemCreateaskedInInput = {
     set: string[]
-  }
-
-  export type ProblemInvitationCreateNestedManyWithoutProblemInput = {
-    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
-    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemCollaborationCreateNestedManyWithoutProblemInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
-    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutProblemsInput = {
@@ -30412,20 +27195,6 @@ export namespace Prisma {
     connectOrCreate?: ProblemDiscussionCreateOrConnectWithoutProblemInput | ProblemDiscussionCreateOrConnectWithoutProblemInput[]
     createMany?: ProblemDiscussionCreateManyProblemInputEnvelope
     connect?: ProblemDiscussionWhereUniqueInput | ProblemDiscussionWhereUniqueInput[]
-  }
-
-  export type ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput = {
-    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
-    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-  }
-
-  export type ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
-    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
   }
 
   export type SubmissionUncheckedCreateNestedManyWithoutProblemInput = {
@@ -30479,34 +27248,6 @@ export namespace Prisma {
   export type ProblemUpdateaskedInInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type ProblemInvitationUpdateManyWithoutProblemNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput | ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput[]
-    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput | ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutProblemInput | ProblemInvitationUpdateManyWithWhereWithoutProblemInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemCollaborationUpdateManyWithoutProblemNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput[]
-    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutProblemInput | ProblemCollaborationUpdateManyWithWhereWithoutProblemInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutProblemsNestedInput = {
@@ -30585,34 +27326,6 @@ export namespace Prisma {
     update?: ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput | ProblemDiscussionUpdateWithWhereUniqueWithoutProblemInput[]
     updateMany?: ProblemDiscussionUpdateManyWithWhereWithoutProblemInput | ProblemDiscussionUpdateManyWithWhereWithoutProblemInput[]
     deleteMany?: ProblemDiscussionScalarWhereInput | ProblemDiscussionScalarWhereInput[]
-  }
-
-  export type ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput = {
-    create?: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput> | ProblemInvitationCreateWithoutProblemInput[] | ProblemInvitationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemInvitationCreateOrConnectWithoutProblemInput | ProblemInvitationCreateOrConnectWithoutProblemInput[]
-    upsert?: ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput | ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput[]
-    createMany?: ProblemInvitationCreateManyProblemInputEnvelope
-    set?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    disconnect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    delete?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    connect?: ProblemInvitationWhereUniqueInput | ProblemInvitationWhereUniqueInput[]
-    update?: ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput | ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput[]
-    updateMany?: ProblemInvitationUpdateManyWithWhereWithoutProblemInput | ProblemInvitationUpdateManyWithWhereWithoutProblemInput[]
-    deleteMany?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-  }
-
-  export type ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput = {
-    create?: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput> | ProblemCollaborationCreateWithoutProblemInput[] | ProblemCollaborationUncheckedCreateWithoutProblemInput[]
-    connectOrCreate?: ProblemCollaborationCreateOrConnectWithoutProblemInput | ProblemCollaborationCreateOrConnectWithoutProblemInput[]
-    upsert?: ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput[]
-    createMany?: ProblemCollaborationCreateManyProblemInputEnvelope
-    set?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    disconnect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    delete?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    connect?: ProblemCollaborationWhereUniqueInput | ProblemCollaborationWhereUniqueInput[]
-    update?: ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput | ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput[]
-    updateMany?: ProblemCollaborationUpdateManyWithWhereWithoutProblemInput | ProblemCollaborationUpdateManyWithWhereWithoutProblemInput[]
-    deleteMany?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
   }
 
   export type SubmissionUncheckedUpdateManyWithoutProblemNestedInput = {
@@ -31233,116 +27946,101 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
-  export type ProblemCreateNestedOneWithoutInvitationsInput = {
-    create?: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
-    connectOrCreate?: ProblemCreateOrConnectWithoutInvitationsInput
-    connect?: ProblemWhereUniqueInput
+  export type DevLogCreatetagsInput = {
+    set: string[]
   }
 
-  export type UserCreateNestedOneWithoutSentInvitationsInput = {
-    create?: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSentInvitationsInput
+  export type UserCreateNestedOneWithoutDevLogsInput = {
+    create?: XOR<UserCreateWithoutDevLogsInput, UserUncheckedCreateWithoutDevLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevLogsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutReceivedInvitationsInput = {
-    create?: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReceivedInvitationsInput
+  export type DevLogReactionCreateNestedManyWithoutDevLogInput = {
+    create?: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput> | DevLogReactionCreateWithoutDevLogInput[] | DevLogReactionUncheckedCreateWithoutDevLogInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutDevLogInput | DevLogReactionCreateOrConnectWithoutDevLogInput[]
+    createMany?: DevLogReactionCreateManyDevLogInputEnvelope
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+  }
+
+  export type DevLogReactionUncheckedCreateNestedManyWithoutDevLogInput = {
+    create?: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput> | DevLogReactionCreateWithoutDevLogInput[] | DevLogReactionUncheckedCreateWithoutDevLogInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutDevLogInput | DevLogReactionCreateOrConnectWithoutDevLogInput[]
+    createMany?: DevLogReactionCreateManyDevLogInputEnvelope
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+  }
+
+  export type DevLogUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutDevLogsNestedInput = {
+    create?: XOR<UserCreateWithoutDevLogsInput, UserUncheckedCreateWithoutDevLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevLogsInput
+    upsert?: UserUpsertWithoutDevLogsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDevLogsInput, UserUpdateWithoutDevLogsInput>, UserUncheckedUpdateWithoutDevLogsInput>
+  }
+
+  export type DevLogReactionUpdateManyWithoutDevLogNestedInput = {
+    create?: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput> | DevLogReactionCreateWithoutDevLogInput[] | DevLogReactionUncheckedCreateWithoutDevLogInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutDevLogInput | DevLogReactionCreateOrConnectWithoutDevLogInput[]
+    upsert?: DevLogReactionUpsertWithWhereUniqueWithoutDevLogInput | DevLogReactionUpsertWithWhereUniqueWithoutDevLogInput[]
+    createMany?: DevLogReactionCreateManyDevLogInputEnvelope
+    set?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    disconnect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    delete?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    update?: DevLogReactionUpdateWithWhereUniqueWithoutDevLogInput | DevLogReactionUpdateWithWhereUniqueWithoutDevLogInput[]
+    updateMany?: DevLogReactionUpdateManyWithWhereWithoutDevLogInput | DevLogReactionUpdateManyWithWhereWithoutDevLogInput[]
+    deleteMany?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
+  }
+
+  export type DevLogReactionUncheckedUpdateManyWithoutDevLogNestedInput = {
+    create?: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput> | DevLogReactionCreateWithoutDevLogInput[] | DevLogReactionUncheckedCreateWithoutDevLogInput[]
+    connectOrCreate?: DevLogReactionCreateOrConnectWithoutDevLogInput | DevLogReactionCreateOrConnectWithoutDevLogInput[]
+    upsert?: DevLogReactionUpsertWithWhereUniqueWithoutDevLogInput | DevLogReactionUpsertWithWhereUniqueWithoutDevLogInput[]
+    createMany?: DevLogReactionCreateManyDevLogInputEnvelope
+    set?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    disconnect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    delete?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    connect?: DevLogReactionWhereUniqueInput | DevLogReactionWhereUniqueInput[]
+    update?: DevLogReactionUpdateWithWhereUniqueWithoutDevLogInput | DevLogReactionUpdateWithWhereUniqueWithoutDevLogInput[]
+    updateMany?: DevLogReactionUpdateManyWithWhereWithoutDevLogInput | DevLogReactionUpdateManyWithWhereWithoutDevLogInput[]
+    deleteMany?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutDevLogReactionsInput = {
+    create?: XOR<UserCreateWithoutDevLogReactionsInput, UserUncheckedCreateWithoutDevLogReactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevLogReactionsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type EnumInvitationStatusFieldUpdateOperationsInput = {
-    set?: $Enums.InvitationStatus
+  export type DevLogCreateNestedOneWithoutReactionsInput = {
+    create?: XOR<DevLogCreateWithoutReactionsInput, DevLogUncheckedCreateWithoutReactionsInput>
+    connectOrCreate?: DevLogCreateOrConnectWithoutReactionsInput
+    connect?: DevLogWhereUniqueInput
   }
 
-  export type ProblemUpdateOneRequiredWithoutInvitationsNestedInput = {
-    create?: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
-    connectOrCreate?: ProblemCreateOrConnectWithoutInvitationsInput
-    upsert?: ProblemUpsertWithoutInvitationsInput
-    connect?: ProblemWhereUniqueInput
-    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutInvitationsInput, ProblemUpdateWithoutInvitationsInput>, ProblemUncheckedUpdateWithoutInvitationsInput>
+  export type EnumReactionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ReactionType
   }
 
-  export type UserUpdateOneRequiredWithoutSentInvitationsNestedInput = {
-    create?: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSentInvitationsInput
-    upsert?: UserUpsertWithoutSentInvitationsInput
+  export type UserUpdateOneRequiredWithoutDevLogReactionsNestedInput = {
+    create?: XOR<UserCreateWithoutDevLogReactionsInput, UserUncheckedCreateWithoutDevLogReactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevLogReactionsInput
+    upsert?: UserUpsertWithoutDevLogReactionsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentInvitationsInput, UserUpdateWithoutSentInvitationsInput>, UserUncheckedUpdateWithoutSentInvitationsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDevLogReactionsInput, UserUpdateWithoutDevLogReactionsInput>, UserUncheckedUpdateWithoutDevLogReactionsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput = {
-    create?: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReceivedInvitationsInput
-    upsert?: UserUpsertWithoutReceivedInvitationsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedInvitationsInput, UserUpdateWithoutReceivedInvitationsInput>, UserUncheckedUpdateWithoutReceivedInvitationsInput>
-  }
-
-  export type ProblemCreateNestedOneWithoutCollaborationsInput = {
-    create?: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
-    connectOrCreate?: ProblemCreateOrConnectWithoutCollaborationsInput
-    connect?: ProblemWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutInitiatedCollaborationsInput = {
-    create?: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInitiatedCollaborationsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserCreateNestedManyWithoutParticipatingCollaborationsInput = {
-    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput = {
-    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type ProblemUpdateOneRequiredWithoutCollaborationsNestedInput = {
-    create?: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
-    connectOrCreate?: ProblemCreateOrConnectWithoutCollaborationsInput
-    upsert?: ProblemUpsertWithoutCollaborationsInput
-    connect?: ProblemWhereUniqueInput
-    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutCollaborationsInput, ProblemUpdateWithoutCollaborationsInput>, ProblemUncheckedUpdateWithoutCollaborationsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput = {
-    create?: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInitiatedCollaborationsInput
-    upsert?: UserUpsertWithoutInitiatedCollaborationsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInitiatedCollaborationsInput, UserUpdateWithoutInitiatedCollaborationsInput>, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
-  }
-
-  export type UserUpdateManyWithoutParticipatingCollaborationsNestedInput = {
-    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput | UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput = {
-    create?: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput> | UserCreateWithoutParticipatingCollaborationsInput[] | UserUncheckedCreateWithoutParticipatingCollaborationsInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutParticipatingCollaborationsInput | UserCreateOrConnectWithoutParticipatingCollaborationsInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput | UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput | UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type DevLogUpdateOneRequiredWithoutReactionsNestedInput = {
+    create?: XOR<DevLogCreateWithoutReactionsInput, DevLogUncheckedCreateWithoutReactionsInput>
+    connectOrCreate?: DevLogCreateOrConnectWithoutReactionsInput
+    upsert?: DevLogUpsertWithoutReactionsInput
+    connect?: DevLogWhereUniqueInput
+    update?: XOR<XOR<DevLogUpdateToOneWithWhereWithoutReactionsInput, DevLogUpdateWithoutReactionsInput>, DevLogUncheckedUpdateWithoutReactionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -31508,29 +28206,6 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
   }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -31566,6 +28241,29 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDifficultyFilter<$PrismaModel>
     _max?: NestedEnumDifficultyFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -31637,65 +28335,21 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumInvitationStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvitationStatusFilter<$PrismaModel> | $Enums.InvitationStatus
+  export type NestedEnumReactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReactionTypeFilter<$PrismaModel> | $Enums.ReactionType
   }
 
-  export type NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvitationStatus | EnumInvitationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvitationStatus[] | ListEnumInvitationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvitationStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvitationStatus
+  export type NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReactionType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumInvitationStatusFilter<$PrismaModel>
-    _max?: NestedEnumInvitationStatusFilter<$PrismaModel>
-  }
-
-  export type FollowCreateWithoutFollowingInput = {
-    id?: string
-    createdAt?: Date | string
-    follower: UserCreateNestedOneWithoutFollowingInput
-  }
-
-  export type FollowUncheckedCreateWithoutFollowingInput = {
-    id?: string
-    followerId: string
-    createdAt?: Date | string
-  }
-
-  export type FollowCreateOrConnectWithoutFollowingInput = {
-    where: FollowWhereUniqueInput
-    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
-  }
-
-  export type FollowCreateManyFollowingInputEnvelope = {
-    data: FollowCreateManyFollowingInput | FollowCreateManyFollowingInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FollowCreateWithoutFollowerInput = {
-    id?: string
-    createdAt?: Date | string
-    following: UserCreateNestedOneWithoutFollowersInput
-  }
-
-  export type FollowUncheckedCreateWithoutFollowerInput = {
-    id?: string
-    followingId: string
-    createdAt?: Date | string
-  }
-
-  export type FollowCreateOrConnectWithoutFollowerInput = {
-    where: FollowWhereUniqueInput
-    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
-  }
-
-  export type FollowCreateManyFollowerInputEnvelope = {
-    data: FollowCreateManyFollowerInput | FollowCreateManyFollowerInput[]
-    skipDuplicates?: boolean
+    _min?: NestedEnumReactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumReactionTypeFilter<$PrismaModel>
   }
 
   export type ProblemCreateWithoutUserInput = {
@@ -31717,8 +28371,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -31745,8 +28397,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -31998,93 +28648,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProblemInvitationCreateWithoutSenderInput = {
-    id?: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutInvitationsInput
-    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
-  }
-
-  export type ProblemInvitationUncheckedCreateWithoutSenderInput = {
-    id?: string
-    problemId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProblemInvitationCreateOrConnectWithoutSenderInput = {
-    where: ProblemInvitationWhereUniqueInput
-    create: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput>
-  }
-
-  export type ProblemInvitationCreateManySenderInputEnvelope = {
-    data: ProblemInvitationCreateManySenderInput | ProblemInvitationCreateManySenderInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ProblemInvitationCreateWithoutReceiverInput = {
-    id?: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutInvitationsInput
-    sender: UserCreateNestedOneWithoutSentInvitationsInput
-  }
-
-  export type ProblemInvitationUncheckedCreateWithoutReceiverInput = {
-    id?: string
-    problemId: string
-    senderId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProblemInvitationCreateOrConnectWithoutReceiverInput = {
-    where: ProblemInvitationWhereUniqueInput
-    create: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput>
-  }
-
-  export type ProblemInvitationCreateManyReceiverInputEnvelope = {
-    data: ProblemInvitationCreateManyReceiverInput | ProblemInvitationCreateManyReceiverInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ProblemCollaborationCreateWithoutParticipantsInput = {
-    id?: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutCollaborationsInput
-    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
-  }
-
-  export type ProblemCollaborationUncheckedCreateWithoutParticipantsInput = {
-    id?: string
-    problemId: string
-    initiatorId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProblemCollaborationCreateOrConnectWithoutParticipantsInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    create: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput>
-  }
-
   export type NotificationCreateWithoutUserInput = {
     id?: string
     type: $Enums.NotificationType
@@ -32113,78 +28676,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProblemCollaborationCreateWithoutInitiatorInput = {
+  export type DevLogCreateWithoutUserInput = {
     id?: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    problem: ProblemCreateNestedOneWithoutCollaborationsInput
-    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
+    upvotes?: number
+    reactions?: DevLogReactionCreateNestedManyWithoutDevLogInput
   }
 
-  export type ProblemCollaborationUncheckedCreateWithoutInitiatorInput = {
+  export type DevLogUncheckedCreateWithoutUserInput = {
     id?: string
-    problemId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
+    upvotes?: number
+    reactions?: DevLogReactionUncheckedCreateNestedManyWithoutDevLogInput
   }
 
-  export type ProblemCollaborationCreateOrConnectWithoutInitiatorInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    create: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput>
+  export type DevLogCreateOrConnectWithoutUserInput = {
+    where: DevLogWhereUniqueInput
+    create: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput>
   }
 
-  export type ProblemCollaborationCreateManyInitiatorInputEnvelope = {
-    data: ProblemCollaborationCreateManyInitiatorInput | ProblemCollaborationCreateManyInitiatorInput[]
+  export type DevLogCreateManyUserInputEnvelope = {
+    data: DevLogCreateManyUserInput | DevLogCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type FollowUpsertWithWhereUniqueWithoutFollowingInput = {
-    where: FollowWhereUniqueInput
-    update: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
-    create: XOR<FollowCreateWithoutFollowingInput, FollowUncheckedCreateWithoutFollowingInput>
+  export type DevLogReactionCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.ReactionType
+    devLog: DevLogCreateNestedOneWithoutReactionsInput
   }
 
-  export type FollowUpdateWithWhereUniqueWithoutFollowingInput = {
-    where: FollowWhereUniqueInput
-    data: XOR<FollowUpdateWithoutFollowingInput, FollowUncheckedUpdateWithoutFollowingInput>
+  export type DevLogReactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    devLogId: string
+    type: $Enums.ReactionType
   }
 
-  export type FollowUpdateManyWithWhereWithoutFollowingInput = {
-    where: FollowScalarWhereInput
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
+  export type DevLogReactionCreateOrConnectWithoutUserInput = {
+    where: DevLogReactionWhereUniqueInput
+    create: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput>
   }
 
-  export type FollowScalarWhereInput = {
-    AND?: FollowScalarWhereInput | FollowScalarWhereInput[]
-    OR?: FollowScalarWhereInput[]
-    NOT?: FollowScalarWhereInput | FollowScalarWhereInput[]
-    id?: StringFilter<"Follow"> | string
-    followerId?: StringFilter<"Follow"> | string
-    followingId?: StringFilter<"Follow"> | string
-    createdAt?: DateTimeFilter<"Follow"> | Date | string
-  }
-
-  export type FollowUpsertWithWhereUniqueWithoutFollowerInput = {
-    where: FollowWhereUniqueInput
-    update: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
-    create: XOR<FollowCreateWithoutFollowerInput, FollowUncheckedCreateWithoutFollowerInput>
-  }
-
-  export type FollowUpdateWithWhereUniqueWithoutFollowerInput = {
-    where: FollowWhereUniqueInput
-    data: XOR<FollowUpdateWithoutFollowerInput, FollowUncheckedUpdateWithoutFollowerInput>
-  }
-
-  export type FollowUpdateManyWithWhereWithoutFollowerInput = {
-    where: FollowScalarWhereInput
-    data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowerInput>
+  export type DevLogReactionCreateManyUserInputEnvelope = {
+    data: DevLogReactionCreateManyUserInput | DevLogReactionCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProblemUpsertWithWhereUniqueWithoutUserInput = {
@@ -32460,82 +29005,6 @@ export namespace Prisma {
     purchaseDate?: DateTimeFilter<"PlaylistPurchase"> | Date | string
   }
 
-  export type ProblemInvitationUpsertWithWhereUniqueWithoutSenderInput = {
-    where: ProblemInvitationWhereUniqueInput
-    update: XOR<ProblemInvitationUpdateWithoutSenderInput, ProblemInvitationUncheckedUpdateWithoutSenderInput>
-    create: XOR<ProblemInvitationCreateWithoutSenderInput, ProblemInvitationUncheckedCreateWithoutSenderInput>
-  }
-
-  export type ProblemInvitationUpdateWithWhereUniqueWithoutSenderInput = {
-    where: ProblemInvitationWhereUniqueInput
-    data: XOR<ProblemInvitationUpdateWithoutSenderInput, ProblemInvitationUncheckedUpdateWithoutSenderInput>
-  }
-
-  export type ProblemInvitationUpdateManyWithWhereWithoutSenderInput = {
-    where: ProblemInvitationScalarWhereInput
-    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutSenderInput>
-  }
-
-  export type ProblemInvitationScalarWhereInput = {
-    AND?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-    OR?: ProblemInvitationScalarWhereInput[]
-    NOT?: ProblemInvitationScalarWhereInput | ProblemInvitationScalarWhereInput[]
-    id?: StringFilter<"ProblemInvitation"> | string
-    problemId?: StringFilter<"ProblemInvitation"> | string
-    senderId?: StringFilter<"ProblemInvitation"> | string
-    receiverId?: StringFilter<"ProblemInvitation"> | string
-    status?: EnumInvitationStatusFilter<"ProblemInvitation"> | $Enums.InvitationStatus
-    message?: StringNullableFilter<"ProblemInvitation"> | string | null
-    createdAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemInvitation"> | Date | string
-  }
-
-  export type ProblemInvitationUpsertWithWhereUniqueWithoutReceiverInput = {
-    where: ProblemInvitationWhereUniqueInput
-    update: XOR<ProblemInvitationUpdateWithoutReceiverInput, ProblemInvitationUncheckedUpdateWithoutReceiverInput>
-    create: XOR<ProblemInvitationCreateWithoutReceiverInput, ProblemInvitationUncheckedCreateWithoutReceiverInput>
-  }
-
-  export type ProblemInvitationUpdateWithWhereUniqueWithoutReceiverInput = {
-    where: ProblemInvitationWhereUniqueInput
-    data: XOR<ProblemInvitationUpdateWithoutReceiverInput, ProblemInvitationUncheckedUpdateWithoutReceiverInput>
-  }
-
-  export type ProblemInvitationUpdateManyWithWhereWithoutReceiverInput = {
-    where: ProblemInvitationScalarWhereInput
-    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutReceiverInput>
-  }
-
-  export type ProblemCollaborationUpsertWithWhereUniqueWithoutParticipantsInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    update: XOR<ProblemCollaborationUpdateWithoutParticipantsInput, ProblemCollaborationUncheckedUpdateWithoutParticipantsInput>
-    create: XOR<ProblemCollaborationCreateWithoutParticipantsInput, ProblemCollaborationUncheckedCreateWithoutParticipantsInput>
-  }
-
-  export type ProblemCollaborationUpdateWithWhereUniqueWithoutParticipantsInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    data: XOR<ProblemCollaborationUpdateWithoutParticipantsInput, ProblemCollaborationUncheckedUpdateWithoutParticipantsInput>
-  }
-
-  export type ProblemCollaborationUpdateManyWithWhereWithoutParticipantsInput = {
-    where: ProblemCollaborationScalarWhereInput
-    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutParticipantsInput>
-  }
-
-  export type ProblemCollaborationScalarWhereInput = {
-    AND?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
-    OR?: ProblemCollaborationScalarWhereInput[]
-    NOT?: ProblemCollaborationScalarWhereInput | ProblemCollaborationScalarWhereInput[]
-    id?: StringFilter<"ProblemCollaboration"> | string
-    problemId?: StringFilter<"ProblemCollaboration"> | string
-    initiatorId?: StringFilter<"ProblemCollaboration"> | string
-    maxParticipants?: IntFilter<"ProblemCollaboration"> | number
-    currentCode?: StringFilter<"ProblemCollaboration"> | string
-    language?: StringFilter<"ProblemCollaboration"> | string
-    createdAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-    updatedAt?: DateTimeFilter<"ProblemCollaboration"> | Date | string
-  }
-
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
     where: NotificationWhereUniqueInput
     update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
@@ -32565,426 +29034,61 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
-  export type ProblemCollaborationUpsertWithWhereUniqueWithoutInitiatorInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    update: XOR<ProblemCollaborationUpdateWithoutInitiatorInput, ProblemCollaborationUncheckedUpdateWithoutInitiatorInput>
-    create: XOR<ProblemCollaborationCreateWithoutInitiatorInput, ProblemCollaborationUncheckedCreateWithoutInitiatorInput>
+  export type DevLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: DevLogWhereUniqueInput
+    update: XOR<DevLogUpdateWithoutUserInput, DevLogUncheckedUpdateWithoutUserInput>
+    create: XOR<DevLogCreateWithoutUserInput, DevLogUncheckedCreateWithoutUserInput>
   }
 
-  export type ProblemCollaborationUpdateWithWhereUniqueWithoutInitiatorInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    data: XOR<ProblemCollaborationUpdateWithoutInitiatorInput, ProblemCollaborationUncheckedUpdateWithoutInitiatorInput>
+  export type DevLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: DevLogWhereUniqueInput
+    data: XOR<DevLogUpdateWithoutUserInput, DevLogUncheckedUpdateWithoutUserInput>
   }
 
-  export type ProblemCollaborationUpdateManyWithWhereWithoutInitiatorInput = {
-    where: ProblemCollaborationScalarWhereInput
-    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutInitiatorInput>
+  export type DevLogUpdateManyWithWhereWithoutUserInput = {
+    where: DevLogScalarWhereInput
+    data: XOR<DevLogUpdateManyMutationInput, DevLogUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type UserCreateWithoutFollowingInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  export type DevLogScalarWhereInput = {
+    AND?: DevLogScalarWhereInput | DevLogScalarWhereInput[]
+    OR?: DevLogScalarWhereInput[]
+    NOT?: DevLogScalarWhereInput | DevLogScalarWhereInput[]
+    id?: StringFilter<"DevLog"> | string
+    userId?: StringFilter<"DevLog"> | string
+    title?: StringFilter<"DevLog"> | string
+    tags?: StringNullableListFilter<"DevLog">
+    description?: StringFilter<"DevLog"> | string
+    isAnonymous?: BoolFilter<"DevLog"> | boolean
+    createdAt?: DateTimeFilter<"DevLog"> | Date | string
+    updatedAt?: DateTimeFilter<"DevLog"> | Date | string
+    upvotes?: IntFilter<"DevLog"> | number
   }
 
-  export type UserUncheckedCreateWithoutFollowingInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+  export type DevLogReactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: DevLogReactionWhereUniqueInput
+    update: XOR<DevLogReactionUpdateWithoutUserInput, DevLogReactionUncheckedUpdateWithoutUserInput>
+    create: XOR<DevLogReactionCreateWithoutUserInput, DevLogReactionUncheckedCreateWithoutUserInput>
   }
 
-  export type UserCreateOrConnectWithoutFollowingInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
+  export type DevLogReactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: DevLogReactionWhereUniqueInput
+    data: XOR<DevLogReactionUpdateWithoutUserInput, DevLogReactionUncheckedUpdateWithoutUserInput>
   }
 
-  export type UserCreateWithoutFollowersInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    following?: FollowCreateNestedManyWithoutFollowerInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  export type DevLogReactionUpdateManyWithWhereWithoutUserInput = {
+    where: DevLogReactionScalarWhereInput
+    data: XOR<DevLogReactionUpdateManyMutationInput, DevLogReactionUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type UserUncheckedCreateWithoutFollowersInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserCreateOrConnectWithoutFollowersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
-  }
-
-  export type UserUpsertWithoutFollowingInput = {
-    update: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
-    create: XOR<UserCreateWithoutFollowingInput, UserUncheckedCreateWithoutFollowingInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutFollowingInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutFollowingInput, UserUncheckedUpdateWithoutFollowingInput>
-  }
-
-  export type UserUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
-  }
-
-  export type UserUpsertWithoutFollowersInput = {
-    update: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
-    create: XOR<UserCreateWithoutFollowersInput, UserUncheckedCreateWithoutFollowersInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutFollowersInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutFollowersInput, UserUncheckedUpdateWithoutFollowersInput>
-  }
-
-  export type UserUpdateWithoutFollowersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    following?: FollowUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutFollowersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
-  }
-
-  export type ProblemInvitationCreateWithoutProblemInput = {
-    id?: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sender: UserCreateNestedOneWithoutSentInvitationsInput
-    receiver: UserCreateNestedOneWithoutReceivedInvitationsInput
-  }
-
-  export type ProblemInvitationUncheckedCreateWithoutProblemInput = {
-    id?: string
-    senderId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProblemInvitationCreateOrConnectWithoutProblemInput = {
-    where: ProblemInvitationWhereUniqueInput
-    create: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput>
-  }
-
-  export type ProblemInvitationCreateManyProblemInputEnvelope = {
-    data: ProblemInvitationCreateManyProblemInput | ProblemInvitationCreateManyProblemInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ProblemCollaborationCreateWithoutProblemInput = {
-    id?: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    initiator: UserCreateNestedOneWithoutInitiatedCollaborationsInput
-    participants?: UserCreateNestedManyWithoutParticipatingCollaborationsInput
-  }
-
-  export type ProblemCollaborationUncheckedCreateWithoutProblemInput = {
-    id?: string
-    initiatorId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    participants?: UserUncheckedCreateNestedManyWithoutParticipatingCollaborationsInput
-  }
-
-  export type ProblemCollaborationCreateOrConnectWithoutProblemInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    create: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput>
-  }
-
-  export type ProblemCollaborationCreateManyProblemInputEnvelope = {
-    data: ProblemCollaborationCreateManyProblemInput | ProblemCollaborationCreateManyProblemInput[]
-    skipDuplicates?: boolean
+  export type DevLogReactionScalarWhereInput = {
+    AND?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
+    OR?: DevLogReactionScalarWhereInput[]
+    NOT?: DevLogReactionScalarWhereInput | DevLogReactionScalarWhereInput[]
+    id?: StringFilter<"DevLogReaction"> | string
+    devLogId?: StringFilter<"DevLogReaction"> | string
+    userId?: StringFilter<"DevLogReaction"> | string
+    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
   }
 
   export type UserCreateWithoutProblemsInput = {
@@ -33004,13 +29108,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -33019,11 +29118,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProblemsInput = {
@@ -33043,13 +29140,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -33058,11 +29150,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProblemsInput = {
@@ -33214,38 +29304,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProblemInvitationUpsertWithWhereUniqueWithoutProblemInput = {
-    where: ProblemInvitationWhereUniqueInput
-    update: XOR<ProblemInvitationUpdateWithoutProblemInput, ProblemInvitationUncheckedUpdateWithoutProblemInput>
-    create: XOR<ProblemInvitationCreateWithoutProblemInput, ProblemInvitationUncheckedCreateWithoutProblemInput>
-  }
-
-  export type ProblemInvitationUpdateWithWhereUniqueWithoutProblemInput = {
-    where: ProblemInvitationWhereUniqueInput
-    data: XOR<ProblemInvitationUpdateWithoutProblemInput, ProblemInvitationUncheckedUpdateWithoutProblemInput>
-  }
-
-  export type ProblemInvitationUpdateManyWithWhereWithoutProblemInput = {
-    where: ProblemInvitationScalarWhereInput
-    data: XOR<ProblemInvitationUpdateManyMutationInput, ProblemInvitationUncheckedUpdateManyWithoutProblemInput>
-  }
-
-  export type ProblemCollaborationUpsertWithWhereUniqueWithoutProblemInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    update: XOR<ProblemCollaborationUpdateWithoutProblemInput, ProblemCollaborationUncheckedUpdateWithoutProblemInput>
-    create: XOR<ProblemCollaborationCreateWithoutProblemInput, ProblemCollaborationUncheckedCreateWithoutProblemInput>
-  }
-
-  export type ProblemCollaborationUpdateWithWhereUniqueWithoutProblemInput = {
-    where: ProblemCollaborationWhereUniqueInput
-    data: XOR<ProblemCollaborationUpdateWithoutProblemInput, ProblemCollaborationUncheckedUpdateWithoutProblemInput>
-  }
-
-  export type ProblemCollaborationUpdateManyWithWhereWithoutProblemInput = {
-    where: ProblemCollaborationScalarWhereInput
-    data: XOR<ProblemCollaborationUpdateManyMutationInput, ProblemCollaborationUncheckedUpdateManyWithoutProblemInput>
-  }
-
   export type UserUpsertWithoutProblemsInput = {
     update: XOR<UserUpdateWithoutProblemsInput, UserUncheckedUpdateWithoutProblemsInput>
     create: XOR<UserCreateWithoutProblemsInput, UserUncheckedCreateWithoutProblemsInput>
@@ -33274,13 +29332,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -33289,11 +29342,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemsInput = {
@@ -33313,13 +29364,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -33328,11 +29374,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SubmissionUpsertWithWhereUniqueWithoutProblemInput = {
@@ -33453,13 +29497,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -33468,11 +29507,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -33492,13 +29529,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -33507,11 +29539,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -33538,8 +29568,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -33567,8 +29595,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -33648,13 +29674,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -33663,11 +29684,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -33687,13 +29706,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -33702,11 +29716,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemUpsertWithoutSubmissionInput = {
@@ -33739,8 +29751,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -33768,8 +29778,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -33912,13 +29920,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     playlists?: PlaylistCreateNestedManyWithoutUserInput
@@ -33927,11 +29930,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProblemSolvedInput = {
@@ -33951,13 +29952,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
@@ -33966,11 +29962,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProblemSolvedInput = {
@@ -33997,8 +29991,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
@@ -34026,8 +30018,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -34067,13 +30057,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUpdateManyWithoutUserNestedInput
@@ -34082,11 +30067,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemSolvedInput = {
@@ -34106,13 +30089,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
@@ -34121,11 +30099,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemUpsertWithoutSolvedByInput = {
@@ -34158,8 +30134,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -34187,8 +30161,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -34264,13 +30236,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -34279,11 +30246,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistsInput = {
@@ -34303,13 +30268,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -34318,11 +30278,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistsInput = {
@@ -34390,13 +30348,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -34405,11 +30358,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
@@ -34429,13 +30380,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -34444,11 +30390,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPlaylistPurchasesInput = {
@@ -34468,13 +30412,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -34483,11 +30422,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistPurchasesInput = {
@@ -34507,13 +30444,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -34522,11 +30454,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistPurchasesInput = {
@@ -34591,13 +30521,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -34606,11 +30531,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistPurchasesInput = {
@@ -34630,13 +30553,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -34645,11 +30563,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlaylistUpsertWithoutPurchasesInput = {
@@ -34735,8 +30651,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -34764,8 +30678,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
@@ -34842,8 +30754,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -34871,8 +30781,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
@@ -34898,8 +30806,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -34927,8 +30833,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -34957,13 +30861,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -34972,11 +30871,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmittedReportsInput = {
@@ -34996,13 +30893,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -35011,11 +30903,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmittedReportsInput = {
@@ -35053,8 +30943,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -35082,8 +30970,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -35118,13 +31004,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -35133,11 +31014,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmittedReportsInput = {
@@ -35157,13 +31036,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -35172,11 +31046,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemCreateWithoutDiscussionsInput = {
@@ -35198,8 +31070,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
@@ -35227,8 +31097,6 @@ export namespace Prisma {
     dislikes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
@@ -35300,8 +31168,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
@@ -35329,8 +31195,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -35389,13 +31253,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -35404,11 +31263,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionMessagesInput = {
@@ -35428,13 +31285,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -35443,11 +31295,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionMessagesInput = {
@@ -35554,13 +31404,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -35569,11 +31414,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionMessagesInput = {
@@ -35593,13 +31436,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -35608,11 +31446,9 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscussionReplyUpsertWithWhereUniqueWithoutMessageInput = {
@@ -35689,13 +31525,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -35704,11 +31535,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionRepliesInput = {
@@ -35728,13 +31557,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -35743,11 +31567,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionRepliesInput = {
@@ -35814,13 +31636,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -35829,11 +31646,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionRepliesInput = {
@@ -35853,13 +31668,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -35868,11 +31678,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDiscussionUpvotesInput = {
@@ -35892,13 +31700,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -35907,11 +31710,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiscussionUpvotesInput = {
@@ -35931,13 +31732,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -35946,11 +31742,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiscussionUpvotesInput = {
@@ -36011,13 +31805,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -36026,11 +31815,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussionUpvotesInput = {
@@ -36050,13 +31837,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -36065,11 +31847,9 @@ export namespace Prisma {
     discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscussionMessageUpsertWithoutUpvotesInput = {
@@ -36120,13 +31900,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
     problems?: ProblemCreateNestedManyWithoutUserInput
     submission?: SubmissionCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
@@ -36136,10 +31911,8 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -36159,13 +31932,8 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
@@ -36175,10 +31943,8 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
     discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
     playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -36214,13 +31980,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -36230,10 +31991,8 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -36253,13 +32012,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -36269,318 +32023,113 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type ProblemCreateWithoutInvitationsInput = {
+  export type UserCreateWithoutDevLogsInput = {
     id?: string
-    title: string
-    description: string
-    difficulty: $Enums.Difficulty
-    tags?: ProblemCreatetagsInput | string[]
-    examples: JsonNullValueInput | InputJsonValue
-    constraints: string
-    hints?: string | null
-    editorial?: string | null
-    testcases: JsonNullValueInput | InputJsonValue
-    codeSnippets: JsonNullValueInput | InputJsonValue
-    referenceSolutions: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    askedIn?: ProblemCreateaskedInInput | string[]
-    likes?: number
-    dislikes?: number
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collaborations?: ProblemCollaborationCreateNestedManyWithoutProblemInput
-    user: UserCreateNestedOneWithoutProblemsInput
-    submission?: SubmissionCreateNestedManyWithoutProblemInput
-    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
-    problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
-    reports?: ProblemReportCreateNestedManyWithoutProblemInput
-    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionCreateNestedManyWithoutUserInput
   }
 
-  export type ProblemUncheckedCreateWithoutInvitationsInput = {
+  export type UserUncheckedCreateWithoutDevLogsInput = {
     id?: string
-    title: string
-    description: string
-    difficulty: $Enums.Difficulty
-    tags?: ProblemCreatetagsInput | string[]
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    devLogReactions?: DevLogReactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDevLogsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDevLogsInput, UserUncheckedCreateWithoutDevLogsInput>
+  }
+
+  export type DevLogReactionCreateWithoutDevLogInput = {
+    id?: string
+    type: $Enums.ReactionType
+    user: UserCreateNestedOneWithoutDevLogReactionsInput
+  }
+
+  export type DevLogReactionUncheckedCreateWithoutDevLogInput = {
+    id?: string
     userId: string
-    examples: JsonNullValueInput | InputJsonValue
-    constraints: string
-    hints?: string | null
-    editorial?: string | null
-    testcases: JsonNullValueInput | InputJsonValue
-    codeSnippets: JsonNullValueInput | InputJsonValue
-    referenceSolutions: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    askedIn?: ProblemCreateaskedInInput | string[]
-    likes?: number
-    dislikes?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutProblemInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
-    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
-    problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
-    reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
-    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
+    type: $Enums.ReactionType
   }
 
-  export type ProblemCreateOrConnectWithoutInvitationsInput = {
-    where: ProblemWhereUniqueInput
-    create: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
+  export type DevLogReactionCreateOrConnectWithoutDevLogInput = {
+    where: DevLogReactionWhereUniqueInput
+    create: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput>
   }
 
-  export type UserCreateWithoutSentInvitationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
+  export type DevLogReactionCreateManyDevLogInputEnvelope = {
+    data: DevLogReactionCreateManyDevLogInput | DevLogReactionCreateManyDevLogInput[]
+    skipDuplicates?: boolean
   }
 
-  export type UserUncheckedCreateWithoutSentInvitationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserCreateOrConnectWithoutSentInvitationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
-  }
-
-  export type UserCreateWithoutReceivedInvitationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserUncheckedCreateWithoutReceivedInvitationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserCreateOrConnectWithoutReceivedInvitationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
-  }
-
-  export type ProblemUpsertWithoutInvitationsInput = {
-    update: XOR<ProblemUpdateWithoutInvitationsInput, ProblemUncheckedUpdateWithoutInvitationsInput>
-    create: XOR<ProblemCreateWithoutInvitationsInput, ProblemUncheckedCreateWithoutInvitationsInput>
-    where?: ProblemWhereInput
-  }
-
-  export type ProblemUpdateToOneWithWhereWithoutInvitationsInput = {
-    where?: ProblemWhereInput
-    data: XOR<ProblemUpdateWithoutInvitationsInput, ProblemUncheckedUpdateWithoutInvitationsInput>
-  }
-
-  export type ProblemUpdateWithoutInvitationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-    tags?: ProblemUpdatetagsInput | string[]
-    examples?: JsonNullValueInput | InputJsonValue
-    constraints?: StringFieldUpdateOperationsInput | string
-    hints?: NullableStringFieldUpdateOperationsInput | string | null
-    editorial?: NullableStringFieldUpdateOperationsInput | string | null
-    testcases?: JsonNullValueInput | InputJsonValue
-    codeSnippets?: JsonNullValueInput | InputJsonValue
-    referenceSolutions?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    askedIn?: ProblemUpdateaskedInInput | string[]
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
-    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
-    submission?: SubmissionUpdateManyWithoutProblemNestedInput
-    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
-    problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
-    reports?: ProblemReportUpdateManyWithoutProblemNestedInput
-    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
-  }
-
-  export type ProblemUncheckedUpdateWithoutInvitationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-    tags?: ProblemUpdatetagsInput | string[]
-    userId?: StringFieldUpdateOperationsInput | string
-    examples?: JsonNullValueInput | InputJsonValue
-    constraints?: StringFieldUpdateOperationsInput | string
-    hints?: NullableStringFieldUpdateOperationsInput | string | null
-    editorial?: NullableStringFieldUpdateOperationsInput | string | null
-    testcases?: JsonNullValueInput | InputJsonValue
-    codeSnippets?: JsonNullValueInput | InputJsonValue
-    referenceSolutions?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    askedIn?: ProblemUpdateaskedInInput | string[]
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
-    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
-    problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
-    reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
-    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
-  }
-
-  export type UserUpsertWithoutSentInvitationsInput = {
-    update: XOR<UserUpdateWithoutSentInvitationsInput, UserUncheckedUpdateWithoutSentInvitationsInput>
-    create: XOR<UserCreateWithoutSentInvitationsInput, UserUncheckedCreateWithoutSentInvitationsInput>
+  export type UserUpsertWithoutDevLogsInput = {
+    update: XOR<UserUpdateWithoutDevLogsInput, UserUncheckedUpdateWithoutDevLogsInput>
+    create: XOR<UserCreateWithoutDevLogsInput, UserUncheckedCreateWithoutDevLogsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSentInvitationsInput = {
+  export type UserUpdateToOneWithWhereWithoutDevLogsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSentInvitationsInput, UserUncheckedUpdateWithoutSentInvitationsInput>
+    data: XOR<UserUpdateWithoutDevLogsInput, UserUncheckedUpdateWithoutDevLogsInput>
   }
 
-  export type UserUpdateWithoutSentInvitationsInput = {
+  export type UserUpdateWithoutDevLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -36597,13 +32146,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -36613,13 +32157,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+    devLogReactions?: DevLogReactionUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutSentInvitationsInput = {
+  export type UserUncheckedUpdateWithoutDevLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -36636,13 +32178,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -36652,407 +32189,136 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    devLogReactions?: DevLogReactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUpsertWithoutReceivedInvitationsInput = {
-    update: XOR<UserUpdateWithoutReceivedInvitationsInput, UserUncheckedUpdateWithoutReceivedInvitationsInput>
-    create: XOR<UserCreateWithoutReceivedInvitationsInput, UserUncheckedCreateWithoutReceivedInvitationsInput>
-    where?: UserWhereInput
+  export type DevLogReactionUpsertWithWhereUniqueWithoutDevLogInput = {
+    where: DevLogReactionWhereUniqueInput
+    update: XOR<DevLogReactionUpdateWithoutDevLogInput, DevLogReactionUncheckedUpdateWithoutDevLogInput>
+    create: XOR<DevLogReactionCreateWithoutDevLogInput, DevLogReactionUncheckedCreateWithoutDevLogInput>
   }
 
-  export type UserUpdateToOneWithWhereWithoutReceivedInvitationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutReceivedInvitationsInput, UserUncheckedUpdateWithoutReceivedInvitationsInput>
+  export type DevLogReactionUpdateWithWhereUniqueWithoutDevLogInput = {
+    where: DevLogReactionWhereUniqueInput
+    data: XOR<DevLogReactionUpdateWithoutDevLogInput, DevLogReactionUncheckedUpdateWithoutDevLogInput>
   }
 
-  export type UserUpdateWithoutReceivedInvitationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  export type DevLogReactionUpdateManyWithWhereWithoutDevLogInput = {
+    where: DevLogReactionScalarWhereInput
+    data: XOR<DevLogReactionUpdateManyMutationInput, DevLogReactionUncheckedUpdateManyWithoutDevLogInput>
   }
 
-  export type UserUncheckedUpdateWithoutReceivedInvitationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
-  }
-
-  export type ProblemCreateWithoutCollaborationsInput = {
+  export type UserCreateWithoutDevLogReactionsInput = {
     id?: string
-    title: string
-    description: string
-    difficulty: $Enums.Difficulty
-    tags?: ProblemCreatetagsInput | string[]
-    examples: JsonNullValueInput | InputJsonValue
-    constraints: string
-    hints?: string | null
-    editorial?: string | null
-    testcases: JsonNullValueInput | InputJsonValue
-    codeSnippets: JsonNullValueInput | InputJsonValue
-    referenceSolutions: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    askedIn?: ProblemCreateaskedInInput | string[]
-    likes?: number
-    dislikes?: number
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationCreateNestedManyWithoutProblemInput
-    user: UserCreateNestedOneWithoutProblemsInput
-    submission?: SubmissionCreateNestedManyWithoutProblemInput
-    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
-    problemsPlaylists?: ProblemInPlaylistCreateNestedManyWithoutProblemInput
-    reports?: ProblemReportCreateNestedManyWithoutProblemInput
-    discussions?: ProblemDiscussionCreateNestedManyWithoutProblemInput
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submission?: SubmissionCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    devLogs?: DevLogCreateNestedManyWithoutUserInput
   }
 
-  export type ProblemUncheckedCreateWithoutCollaborationsInput = {
+  export type UserUncheckedCreateWithoutDevLogReactionsInput = {
+    id?: string
+    name: string
+    username: string
+    bio?: string | null
+    linkedin?: string | null
+    portfolio?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.UserRole
+    password: string
+    forgotPasswordOtp?: string | null
+    forgotPasswordOtpExpiry?: Date | string | null
+    provider?: string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastSolvedDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
+    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
+    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
+    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
+    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    devLogs?: DevLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDevLogReactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDevLogReactionsInput, UserUncheckedCreateWithoutDevLogReactionsInput>
+  }
+
+  export type DevLogCreateWithoutReactionsInput = {
     id?: string
     title: string
+    tags?: DevLogCreatetagsInput | string[]
     description: string
-    difficulty: $Enums.Difficulty
-    tags?: ProblemCreatetagsInput | string[]
+    isAnonymous?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    upvotes?: number
+    user: UserCreateNestedOneWithoutDevLogsInput
+  }
+
+  export type DevLogUncheckedCreateWithoutReactionsInput = {
+    id?: string
     userId: string
-    examples: JsonNullValueInput | InputJsonValue
-    constraints: string
-    hints?: string | null
-    editorial?: string | null
-    testcases: JsonNullValueInput | InputJsonValue
-    codeSnippets: JsonNullValueInput | InputJsonValue
-    referenceSolutions: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    askedIn?: ProblemCreateaskedInInput | string[]
-    likes?: number
-    dislikes?: number
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    invitations?: ProblemInvitationUncheckedCreateNestedManyWithoutProblemInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
-    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
-    problemsPlaylists?: ProblemInPlaylistUncheckedCreateNestedManyWithoutProblemInput
-    reports?: ProblemReportUncheckedCreateNestedManyWithoutProblemInput
-    discussions?: ProblemDiscussionUncheckedCreateNestedManyWithoutProblemInput
+    upvotes?: number
   }
 
-  export type ProblemCreateOrConnectWithoutCollaborationsInput = {
-    where: ProblemWhereUniqueInput
-    create: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
+  export type DevLogCreateOrConnectWithoutReactionsInput = {
+    where: DevLogWhereUniqueInput
+    create: XOR<DevLogCreateWithoutReactionsInput, DevLogUncheckedCreateWithoutReactionsInput>
   }
 
-  export type UserCreateWithoutInitiatedCollaborationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutInitiatedCollaborationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    participatingCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutParticipantsInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutInitiatedCollaborationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
-  }
-
-  export type UserCreateWithoutParticipatingCollaborationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowCreateNestedManyWithoutFollowingInput
-    following?: FollowCreateNestedManyWithoutFollowerInput
-    problems?: ProblemCreateNestedManyWithoutUserInput
-    submission?: SubmissionCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationCreateNestedManyWithoutReceiverInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserUncheckedCreateWithoutParticipatingCollaborationsInput = {
-    id?: string
-    name: string
-    username: string
-    bio?: string | null
-    linkedin?: string | null
-    portfolio?: string | null
-    email: string
-    image?: string | null
-    role?: $Enums.UserRole
-    password: string
-    forgotPasswordOtp?: string | null
-    forgotPasswordOtpExpiry?: Date | string | null
-    provider?: string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastSolvedDate?: Date | string | null
-    followerCount?: number
-    followingCount?: number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
-    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
-    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
-    submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
-    problemSolved?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
-    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
-    submittedReports?: ProblemReportUncheckedCreateNestedManyWithoutUserInput
-    discussionMessages?: DiscussionMessageUncheckedCreateNestedManyWithoutUserInput
-    discussionReplies?: DiscussionReplyUncheckedCreateNestedManyWithoutUserInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedCreateNestedManyWithoutUserInput
-    playlistPurchases?: PlaylistPurchaseUncheckedCreateNestedManyWithoutUserInput
-    sentInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutSenderInput
-    receivedInvitations?: ProblemInvitationUncheckedCreateNestedManyWithoutReceiverInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedCreateNestedManyWithoutInitiatorInput
-  }
-
-  export type UserCreateOrConnectWithoutParticipatingCollaborationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput>
-  }
-
-  export type ProblemUpsertWithoutCollaborationsInput = {
-    update: XOR<ProblemUpdateWithoutCollaborationsInput, ProblemUncheckedUpdateWithoutCollaborationsInput>
-    create: XOR<ProblemCreateWithoutCollaborationsInput, ProblemUncheckedCreateWithoutCollaborationsInput>
-    where?: ProblemWhereInput
-  }
-
-  export type ProblemUpdateToOneWithWhereWithoutCollaborationsInput = {
-    where?: ProblemWhereInput
-    data: XOR<ProblemUpdateWithoutCollaborationsInput, ProblemUncheckedUpdateWithoutCollaborationsInput>
-  }
-
-  export type ProblemUpdateWithoutCollaborationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-    tags?: ProblemUpdatetagsInput | string[]
-    examples?: JsonNullValueInput | InputJsonValue
-    constraints?: StringFieldUpdateOperationsInput | string
-    hints?: NullableStringFieldUpdateOperationsInput | string | null
-    editorial?: NullableStringFieldUpdateOperationsInput | string | null
-    testcases?: JsonNullValueInput | InputJsonValue
-    codeSnippets?: JsonNullValueInput | InputJsonValue
-    referenceSolutions?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    askedIn?: ProblemUpdateaskedInInput | string[]
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
-    submission?: SubmissionUpdateManyWithoutProblemNestedInput
-    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
-    problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
-    reports?: ProblemReportUpdateManyWithoutProblemNestedInput
-    discussions?: ProblemDiscussionUpdateManyWithoutProblemNestedInput
-  }
-
-  export type ProblemUncheckedUpdateWithoutCollaborationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-    tags?: ProblemUpdatetagsInput | string[]
-    userId?: StringFieldUpdateOperationsInput | string
-    examples?: JsonNullValueInput | InputJsonValue
-    constraints?: StringFieldUpdateOperationsInput | string
-    hints?: NullableStringFieldUpdateOperationsInput | string | null
-    editorial?: NullableStringFieldUpdateOperationsInput | string | null
-    testcases?: JsonNullValueInput | InputJsonValue
-    codeSnippets?: JsonNullValueInput | InputJsonValue
-    referenceSolutions?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    askedIn?: ProblemUpdateaskedInInput | string[]
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
-    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
-    problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
-    reports?: ProblemReportUncheckedUpdateManyWithoutProblemNestedInput
-    discussions?: ProblemDiscussionUncheckedUpdateManyWithoutProblemNestedInput
-  }
-
-  export type UserUpsertWithoutInitiatedCollaborationsInput = {
-    update: XOR<UserUpdateWithoutInitiatedCollaborationsInput, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
-    create: XOR<UserCreateWithoutInitiatedCollaborationsInput, UserUncheckedCreateWithoutInitiatedCollaborationsInput>
+  export type UserUpsertWithoutDevLogReactionsInput = {
+    update: XOR<UserUpdateWithoutDevLogReactionsInput, UserUncheckedUpdateWithoutDevLogReactionsInput>
+    create: XOR<UserCreateWithoutDevLogReactionsInput, UserUncheckedCreateWithoutDevLogReactionsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutInitiatedCollaborationsInput = {
+  export type UserUpdateToOneWithWhereWithoutDevLogReactionsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutInitiatedCollaborationsInput, UserUncheckedUpdateWithoutInitiatedCollaborationsInput>
+    data: XOR<UserUpdateWithoutDevLogReactionsInput, UserUncheckedUpdateWithoutDevLogReactionsInput>
   }
 
-  export type UserUpdateWithoutInitiatedCollaborationsInput = {
+  export type UserUpdateWithoutDevLogReactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -37069,13 +32335,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submission?: SubmissionUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
@@ -37085,13 +32346,11 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    devLogs?: DevLogUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutInitiatedCollaborationsInput = {
+  export type UserUncheckedUpdateWithoutDevLogReactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -37108,13 +32367,8 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
@@ -37124,65 +32378,43 @@ export namespace Prisma {
     discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
     discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
     playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    participatingCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutParticipantsNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    devLogs?: DevLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUpsertWithWhereUniqueWithoutParticipatingCollaborationsInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutParticipatingCollaborationsInput, UserUncheckedUpdateWithoutParticipatingCollaborationsInput>
-    create: XOR<UserCreateWithoutParticipatingCollaborationsInput, UserUncheckedCreateWithoutParticipatingCollaborationsInput>
+  export type DevLogUpsertWithoutReactionsInput = {
+    update: XOR<DevLogUpdateWithoutReactionsInput, DevLogUncheckedUpdateWithoutReactionsInput>
+    create: XOR<DevLogCreateWithoutReactionsInput, DevLogUncheckedCreateWithoutReactionsInput>
+    where?: DevLogWhereInput
   }
 
-  export type UserUpdateWithWhereUniqueWithoutParticipatingCollaborationsInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutParticipatingCollaborationsInput, UserUncheckedUpdateWithoutParticipatingCollaborationsInput>
+  export type DevLogUpdateToOneWithWhereWithoutReactionsInput = {
+    where?: DevLogWhereInput
+    data: XOR<DevLogUpdateWithoutReactionsInput, DevLogUncheckedUpdateWithoutReactionsInput>
   }
 
-  export type UserUpdateManyWithWhereWithoutParticipatingCollaborationsInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutParticipatingCollaborationsInput>
+  export type DevLogUpdateWithoutReactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutDevLogsNestedInput
   }
 
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    bio?: StringNullableFilter<"User"> | string | null
-    linkedin?: StringNullableFilter<"User"> | string | null
-    portfolio?: StringNullableFilter<"User"> | string | null
-    email?: StringFilter<"User"> | string
-    image?: StringNullableFilter<"User"> | string | null
-    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    password?: StringFilter<"User"> | string
-    forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
-    forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
-    provider?: StringNullableFilter<"User"> | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    followerCount?: IntFilter<"User"> | number
-    followingCount?: IntFilter<"User"> | number
-    badges?: JsonFilter<"User">
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }
-
-  export type FollowCreateManyFollowingInput = {
-    id?: string
-    followerId: string
-    createdAt?: Date | string
-  }
-
-  export type FollowCreateManyFollowerInput = {
-    id?: string
-    followingId: string
-    createdAt?: Date | string
+  export type DevLogUncheckedUpdateWithoutReactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProblemCreateManyUserInput = {
@@ -37278,26 +32510,6 @@ export namespace Prisma {
     purchaseDate?: Date | string
   }
 
-  export type ProblemInvitationCreateManySenderInput = {
-    id?: string
-    problemId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProblemInvitationCreateManyReceiverInput = {
-    id?: string
-    problemId: string
-    senderId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type NotificationCreateManyUserInput = {
     id?: string
     type: $Enums.NotificationType
@@ -37307,50 +32519,21 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type ProblemCollaborationCreateManyInitiatorInput = {
+  export type DevLogCreateManyUserInput = {
     id?: string
-    problemId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
+    title: string
+    tags?: DevLogCreatetagsInput | string[]
+    description: string
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    upvotes?: number
   }
 
-  export type FollowUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    follower?: UserUpdateOneRequiredWithoutFollowingNestedInput
-  }
-
-  export type FollowUncheckedUpdateWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followerId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowUncheckedUpdateManyWithoutFollowingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followerId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowUpdateWithoutFollowerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    following?: UserUpdateOneRequiredWithoutFollowersNestedInput
-  }
-
-  export type FollowUncheckedUpdateWithoutFollowerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followingId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FollowUncheckedUpdateManyWithoutFollowerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    followingId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type DevLogReactionCreateManyUserInput = {
+    id?: string
+    devLogId: string
+    type: $Enums.ReactionType
   }
 
   export type ProblemUpdateWithoutUserInput = {
@@ -37372,8 +32555,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUpdateManyWithoutProblemNestedInput
@@ -37400,8 +32581,6 @@ export namespace Prisma {
     dislikes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invitations?: ProblemInvitationUncheckedUpdateManyWithoutProblemNestedInput
-    collaborations?: ProblemCollaborationUncheckedUpdateManyWithoutProblemNestedInput
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylists?: ProblemInPlaylistUncheckedUpdateManyWithoutProblemNestedInput
@@ -37656,99 +32835,6 @@ export namespace Prisma {
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProblemInvitationUpdateWithoutSenderInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
-    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
-  }
-
-  export type ProblemInvitationUncheckedUpdateWithoutSenderInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemInvitationUncheckedUpdateManyWithoutSenderInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemInvitationUpdateWithoutReceiverInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutInvitationsNestedInput
-    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
-  }
-
-  export type ProblemInvitationUncheckedUpdateWithoutReceiverInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemInvitationUncheckedUpdateManyWithoutReceiverInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemCollaborationUpdateWithoutParticipantsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
-    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
-  }
-
-  export type ProblemCollaborationUncheckedUpdateWithoutParticipantsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemCollaborationUncheckedUpdateManyWithoutParticipantsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type NotificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
@@ -37776,56 +32862,57 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProblemCollaborationUpdateWithoutInitiatorInput = {
+  export type DevLogUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    problem?: ProblemUpdateOneRequiredWithoutCollaborationsNestedInput
-    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
+    upvotes?: IntFieldUpdateOperationsInput | number
+    reactions?: DevLogReactionUpdateManyWithoutDevLogNestedInput
   }
 
-  export type ProblemCollaborationUncheckedUpdateWithoutInitiatorInput = {
+  export type DevLogUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
+    upvotes?: IntFieldUpdateOperationsInput | number
+    reactions?: DevLogReactionUncheckedUpdateManyWithoutDevLogNestedInput
   }
 
-  export type ProblemCollaborationUncheckedUpdateManyWithoutInitiatorInput = {
+  export type DevLogUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    problemId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    tags?: DevLogUpdatetagsInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    upvotes?: IntFieldUpdateOperationsInput | number
   }
 
-  export type ProblemInvitationCreateManyProblemInput = {
-    id?: string
-    senderId: string
-    receiverId: string
-    status?: $Enums.InvitationStatus
-    message?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type DevLogReactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    devLog?: DevLogUpdateOneRequiredWithoutReactionsNestedInput
   }
 
-  export type ProblemCollaborationCreateManyProblemInput = {
-    id?: string
-    initiatorId: string
-    maxParticipants?: number
-    currentCode: string
-    language: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type DevLogReactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    devLogId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+  }
+
+  export type DevLogReactionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    devLogId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
   }
 
   export type SubmissionCreateManyProblemInput = {
@@ -37871,68 +32958,6 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type ProblemInvitationUpdateWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sender?: UserUpdateOneRequiredWithoutSentInvitationsNestedInput
-    receiver?: UserUpdateOneRequiredWithoutReceivedInvitationsNestedInput
-  }
-
-  export type ProblemInvitationUncheckedUpdateWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemInvitationUncheckedUpdateManyWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: StringFieldUpdateOperationsInput | string
-    receiverId?: StringFieldUpdateOperationsInput | string
-    status?: EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProblemCollaborationUpdateWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    initiator?: UserUpdateOneRequiredWithoutInitiatedCollaborationsNestedInput
-    participants?: UserUpdateManyWithoutParticipatingCollaborationsNestedInput
-  }
-
-  export type ProblemCollaborationUncheckedUpdateWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    participants?: UserUncheckedUpdateManyWithoutParticipatingCollaborationsNestedInput
-  }
-
-  export type ProblemCollaborationUncheckedUpdateManyWithoutProblemInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    initiatorId?: StringFieldUpdateOperationsInput | string
-    maxParticipants?: IntFieldUpdateOperationsInput | number
-    currentCode?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubmissionUpdateWithoutProblemInput = {
@@ -38286,106 +33311,28 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserUpdateWithoutParticipatingCollaborationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUpdateManyWithoutFollowingNestedInput
-    following?: FollowUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUpdateManyWithoutReceiverNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUpdateManyWithoutInitiatorNestedInput
+  export type DevLogReactionCreateManyDevLogInput = {
+    id?: string
+    userId: string
+    type: $Enums.ReactionType
   }
 
-  export type UserUncheckedUpdateWithoutParticipatingCollaborationsInput = {
+  export type DevLogReactionUpdateWithoutDevLogInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
-    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
-    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
-    submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
-    problemSolved?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
-    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
-    submittedReports?: ProblemReportUncheckedUpdateManyWithoutUserNestedInput
-    discussionMessages?: DiscussionMessageUncheckedUpdateManyWithoutUserNestedInput
-    discussionReplies?: DiscussionReplyUncheckedUpdateManyWithoutUserNestedInput
-    discussionUpvotes?: DiscussionUpvoteUncheckedUpdateManyWithoutUserNestedInput
-    playlistPurchases?: PlaylistPurchaseUncheckedUpdateManyWithoutUserNestedInput
-    sentInvitations?: ProblemInvitationUncheckedUpdateManyWithoutSenderNestedInput
-    receivedInvitations?: ProblemInvitationUncheckedUpdateManyWithoutReceiverNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    initiatedCollaborations?: ProblemCollaborationUncheckedUpdateManyWithoutInitiatorNestedInput
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    user?: UserUpdateOneRequiredWithoutDevLogReactionsNestedInput
   }
 
-  export type UserUncheckedUpdateManyWithoutParticipatingCollaborationsInput = {
+  export type DevLogReactionUncheckedUpdateWithoutDevLogInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolio?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    password?: StringFieldUpdateOperationsInput | string
-    forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
-    forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    followerCount?: IntFieldUpdateOperationsInput | number
-    followingCount?: IntFieldUpdateOperationsInput | number
-    badges?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+  }
+
+  export type DevLogReactionUncheckedUpdateManyWithoutDevLogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
   }
 
 

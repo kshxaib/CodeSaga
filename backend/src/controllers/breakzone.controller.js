@@ -585,22 +585,18 @@ export const fetchDailyFact = async () => {
     const text = response.data.candidates[0].content.parts[0].text;
     const parsedFacts = text.split(/\n\d+\.\s/).filter(Boolean);
 
-    setDailyFacts(parsedFacts); // ✅ store in shared memory
-    console.log("✅ Successfully fetched new daily facts at", new Date().toISOString());
-    console.log("Parsed facts:", parsedFacts);
+    setDailyFacts(parsedFacts);
   } catch (err) {
     console.error("❌ Error fetching facts:", err.response?.data || err.message);
-    setTimeout(fetchDailyFact, 30 * 60 * 1000); // Retry in 30 mins
+    setTimeout(fetchDailyFact, 30 * 60 * 1000); 
   }
 };
 
-// Run daily at 8 AM IST
 cron.schedule("0 8 * * *", fetchDailyFact, {
   scheduled: true,
   timezone: "Asia/Kolkata",
 });
 
-// Run once immediately if after 8 AM
 const now = new Date();
 if (now.getHours() >= 8) {
   fetchDailyFact();
@@ -612,3 +608,5 @@ export const getDailyFacts = (req, res) => {
 };
 
 // fetchDailyFact();
+
+

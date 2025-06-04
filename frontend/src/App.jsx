@@ -17,7 +17,6 @@ import ReportTable from "./components/admin/ReportTable";
 import Profile from "./components/Profile";
 import MyPlaylists from "./components/MyPlaylists";
 import StorePage from "./components/StorePage";
-import ProfilePage from "./components/ProfilePage";
 import BreakZone from "./components/BreakZone/BreakZone";
 import GuessTheOutput from "./components/BreakZone/CodingGames/GuessTheOutput";
 import RegexRush from "./components/BreakZone/CodingGames/RegexRush";
@@ -68,8 +67,7 @@ const App = () => {
         <Route path="/games/emoji-pictionary" element={<EmojiPictionary/>}/>
         <Route path="/puzzles/rope-burning" element={<RopeBurning/>}/>
         <Route path="/puzzles/river-crossing" element={<RiverCrossing/>}/>
-
-          <Route path="/profile/:username" element={<ProfilePage />} />
+          
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />
           <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />

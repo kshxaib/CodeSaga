@@ -137,18 +137,8 @@ exports.Prisma.UserScalarFieldEnum = {
   currentStreak: 'currentStreak',
   longestStreak: 'longestStreak',
   lastSolvedDate: 'lastSolvedDate',
-  followerCount: 'followerCount',
-  followingCount: 'followingCount',
-  badges: 'badges',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.FollowScalarFieldEnum = {
-  id: 'id',
-  followerId: 'followerId',
-  followingId: 'followingId',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.ProblemScalarFieldEnum = {
@@ -250,15 +240,6 @@ exports.Prisma.ProblemInPlaylistScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.BadgeScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  icon: 'icon',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.ProblemReportScalarFieldEnum = {
   id: 'id',
   problemId: 'problemId',
@@ -310,26 +291,23 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.ProblemInvitationScalarFieldEnum = {
+exports.Prisma.DevLogScalarFieldEnum = {
   id: 'id',
-  problemId: 'problemId',
-  senderId: 'senderId',
-  receiverId: 'receiverId',
-  status: 'status',
-  message: 'message',
+  userId: 'userId',
+  title: 'title',
+  tags: 'tags',
+  description: 'description',
+  isAnonymous: 'isAnonymous',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  upvotes: 'upvotes'
 };
 
-exports.Prisma.ProblemCollaborationScalarFieldEnum = {
+exports.Prisma.DevLogReactionScalarFieldEnum = {
   id: 'id',
-  problemId: 'problemId',
-  initiatorId: 'initiatorId',
-  maxParticipants: 'maxParticipants',
-  currentCode: 'currentCode',
-  language: 'language',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  devLogId: 'devLogId',
+  userId: 'userId',
+  type: 'type'
 };
 
 exports.Prisma.SortOrder = {
@@ -346,15 +324,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
@@ -385,16 +363,14 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   GENERAL: 'GENERAL'
 };
 
-exports.InvitationStatus = exports.$Enums.InvitationStatus = {
-  PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
-  DECLINED: 'DECLINED',
-  CANCELLED: 'CANCELLED'
+exports.ReactionType = exports.$Enums.ReactionType = {
+  HEART: 'HEART',
+  LAUGH: 'LAUGH',
+  LAMP: 'LAMP'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Follow: 'Follow',
   Problem: 'Problem',
   ProblemReaction: 'ProblemReaction',
   Submission: 'Submission',
@@ -403,15 +379,14 @@ exports.Prisma.ModelName = {
   Playlist: 'Playlist',
   PlaylistPurchase: 'PlaylistPurchase',
   ProblemInPlaylist: 'ProblemInPlaylist',
-  Badge: 'Badge',
   ProblemReport: 'ProblemReport',
   ProblemDiscussion: 'ProblemDiscussion',
   DiscussionMessage: 'DiscussionMessage',
   DiscussionReply: 'DiscussionReply',
   DiscussionUpvote: 'DiscussionUpvote',
   Notification: 'Notification',
-  ProblemInvitation: 'ProblemInvitation',
-  ProblemCollaboration: 'ProblemCollaboration'
+  DevLog: 'DevLog',
+  DevLogReaction: 'DevLogReaction'
 };
 
 /**

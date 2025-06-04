@@ -44,6 +44,12 @@ enum InvitationStatus {
   CANCELLED
 }
 
+enum ReactionType {
+  HEART
+  LAUGH
+  LAMP
+}
+
 model User {
   id                      String    @id @default(uuid())
   name                    String
@@ -52,7 +58,7 @@ model User {
   linkedin                String?
   portfolio               String?
   email                   String    @unique
-  image                   String?   @default("https://placehold.co/600x400")
+  image                   String?   @default("https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg")
   role                    UserRole  @default(USER)
   password                String
   forgotPasswordOtp       String?
@@ -63,46 +69,25 @@ model User {
   longestStreak  Int       @default(0)
   lastSolvedDate DateTime?
 
-  followers      Follow[] @relation("Followers")
-  following      Follow[] @relation("Following")
-  followerCount  Int      @default(0)
-  followingCount Int      @default(0)
-
-  badges Json @default("[]")
-
-  problems                    Problem[]
-  submission                  Submission[]
-  problemSolved               ProblemSolved[]
-  playlists                   Playlist[]
-  submittedReports            ProblemReport[]
-  discussionMessages          DiscussionMessage[]
-  discussionReplies           DiscussionReply[]
-  discussionUpvotes           DiscussionUpvote[]
-  playlistPurchases           PlaylistPurchase[]
-  sentInvitations             ProblemInvitation[]    @relation("SentInvitations")
-  receivedInvitations         ProblemInvitation[]    @relation("ReceivedInvitations")
-  participatingCollaborations ProblemCollaboration[] @relation("CollaborationParticipants")
-  notifications               Notification[]
-  initiatedCollaborations     ProblemCollaboration[]
+  problems           Problem[]
+  submission         Submission[]
+  problemSolved      ProblemSolved[]
+  playlists          Playlist[]
+  submittedReports   ProblemReport[]
+  discussionMessages DiscussionMessage[]
+  discussionReplies  DiscussionReply[]
+  discussionUpvotes  DiscussionUpvote[]
+  playlistPurchases  PlaylistPurchase[]
+  notifications      Notification[]
+  devLogs            DevLog[]
+  devLogReactions    DevLogReaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Follow {
-  id          String @id @default(uuid())
-  followerId  String
-  followingId String
-  follower    User   @relation("Following", fields: [followerId], references: [id])
-  following   User   @relation("Followers", fields: [followingId], references: [id])
-
-  createdAt DateTime @default(now())
-
-  @@unique([followerId, followingId])
-}
-
 model Problem {
-  id                 String                 @id @default(uuid())
+  id                 String     @id @default(uuid())
   title              String
   description        String
   difficulty         Difficulty
@@ -115,10 +100,8 @@ model Problem {
   testcases          Json
   codeSnippets       Json
   referenceSolutions Json
-  isPaid             Boolean                @default(false)
-  askedIn            String[]               @default([])
-  invitations        ProblemInvitation[]
-  collaborations     ProblemCollaboration[]
+  isPaid             Boolean    @default(false)
+  askedIn            String[]   @default([])
 
   likes    Int @default(0)
   dislikes Int @default(0)
@@ -247,15 +230,6 @@ model ProblemInPlaylist {
   @@unique([playlistId, problemId])
 }
 
-model Badge {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  icon        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
 model ProblemReport {
   id          String       @id @default(uuid())
   problemId   String
@@ -329,34 +303,31 @@ model Notification {
   @@index([userId])
 }
 
-model ProblemInvitation {
-  id         String           @id @default(uuid())
-  problemId  String
-  senderId   String
-  receiverId String
-  status     InvitationStatus @default(PENDING)
-  message    String?
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
+model DevLog {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  tags        String[]
+  description String
+  isAnonymous Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  upvotes     Int      @default(0)
 
-  problem  Problem @relation(fields: [problemId], references: [id])
-  sender   User    @relation("SentInvitations", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver User    @relation("ReceivedInvitations", fields: [receiverId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reactions DevLogReaction[]
 
-  @@unique([problemId, senderId, receiverId])
-  @@index([receiverId, status])
+  @@index([userId])
 }
 
-model ProblemCollaboration {
-  id              String   @id @default(uuid())
-  problemId       String
-  problem         Problem  @relation(fields: [problemId], references: [id])
-  initiatorId     String
-  initiator       User     @relation(fields: [initiatorId], references: [id])
-  participants    User[]   @relation("CollaborationParticipants")
-  maxParticipants Int      @default(5)
-  currentCode     String
-  language        String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model DevLogReaction {
+  id       String       @id @default(uuid())
+  devLogId String
+  userId   String
+  type     ReactionType
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  devLog DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
+
+  @@unique([devLogId, userId, type])
 }
