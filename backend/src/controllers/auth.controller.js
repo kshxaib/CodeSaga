@@ -382,7 +382,7 @@ export const googleRegister = async (req, res) => {
       maxAge: 604800000, 
     });
 
-    const emailSubject = "Welcome to LogicVerse - Your Account Details";
+    const emailSubject = "Welcome to CodeSaga - Your Account Details";
    await sendEmail(name, email, null, emailSubject, randomPassword);
 
     return res.status(201).json({

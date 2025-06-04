@@ -42,7 +42,6 @@ enum InvitationStatus {
   PENDING
   ACCEPTED
   DECLINED
-  CANCELLED
 }
 
 enum ReactionType {
@@ -297,7 +296,6 @@ model Notification {
   userId      String
   type        NotificationType
   content     String
-  isRead      Boolean          @default(false)
   referenceId String?
   createdAt DateTime @default(now())
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)

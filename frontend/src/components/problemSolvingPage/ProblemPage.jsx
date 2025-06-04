@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
-  Share2, Users, Mail,
+  Share2,
+  Users,
+  Mail,
   Play,
   FileText,
   MessageSquare,
@@ -18,11 +20,13 @@ import {
   Bug,
   BookOpenText,
   Lock,
+  Sparkles,
 } from "lucide-react";
 import { useProblemStore } from "../../store/useProblemStore";
 import { useExecutionStore } from "../../store/useExecutionStore";
 import { useSubmissionStore } from "../../store/useSubmissionStore";
 import { useEditorSizeStore } from "../../store/useEditorSizeStore";
+import { useAuthStore } from "../../store/useAuthStore";
 import { getJudge0LangaugeId } from "../../libs/getLanguageId";
 import SubmissionResults from "../Submission";
 import SubmissionsList from "../SubmissionList";
@@ -30,10 +34,15 @@ import AddToPlaylist from "../AddToPlaylist";
 import BugModal from "./BugModal";
 import DiscussionSection from "./DiscussionSection";
 import ResizableEditor from "./ResizableEditor";
+import { useDebounce } from "use-debounce";
+import { toast } from "sonner";
+import { useRef } from "react";
+import { axiosInstance } from "../../libs/axios";
 
 const ProblemPage = () => {
   const { id } = useParams();
   const { isFullscreen } = useEditorSizeStore();
+  const { authUser: user } = useAuthStore();
   const {
     getProblemById,
     problem,
@@ -57,8 +66,15 @@ const ProblemPage = () => {
   const [openBugModal, setOpenBugModal] = useState(false);
   const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
-  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const { isExecuting, executeCode, submission } = useExecutionStore();
+
+  // AI Autocomplete State
+  const [aiSuggestions, setAiSuggestions] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [isAiEnabled, setIsAiEnabled] = useState(false);
+  const [debouncedCode] = useDebounce(code, 1000);
+  const editorRef = useRef(null);
+  const monacoRef = useRef(null);
 
   useEffect(() => {
     getProblemById(id);
@@ -98,6 +114,101 @@ const ProblemPage = () => {
       getSubmissionForProblem(id);
     }
   }, [id, activeTab, getSubmissionForProblem]);
+
+  const fetchAiCompletion = useCallback(async () => {
+    if (!isAiEnabled || !debouncedCode || user?.role !== "PRO") return;
+
+    setIsAiLoading(true);
+    try {
+      const response = await axiosInstance.post("/ai/completions", {
+        code: debouncedCode,
+        language: selectedLanguage,
+      })
+
+      const data =  response.data
+      if (data.success) {
+        setAiSuggestions(data.completion);
+      } else if (
+        data.message === "This feature is only available for PRO users"
+      ) {
+        setIsAiEnabled(false);
+        toast.error("AI Autocomplete is for PRO users only");
+      }
+    } catch (error) {
+      console.error("AI completion error:", error);
+    } finally {
+      setIsAiLoading(false);
+    }
+  }, [debouncedCode, selectedLanguage, isAiEnabled, user]);
+
+  useEffect(() => {
+    fetchAiCompletion();
+  }, [fetchAiCompletion]);
+
+  const handleAcceptSuggestion = useCallback(() => {
+    if (!editorRef.current || !aiSuggestions || !monacoRef.current) return;
+
+    const editor = editorRef.current;
+    const position = editor.getPosition();
+    const range = new monacoRef.current.Range(
+      position.lineNumber,
+      position.column,
+      position.lineNumber,
+      position.column
+    );
+
+    editor.executeEdits("accept-suggestion", [
+      {
+        range,
+        text: aiSuggestions,
+        forceMoveMarkers: true,
+      },
+    ]);
+
+    // Move cursor to end of inserted text
+    editor.setPosition({
+      lineNumber: position.lineNumber,
+      column: position.column + aiSuggestions.length,
+    });
+
+    setAiSuggestions("");
+    toast.success("Suggestion accepted!");
+  }, [aiSuggestions]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.ctrlKey && e.shiftKey && aiSuggestions) {
+        e.preventDefault();
+        handleAcceptSuggestion();
+      }
+    },
+    [aiSuggestions, handleAcceptSuggestion]
+  );
+
+
+  useEffect(() => {
+  window.addEventListener("keydown", handleKeyDown);
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, [handleKeyDown]);
+
+  const handleToggleAI = () => {
+    if (!user?.role?.includes("PRO")) {
+      toast.error("Upgrade to PRO to use AI Autocomplete", {
+        description: "This feature is only available for PRO users",
+        action: {
+          label: "Upgrade",
+          onClick: () => (window.location.href = "/pricing"),
+        },
+      });
+      return;
+    }
+    setIsAiEnabled(!isAiEnabled);
+    if (!isAiEnabled) {
+      setAiSuggestions("");
+    }
+  };
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -368,14 +479,6 @@ const ProblemPage = () => {
             </button>
 
             <button
-  title="Invite Collaborators"
-  className="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-indigo-400 transition-colors"
-  onClick={() => setIsInviteModalOpen(true)}
->
-  <Users className="w-5 h-5" />
-</button>
-
-            <button
               title="Report Bug"
               className="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
               onClick={() => setOpenBugModal(true)}
@@ -414,75 +517,79 @@ const ProblemPage = () => {
         >
           {!isFullscreen && (
             <div className="card bg-gray-850 shadow-xl border border-gray-700">
-  <div className="card-body p-0">
-    <div className="tabs tabs-boxed bg-gray-800 flex flex-wrap sm:flex-nowrap px-2">
-      <div className="flex w-full overflow-x-auto gap-2 py-2">
-        <button
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-            ${activeTab === "description"
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-          onClick={() => setActiveTab("description")}
-        >
-          <FileText className="w-4 h-4" />
-          Description
-        </button>
+              <div className="card-body p-0">
+                <div className="tabs tabs-boxed bg-gray-800 flex flex-wrap sm:flex-nowrap px-2">
+                  <div className="flex w-full overflow-x-auto gap-2 py-2">
+                    <button
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${
+                          activeTab === "description"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      onClick={() => setActiveTab("description")}
+                    >
+                      <FileText className="w-4 h-4" />
+                      Description
+                    </button>
 
-        <button
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-            ${activeTab === "submissions"
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-          onClick={() => setActiveTab("submissions")}
-        >
-          <Code2 className="w-4 h-4" />
-          Submissions
-        </button>
+                    <button
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${
+                          activeTab === "submissions"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      onClick={() => setActiveTab("submissions")}
+                    >
+                      <Code2 className="w-4 h-4" />
+                      Submissions
+                    </button>
 
-        <button
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-            ${activeTab === "discussion"
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-          onClick={() => setActiveTab("discussion")}
-        >
-          <MessageSquare className="w-4 h-4" />
-          Discussion
-        </button>
+                    <button
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${
+                          activeTab === "discussion"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      onClick={() => setActiveTab("discussion")}
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      Discussion
+                    </button>
 
-        <button
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-            ${activeTab === "hints"
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-          onClick={() => setActiveTab("hints")}
-        >
-          <Lightbulb className="w-4 h-4" />
-          Hints
-        </button>
+                    <button
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${
+                          activeTab === "hints"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      onClick={() => setActiveTab("hints")}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      Hints
+                    </button>
 
-        <button
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-            ${activeTab === "solution"
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-          onClick={() => setActiveTab("solution")}
-        >
-          <BookOpenText className="w-4 h-4" />
-          Solution
-        </button>
-      </div>
-    </div>
+                    <button
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${
+                          activeTab === "solution"
+                            ? "bg-indigo-600 text-white shadow-md"
+                            : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                      onClick={() => setActiveTab("solution")}
+                    >
+                      <BookOpenText className="w-4 h-4" />
+                      Solution
+                    </button>
+                  </div>
+                </div>
 
-    <div className="p-6">{renderTabContent()}</div>
-  </div>
-</div>
-
+                <div className="p-6">{renderTabContent()}</div>
+              </div>
+            </div>
           )}
 
           <ResizableEditor
@@ -491,6 +598,14 @@ const ProblemPage = () => {
             onCodeChange={(value) => setCode(value || "")}
             onRunCode={handleRunCode}
             isExecuting={isExecuting}
+            aiSuggestions={aiSuggestions}
+            isAiLoading={isAiLoading}
+            isAiEnabled={isAiEnabled}
+            onToggleAi={handleToggleAI}
+            onAcceptSuggestion={handleAcceptSuggestion}
+            onKeyDown={handleKeyDown}
+            editorRef={editorRef}
+            monacoRef={monacoRef}
           />
         </div>
 

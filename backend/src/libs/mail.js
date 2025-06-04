@@ -11,7 +11,7 @@ export const sendEmail = async(name="", email="", code="", subject="", password 
   if (subject === 'Reset Your Password') {
     html = getForgotPasswordHtml(name, code);
   } 
-  else if (subject === 'Welcome to LogicVerse - Your Account Details') {
+  else if (subject === 'Welcome to CodeSaga - Your Account Details') {
     html = getGoogleWelcomeEmailHtml(name, password);
   }
   else {
@@ -19,7 +19,7 @@ export const sendEmail = async(name="", email="", code="", subject="", password 
   }
 
   const { data, error } = await resend.emails.send({
-    from: 'LogicVerse Support <support@resend.dev>',
+    from: 'CodeSaga Support <support@resend.dev>',
     to: [email],
     subject: subject,
     html: html
