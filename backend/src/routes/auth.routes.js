@@ -5,7 +5,7 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 const authRoutes = express.Router();
 
 authRoutes.post('/register', register)
-authRoutes.post('/login', login)
+authRoutes.post('/login', authMiddleware,login)
 authRoutes.post('/logout', authMiddleware, logout)
 authRoutes.post('/forgot-password', forgotPassword)
 authRoutes.post('/verify-otp/:email', verifyOtp)

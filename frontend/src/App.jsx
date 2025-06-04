@@ -31,7 +31,7 @@ import RiverCrossing from "./components/BreakZone/BrainTeasers/RiverCrossing";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-
+    
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);

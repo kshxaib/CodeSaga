@@ -551,12 +551,6 @@ const ProblemPage = () => {
         onClose={() => setOpenBugModal(false)}
         problemId={problem.id}
       />
-
-      <InviteModal
-  problemId={id}
-  isOpen={isInviteModalOpen}
-  onClose={() => setIsInviteModalOpen(false)}
-/>
     </div>
   );
 };

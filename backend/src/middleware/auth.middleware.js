@@ -3,12 +3,13 @@ import { db } from '../libs/db.js';
 
 export const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.cookies.token || req.headers.authorization?.replace("Bearer ", "");
+        const token = req.cookies.token 
+        console.log("token", token);
         if (!token) {
             return res.status(401).json({ error: "Unauthorized access" });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
+        console.log("decoded", decoded);
         const user = await db.user.findUnique({
             where: {
                 id: decoded.id
@@ -22,12 +23,14 @@ export const authMiddleware = async (req, res, next) => {
                 username: true
             }
         })
+        console.log("user", user);
 
         if(!user) {
             return res.status(404).json({ error: "Unauthorized access" });
         }
 
         req.user = user;
+        console.log("user", req.user);
         next();
     } catch (error) {
         throw new Error("Internal server error")

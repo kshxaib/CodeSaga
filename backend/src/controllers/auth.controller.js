@@ -62,7 +62,7 @@ export const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    await sendEmail(newUser.name, email, "", "Welcome to LogicVerse");
+    await sendEmail(newUser.name, email, "", "Welcome to CodeSaga");
 
     res.status(201).json({
       success: true,
@@ -114,7 +114,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
 
     res.status(200).json({
