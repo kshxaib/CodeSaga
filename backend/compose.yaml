@@ -1,0 +1,51 @@
+name: CodeSaga
+
+services:
+    postgres_db:
+        image: postgres
+        container_name: postgres_db
+        ports:
+            - '5432:5432'
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - postgres_db_data:/var/lib/postgresql/data
+        networks:
+            - ds-network
+
+    backend:
+        build:
+            dockerfile: Dockerfile
+            context: ./
+        container_name: backend
+        ports:
+            - '8080:8080'
+        env_file:
+            - .env
+        depends_on:
+            - postgres_db
+        networks:
+            - dsa-network
+
+    caddy:
+        image: 'caddy:2-alpine'
+        container_name: caddy
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - caddy_data:/data
+            - caddy_config:/config
+        networks:
+            - ds-network
+
+volumes:
+    postgres_db_data:
+    caddy_data:
+    caddy_config:
+
+networks:
+    ds-network:
+        external: true

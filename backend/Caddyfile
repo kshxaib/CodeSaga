@@ -1,0 +1,7 @@
+{
+    email khanshoaibishtiyak@gmail.com
+}
+
+api.codesaga.live{
+    reverse_proxy backend:8080
+}
