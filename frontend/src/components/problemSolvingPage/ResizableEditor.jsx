@@ -16,6 +16,7 @@ import {
   Settings,
   Wand2,
   Loader,
+  Loader2,
 } from "lucide-react";
 import { useEditorSizeStore } from "../../store/useEditorSizeStore";
 import { useDebounce } from "use-debounce";
@@ -486,7 +487,11 @@ const ResizableEditor = ({
               disabled={isExecuting}
             >
               {!isExecuting && <Play className="w-4 h-4" />}
-              {isExecuting ? "Running..." : "Run Code"}
+              {isExecuting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin"/> Running...
+                </>
+              ) : "Run Code"}
             </button>
           </div>
         </div>

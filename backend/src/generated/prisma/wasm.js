@@ -134,6 +134,7 @@ exports.Prisma.UserScalarFieldEnum = {
   forgotPasswordOtp: 'forgotPasswordOtp',
   forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
   provider: 'provider',
+  proSince: 'proSince',
   currentStreak: 'currentStreak',
   longestStreak: 'longestStreak',
   lastSolvedDate: 'lastSolvedDate',
@@ -286,7 +287,6 @@ exports.Prisma.NotificationScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
   content: 'content',
-  isRead: 'isRead',
   referenceId: 'referenceId',
   createdAt: 'createdAt'
 };
@@ -361,12 +361,6 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   PROBLEM_SOLVED: 'PROBLEM_SOLVED',
   NEW_FOLLOWER: 'NEW_FOLLOWER',
   GENERAL: 'GENERAL'
-};
-
-exports.ReactionType = exports.$Enums.ReactionType = {
-  HEART: 'HEART',
-  LAUGH: 'LAUGH',
-  LAMP: 'LAMP'
 };
 
 exports.Prisma.ModelName = {

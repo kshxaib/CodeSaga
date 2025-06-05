@@ -81,6 +81,7 @@ export const executeCode = async (req, res) => {
     });
 
     if (allPassed) {
+      console.log("✅ All test cases passed. Updating streak...");
       await updateUserStreak(userId);
       await db.ProblemSolved.upsert({
         where: { userId_problemId: { userId, problemId } },

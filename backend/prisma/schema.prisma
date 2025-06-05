@@ -29,26 +29,12 @@ enum ReportReason {
   OTHER
 }
 
-enum NotificationType {
-  INVITATION
-  ACCEPTED_INVITATION
-  COLLABORATION_JOINED
-  PROBLEM_SOLVED
-  NEW_FOLLOWER
-  GENERAL
-}
-
 enum InvitationStatus {
   PENDING
   ACCEPTED
   DECLINED
 }
 
-enum ReactionType {
-  HEART
-  LAUGH
-  LAMP
-}
 
 model User {
   id                      String    @id @default(uuid())
@@ -64,6 +50,7 @@ model User {
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
   provider                String?
+  proSince DateTime?
 
   currentStreak  Int       @default(0)
   longestStreak  Int       @default(0)
@@ -78,7 +65,6 @@ model User {
   discussionReplies   DiscussionReply[]
   discussionUpvotes   DiscussionUpvote[]
   playlistPurchases   PlaylistPurchase[]
-  notifications       Notification[]
   devLogs             DevLog[]
   devLogReactions     DevLogReaction[]
 
@@ -291,18 +277,6 @@ model DiscussionUpvote {
   @@unique([userId, messageId])
 }
 
-model Notification {
-  id          String           @id @default(uuid())
-  userId      String
-  type        NotificationType
-  content     String
-  referenceId String?
-  createdAt DateTime @default(now())
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
 model DevLog {
   id          String   @id @default(uuid())
   userId      String
@@ -324,7 +298,7 @@ model DevLogReaction {
   id       String        @id @default(uuid())
   devLogId String
   userId   String
-  type     ReactionType
+  type     String
 
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   devLog  DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)

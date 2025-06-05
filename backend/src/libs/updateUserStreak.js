@@ -9,18 +9,19 @@ export const updateUserStreak = async (userId) => {
     const today = new Date();
     const lastSolved = user.lastSolvedDate;
 
+    console.log(`🧠 lastSolved: ${lastSolved}, today: ${today}`);
+
+    // Case 1: Already solved today — don't update
     if (lastSolved && isSameDay(today, lastSolved)) {
+      console.log("✅ Already submitted today, not updating streak.");
       return;
     }
 
-    let newStreak;
-    if (lastSolved && isConsecutiveDay(today, lastSolved)) {
-      newStreak = user.currentStreak + 1;
-    } else if (lastSolved) {
-      newStreak = 0;
-    } else {
-      newStreak = 1;
-    }
+    // Case 2: Solved yesterday — increment streak
+    // Case 3: Missed a day — reset streak to 1
+    const newStreak = lastSolved && isConsecutiveDay(today, lastSolved)
+      ? user.currentStreak + 1
+      : 1;
 
     await db.user.update({
       where: { id: userId },
@@ -37,6 +38,7 @@ export const updateUserStreak = async (userId) => {
   }
 };
 
+// Helper: Check if two dates are on the same day
 const isSameDay = (date1, date2) => {
   const d1 = new Date(date1);
   const d2 = new Date(date2);

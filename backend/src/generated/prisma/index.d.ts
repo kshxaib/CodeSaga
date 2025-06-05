@@ -147,20 +147,10 @@ export type NotificationType = (typeof NotificationType)[keyof typeof Notificati
 export const InvitationStatus: {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
-  DECLINED: 'DECLINED',
-  CANCELLED: 'CANCELLED'
+  DECLINED: 'DECLINED'
 };
 
 export type InvitationStatus = (typeof InvitationStatus)[keyof typeof InvitationStatus]
-
-
-export const ReactionType: {
-  HEART: 'HEART',
-  LAUGH: 'LAUGH',
-  LAMP: 'LAMP'
-};
-
-export type ReactionType = (typeof ReactionType)[keyof typeof ReactionType]
 
 }
 
@@ -183,10 +173,6 @@ export const NotificationType: typeof $Enums.NotificationType
 export type InvitationStatus = $Enums.InvitationStatus
 
 export const InvitationStatus: typeof $Enums.InvitationStatus
-
-export type ReactionType = $Enums.ReactionType
-
-export const ReactionType: typeof $Enums.ReactionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2819,6 +2805,7 @@ export namespace Prisma {
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
     provider: string | null
+    proSince: Date | null
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
@@ -2840,6 +2827,7 @@ export namespace Prisma {
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
     provider: string | null
+    proSince: Date | null
     currentStreak: number | null
     longestStreak: number | null
     lastSolvedDate: Date | null
@@ -2861,6 +2849,7 @@ export namespace Prisma {
     forgotPasswordOtp: number
     forgotPasswordOtpExpiry: number
     provider: number
+    proSince: number
     currentStreak: number
     longestStreak: number
     lastSolvedDate: number
@@ -2894,6 +2883,7 @@ export namespace Prisma {
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
     provider?: true
+    proSince?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -2915,6 +2905,7 @@ export namespace Prisma {
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
     provider?: true
+    proSince?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -2936,6 +2927,7 @@ export namespace Prisma {
     forgotPasswordOtp?: true
     forgotPasswordOtpExpiry?: true
     provider?: true
+    proSince?: true
     currentStreak?: true
     longestStreak?: true
     lastSolvedDate?: true
@@ -3044,6 +3036,7 @@ export namespace Prisma {
     forgotPasswordOtp: string | null
     forgotPasswordOtpExpiry: Date | null
     provider: string | null
+    proSince: Date | null
     currentStreak: number
     longestStreak: number
     lastSolvedDate: Date | null
@@ -3084,6 +3077,7 @@ export namespace Prisma {
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
     provider?: boolean
+    proSince?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -3118,6 +3112,7 @@ export namespace Prisma {
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
     provider?: boolean
+    proSince?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -3139,6 +3134,7 @@ export namespace Prisma {
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
     provider?: boolean
+    proSince?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -3160,6 +3156,7 @@ export namespace Prisma {
     forgotPasswordOtp?: boolean
     forgotPasswordOtpExpiry?: boolean
     provider?: boolean
+    proSince?: boolean
     currentStreak?: boolean
     longestStreak?: boolean
     lastSolvedDate?: boolean
@@ -3167,7 +3164,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "provider" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "linkedin" | "portfolio" | "email" | "image" | "role" | "password" | "forgotPasswordOtp" | "forgotPasswordOtpExpiry" | "provider" | "proSince" | "currentStreak" | "longestStreak" | "lastSolvedDate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     problems?: boolean | User$problemsArgs<ExtArgs>
     submission?: boolean | User$submissionArgs<ExtArgs>
@@ -3216,6 +3213,7 @@ export namespace Prisma {
       forgotPasswordOtp: string | null
       forgotPasswordOtpExpiry: Date | null
       provider: string | null
+      proSince: Date | null
       currentStreak: number
       longestStreak: number
       lastSolvedDate: Date | null
@@ -3669,6 +3667,7 @@ export namespace Prisma {
     readonly forgotPasswordOtp: FieldRef<"User", 'String'>
     readonly forgotPasswordOtpExpiry: FieldRef<"User", 'DateTime'>
     readonly provider: FieldRef<"User", 'String'>
+    readonly proSince: FieldRef<"User", 'DateTime'>
     readonly currentStreak: FieldRef<"User", 'Int'>
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastSolvedDate: FieldRef<"User", 'DateTime'>
@@ -19006,7 +19005,6 @@ export namespace Prisma {
     userId: string | null
     type: $Enums.NotificationType | null
     content: string | null
-    isRead: boolean | null
     referenceId: string | null
     createdAt: Date | null
   }
@@ -19016,7 +19014,6 @@ export namespace Prisma {
     userId: string | null
     type: $Enums.NotificationType | null
     content: string | null
-    isRead: boolean | null
     referenceId: string | null
     createdAt: Date | null
   }
@@ -19026,7 +19023,6 @@ export namespace Prisma {
     userId: number
     type: number
     content: number
-    isRead: number
     referenceId: number
     createdAt: number
     _all: number
@@ -19038,7 +19034,6 @@ export namespace Prisma {
     userId?: true
     type?: true
     content?: true
-    isRead?: true
     referenceId?: true
     createdAt?: true
   }
@@ -19048,7 +19043,6 @@ export namespace Prisma {
     userId?: true
     type?: true
     content?: true
-    isRead?: true
     referenceId?: true
     createdAt?: true
   }
@@ -19058,7 +19052,6 @@ export namespace Prisma {
     userId?: true
     type?: true
     content?: true
-    isRead?: true
     referenceId?: true
     createdAt?: true
     _all?: true
@@ -19141,7 +19134,6 @@ export namespace Prisma {
     userId: string
     type: $Enums.NotificationType
     content: string
-    isRead: boolean
     referenceId: string | null
     createdAt: Date
     _count: NotificationCountAggregateOutputType | null
@@ -19168,7 +19160,6 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     content?: boolean
-    isRead?: boolean
     referenceId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -19179,7 +19170,6 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     content?: boolean
-    isRead?: boolean
     referenceId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -19190,7 +19180,6 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     content?: boolean
-    isRead?: boolean
     referenceId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -19201,12 +19190,11 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     content?: boolean
-    isRead?: boolean
     referenceId?: boolean
     createdAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "isRead" | "referenceId" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "referenceId" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -19227,7 +19215,6 @@ export namespace Prisma {
       userId: string
       type: $Enums.NotificationType
       content: string
-      isRead: boolean
       referenceId: string | null
       createdAt: Date
     }, ExtArgs["result"]["notification"]>
@@ -19658,7 +19645,6 @@ export namespace Prisma {
     readonly userId: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'NotificationType'>
     readonly content: FieldRef<"Notification", 'String'>
-    readonly isRead: FieldRef<"Notification", 'Boolean'>
     readonly referenceId: FieldRef<"Notification", 'String'>
     readonly createdAt: FieldRef<"Notification", 'DateTime'>
   }
@@ -21259,14 +21245,14 @@ export namespace Prisma {
     id: string | null
     devLogId: string | null
     userId: string | null
-    type: $Enums.ReactionType | null
+    type: string | null
   }
 
   export type DevLogReactionMaxAggregateOutputType = {
     id: string | null
     devLogId: string | null
     userId: string | null
-    type: $Enums.ReactionType | null
+    type: string | null
   }
 
   export type DevLogReactionCountAggregateOutputType = {
@@ -21376,7 +21362,7 @@ export namespace Prisma {
     id: string
     devLogId: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
     _count: DevLogReactionCountAggregateOutputType | null
     _min: DevLogReactionMinAggregateOutputType | null
     _max: DevLogReactionMaxAggregateOutputType | null
@@ -21454,7 +21440,7 @@ export namespace Prisma {
       id: string
       devLogId: string
       userId: string
-      type: $Enums.ReactionType
+      type: string
     }, ExtArgs["result"]["devLogReaction"]>
     composites: {}
   }
@@ -21883,7 +21869,7 @@ export namespace Prisma {
     readonly id: FieldRef<"DevLogReaction", 'String'>
     readonly devLogId: FieldRef<"DevLogReaction", 'String'>
     readonly userId: FieldRef<"DevLogReaction", 'String'>
-    readonly type: FieldRef<"DevLogReaction", 'ReactionType'>
+    readonly type: FieldRef<"DevLogReaction", 'String'>
   }
     
 
@@ -22326,6 +22312,7 @@ export namespace Prisma {
     forgotPasswordOtp: 'forgotPasswordOtp',
     forgotPasswordOtpExpiry: 'forgotPasswordOtpExpiry',
     provider: 'provider',
+    proSince: 'proSince',
     currentStreak: 'currentStreak',
     longestStreak: 'longestStreak',
     lastSolvedDate: 'lastSolvedDate',
@@ -22520,7 +22507,6 @@ export namespace Prisma {
     userId: 'userId',
     type: 'type',
     content: 'content',
-    isRead: 'isRead',
     referenceId: 'referenceId',
     createdAt: 'createdAt'
   };
@@ -22718,20 +22704,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ReactionType'
-   */
-  export type EnumReactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReactionType'>
-    
-
-
-  /**
-   * Reference to a field of type 'ReactionType[]'
-   */
-  export type ListEnumReactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReactionType[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -22765,6 +22737,7 @@ export namespace Prisma {
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringNullableFilter<"User"> | string | null
+    proSince?: DateTimeNullableFilter<"User"> | Date | string | null
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -22798,6 +22771,7 @@ export namespace Prisma {
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    proSince?: SortOrderInput | SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
@@ -22834,6 +22808,7 @@ export namespace Prisma {
     forgotPasswordOtp?: StringNullableFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringNullableFilter<"User"> | string | null
+    proSince?: DateTimeNullableFilter<"User"> | Date | string | null
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -22867,6 +22842,7 @@ export namespace Prisma {
     forgotPasswordOtp?: SortOrderInput | SortOrder
     forgotPasswordOtpExpiry?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    proSince?: SortOrderInput | SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrderInput | SortOrder
@@ -22896,6 +22872,7 @@ export namespace Prisma {
     forgotPasswordOtp?: StringNullableWithAggregatesFilter<"User"> | string | null
     forgotPasswordOtpExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     provider?: StringNullableWithAggregatesFilter<"User"> | string | null
+    proSince?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     currentStreak?: IntWithAggregatesFilter<"User"> | number
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastSolvedDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -23872,7 +23849,6 @@ export namespace Prisma {
     userId?: StringFilter<"Notification"> | string
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     content?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
     referenceId?: StringNullableFilter<"Notification"> | string | null
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -23883,7 +23859,6 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     content?: SortOrder
-    isRead?: SortOrder
     referenceId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -23897,7 +23872,6 @@ export namespace Prisma {
     userId?: StringFilter<"Notification"> | string
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     content?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
     referenceId?: StringNullableFilter<"Notification"> | string | null
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -23908,7 +23882,6 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     content?: SortOrder
-    isRead?: SortOrder
     referenceId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: NotificationCountOrderByAggregateInput
@@ -23924,7 +23897,6 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Notification"> | string
     type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
     content?: StringWithAggregatesFilter<"Notification"> | string
-    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
     referenceId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
@@ -24016,7 +23988,7 @@ export namespace Prisma {
     id?: StringFilter<"DevLogReaction"> | string
     devLogId?: StringFilter<"DevLogReaction"> | string
     userId?: StringFilter<"DevLogReaction"> | string
-    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
+    type?: StringFilter<"DevLogReaction"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     devLog?: XOR<DevLogScalarRelationFilter, DevLogWhereInput>
   }
@@ -24038,7 +24010,7 @@ export namespace Prisma {
     NOT?: DevLogReactionWhereInput | DevLogReactionWhereInput[]
     devLogId?: StringFilter<"DevLogReaction"> | string
     userId?: StringFilter<"DevLogReaction"> | string
-    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
+    type?: StringFilter<"DevLogReaction"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     devLog?: XOR<DevLogScalarRelationFilter, DevLogWhereInput>
   }, "id" | "devLogId_userId_type">
@@ -24060,7 +24032,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"DevLogReaction"> | string
     devLogId?: StringWithAggregatesFilter<"DevLogReaction"> | string
     userId?: StringWithAggregatesFilter<"DevLogReaction"> | string
-    type?: EnumReactionTypeWithAggregatesFilter<"DevLogReaction"> | $Enums.ReactionType
+    type?: StringWithAggregatesFilter<"DevLogReaction"> | string
   }
 
   export type UserCreateInput = {
@@ -24077,6 +24049,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -24110,6 +24083,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -24143,6 +24117,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24176,6 +24151,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24209,6 +24185,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -24230,6 +24207,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24251,6 +24229,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25266,7 +25245,6 @@ export namespace Prisma {
     id?: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutNotificationsInput
@@ -25277,7 +25255,6 @@ export namespace Prisma {
     userId: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
   }
@@ -25286,7 +25263,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
@@ -25297,7 +25273,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25307,7 +25282,6 @@ export namespace Prisma {
     userId: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
   }
@@ -25316,7 +25290,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25326,7 +25299,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25420,7 +25392,7 @@ export namespace Prisma {
 
   export type DevLogReactionCreateInput = {
     id?: string
-    type: $Enums.ReactionType
+    type: string
     user: UserCreateNestedOneWithoutDevLogReactionsInput
     devLog: DevLogCreateNestedOneWithoutReactionsInput
   }
@@ -25429,12 +25401,12 @@ export namespace Prisma {
     id?: string
     devLogId: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutDevLogReactionsNestedInput
     devLog?: DevLogUpdateOneRequiredWithoutReactionsNestedInput
   }
@@ -25443,26 +25415,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     devLogId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type DevLogReactionCreateManyInput = {
     id?: string
     devLogId: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type DevLogReactionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     devLogId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -25674,6 +25646,7 @@ export namespace Prisma {
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
     provider?: SortOrder
+    proSince?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -25700,6 +25673,7 @@ export namespace Prisma {
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
     provider?: SortOrder
+    proSince?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -25721,6 +25695,7 @@ export namespace Prisma {
     forgotPasswordOtp?: SortOrder
     forgotPasswordOtpExpiry?: SortOrder
     provider?: SortOrder
+    proSince?: SortOrder
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastSolvedDate?: SortOrder
@@ -26490,7 +26465,6 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     content?: SortOrder
-    isRead?: SortOrder
     referenceId?: SortOrder
     createdAt?: SortOrder
   }
@@ -26500,7 +26474,6 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     content?: SortOrder
-    isRead?: SortOrder
     referenceId?: SortOrder
     createdAt?: SortOrder
   }
@@ -26510,7 +26483,6 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     content?: SortOrder
-    isRead?: SortOrder
     referenceId?: SortOrder
     createdAt?: SortOrder
   }
@@ -26567,13 +26539,6 @@ export namespace Prisma {
     upvotes?: SortOrder
   }
 
-  export type EnumReactionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumReactionTypeFilter<$PrismaModel> | $Enums.ReactionType
-  }
-
   export type DevLogScalarRelationFilter = {
     is?: DevLogWhereInput
     isNot?: DevLogWhereInput
@@ -26582,7 +26547,7 @@ export namespace Prisma {
   export type DevLogReactionDevLogIdUserIdTypeCompoundUniqueInput = {
     devLogId: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionCountOrderByAggregateInput = {
@@ -26604,16 +26569,6 @@ export namespace Prisma {
     devLogId?: SortOrder
     userId?: SortOrder
     type?: SortOrder
-  }
-
-  export type EnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReactionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumReactionTypeFilter<$PrismaModel>
-    _max?: NestedEnumReactionTypeFilter<$PrismaModel>
   }
 
   export type ProblemCreateNestedManyWithoutUserInput = {
@@ -28023,10 +27978,6 @@ export namespace Prisma {
     connect?: DevLogWhereUniqueInput
   }
 
-  export type EnumReactionTypeFieldUpdateOperationsInput = {
-    set?: $Enums.ReactionType
-  }
-
   export type UserUpdateOneRequiredWithoutDevLogReactionsNestedInput = {
     create?: XOR<UserCreateWithoutDevLogReactionsInput, UserUncheckedCreateWithoutDevLogReactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDevLogReactionsInput
@@ -28335,23 +28286,6 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumReactionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumReactionTypeFilter<$PrismaModel> | $Enums.ReactionType
-  }
-
-  export type NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReactionType | EnumReactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReactionType[] | ListEnumReactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.ReactionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumReactionTypeFilter<$PrismaModel>
-    _max?: NestedEnumReactionTypeFilter<$PrismaModel>
-  }
-
   export type ProblemCreateWithoutUserInput = {
     id?: string
     title: string
@@ -28652,7 +28586,6 @@ export namespace Prisma {
     id?: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
   }
@@ -28661,7 +28594,6 @@ export namespace Prisma {
     id?: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
   }
@@ -28712,14 +28644,14 @@ export namespace Prisma {
 
   export type DevLogReactionCreateWithoutUserInput = {
     id?: string
-    type: $Enums.ReactionType
+    type: string
     devLog: DevLogCreateNestedOneWithoutReactionsInput
   }
 
   export type DevLogReactionUncheckedCreateWithoutUserInput = {
     id?: string
     devLogId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionCreateOrConnectWithoutUserInput = {
@@ -29029,7 +28961,6 @@ export namespace Prisma {
     userId?: StringFilter<"Notification"> | string
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     content?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
     referenceId?: StringNullableFilter<"Notification"> | string | null
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
@@ -29088,7 +29019,7 @@ export namespace Prisma {
     id?: StringFilter<"DevLogReaction"> | string
     devLogId?: StringFilter<"DevLogReaction"> | string
     userId?: StringFilter<"DevLogReaction"> | string
-    type?: EnumReactionTypeFilter<"DevLogReaction"> | $Enums.ReactionType
+    type?: StringFilter<"DevLogReaction"> | string
   }
 
   export type UserCreateWithoutProblemsInput = {
@@ -29105,6 +29036,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -29137,6 +29069,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -29329,6 +29262,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29361,6 +29295,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29494,6 +29429,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -29526,6 +29462,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -29671,6 +29608,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29703,6 +29641,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29917,6 +29856,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -29949,6 +29889,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30054,6 +29995,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30086,6 +30028,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30233,6 +30176,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30265,6 +30209,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30345,6 +30290,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30377,6 +30323,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30409,6 +30356,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30441,6 +30389,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30518,6 +30467,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30550,6 +30500,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30858,6 +30809,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -30890,6 +30842,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31001,6 +30954,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31033,6 +30987,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31250,6 +31205,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31282,6 +31238,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31401,6 +31358,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31433,6 +31391,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31522,6 +31481,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31554,6 +31514,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31633,6 +31594,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31665,6 +31627,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31697,6 +31660,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31729,6 +31693,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31802,6 +31767,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31834,6 +31800,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31897,6 +31864,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31929,6 +31897,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -31977,6 +31946,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32009,6 +31979,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32041,6 +32012,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -32073,6 +32045,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -32098,14 +32071,14 @@ export namespace Prisma {
 
   export type DevLogReactionCreateWithoutDevLogInput = {
     id?: string
-    type: $Enums.ReactionType
+    type: string
     user: UserCreateNestedOneWithoutDevLogReactionsInput
   }
 
   export type DevLogReactionUncheckedCreateWithoutDevLogInput = {
     id?: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionCreateOrConnectWithoutDevLogInput = {
@@ -32143,6 +32116,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32175,6 +32149,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32223,6 +32198,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -32255,6 +32231,7 @@ export namespace Prisma {
     forgotPasswordOtp?: string | null
     forgotPasswordOtpExpiry?: Date | string | null
     provider?: string | null
+    proSince?: Date | string | null
     currentStreak?: number
     longestStreak?: number
     lastSolvedDate?: Date | string | null
@@ -32332,6 +32309,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32364,6 +32342,7 @@ export namespace Prisma {
     forgotPasswordOtp?: NullableStringFieldUpdateOperationsInput | string | null
     forgotPasswordOtpExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    proSince?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastSolvedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32514,7 +32493,6 @@ export namespace Prisma {
     id?: string
     type: $Enums.NotificationType
     content: string
-    isRead?: boolean
     referenceId?: string | null
     createdAt?: Date | string
   }
@@ -32533,7 +32511,7 @@ export namespace Prisma {
   export type DevLogReactionCreateManyUserInput = {
     id?: string
     devLogId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type ProblemUpdateWithoutUserInput = {
@@ -32839,7 +32817,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32848,7 +32825,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32857,7 +32833,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     content?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
     referenceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32899,20 +32874,20 @@ export namespace Prisma {
 
   export type DevLogReactionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
     devLog?: DevLogUpdateOneRequiredWithoutReactionsNestedInput
   }
 
   export type DevLogReactionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     devLogId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type DevLogReactionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     devLogId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubmissionCreateManyProblemInput = {
@@ -33314,25 +33289,25 @@ export namespace Prisma {
   export type DevLogReactionCreateManyDevLogInput = {
     id?: string
     userId: string
-    type: $Enums.ReactionType
+    type: string
   }
 
   export type DevLogReactionUpdateWithoutDevLogInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutDevLogReactionsNestedInput
   }
 
   export type DevLogReactionUncheckedUpdateWithoutDevLogInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type DevLogReactionUncheckedUpdateManyWithoutDevLogInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumReactionTypeFieldUpdateOperationsInput | $Enums.ReactionType
+    type?: StringFieldUpdateOperationsInput | string
   }
 
 

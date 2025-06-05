@@ -1,5 +1,12 @@
 import { db } from "../libs/db.js";
+import crypto from "crypto";
+import Razorpay from "razorpay";
 import { uploadOnCloudinary } from "../libs/cloudinary.js";
+
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,  
+});
 
 export const check = async (req, res) => {
   try {
@@ -203,6 +210,104 @@ export const searchUser = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: "Internal server error while searching users",
+    });
+  }
+};
+
+export const initiateProUpgrade = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await db.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (user.role.includes("PRO")) {
+      return res.status(400).json({ success: false, message: "User is already PRO" });
+    }
+
+    const receipt = `pro_upgrade_${userId.slice(0, 10)}`;
+    const options = {
+      amount: 29900, // ₹299 in paise
+      currency: "INR",
+      receipt: receipt,
+      notes: {
+        userId,
+        type: "PRO_UPGRADE",
+      }
+    };
+
+    const razorpayOrder = await razorpayInstance.orders.create(options);
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment initiated",
+      order: razorpayOrder,
+      key: process.env.RAZORPAY_KEY_ID
+    });
+
+  } catch (error) {
+    console.error("Error initiating PRO upgrade:", error);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Error while initiating payment",
+    });
+  }
+};
+
+export const verifyProUpgrade = async (req, res) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+
+  try {
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields for payment verification",
+      });
+    }
+
+    const userId = req.user.id;
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment signature",
+      });
+    }
+
+    const user = await db.user.findUnique({ where: { id: userId } });
+    if (user.role.includes("PRO")) {
+      return res.status(200).json({
+        success: true,
+        message: "User is already PRO",
+      });
+    }
+
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: { 
+        role: "PRO",
+        proSince: new Date() 
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "PRO upgrade successful",
+      user: updatedUser,
+    });
+
+  } catch (error) {
+    console.error("PRO upgrade verification error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred during PRO upgrade",
     });
   }
 };

@@ -38,6 +38,7 @@ import { useDebounce } from "use-debounce";
 import { toast } from "sonner";
 import { useRef } from "react";
 import { axiosInstance } from "../../libs/axios";
+import UpgradeToProModal from "../UpgradeToProModal";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -68,13 +69,13 @@ const ProblemPage = () => {
   const [selectedProblemId, setSelectedProblemId] = useState(null);
   const { isExecuting, executeCode, submission } = useExecutionStore();
 
-  // AI Autocomplete State
   const [aiSuggestions, setAiSuggestions] = useState("");
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [isAiEnabled, setIsAiEnabled] = useState(false);
   const [debouncedCode] = useDebounce(code, 1000);
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   useEffect(() => {
     getProblemById(id);
@@ -123,9 +124,9 @@ const ProblemPage = () => {
       const response = await axiosInstance.post("/ai/completions", {
         code: debouncedCode,
         language: selectedLanguage,
-      })
+      });
 
-      const data =  response.data
+      const data = response.data;
       if (data.success) {
         setAiSuggestions(data.completion);
       } else if (
@@ -185,13 +186,12 @@ const ProblemPage = () => {
     [aiSuggestions, handleAcceptSuggestion]
   );
 
-
   useEffect(() => {
-  window.addEventListener("keydown", handleKeyDown);
-  return () => {
-    window.removeEventListener("keydown", handleKeyDown);
-  };
-}, [handleKeyDown]);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   const handleToggleAI = () => {
     if (!user?.role?.includes("PRO")) {
@@ -199,7 +199,7 @@ const ProblemPage = () => {
         description: "This feature is only available for PRO users",
         action: {
           label: "Upgrade",
-          onClick: () => (window.location.href = "/pricing"),
+          onClick: () => setShowUpgradeModal(true),
         },
       });
       return;
@@ -666,6 +666,10 @@ const ProblemPage = () => {
         onClose={() => setOpenBugModal(false)}
         problemId={problem.id}
       />
+
+      {showUpgradeModal && (
+        <UpgradeToProModal onClose={() => setShowUpgradeModal(false)} />
+      )}
     </div>
   );
 };

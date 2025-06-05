@@ -67,92 +67,35 @@ export const useUserStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
-  
-  updateUserFollowStatus: (userId, isFollowing) => {
-    set((state) => ({
-      followers: state.followers.map(user =>
-        user.id === userId ? { ...user, isFollowing } : user
-      ),
-      following: state.following.map(user =>
-        user.id === userId ? { ...user, isFollowing } : user
-      ),
-      searchResults: state.searchResults.map(user =>
-        user.id === userId ? { ...user, isFollowing } : user
-      ),
-      viewedProfile: state.viewedProfile?.id === userId 
-      ? { ...state.viewedProfile, isFollowing }
-      : state.viewedProfile
-    }));
-  },
 
-  followUser: async (userId) => {
+  upgradeToPro: async () => {
     set({ isLoading: true });
     try {
-      const res = await axiosInstance.post(`/users/follow/${userId}`);
-      set(state => ({
-        following: [...state.following, res.data.followedUser],
-        user: {
-          ...state.user,
-          followingCount: state.user.followingCount + 1,
-        }
-      }));
-      get().updateUserFollowStatus(userId, true);
-      toast.success(res.data.message);
-      return res.data;
+      const response = await axiosInstance.post("/users/initiate-pro-upgrade");
+      return response.data;
     } catch (error) {
-      console.error("Error following user:", error);
-      toast.error(error.response?.data?.message || "Failed to follow user");
+      console.error("Error initiating PRO upgrade:", error);
+      toast.error(error.response?.data?.message || "Failed to initiate PRO upgrade");
       throw error;
     } finally {
       set({ isLoading: false });
     }
   },
 
-  unfollowUser: async (userId) => {
+  verifyProUpgrade: async (paymentData) => {
     set({ isLoading: true });
     try {
-      const res = await axiosInstance.post(`/users/unfollow/${userId}`);
-      set(state => ({
-        following: state.following.filter(user => user.id !== userId),
-        user: {
-          ...state.user,
-          followingCount: Math.max(0, state.user.followingCount - 1),
-        }
-      }));
-      get().updateUserFollowStatus(userId, false);
-      showToast(res);
-      return res.data;
+      const response = await axiosInstance.post("/users/verify-pro-upgrade", paymentData);
+      if (response.data.success) {
+        await get().getUserDetails();
+      }
+      return response.data;
     } catch (error) {
-      console.error("Error unfollowing user:", error);
-      showToast(error);
+      console.error("Error verifying PRO upgrade:", error);
+      toast.error(error.response?.data?.message || "Failed to verify PRO upgrade");
       throw error;
     } finally {
       set({ isLoading: false });
     }
   },
-
-  fetchFollowers: async () => {
-    set({ isLoading: true });
-    try {
-      const res = await axiosInstance.get('/users/followers');
-      set({ followers: res.data.followers });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-
-  fetchFollowing: async () => {
-    set({ isLoading: true });
-    try {
-      const res = await axiosInstance.get('/users/followings');
-      set({ following: res.data.following });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-
 }));

@@ -27,6 +27,7 @@ import ShortcutNinja from "./components/BreakZone/CodingGames/ShortcutNinja";
 import EmojiPictionary from "./components/BreakZone/CodingGames/EmojiPictionary";
 import RopeBurning from "./components/BreakZone/BrainTeasers/RopeBurning";
 import RiverCrossing from "./components/BreakZone/BrainTeasers/RiverCrossing";
+import DevLogComponent from "./components/DevLog/DevLogComponent";
 
 
 const App = () => {
@@ -67,6 +68,8 @@ const App = () => {
         <Route path="/games/emoji-pictionary" element={<EmojiPictionary/>}/>
         <Route path="/puzzles/rope-burning" element={<RopeBurning/>}/>
         <Route path="/puzzles/river-crossing" element={<RiverCrossing/>}/>
+
+        <Route path="/dev-log" element={<DevLogComponent/>}/>
           
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />

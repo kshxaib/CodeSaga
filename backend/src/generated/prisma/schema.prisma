@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -41,13 +42,6 @@ enum InvitationStatus {
   PENDING
   ACCEPTED
   DECLINED
-  CANCELLED
-}
-
-enum ReactionType {
-  HEART
-  LAUGH
-  LAMP
 }
 
 model User {
@@ -64,6 +58,7 @@ model User {
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
   provider                String?
+  proSince                DateTime?
 
   currentStreak  Int       @default(0)
   longestStreak  Int       @default(0)
@@ -295,7 +290,6 @@ model Notification {
   userId      String
   type        NotificationType
   content     String
-  isRead      Boolean          @default(false)
   referenceId String?
   createdAt   DateTime         @default(now())
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -321,10 +315,10 @@ model DevLog {
 }
 
 model DevLogReaction {
-  id       String       @id @default(uuid())
+  id       String @id @default(uuid())
   devLogId String
   userId   String
-  type     ReactionType
+  type     String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   devLog DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
