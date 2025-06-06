@@ -82,7 +82,7 @@ export default function RegexRush() {
   }, [score, strings.length]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-950 text-white flex flex-col items-center justify-center p-6 space-y-6 relative">
+    <div className="min-h-screen min-w-screen  bg-gradient-to-br from-gray-900 to-gray-950 text-white flex flex-col items-center justify-center p-6 space-y-6 relative">
       {/* Back Button - Moved down slightly */}
       <Link to="/break-zone" className="absolute top-6 left-4 group">
         <motion.div

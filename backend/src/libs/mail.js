@@ -19,7 +19,7 @@ export const sendEmail = async(name="", email="", code="", subject="", password 
   }
 
   const { data, error } = await resend.emails.send({
-    from: 'CodeSaga Support <support@resend.dev>',
+    from: 'CodeSaga <support@codesaga.live>',
     to: [email],
     subject: subject,
     html: html

@@ -91,7 +91,7 @@ export default function ShortcutNinja() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 to-lime-800 text-white p-6 flex flex-col items-center justify-start relative">
+    <div className="min-h-screen min-w-screen  bg-gradient-to-br from-green-900 to-lime-800 text-white p-6 flex flex-col items-center justify-start relative">
       {/* Back Button */}
       <Link to="/break-zone" className="absolute top-4 left-4 group">
         <motion.div

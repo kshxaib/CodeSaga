@@ -6,7 +6,7 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        rimary: '#4f46e5',
+        primary: '#4f46e5',
         secondary: '#10b981'
       }
     }

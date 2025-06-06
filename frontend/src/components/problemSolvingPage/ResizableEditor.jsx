@@ -21,7 +21,7 @@ import {
 import { useEditorSizeStore } from "../../store/useEditorSizeStore";
 import { useDebounce } from "use-debounce";
 import { toast } from "sonner";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const ResizableEditor = ({
   code,
@@ -49,6 +49,7 @@ const ResizableEditor = ({
   const [editorInstance, setEditorInstance] = useState(null);
   const [debouncedCode] = useDebounce(code, 1500);
   const decorationsRef = useRef([]);
+  const location = useLocation();
 
   const getStorageKey = () =>
     `problem_${problemId}_${language.toLowerCase()}_code`;
@@ -119,7 +120,7 @@ const ResizableEditor = ({
   };
 
   useEffect(() => {
-    if (!editorInstance || !monacoRef.current || !aiSuggestions) {
+    if (!editorInstance || !monacoRef?.current || !aiSuggestions) {
       return;
     }
 
@@ -137,7 +138,8 @@ const ResizableEditor = ({
           after: {
             content: aiSuggestions,
             inlineClassName: "ai-suggestion-text",
-            cursorStops: monacoRef.current.editor?.InjectedTextCursorStops?.Right ?? 2,
+            cursorStops:
+              monacoRef.current.editor?.InjectedTextCursorStops?.Right ?? 2,
           },
           hoverMessage: {
             value: "Press Ctrl+Shift to accept suggestion",
@@ -274,22 +276,24 @@ const ResizableEditor = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={onToggleAi}
-              className={`btn btn-ghost btn-sm ${
-                isAiEnabled
-                  ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                  : "text-gray-400 hover:text-gray-300 hover:bg-gray-700"
-              }`}
-              title={`AI Autocomplete (Ctrl+Shift)
+            {!location.pathname.startsWith("/contest") && (
+              <button
+                onClick={onToggleAi}
+                className={`btn btn-ghost btn-sm ${
+                  isAiEnabled
+                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                    : "text-gray-400 hover:text-gray-300 hover:bg-gray-700"
+                }`}
+                title={`AI Autocomplete (Ctrl+Shift)
                 `}
-            >
-              {isAiLoading ? (
-                <Loader className="w-4 h-4 animate-spin" />
-              ) : (
-                <Wand2 size={16} />
-              )}
-            </button>
+              >
+                {isAiLoading ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Wand2 size={16} />
+                )}
+              </button>
+            )}
 
             <div className="dropdown dropdown-end">
               <button
@@ -390,20 +394,26 @@ const ResizableEditor = ({
               </ul>
             </div>
 
-            <button
-              onClick={toggleFullscreen}
-              className="btn btn-ghost btn-sm text-gray-400 hover:text-gray-300 hover:bg-gray-700"
-              title={isFullscreen ? "Minimize" : "Maximize"}
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </button>
+            {!location.pathname.startsWith("/contest") && (
+              <button
+                onClick={toggleFullscreen}
+                className="btn btn-ghost btn-sm text-gray-400 hover:text-gray-300 hover:bg-gray-700"
+                title={isFullscreen ? "Minimize" : "Maximize"}
+              >
+                {isFullscreen ? (
+                  <Minimize2 size={16} />
+                ) : (
+                  <Maximize2 size={16} />
+                )}
+              </button>
+            )}
           </div>
         </div>
 
         <div className="flex-1">
           <Editor
-            height="100%"
-            width="100%"
+            height={location.pathname.startsWith("/contest") ? "290px" : "100%"}
+            width={"100%"}
             language={language.toLowerCase()}
             theme={editorTheme}
             value={code}
@@ -489,9 +499,11 @@ const ResizableEditor = ({
               {!isExecuting && <Play className="w-4 h-4" />}
               {isExecuting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin"/> Running...
+                  <Loader2 className="w-4 h-4 animate-spin" /> Running...
                 </>
-              ) : "Run Code"}
+              ) : (
+                "Run Code"
+              )}
             </button>
           </div>
         </div>

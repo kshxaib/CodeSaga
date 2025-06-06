@@ -221,7 +221,7 @@ const FocusMusicPlayer = () => {
   }, [isPlaying]);
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-2xl text-white max-w-4xl mx-auto">
+    <div className="min-w-screen  bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-2xl text-white max-w-4xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

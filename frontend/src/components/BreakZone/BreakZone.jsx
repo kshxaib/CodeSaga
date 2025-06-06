@@ -360,7 +360,7 @@ const BreakZone = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10">
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

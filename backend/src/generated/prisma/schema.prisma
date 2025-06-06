@@ -29,19 +29,10 @@ enum ReportReason {
   OTHER
 }
 
-enum NotificationType {
-  INVITATION
-  ACCEPTED_INVITATION
-  COLLABORATION_JOINED
-  PROBLEM_SOLVED
-  NEW_FOLLOWER
-  GENERAL
-}
-
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
+enum ContestStatus {
+  UPCOMING
+  LIVE
+  COMPLETED
 }
 
 model User {
@@ -64,18 +55,20 @@ model User {
   longestStreak  Int       @default(0)
   lastSolvedDate DateTime?
 
-  problems           Problem[]
-  submission         Submission[]
-  problemSolved      ProblemSolved[]
-  playlists          Playlist[]
-  submittedReports   ProblemReport[]
-  discussionMessages DiscussionMessage[]
-  discussionReplies  DiscussionReply[]
-  discussionUpvotes  DiscussionUpvote[]
-  playlistPurchases  PlaylistPurchase[]
-  notifications      Notification[]
-  devLogs            DevLog[]
-  devLogReactions    DevLogReaction[]
+  problems            Problem[]
+  submission          Submission[]
+  problemSolved       ProblemSolved[]
+  playlists           Playlist[]
+  submittedReports    ProblemReport[]
+  discussionMessages  DiscussionMessage[]
+  discussionReplies   DiscussionReply[]
+  discussionUpvotes   DiscussionUpvote[]
+  playlistPurchases   PlaylistPurchase[]
+  devLogs             DevLog[]
+  devLogReactions     DevLogReaction[]
+  createdContests     Contest[]
+  contestParticipants ContestParticipant[]
+  contestSubmissions  ContestSubmission[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,12 +97,85 @@ model Problem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  submission        Submission[]
-  solvedBy          ProblemSolved[]
-  problemsPlaylists ProblemInPlaylist[]
-  reports           ProblemReport[]
-  discussions       ProblemDiscussion[]
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submission         Submission[]
+  solvedBy           ProblemSolved[]
+  problemsPlaylists  ProblemInPlaylist[]
+  reports            ProblemReport[]
+  discussions        ProblemDiscussion[]
+  contestProblems    ContestProblem[]
+  contestSubmissions ContestSubmission[]
+}
+
+model Contest {
+  id              String        @id @default(uuid())
+  name            String
+  description     String
+  startTime       DateTime
+  endTime         DateTime
+  maxParticipants Int?
+  createdBy       String
+  status          ContestStatus @default(UPCOMING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creator      User                 @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  problems     ContestProblem[]
+  participants ContestParticipant[]
+  submissions  ContestSubmission[]
+
+  @@index([startTime])
+  @@index([status])
+}
+
+model ContestProblem {
+  id        String @id @default(uuid())
+  contestId String
+  problemId String
+  points    Int    @default(100)
+  order     Int
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([contestId, problemId])
+  @@unique([contestId, order])
+}
+
+model ContestParticipant {
+  id         String   @id @default(uuid())
+  contestId  String
+  userId     String
+  joinedAt   DateTime @default(now())
+  totalScore Int      @default(0)
+  rank       Int?
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([contestId, userId])
+  @@index([contestId, totalScore])
+}
+
+model ContestSubmission {
+  id          String   @id @default(uuid())
+  contestId   String
+  userId      String
+  problemId   String
+  sourceCode  String
+  language    String
+  status      String
+  score       Int      @default(0)
+  submittedAt DateTime @default(now())
+  timeTaken   Int? // in minutes from contest start
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([contestId, userId])
+  @@index([contestId, problemId])
 }
 
 model ProblemReaction {
@@ -283,18 +349,6 @@ model DiscussionUpvote {
   message DiscussionMessage @relation(fields: [messageId], references: [id])
 
   @@unique([userId, messageId])
-}
-
-model Notification {
-  id          String           @id @default(uuid())
-  userId      String
-  type        NotificationType
-  content     String
-  referenceId String?
-  createdAt   DateTime         @default(now())
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }
 
 model DevLog {

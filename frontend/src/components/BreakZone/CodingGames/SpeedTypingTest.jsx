@@ -173,7 +173,7 @@ export default function TypingTest() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-950 text-white p-6 flex flex-col items-center justify-start relative">
+    <div className="min-h-screen min-w-screen  bg-gradient-to-br from-gray-900 to-gray-950 text-white p-6 flex flex-col items-center justify-start relative">
       {/* Back Button */}
       <Link to="/break-zone" className="absolute top-4 left-4 group">
         <motion.div

@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
   binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
 }
 
@@ -29,12 +29,11 @@ enum ReportReason {
   OTHER
 }
 
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
+enum ContestStatus {
+  UPCOMING
+  LIVE
+  COMPLETED
 }
-
 
 model User {
   id                      String    @id @default(uuid())
@@ -50,31 +49,33 @@ model User {
   forgotPasswordOtp       String?
   forgotPasswordOtpExpiry DateTime?
   provider                String?
-  proSince DateTime?
+  proSince                DateTime?
 
   currentStreak  Int       @default(0)
   longestStreak  Int       @default(0)
   lastSolvedDate DateTime?
 
-  problems            Problem[]
-  submission          Submission[]
-  problemSolved       ProblemSolved[]
-  playlists           Playlist[]
-  submittedReports    ProblemReport[]
-  discussionMessages  DiscussionMessage[]
-  discussionReplies   DiscussionReply[]
-  discussionUpvotes   DiscussionUpvote[]
-  playlistPurchases   PlaylistPurchase[]
-  devLogs             DevLog[]
-  devLogReactions     DevLogReaction[]
-
+  problems           Problem[]
+  submission         Submission[]
+  problemSolved      ProblemSolved[]
+  playlists          Playlist[]
+  submittedReports   ProblemReport[]
+  discussionMessages DiscussionMessage[]
+  discussionReplies  DiscussionReply[]
+  discussionUpvotes  DiscussionUpvote[]
+  playlistPurchases  PlaylistPurchase[]
+  devLogs            DevLog[]
+  devLogReactions    DevLogReaction[]
+createdContests    Contest[]
+  contestParticipants ContestParticipant[]
+  contestSubmissions ContestSubmission[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Problem {
-  id                 String              @id @default(uuid())
+  id                 String     @id @default(uuid())
   title              String
   description        String
   difficulty         Difficulty
@@ -87,8 +88,8 @@ model Problem {
   testcases          Json
   codeSnippets       Json
   referenceSolutions Json
-  isPaid             Boolean             @default(false)
-  askedIn            String[]            @default([])
+  isPaid             Boolean    @default(false)
+  askedIn            String[]   @default([])
 
   likes    Int @default(0)
   dislikes Int @default(0)
@@ -102,6 +103,79 @@ model Problem {
   problemsPlaylists ProblemInPlaylist[]
   reports           ProblemReport[]
   discussions       ProblemDiscussion[]
+  contestProblems   ContestProblem[]
+  contestSubmissions ContestSubmission[]
+}
+
+model Contest {
+  id                String        @id @default(uuid())
+  name              String
+  description       String
+  startTime         DateTime
+  endTime           DateTime
+  maxParticipants   Int?
+  createdBy         String
+  status            ContestStatus @default(UPCOMING)
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  creator           User                @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  problems          ContestProblem[]
+  participants      ContestParticipant[]
+  submissions       ContestSubmission[]
+  
+  @@index([startTime])
+  @@index([status])
+}
+
+model ContestProblem {
+  id        String @id @default(uuid())
+  contestId String
+  problemId String
+  points    Int    @default(100)
+  order     Int
+  
+  contest   Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  @@unique([contestId, problemId])
+  @@unique([contestId, order])
+}
+
+model ContestParticipant {
+  id           String   @id @default(uuid())
+  contestId    String
+  userId       String
+  joinedAt     DateTime @default(now())
+  totalScore   Int      @default(0)
+  rank         Int?
+  
+  contest      Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([contestId, userId])
+  @@index([contestId, totalScore])
+}
+
+model ContestSubmission {
+  id            String   @id @default(uuid())
+  contestId     String
+  userId        String
+  problemId     String
+  sourceCode    String
+  language      String
+  status        String
+  score         Int      @default(0)
+  submittedAt   DateTime @default(now())
+  timeTaken     Int?     // in minutes from contest start
+  
+  contest       Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem       Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  @@index([contestId, userId])
+  @@index([contestId, problemId])
 }
 
 model ProblemReaction {
@@ -288,20 +362,20 @@ model DevLog {
   updatedAt   DateTime @updatedAt
   upvotes     Int      @default(0)
 
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reactions  DevLogReaction[]
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reactions DevLogReaction[]
 
   @@index([userId])
 }
 
 model DevLogReaction {
-  id       String        @id @default(uuid())
+  id       String @id @default(uuid())
   devLogId String
   userId   String
   type     String
 
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  devLog  DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  devLog DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
 
   @@unique([devLogId, userId, type])
 }

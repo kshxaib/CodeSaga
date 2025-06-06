@@ -79,7 +79,7 @@ export default function RiverCrossing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-900 to-cyan-800 text-white p-6 flex flex-col items-center justify-start relative">
+    <div className="min-h-screen min-w-screen  bg-gradient-to-br from-sky-900 to-cyan-800 text-white p-6 flex flex-col items-center justify-start relative">
       {/* Back Button - Fixed to use navigate */}
       <motion.button 
         onClick={() => navigate("/break-zone")} 

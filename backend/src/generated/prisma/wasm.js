@@ -164,6 +164,49 @@ exports.Prisma.ProblemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  maxParticipants: 'maxParticipants',
+  createdBy: 'createdBy',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ContestProblemScalarFieldEnum = {
+  id: 'id',
+  contestId: 'contestId',
+  problemId: 'problemId',
+  points: 'points',
+  order: 'order'
+};
+
+exports.Prisma.ContestParticipantScalarFieldEnum = {
+  id: 'id',
+  contestId: 'contestId',
+  userId: 'userId',
+  joinedAt: 'joinedAt',
+  totalScore: 'totalScore',
+  rank: 'rank'
+};
+
+exports.Prisma.ContestSubmissionScalarFieldEnum = {
+  id: 'id',
+  contestId: 'contestId',
+  userId: 'userId',
+  problemId: 'problemId',
+  sourceCode: 'sourceCode',
+  language: 'language',
+  status: 'status',
+  score: 'score',
+  submittedAt: 'submittedAt',
+  timeTaken: 'timeTaken'
+};
+
 exports.Prisma.ProblemReactionScalarFieldEnum = {
   id: 'id',
   problemId: 'problemId',
@@ -282,15 +325,6 @@ exports.Prisma.DiscussionUpvoteScalarFieldEnum = {
   messageId: 'messageId'
 };
 
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  content: 'content',
-  referenceId: 'referenceId',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.DevLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -346,6 +380,12 @@ exports.Difficulty = exports.$Enums.Difficulty = {
   HARD: 'HARD'
 };
 
+exports.ContestStatus = exports.$Enums.ContestStatus = {
+  UPCOMING: 'UPCOMING',
+  LIVE: 'LIVE',
+  COMPLETED: 'COMPLETED'
+};
+
 exports.ReportReason = exports.$Enums.ReportReason = {
   INCORRECT_TEST_CASES: 'INCORRECT_TEST_CASES',
   POOR_DESCRIPTION: 'POOR_DESCRIPTION',
@@ -354,18 +394,13 @@ exports.ReportReason = exports.$Enums.ReportReason = {
   OTHER: 'OTHER'
 };
 
-exports.NotificationType = exports.$Enums.NotificationType = {
-  INVITATION: 'INVITATION',
-  ACCEPTED_INVITATION: 'ACCEPTED_INVITATION',
-  COLLABORATION_JOINED: 'COLLABORATION_JOINED',
-  PROBLEM_SOLVED: 'PROBLEM_SOLVED',
-  NEW_FOLLOWER: 'NEW_FOLLOWER',
-  GENERAL: 'GENERAL'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Problem: 'Problem',
+  Contest: 'Contest',
+  ContestProblem: 'ContestProblem',
+  ContestParticipant: 'ContestParticipant',
+  ContestSubmission: 'ContestSubmission',
   ProblemReaction: 'ProblemReaction',
   Submission: 'Submission',
   TestCaseResult: 'TestCaseResult',
@@ -378,7 +413,6 @@ exports.Prisma.ModelName = {
   DiscussionMessage: 'DiscussionMessage',
   DiscussionReply: 'DiscussionReply',
   DiscussionUpvote: 'DiscussionUpvote',
-  Notification: 'Notification',
   DevLog: 'DevLog',
   DevLogReaction: 'DevLogReaction'
 };

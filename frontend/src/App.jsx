@@ -28,6 +28,9 @@ import EmojiPictionary from "./components/BreakZone/CodingGames/EmojiPictionary"
 import RopeBurning from "./components/BreakZone/BrainTeasers/RopeBurning";
 import RiverCrossing from "./components/BreakZone/BrainTeasers/RiverCrossing";
 import DevLogComponent from "./components/DevLog/DevLogComponent";
+import ContestPage from "./components/contest/ContestPage";
+import ContestDetail from "./components/contest/ContestDetail";
+import LiveContestPage from "./components/contest/LiveContestPage";
 
 
 const App = () => {
@@ -36,6 +39,7 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
 
 
   if (isCheckingAuth && !authUser) {
@@ -70,6 +74,10 @@ const App = () => {
         <Route path="/puzzles/river-crossing" element={<RiverCrossing/>}/>
 
         <Route path="/dev-log" element={<DevLogComponent/>}/>
+        <Route path="/contests" element={<ContestPage/>}/>
+        <Route path="/contests/:contestId" element={<ContestDetail />} />
+        <Route path="/contests/:contestId/live" element={<LiveContestPage />} />
+        <Route path="/contests/:contestId/live/:problemId" element={<LiveContestPage />}/>
           
           <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/store" element={authUser ? <StorePage /> : <Navigate to="/login" />} />

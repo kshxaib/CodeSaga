@@ -19,6 +19,7 @@ import { invitationEvents } from "./libs/events.js";
 import breakzoneRoutes from "./routes/breakzone.route.js";
 import aiRoutes from "./routes/ai.route.js";
 import devLogRoutes from "./routes/devLog.route.js";
+import contestRoutes from "./routes/contest.route.js";
 
 dotenv.config();
 const app = express();
@@ -65,6 +66,7 @@ app.use("/api/v1/problems/report", reportRoutes);
 app.use("/api/v1/breakzone", breakzoneRoutes)
 app.use("/api/v1/ai", aiRoutes)
 app.use("/api/v1/dev-log", devLogRoutes)
+app.use("/api/v1/contests", contestRoutes)
 
 invitationEvents.on('invitationCreated', (invitation) => {
   io.emit('newInvitation', invitation); 

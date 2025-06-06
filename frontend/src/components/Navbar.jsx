@@ -30,17 +30,13 @@ const Navbar = () => {
     { label: "Store", path: "/store" },
     { label: "Break Zone", path: "/break-zone" },
     { label: "DevLogs", path: "/dev-log" },
+    { label: "Contests", path: "/contests" },
   ];
 
   return (
-    <div className="navbar min-w-screen bg-gray-900/90 border-b border-purple-500/30 text-gray-100 px-4 md:px-8 lg:px-16 shadow-md backdrop-blur-sm">
+<div className="navbar relative z-[9999] min-w-screen bg-gray-900/90 border-b border-purple-500/30 text-gray-100 px-4 md:px-8 lg:px-16">
       <div className="flex-1">
         <div className="flex items-center gap-10">
-          <Link to="/" className="text-2xl font-bold">
-            <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-full border border-purple-500/30 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">DS</span>
-            </div>
-          </Link>
           <div className="hidden md:flex gap-6">
             {navLinks.map(({ label, path }) => (
               <Link
@@ -67,7 +63,7 @@ const Navbar = () => {
           </span>
         </div>
 
-        <div ref={dropdownRef} className="relative">
+        <div ref={dropdownRef} className="relativ z-[9999]">
           <button
             onClick={() => setDropdownOpen(!isDropdownOpen)}
             className="btn btn-ghost btn-circle avatar transition-transform hover:scale-105"
@@ -89,7 +85,7 @@ const Navbar = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute right-0 mt-2 w-56 bg-gray-800 border border-purple-500/30 rounded-xl shadow-xl z-50 space-y-2 p-3"
+              className="absolute right-0 mt-2 w-56 bg-gray-800 border translate-x-[-20px] border-purple-500/30 rounded-xl shadow-xl z-50 space-y-2 p-3"
             >
               <div className="text-sm font-semibold text-gray-300 px-2 truncate">
                 {authUser?.name}

@@ -55,7 +55,7 @@ const TechFacts = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-indigo-900 to-purple-800 p-6 rounded-3xl shadow-2xl max-w-2xl mx-auto">
+    <div className="min-w-screen  bg-gradient-to-br from-indigo-900 to-purple-800 p-6 rounded-3xl shadow-2xl max-w-2xl mx-auto">
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
