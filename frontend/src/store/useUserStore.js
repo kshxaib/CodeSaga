@@ -98,4 +98,18 @@ export const useUserStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
+
+  getUserStats: async () => {
+    set({ isLoading: true });
+    try {
+      const response = await axiosInstance.get("/users/stats");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user stats:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch user stats");
+      throw error;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));

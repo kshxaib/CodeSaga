@@ -121,7 +121,7 @@ const CreateProblemForm = () => {
   const paidPlaylists = playlists.filter((playlist) => playlist.isPaid);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 py-8 px-4">
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="bg-gray-800/70 rounded-xl border border-gray-700 shadow-xl overflow-hidden backdrop-blur-sm">
           <div className="p-6 md:p-8">

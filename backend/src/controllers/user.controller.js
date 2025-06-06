@@ -2,47 +2,154 @@ import { db } from "../libs/db.js";
 import crypto from "crypto";
 import Razorpay from "razorpay";
 import { uploadOnCloudinary } from "../libs/cloudinary.js";
+import dayjs from "dayjs";
 
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,  
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-export const check = async (req, res) => {
+export const getUserDetails = async (req, res) => {
+  const userId = req.params.userId;
+
   try {
-    if (!req.user) {
-      return res.status(401).json({
-        message: "Unauthorized access",
-      });
+    const user = await db.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const [
+      totalSubmissions,
+      acceptedSubmissions,
+      problemsSolved,
+      recentSolvedProblems,
+      totalContests,
+      contestsWon,
+      contestRanks,
+      contestScores,
+      devLogs,
+      discussions,
+      replies,
+      upvotesReceived,
+      reports,
+      testCaseStats,
+      avgSubmission,
+      playlistsCreated,
+      playlistsPurchased,
+      solvedProblemsWithTags
+    ] = await Promise.all([
+      db.submission.count({ where: { userId } }),
+      db.submission.count({ where: { userId, status: "Accepted" } }),
+      db.problemSolved.count({ where: { userId } }),
+      db.problemSolved.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        include: { problem: true },
+      }),
+      db.contestParticipant.count({ where: { userId } }),
+      db.contestParticipant.count({ where: { userId, rank: 1 } }),
+      db.contestParticipant.findMany({
+        where: { userId, rank: { not: null } },
+        select: { rank: true },
+      }),
+      db.contestParticipant.findMany({
+        where: { userId },
+        orderBy: { joinedAt: "asc" },
+        select: { totalScore: true, joinedAt: true },
+      }),
+      db.devLog.findMany({ where: { userId } }),
+      db.discussionMessage.count({ where: { userId } }),
+      db.discussionReply.count({ where: { userId } }),
+      db.discussionUpvote.count({ where: { message: { userId } } }),
+      db.problemReport.groupBy({
+        by: ["status"],
+        where: { userId },
+        _count: { _all: true },
+      }),
+      db.testCaseResult.groupBy({
+        by: ["passed"],
+        where: { submission: { userId } },
+        _count: { _all: true },
+      }),
+      db.submission.aggregate({
+        where: { userId },
+        _avg: { memory: true, time: true },
+      }),
+      db.playlist.count({ where: { userId } }),
+      db.playlistPurchase.count({ where: { userId } }),
+      db.problemSolved.findMany({
+        where: { userId },
+        include: { problem: true },
+      })
+    ]);
+
+    const averageRank =
+      contestRanks.length > 0
+        ? contestRanks.reduce((sum, r) => sum + (r.rank ?? 0), 0) / contestRanks.length
+        : null;
+
+    const tagCounts = {};
+    for (const item of solvedProblemsWithTags) {
+      for (const tag of item.problem.tags) {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      }
     }
 
-    const user = await db.user.findUnique({
-      where: {
-        id: req.user.id,
+    return res.status(200).json({
+      profile: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        image: user.image,
+        bio: user.bio,
+        linkedin: user.linkedin,
+        portfolio: user.portfolio,
+        role: user.role,
+        proSince: user.proSince,
+        memberSince: user.createdAt,
       },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        username: true,
-        role: true,
-        image: true,
-        bio: true,
-        linkedin: true,
-        portfolio: true,
-        longestStreak: true,
-        currentStreak: true,
-        createdAt: true,
+      activity: {
+        totalSubmissions,
+        acceptedSubmissions,
+        problemsSolved,
+        recentSolvedProblems,
+        streak: {
+          currentStreak: user.currentStreak,
+          longestStreak: user.longestStreak,
+          lastSolvedDate: user.lastSolvedDate,
+        },
       },
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "User authenticated successfully",
-      user,
+      contests: {
+        totalContests,
+        contestsWon,
+        bestRank: Math.min(...contestRanks.map(r => r.rank ?? Infinity)),
+        averageRank,
+        scoreTimeline: contestScores,
+      },
+      testCases: {
+        passed: testCaseStats.find(t => t.passed === true)?._count._all || 0,
+        failed: testCaseStats.find(t => t.passed === false)?._count._all || 0,
+        averageMemory: avgSubmission._avg.memory,
+        averageTime: avgSubmission._avg.time,
+      },
+      contributions: {
+        devLogsWritten: devLogs.length,
+        devLogUpvotes: devLogs.reduce((sum, log) => sum + log.upvotes, 0),
+        discussions,
+        replies,
+        upvotesReceived,
+        reports,
+        playlistsCreated,
+        playlistsPurchased,
+      },
+      tags: Object.entries(tagCounts).map(([tag, count]) => ({ tag, count })),
     });
   } catch (error) {
-    throw new Error("Unauthorized access");
+    console.error("Error fetching user details:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -180,7 +287,7 @@ export const searchUser = async (req, res) => {
         name: true,
         username: true,
         image: true,
-        bio: true,       
+        bio: true,
       },
       take: 10,
     });
@@ -249,8 +356,8 @@ export const initiateProUpgrade = async (req, res) => {
 
   } catch (error) {
     console.error("Error initiating PRO upgrade:", error);
-    return res.status(500).json({ 
-      success: false, 
+    return res.status(500).json({
+      success: false,
       message: "Error while initiating payment",
     });
   }
@@ -291,9 +398,9 @@ export const verifyProUpgrade = async (req, res) => {
 
     const updatedUser = await db.user.update({
       where: { id: userId },
-      data: { 
+      data: {
         role: "PRO",
-        proSince: new Date() 
+        proSince: new Date()
       },
     });
 
@@ -308,6 +415,77 @@ export const verifyProUpgrade = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "An error occurred during PRO upgrade",
+    });
+  }
+};
+
+export const getUserStats = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const totalSolved = await prisma.problemSolved.count({
+      where: { userId },
+    });
+
+    const todayStart = dayjs().startOf("day").toDate();
+    const solvedToday = await prisma.problemSolved.count({
+      where: {
+        userId,
+        createdAt: { gte: todayStart },
+      },
+    });
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        currentStreak: true,
+        longestStreak: true,
+        lastSolvedDate: true,
+      },
+    });
+
+    const totalSubmissions = await prisma.submission.count({
+      where: { userId },
+    });
+
+    const correctSubmissions = await prisma.submission.count({
+      where: {
+        userId,
+        status: "Accepted",
+      },
+    });
+
+    const accuracy = totalSubmissions
+      ? Math.round((correctSubmissions / totalSubmissions) * 100)
+      : 0;
+
+    const rankedUsers = await prisma.user.findMany({
+      orderBy: { problemSolved: { _count: "desc" } },
+      select: { id: true },
+    });
+
+    const rank = rankedUsers.findIndex((u) => u.id === userId) + 1;
+    const rankPercentile = Math.round((rank / rankedUsers.length) * 100);
+    const stats=  {
+        solved: totalSolved,
+        solvedToday,
+        streak: user?.currentStreak ?? 0,
+        longestStreak: user?.longestStreak ?? 0,
+        accuracy,
+        rank,
+        rankPercentile,
+      }
+    console.log(stats)
+    return res.json({
+      success: true,
+      message: "User stats fetched successfully",
+      stats
+    });
+  } catch (err) {
+    console.error("[getUserStats]", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user stats"
     });
   }
 };

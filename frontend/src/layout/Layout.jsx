@@ -7,8 +7,11 @@ const Layout = () => {
 
   return (
     <div>
-      {location.pathname.startsWith("/problems") && !location.pathname.startsWith("/contests") &&
+      {location.pathname.startsWith("/problems")  &&
         !location.pathname.startsWith("/profile") && <Navbar />}
+        {(location.pathname.startsWith("/home") || location.pathname.startsWith("/my-playlists") || location.pathname.startsWith("/store")
+        || location.pathname.startsWith("/break-zone") || location.pathname.startsWith("/dev-log") || location.pathname.endsWith("/contests")
+      ) && <Navbar />}
       <Outlet />
     </div>
   );

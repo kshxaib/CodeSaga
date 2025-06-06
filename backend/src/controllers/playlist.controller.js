@@ -287,7 +287,6 @@ export const deletePlaylist = async (req, res) => {
 };
 
 export const getUnpurchasedPaidPlaylists = async (req, res) => {
-  console.log("request received");
   try {
     const userId = req.user.id;
 
@@ -500,3 +499,42 @@ export const getPurchaseHistory = async (req, res) => {
     });
   }
 }; 
+
+export const getLatestUnpurchasedPaidPlaylists = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const purchased = await db.playlistPurchase.findMany({
+      where: { userId },
+      select: { playlistId: true },
+    });
+
+    const purchasedIds = purchased.map(p => p.playlistId);
+
+    const playlists = await db.playlist.findMany({
+      where: {
+        isPaid: true,
+        id: {
+          notIn: purchasedIds,
+        },
+      },
+      include: {
+        problems: true,
+        purchases: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 2,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Latest unpurchased paid playlists fetched successfully",
+      playlists,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Error while fetching latest unpurchased paid playlists" });
+  }
+};

@@ -487,6 +487,7 @@ export const getRecommendedProblems = async (req, res) => {
     let recommended = await db.problem.findMany({
       where: {
         AND: [
+          {isPaid: false},
           { tags: { hasSome: uniqueTags } },
           { NOT: { solvedBy: { some: { userId: currentUserId } } } },
         ],

@@ -10,7 +10,7 @@ const DevLogComponent = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white px-4 py-10">
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white px-4 py-10">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -137,7 +137,7 @@ const CreateDevLogModal = ({ onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto p-4"
+      className="fixed  inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto p-4"
     >
       <motion.div
         ref={modalRef}
@@ -317,7 +317,7 @@ const DevLogList = ({ activeFilter, setActiveFilter }) => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <FilterTabs
         filters={filters}
         activeFilter={activeFilter}

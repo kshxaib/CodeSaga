@@ -170,14 +170,7 @@ const Profile = () => {
                   </div>
 
                   <div className="flex space-x-6 mb-8">
-                    <div className="text-center bg-gray-700/50 px-4 py-3 rounded-lg">
-                      <span className="block text-xl font-bold text-blue-400">{user.followerCount || 0}</span>
-                      <span className="text-sm text-gray-400">Followers</span>
-                    </div>
-                    <div className="text-center bg-gray-700/50 px-4 py-3 rounded-lg">
-                      <span className="block text-xl font-bold text-purple-400">{user.followingCount || 0}</span>
-                      <span className="text-sm text-gray-400">Following</span>
-                    </div>
+                    
                     <div className="text-center bg-gray-700/50 px-4 py-3 rounded-lg">
                       <span className="block text-xl font-bold text-indigo-400">
                         {new Date(user.createdAt).toLocaleDateString('en-US', {

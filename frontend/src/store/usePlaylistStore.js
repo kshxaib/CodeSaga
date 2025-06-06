@@ -1,4 +1,4 @@
-import {create} from "zustand";
+import { create } from "zustand";
 import { axiosInstance } from "../libs/axios";
 import { showToast } from "../libs/showToast";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ export const usePlaylistStore = create((set, get) => ({
     purchasedPlaylists: [],
     unpurchasedPlaylists: [],
     isUnpurchasedPlaylistsLoading: false,
+    latestPlaylists: [],
 
 
     createPlaylist: async (playlistData) => {
@@ -37,9 +38,9 @@ export const usePlaylistStore = create((set, get) => ({
         try {
             set({ isLoading: true });
             const res = await axiosInstance.get('/playlist');
-            set({ playlists: res.data.playlists});
+            set({ playlists: res.data.playlists });
         } catch (error) {
-            console.error(error);   
+            console.error(error);
             showToast(error)
         } finally {
             set({ isLoading: false });
@@ -65,7 +66,7 @@ export const usePlaylistStore = create((set, get) => ({
             const res = await axiosInstance.post(`/playlist/${playlistId}/add-problem`, { problemIds });
             showToast(res);
 
-            if(get().currentPlaylist?.id === playlistId){
+            if (get().currentPlaylist?.id === playlistId) {
                 await get().getPlaylistDetails(playlistId);
             }
         } catch (error) {
@@ -76,27 +77,27 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-   removeProblemFromPlaylist: async (playlistId, problemId) => {
-    try {
-        set({ isLoading: true });
-        const res = await axiosInstance.delete(
-            `/playlist/${playlistId}/remove-problem`,
-            { data: { problemIds: [problemId] } }  
-        );
-        showToast(res);
+    removeProblemFromPlaylist: async (playlistId, problemId) => {
+        try {
+            set({ isLoading: true });
+            const res = await axiosInstance.delete(
+                `/playlist/${playlistId}/remove-problem`,
+                { data: { problemIds: [problemId] } }
+            );
+            showToast(res);
 
-        if (get().currentPlaylist?.id === playlistId) {
-            await get().getPlaylistDetails(playlistId);
+            if (get().currentPlaylist?.id === playlistId) {
+                await get().getPlaylistDetails(playlistId);
+            }
+
+            await get().getAllPlaylistsOfUser();
+        } catch (error) {
+            console.error(error);
+            showToast(error);
+        } finally {
+            set({ isLoading: false });
         }
-        
-        await get().getAllPlaylistsOfUser();
-    } catch (error) {
-        console.error(error);
-        showToast(error);
-    } finally {
-        set({ isLoading: false });
-    }
-},
+    },
 
     deletePlaylist: async (playlistId) => {
         try {
@@ -130,59 +131,71 @@ export const usePlaylistStore = create((set, get) => ({
         }
     },
 
-      initiatePlaylistPurchase: async (playlistId) => {
-    try {
-      set({ isPurchasing: true });
-      const res = await axiosInstance.post(`/playlist/purchase/initiate/${playlistId}`);
-      return res.data;
-    } catch (error) {
-      console.error("Initiate purchase error:", error);
-      toast.error(error.response?.data?.message || "Failed to initiate payment");
-      throw error;
-    } finally {
-      set({ isPurchasing: false });
-    }
-  },
+    initiatePlaylistPurchase: async (playlistId) => {
+        try {
+            set({ isPurchasing: true });
+            const res = await axiosInstance.post(`/playlist/purchase/initiate/${playlistId}`);
+            return res.data;
+        } catch (error) {
+            console.error("Initiate purchase error:", error);
+            toast.error(error.response?.data?.message || "Failed to initiate payment");
+            throw error;
+        } finally {
+            set({ isPurchasing: false });
+        }
+    },
 
+    verifyPlaylistPurchase: async (paymentData) => {
+        try {
+            set({ isPurchasing: true });
+            const res = await axiosInstance.post('/playlist/purchase/verify', paymentData);
+            return res.data;
+        } catch (error) {
+            console.error("Verification error:", error);
+            toast.error(error.response?.data?.message || "Payment verification failed");
+            throw error;
+        } finally {
+            set({ isPurchasing: false });
+        }
+    },
 
-  verifyPlaylistPurchase: async (paymentData) => {
-    try {
-      set({ isPurchasing: true });
-      const res = await axiosInstance.post('/playlist/purchase/verify', paymentData);
-      return res.data;
-    } catch (error) {
-      console.error("Verification error:", error);
-      toast.error(error.response?.data?.message || "Payment verification failed");
-      throw error;
-    } finally {
-      set({ isPurchasing: false });
-    }
-  },
-
-  getPurchaseHistory: async () => {
+    getPurchaseHistory: async () => {
         try {
             set({ isLoading: true });
             const res = await axiosInstance.get('/playlist/purchase/history');
-            
+
             const userRole = get().authUser?.role;
             const userId = get().authUser?.id;
-            
+
             let purchases = res.data.purchases;
-            
+
             if (userRole !== 'ADMIN') {
                 purchases = purchases.filter(purchase => purchase.userId === userId);
             }
-            
-            set({ 
+
+            set({
                 purchasedPlaylists: purchases,
                 allPlaylists: res.data.playlists || []
             });
-            
+
             return purchases;
         } catch (error) {
             console.error("Error fetching purchase history:", error);
             toast.error(error.response?.data?.message || "Failed to fetch purchase history");
             throw error;
+        } finally {
+            set({ isLoading: false });
+        }
+    },
+
+    getLatestUnpurchasedPaidPlaylists: async () => {
+        try {
+            set({ isLoading: true });
+            const res = await axiosInstance.get('/playlist/latest/unpurchased-paid-playlists');
+            set({ latestPlaylists: res.data.playlists });
+        } catch (error) {
+            console.error(error);
+            showToast(error);
         } finally {
             set({ isLoading: false });
         }

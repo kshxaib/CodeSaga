@@ -115,7 +115,6 @@ const ProblemTable = ({ problems }) => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           
           <div>
-            <Link to="/home" className="text-blue-400 hover:text-blue-600 border border-blue-400 hover:border-blue-600 px-4 py-1 rounded-lg ">Back</Link>
             <h1 className="mt-2 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
               Problem Library
             </h1>

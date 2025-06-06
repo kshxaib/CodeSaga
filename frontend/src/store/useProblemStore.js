@@ -11,6 +11,7 @@ export const useProblemStore = create((set) => ({
   isUpdatingProblem: false,
   isGettingRandomProblem: false,
   isReactingToProblem: false,
+  recommendedProblems: [],
 
   createProblem: async (value) => {
     try {
@@ -161,6 +162,19 @@ export const useProblemStore = create((set) => ({
     } catch (error) {
       console.error("Error while checking problem in playlist", error);
       showToast(error);
+    }
+  },
+
+  getRecommendedProblems: async () => {
+    try {
+      set({ isLoading: true });
+      const res = await axiosInstance.get("/problems/recommendations");
+      set({ recommendedProblems: res.data.recommended });
+    } catch (error) {
+      console.error("Error while fetching recommended problems", error);
+      showToast(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 }));
