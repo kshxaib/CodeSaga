@@ -35,6 +35,18 @@ enum ContestStatus {
   COMPLETED
 }
 
+enum InterviewStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum RoundType {
+  INTRODUCTION
+  THEORY
+  CODING
+}
+
 model User {
   id                      String    @id @default(uuid())
   name                    String
@@ -69,6 +81,7 @@ model User {
   createdContests     Contest[]
   contestParticipants ContestParticipant[]
   contestSubmissions  ContestSubmission[]
+  interviews          Interview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -378,4 +391,47 @@ model DevLogReaction {
   devLog DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
 
   @@unique([devLogId, userId, type])
+}
+
+model Interview {
+  id              String           @id @default(uuid())
+  userId          String
+  domain          String // e.g., "Frontend", "Backend", "Fullstack"
+  technologies    String[] // e.g., ["React", "Node.js"]
+  rounds          InterviewRound[]
+  overallFeedback String?
+  overallScore    Float?
+  status          InterviewStatus  @default(NOT_STARTED)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model InterviewRound {
+  id          String              @id @default(uuid())
+  interviewId String
+  roundType   RoundType
+  questions   InterviewQuestion[]
+  feedback    String?
+  score       Float?
+  completedAt DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+}
+
+model InterviewQuestion {
+  id        String   @id @default(uuid())
+  roundId   String
+  question  String
+  answer    String?
+  feedback  String?
+  score     Float?
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  round InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
 }

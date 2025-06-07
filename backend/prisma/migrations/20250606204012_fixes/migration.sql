@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Submission" ALTER COLUMN "memory" SET DATA TYPE TEXT,
+ALTER COLUMN "time" SET DATA TYPE TEXT;

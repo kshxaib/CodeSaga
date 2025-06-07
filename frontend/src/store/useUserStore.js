@@ -1,31 +1,26 @@
 import { create } from "zustand";
 import { axiosInstance } from "../libs/axios";
 import { showToast } from "../libs/showToast";
-import io from 'socket.io-client';
 import { toast } from "sonner";
 
 
 export const useUserStore = create((set, get) => ({
   user: null,
   isLoading: false,
-  followers: [],
-  following: [],
   searchResults: [],
-  viewedProfile: null,
   socket: null,
 
   getUserDetails: async () => {
-    set({ isLoading: true });
-    try {
-      const res = await axiosInstance.get("/users/check");
-      set({ user: res.data.user });
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      showToast(error);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
+  set({ isLoading: true });
+  try {
+    const res = await axiosInstance.get("/users/check");
+    set({ user: res.data });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+  } finally {
+    set({ isLoading: false });
+  }
+},
 
   updateProfile: async (formData) => {
     console.log("Updating profile with data:", formData);

@@ -116,11 +116,11 @@ export const useDiscussionStore = create((set, get) => ({
       const tempMessage = {
         id: tempId,
         content,
-        userId: currentUser.id,
+        userId: currentUser?.user?.profile?.id,
         user: {
-          id: currentUser.id,
-          username: currentUser.username,
-          image: currentUser.image,
+          id: currentUser?.user?.profile?.id,
+          username: currentUser?.user?.profile?.username,
+          image: currentUser?.user?.profile?.image,
         },
         createdAt: new Date(),
         replies: [],
@@ -135,7 +135,7 @@ export const useDiscussionStore = create((set, get) => ({
         "newMessage",
         {
           problemId,
-          userId: currentUser.id,
+          userId: currentUser?.user?.profile?.id,
           content,
         },
         (confirmedMessage) => {
@@ -174,11 +174,11 @@ export const useDiscussionStore = create((set, get) => ({
         id: tempId,
         messageId,
         content,
-        userId: currentUser.id,
+        userId: currentUser?.user?.profile?.id,
         user: {
-          id: currentUser.id,
-          username: currentUser.username,
-          image: currentUser.image,
+          id: currentUser?.user?.profile?.id,
+          username: currentUser?.user?.profile?.username,
+          image: currentUser?.user?.profile?.image,
         },
         replyingToUsername: messageBeingRepliedTo?.user?.username,
         createdAt: new Date(),
@@ -199,7 +199,7 @@ export const useDiscussionStore = create((set, get) => ({
         "newReply",
         {
           messageId,
-          userId: currentUser.id,
+          userId: currentUser?.user?.profile?.id,
           content,
           replyingToUsername: messageBeingRepliedTo?.user?.username,
         },
@@ -244,7 +244,7 @@ export const useDiscussionStore = create((set, get) => ({
 
     socket.emit("upvoteMessage", {
       messageId,
-      userId: currentUser.id,
+      userId: currentUser?.user?.profile?.id,
     });
   },
 
@@ -252,12 +252,12 @@ export const useDiscussionStore = create((set, get) => ({
 
   isUpvoted: (message) => {
     const { currentUser } = get();
-    return message.upvotes?.some((u) => u.userId === currentUser?.id);
+    return message.upvotes?.some((u) => u.userId === currentUser?.user?.profile?.id);
   },
 
   isCurrentUserMessage: (userId) => {
     const { currentUser } = get();
-    return currentUser && userId === currentUser.id;
+    return currentUser && userId === currentUser?.user?.profile?.id;
   },
 
   scrollToBottom: (smooth = true) => {

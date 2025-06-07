@@ -60,7 +60,6 @@ const ResizableEditor = ({
       onCodeChange(savedCode);
       setEditorHistory([savedCode]);
       setHistoryIndex(0);
-      toast.success("Loaded your last saved code", { autoClose: 1500 });
     } else {
       setEditorHistory([code]);
       setHistoryIndex(0);

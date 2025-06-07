@@ -35,6 +35,18 @@ enum ContestStatus {
   COMPLETED
 }
 
+enum InterviewStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum RoundType {
+  INTRODUCTION
+  THEORY
+  CODING
+}
+
 model User {
   id                      String    @id @default(uuid())
   name                    String
@@ -55,20 +67,21 @@ model User {
   longestStreak  Int       @default(0)
   lastSolvedDate DateTime?
 
-  problems           Problem[]
-  submission         Submission[]
-  problemSolved      ProblemSolved[]
-  playlists          Playlist[]
-  submittedReports   ProblemReport[]
-  discussionMessages DiscussionMessage[]
-  discussionReplies  DiscussionReply[]
-  discussionUpvotes  DiscussionUpvote[]
-  playlistPurchases  PlaylistPurchase[]
-  devLogs            DevLog[]
-  devLogReactions    DevLogReaction[]
-createdContests    Contest[]
+  problems            Problem[]
+  submission          Submission[]
+  problemSolved       ProblemSolved[]
+  playlists           Playlist[]
+  submittedReports    ProblemReport[]
+  discussionMessages  DiscussionMessage[]
+  discussionReplies   DiscussionReply[]
+  discussionUpvotes   DiscussionUpvote[]
+  playlistPurchases   PlaylistPurchase[]
+  devLogs             DevLog[]
+  devLogReactions     DevLogReaction[]
+  createdContests     Contest[]
   contestParticipants ContestParticipant[]
-  contestSubmissions ContestSubmission[]
+  contestSubmissions  ContestSubmission[]
+  interviews          Interview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,34 +110,34 @@ model Problem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  submission        Submission[]
-  solvedBy          ProblemSolved[]
-  problemsPlaylists ProblemInPlaylist[]
-  reports           ProblemReport[]
-  discussions       ProblemDiscussion[]
-  contestProblems   ContestProblem[]
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submission         Submission[]
+  solvedBy           ProblemSolved[]
+  problemsPlaylists  ProblemInPlaylist[]
+  reports            ProblemReport[]
+  discussions        ProblemDiscussion[]
+  contestProblems    ContestProblem[]
   contestSubmissions ContestSubmission[]
 }
 
 model Contest {
-  id                String        @id @default(uuid())
-  name              String
-  description       String
-  startTime         DateTime
-  endTime           DateTime
-  maxParticipants   Int?
-  createdBy         String
-  status            ContestStatus @default(UPCOMING)
-  
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  
-  creator           User                @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  problems          ContestProblem[]
-  participants      ContestParticipant[]
-  submissions       ContestSubmission[]
-  
+  id              String        @id @default(uuid())
+  name            String
+  description     String
+  startTime       DateTime
+  endTime         DateTime
+  maxParticipants Int?
+  createdBy       String
+  status          ContestStatus @default(UPCOMING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creator      User                 @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  problems     ContestProblem[]
+  participants ContestParticipant[]
+  submissions  ContestSubmission[]
+
   @@index([startTime])
   @@index([status])
 }
@@ -135,45 +148,45 @@ model ContestProblem {
   problemId String
   points    Int    @default(100)
   order     Int
-  
-  contest   Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
-  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
   @@unique([contestId, problemId])
   @@unique([contestId, order])
 }
 
 model ContestParticipant {
-  id           String   @id @default(uuid())
-  contestId    String
-  userId       String
-  joinedAt     DateTime @default(now())
-  totalScore   Int      @default(0)
-  rank         Int?
-  
-  contest      Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id         String   @id @default(uuid())
+  contestId  String
+  userId     String
+  joinedAt   DateTime @default(now())
+  totalScore Int      @default(0)
+  rank       Int?
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([contestId, userId])
   @@index([contestId, totalScore])
 }
 
 model ContestSubmission {
-  id            String   @id @default(uuid())
-  contestId     String
-  userId        String
-  problemId     String
-  sourceCode    String
-  language      String
-  status        String
-  score         Int      @default(0)
-  submittedAt   DateTime @default(now())
-  timeTaken     Int?     // in minutes from contest start
-  
-  contest       Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  problem       Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  
+  id          String   @id @default(uuid())
+  contestId   String
+  userId      String
+  problemId   String
+  sourceCode  String
+  language    String
+  status      String
+  score       Int      @default(0)
+  submittedAt DateTime @default(now())
+  timeTaken   Int? // in minutes from contest start
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
   @@index([contestId, userId])
   @@index([contestId, problemId])
 }
@@ -378,4 +391,47 @@ model DevLogReaction {
   devLog DevLog @relation(fields: [devLogId], references: [id], onDelete: Cascade)
 
   @@unique([devLogId, userId, type])
+}
+
+model Interview {
+  id              String           @id @default(uuid())
+  userId          String
+  domain          String // e.g., "Frontend", "Backend", "Fullstack"
+  technologies    String[] // e.g., ["React", "Node.js"]
+  rounds          InterviewRound[]
+  overallFeedback String?
+  overallScore    Float?
+  status          InterviewStatus  @default(NOT_STARTED)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model InterviewRound {
+  id          String              @id @default(uuid())
+  interviewId String
+  roundType   RoundType
+  questions   InterviewQuestion[]
+  feedback    String?
+  score       Float?
+  completedAt DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+}
+
+model InterviewQuestion {
+  id        String   @id @default(uuid())
+  roundId   String
+  question  String
+  answer    String?
+  feedback  String?
+  score     Float?
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  round InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
 }

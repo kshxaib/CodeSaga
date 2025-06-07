@@ -4,12 +4,14 @@ import { useAuthStore } from "../store/useAuthStore";
 import { User, Code, LogOut, Bug, Bookmark } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 import { motion } from "framer-motion";
+import { useUserStore } from "../store/useUserStore";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
+  const {user} = useUserStore()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,6 +35,8 @@ const Navbar = () => {
     { label: "Contests", path: "/contests" },
   ];
 
+  console.log("Navbar:w32 ",user);
+
   return (
 <div className="navbar relative z-[9999] min-w-screen bg-gray-900/90 border-b border-purple-500/30 text-gray-100 px-4 md:px-8 lg:px-16">
       <div className="flex-1">
@@ -55,14 +59,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 text-sm text-gray-300">
-          <span className="hidden sm:inline">🔥 Streak:</span>
-          <span className="px-2 py-1 font-medium text-purple-400 bg-purple-500/10 rounded-md border border-purple-400/20 shadow-sm">
-            {authUser?.currentStreak || 0} days
-          </span>
-        </div>
-
+      <div className="flex items-center gap-6">       
         <div ref={dropdownRef} className="relativ z-[9999]">
           <button
             onClick={() => setDropdownOpen(!isDropdownOpen)}
@@ -70,7 +67,7 @@ const Navbar = () => {
           >
             <div className="w-10 h-10 rounded-full ring ring-purple-500 ring-offset-gray-900 ring-offset-2 overflow-hidden">
               <img
-                src={authUser?.image || "/default-avatar.png"}
+                src={user?.user?.profile?.image || "/default-avatar.png"}
                 alt="User Avatar"
                 className="object-cover w-full h-full"
                 onError={(e) => {
@@ -88,10 +85,10 @@ const Navbar = () => {
               className="absolute right-0 mt-2 w-56 bg-gray-800 border translate-x-[-20px] border-purple-500/30 rounded-xl shadow-xl z-50 space-y-2 p-3"
             >
               <div className="text-sm font-semibold text-gray-300 px-2 truncate">
-                {authUser?.name}
+                {user?.user?.profile?.name}
               </div>
               <div className="text-xs text-gray-500 px-2">
-                {authUser?.email}
+                {user?.user?.profile?.email}
               </div>
               <hr className="border-purple-500/30 my-1" />
 

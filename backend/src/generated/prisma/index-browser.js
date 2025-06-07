@@ -344,6 +344,41 @@ exports.Prisma.DevLogReactionScalarFieldEnum = {
   type: 'type'
 };
 
+exports.Prisma.InterviewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  domain: 'domain',
+  technologies: 'technologies',
+  overallFeedback: 'overallFeedback',
+  overallScore: 'overallScore',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InterviewRoundScalarFieldEnum = {
+  id: 'id',
+  interviewId: 'interviewId',
+  roundType: 'roundType',
+  feedback: 'feedback',
+  score: 'score',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InterviewQuestionScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  question: 'question',
+  answer: 'answer',
+  feedback: 'feedback',
+  score: 'score',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -394,6 +429,18 @@ exports.ReportReason = exports.$Enums.ReportReason = {
   OTHER: 'OTHER'
 };
 
+exports.InterviewStatus = exports.$Enums.InterviewStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.RoundType = exports.$Enums.RoundType = {
+  INTRODUCTION: 'INTRODUCTION',
+  THEORY: 'THEORY',
+  CODING: 'CODING'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Problem: 'Problem',
@@ -414,7 +461,10 @@ exports.Prisma.ModelName = {
   DiscussionReply: 'DiscussionReply',
   DiscussionUpvote: 'DiscussionUpvote',
   DevLog: 'DevLog',
-  DevLogReaction: 'DevLogReaction'
+  DevLogReaction: 'DevLogReaction',
+  Interview: 'Interview',
+  InterviewRound: 'InterviewRound',
+  InterviewQuestion: 'InterviewQuestion'
 };
 
 /**

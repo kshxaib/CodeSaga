@@ -10,7 +10,7 @@ const razorpayInstance = new Razorpay({
 });
 
 export const getUserDetails = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.id;
 
   try {
     const user = await db.user.findUnique({
@@ -34,10 +34,10 @@ export const getUserDetails = async (req, res) => {
       upvotesReceived,
       reports,
       testCaseStats,
-      avgSubmission,
+      userSubmissions,
       playlistsCreated,
       playlistsPurchased,
-      solvedProblemsWithTags
+      solvedProblemsWithTags,
     ] = await Promise.all([
       db.submission.count({ where: { userId } }),
       db.submission.count({ where: { userId, status: "Accepted" } }),
@@ -73,17 +73,49 @@ export const getUserDetails = async (req, res) => {
         where: { submission: { userId } },
         _count: { _all: true },
       }),
-      db.submission.aggregate({
+      db.submission.findMany({
         where: { userId },
-        _avg: { memory: true, time: true },
+        select: { memory: true, time: true },
       }),
       db.playlist.count({ where: { userId } }),
       db.playlistPurchase.count({ where: { userId } }),
       db.problemSolved.findMany({
         where: { userId },
         include: { problem: true },
-      })
+      }),
     ]);
+
+    // Manual calculation of average memory and time from strings
+    const memoryNumbers = [];
+    const timeNumbers = [];
+
+    for (const submission of userSubmissions) {
+      if (submission.memory) {
+        try {
+          const memoryArr = JSON.parse(submission.memory);
+          memoryArr.forEach((val) => {
+            const num = parseInt(val.replace(/\D/g, ""));
+            if (!isNaN(num)) memoryNumbers.push(num);
+          });
+        } catch (e) {}
+      }
+
+      if (submission.time) {
+        try {
+          const timeArr = JSON.parse(submission.time);
+          timeArr.forEach((val) => {
+            const num = parseFloat(val.replace(/[^\d.]/g, ""));
+            if (!isNaN(num)) timeNumbers.push(num);
+          });
+        } catch (e) {}
+      }
+    }
+
+    const avg = (arr) =>
+      arr.length > 0 ? Number((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(3)) : null;
+
+    const averageMemory = avg(memoryNumbers); // In KB
+    const averageTime = avg(timeNumbers);     // In sec
 
     const averageRank =
       contestRanks.length > 0
@@ -98,54 +130,56 @@ export const getUserDetails = async (req, res) => {
     }
 
     return res.status(200).json({
-      profile: {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        image: user.image,
-        bio: user.bio,
-        linkedin: user.linkedin,
-        portfolio: user.portfolio,
-        role: user.role,
-        proSince: user.proSince,
-        memberSince: user.createdAt,
-      },
-      activity: {
-        totalSubmissions,
-        acceptedSubmissions,
-        problemsSolved,
-        recentSolvedProblems,
-        streak: {
-          currentStreak: user.currentStreak,
-          longestStreak: user.longestStreak,
-          lastSolvedDate: user.lastSolvedDate,
+      user: {
+        profile: {
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          image: user.image,
+          bio: user.bio,
+          linkedin: user.linkedin,
+          portfolio: user.portfolio,
+          role: user.role,
+          proSince: user.proSince,
+          memberSince: user.createdAt,
         },
+        activity: {
+          totalSubmissions,
+          acceptedSubmissions,
+          problemsSolved,
+          recentSolvedProblems,
+          streak: {
+            currentStreak: user.currentStreak,
+            longestStreak: user.longestStreak,
+            lastSolvedDate: user.lastSolvedDate,
+          },
+        },
+        contests: {
+          totalContests,
+          contestsWon,
+          bestRank: Math.min(...contestRanks.map((r) => r.rank ?? Infinity)),
+          averageRank,
+          scoreTimeline: contestScores,
+        },
+        testCases: {
+          passed: testCaseStats.find((t) => t.passed === true)?._count._all || 0,
+          failed: testCaseStats.find((t) => t.passed === false)?._count._all || 0,
+          averageMemory,
+          averageTime,
+        },
+        contributions: {
+          devLogsWritten: devLogs.length,
+          devLogUpvotes: devLogs.reduce((sum, log) => sum + log.upvotes, 0),
+          discussions,
+          replies,
+          upvotesReceived,
+          reports,
+          playlistsCreated,
+          playlistsPurchased,
+        },
+        tags: Object.entries(tagCounts).map(([tag, count]) => ({ tag, count })),
       },
-      contests: {
-        totalContests,
-        contestsWon,
-        bestRank: Math.min(...contestRanks.map(r => r.rank ?? Infinity)),
-        averageRank,
-        scoreTimeline: contestScores,
-      },
-      testCases: {
-        passed: testCaseStats.find(t => t.passed === true)?._count._all || 0,
-        failed: testCaseStats.find(t => t.passed === false)?._count._all || 0,
-        averageMemory: avgSubmission._avg.memory,
-        averageTime: avgSubmission._avg.time,
-      },
-      contributions: {
-        devLogsWritten: devLogs.length,
-        devLogUpvotes: devLogs.reduce((sum, log) => sum + log.upvotes, 0),
-        discussions,
-        replies,
-        upvotesReceived,
-        reports,
-        playlistsCreated,
-        playlistsPurchased,
-      },
-      tags: Object.entries(tagCounts).map(([tag, count]) => ({ tag, count })),
     });
   } catch (error) {
     console.error("Error fetching user details:", error);
@@ -421,7 +455,7 @@ export const verifyProUpgrade = async (req, res) => {
 
 export const getUserStats = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id;
 
     const totalSolved = await prisma.problemSolved.count({
       where: { userId },
@@ -466,15 +500,15 @@ export const getUserStats = async (req, res) => {
 
     const rank = rankedUsers.findIndex((u) => u.id === userId) + 1;
     const rankPercentile = Math.round((rank / rankedUsers.length) * 100);
-    const stats=  {
-        solved: totalSolved,
-        solvedToday,
-        streak: user?.currentStreak ?? 0,
-        longestStreak: user?.longestStreak ?? 0,
-        accuracy,
-        rank,
-        rankPercentile,
-      }
+    const stats = {
+      solved: totalSolved,
+      solvedToday,
+      streak: user?.currentStreak ?? 0,
+      longestStreak: user?.longestStreak ?? 0,
+      accuracy,
+      rank,
+      rankPercentile,
+    }
     console.log(stats)
     return res.json({
       success: true,

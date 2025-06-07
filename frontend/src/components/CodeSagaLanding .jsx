@@ -17,7 +17,7 @@ import {
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { toast } from "sonner";
 
 const CodeSagaLanding = () => {
   const [activeTab, setActiveTab] = useState("features");
@@ -56,7 +56,7 @@ const CodeSagaLanding = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Thanks for your interest! We'll contact you at ${email}`);
+    toast(`Thanks for your interest! We'll contact you at ${email}`);
     setEmail("");
   };
 
@@ -282,7 +282,6 @@ const CodeSagaLanding = () => {
         </div>
       </header>
 
-   
       <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center py-20">
         {/* Border gradients */}
         <div className="absolute inset-y-0 left-0 h-full w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent" />
@@ -342,9 +341,8 @@ const CodeSagaLanding = () => {
               Get Started
             </Link>
             <button className="relative flex w-full sm:w-auto items-center justify-center px-8 py-3.5 text-base font-medium text-black bg-white transition-all duration-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-y-1 focus:outline-none">
-  <FiPlay className="mr-2" /> Watch Demo
-</button>
-
+              <FiPlay className="mr-2" /> Watch Demo
+            </button>
           </motion.div>
 
           {/* Stats or testimonials can go here */}
@@ -520,9 +518,9 @@ const CodeSagaLanding = () => {
           {/* CTA Button with animated gradient */}
           <div className="mt-16 text-center">
             <button className="relative px-8 py-3.5 rounded-full bg-gray-800 hover:bg-gray-700/50 border border-gray-700 group transition-all duration-300 overflow-hidden">
-              <span className="relative z-10 font-medium text-white group-hover:text-gray-100 transition-colors duration-300">
+              <Link to="/signup" className="relative z-10 font-medium text-white group-hover:text-gray-100 transition-colors duration-300">
                 Get Started Now
-              </span>
+              </Link>
               <span
                 className={`absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`}
               ></span>
@@ -702,37 +700,6 @@ const CodeSagaLanding = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      {/* <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready for Your Dream Tech Job?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of developers who cracked their interviews with
-            CodeSaga
-          </p>
-          <form
-            onSubmit={handleSubmit}
-            className="max-w-md mx-auto flex flex-col sm:flex-row gap-4"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-grow px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white"
-              required
-            />
-            <button
-              type="submit"
-              className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition shadow-lg"
-            >
-              Get Started
-            </button>
-          </form>
-        </div>
-      </section> */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-blue-700 via-purple-700 to-indigo-800 overflow-hidden">
         {/* Aceternity-style blobs */}
         <div className="absolute -top-10 -left-10 w-72 h-72 bg-purple-500 rounded-full opacity-30 blur-3xl mix-blend-lighten animate-blob"></div>
@@ -919,15 +886,25 @@ const CodeSagaLanding = () => {
             </div>
 
             {/* Trust + Built By */}
-            <div className="text-sm text-center md:text-right space-y-2">
-              <p className="text-gray-500">
-                Don’t miss your daily challenge. Starts in{" "}
-                <span className="text-white font-semibold">2 hrs</span>.
+            <div className="text-sm text-center md:text-right space-y-1 md:space-y-2 text-gray-500">
+              <p>
+                Built with <span className="text-red-500">❤</span> by{" "}
+                <a href="www.linkedin.com/in/shoaib-khan-7308932a9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 font-semibold hover:underline">Shoaib</a>.
+                
               </p>
-              <p className="text-gray-500">
-                Built with <span className="text-red-500">❤</span> by Shoaib.
-                AI-powered by{" "}
-                <span className="text-blue-400 font-medium">OpenAI</span>.
+              <p>
+                Guided by{" "}
+                <a
+                  href="https://x.com/hiteshdotcom?s=11"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 font-semibold hover:underline"
+                >
+                  Hitesh Choudhary
+                </a>
               </p>
             </div>
           </div>

@@ -89,7 +89,9 @@ const DiscussionSection = ({ problemId }) => {
             No discussions yet. Be the first to start!
           </div>
         ) : (
-          messages.map((message) => (
+          messages.map((message) => {
+            console.log("message: ",message);
+            return (
             <div 
               key={message.id} 
               className={`flex ${isCurrentUserMessage(message.userId) ? 'justify-end' : 'justify-start'}`}
@@ -193,7 +195,7 @@ const DiscussionSection = ({ problemId }) => {
                 </div>
               </div>
             </div>
-          ))
+          )})
         )}
         <div ref={messagesEndRef} />
       </div>

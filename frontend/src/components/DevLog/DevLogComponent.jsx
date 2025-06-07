@@ -147,7 +147,7 @@ const CreateDevLogModal = ({ onClose }) => {
         transition={{ duration: 0.2 }}
         className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-700"
       >
-        <div className="p-6 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90 backdrop-blur-sm z-10">
+        <div className="p-4 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-gray-800/90 backdrop-blur-sm z-10">
           <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
             Share Your Dev Journey
           </h2>

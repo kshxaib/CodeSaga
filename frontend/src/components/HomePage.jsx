@@ -21,7 +21,7 @@ import { useUserStore } from "../store/useUserStore";
 
 const HomePage = () => {
   const { authUser } = useAuthStore();
-  const { getUserStats, isLoading } = useUserStore();
+  const { getUserStats, isLoading, user } = useUserStore();
   const {
     latestPlaylists,
     getLatestUnpurchasedPaidPlaylists,
@@ -167,7 +167,6 @@ const [userStats, setUserStats] = useState({
     }
   };
 
-  console.log("User Stats:", userStats);
 
   return (
     <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white px-4 py-10">
@@ -189,7 +188,7 @@ const [userStats, setUserStats] = useState({
             className="text-3xl font-bold flex items-center gap-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400"
           >
             <Zap className="w-8 h-8 text-yellow-400" />
-            Welcome back{authUser ? `, ${authUser.name}` : ""}!
+            Welcome back{` ${user?.user?.profile?.name}`}!
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
