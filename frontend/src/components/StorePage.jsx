@@ -5,6 +5,7 @@ import { Lock, DollarSign, CheckCircle2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { toast } from "sonner";
+import { useUserStore } from "../store/useUserStore";
 
 const StorePage = () => {
   const {
@@ -14,6 +15,7 @@ const StorePage = () => {
     verifyPlaylistPurchase,
   } = usePlaylistStore();
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
   const [isStoreLoading, setIsStoreLoading] = useState(true);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
@@ -94,13 +96,13 @@ const StorePage = () => {
           }
         },
         prefill: {
-          name: authUser?.name || "",
-          email: authUser?.email || "",
+          name: user?.user?.profile?.name || "",
+          email: user?.user?.profile?.name || "",
           contact: "",
         },
         notes: {
           playlistId: playlistId,
-          userId: authUser?.id,
+          userId: user?.user?.profile?.id,
         },
         theme: {
           color: "#6366f1",
@@ -254,11 +256,11 @@ const StorePage = () => {
                 No premium playlists available
               </h3>
               <p className="text-gray-400 mb-6">
-                {authUser
+                {user
                   ? "You've purchased all available premium playlists!"
                   : "Please login to view available premium playlists"}
               </p>
-              {!authUser && (
+              {!user && (
                 <Link
                   to="/login"
                   className="btn bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white"

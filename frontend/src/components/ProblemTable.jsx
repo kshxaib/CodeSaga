@@ -20,6 +20,7 @@ import { usePlaylistStore } from "../store/usePlaylistStore";
 import CreatePlaylistModal from "./CreatePlaylistModal";
 import AddToPlaylist from "./AddToPlaylist";
 import moment from "moment";
+import { useUserStore } from "../store/useUserStore";
 
 const ProblemTable = ({ problems }) => {
   const [search, setSearch] = useState("");
@@ -40,6 +41,7 @@ const ProblemTable = ({ problems }) => {
     isGettingRandomProblem,
   } = useProblemStore();
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
   const { createPlaylist } = usePlaylistStore();
 
   const navigate = useNavigate();
@@ -240,7 +242,7 @@ const ProblemTable = ({ problems }) => {
                 {paginatedProblems.length > 0 ? (
                   paginatedProblems.map((problem) => {
                     const isSolved = problem.solvedBy?.some(
-                      (user) => user.userId === authUser?.id
+                      (user) => user.userId === user?.user?.profile?.id
                     );
                     const isExpanded = expandedProblemId === problem.id;
 
@@ -321,7 +323,7 @@ const ProblemTable = ({ problems }) => {
                           </td>
                           <td>
                             <div className="flex gap-2">
-                              {authUser?.role === "ADMIN" && (
+                              {user?.user?.profile?.role === "ADMIN" || user?.user?.profile?.email === "khanshoaibishtiyak@gmail.com" && (
                                 <>
                                   <button
                                     onClick={() => handleDeleteClick(problem.id)}

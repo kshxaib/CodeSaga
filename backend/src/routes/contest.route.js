@@ -16,6 +16,6 @@ contestRoutes.get("/:contestId/submissions/:problemId", authMiddleware, getConte
 contestRoutes.post("/:id/register", authMiddleware, registerForContest)
 contestRoutes.post("/:contestId/submit", authMiddleware, submitContestSolution)
 
-contestRoutes.post("/", authMiddleware, isAdmin, createContest)
+contestRoutes.post("/", authMiddleware, createContest)
 
 export default contestRoutes;

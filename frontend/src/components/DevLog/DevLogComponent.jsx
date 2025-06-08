@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import { useDevLogStore } from "../../store/useDevLogStore";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useUserStore } from "../../store/useUserStore";
 
 const DevLogComponent = () => {
   const [activeTab, setActiveTab] = useState("community");
@@ -388,6 +389,7 @@ const MyDevLogs = () => {
 const DevLogCard = ({ devLog }) => {
   const { reactToDevLog } = useDevLogStore();
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
 
   const reactionTypes = [
     { type: "helpful", emoji: "❤️", label: "Helpful" },
@@ -401,7 +403,7 @@ const DevLogCard = ({ devLog }) => {
 
   const hasUserReacted = (type) => {
     return devLog.reactions?.some(
-      (r) => r.type === type && r.userId === authUser?.id
+      (r) => r.type === type && r.userId === user?.user?.profile?.id
     );
   };
 

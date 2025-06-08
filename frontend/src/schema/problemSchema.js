@@ -34,11 +34,6 @@ export const problemSchema = z.object({
       output: z.string().min(1, "Output is required"),
       explanation: z.string().optional(),
     }),
-    // C: z.object({
-    //   input: z.string().min(1, "Input is required"),
-    //   output: z.string().min(1, "Output is required"),
-    //   explanation: z.string().optional(),
-    // }),
   }),
 
   codeSnippets: z.object({
@@ -118,36 +113,6 @@ export const sampledpData = {
       output: "2",
       explanation: "There are two ways to climb to the top:\n1. 1 step + 1 step\n2. 2 steps"
     },
-    C: {
-      input: "n = 5",
-      output: "8",
-      explanation: "There are eight ways to climb 5 steps following the 1 or 2 steps at a time rule."
-    },
-    CPP: {
-      input: "n = 4",
-      output: "5",
-      explanation: "There are five ways to climb to the top (same as Java example)."
-    },
-    CSHARP: {
-      input: "n = 4",
-      output: "5",
-      explanation: "Same as Java example but with CSHARP syntax."
-    },
-    GO: {
-      input: "n = 5",
-      output: "8",
-      explanation: "Same as C example but with Go syntax."
-    },
-    RUST: {
-      input: "n = 4",
-      output: "5",
-      explanation: "Same as Java example but with Rust syntax."
-    },
-    PHP: {
-      input: "n = 3",
-      output: "3",
-      explanation: "Same as JavaScript example but with PHP syntax."
-    }
   },
   codeSnippets:{
   PYTHON: `class Solution:
@@ -191,99 +156,6 @@ rl.on('line', (line) => {
   console.log(climbStairs(n));
   rl.close();
 });
-`,
-
-  C: `#include <stdio.h>
-
-int climbStairs(int n) {
-  // Write your code here
-  return 0;
-}
-
-int main() {
-  int n;
-  scanf("%d", &n);
-  printf("%d\\n", climbStairs(n));
-  return 0;
-}
-`,
-
-  CPP: `#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-  int climbStairs(int n) {
-    // Write your code here
-    return 0;
-  }
-};
-
-int main() {
-  int n;
-  cin >> n;
-  Solution sol;
-  cout << sol.climbStairs(n) << endl;
-  return 0;
-}
-`,
-
-  CSHARP: `using System;
-
-class Solution {
-  public int ClimbStairs(int n) {
-    // Write your code here
-    return 0;
-  }
-
-  static void Main() {
-    int n = int.Parse(Console.ReadLine());
-    Console.WriteLine(new Solution().ClimbStairs(n));
-  }
-}
-`,
-
-  GO: `package main
-
-import "fmt"
-
-func climbStairs(n int) int {
-  // Write your code here
-  return 0
-}
-
-func main() {
-  var n int
-  fmt.Scan(&n)
-  fmt.Println(climbStairs(n))
-}
-`,
-
-  RUST: `use std::io;
-
-fn climb_stairs(n: i32) -> i32 {
-  // Write your code here
-  0
-}
-
-fn main() {
-  let mut input = String::new();
-  io::stdin().read_line(&mut input).unwrap();
-  let n: i32 = input.trim().parse().unwrap();
-  println!("{}", climb_stairs(n));
-}
-`,
-
-  PHP: `<?php
-
-function climbStairs($n) {
-  // Write your code here
-  return 0;
-}
-
-$n = intval(trim(fgets(STDIN)));
-echo climbStairs($n) . "\\n";
-?>
 `,
 },
 
@@ -343,143 +215,11 @@ rl.on('line', (line) => {
     rl.close();
 });
 `,
-
-  C: `#include <stdio.h>
-
-int climbStairs(int n) {
-    if (n <= 2) return n;
-    int a = 1, b = 2;
-    for (int i = 3; i <= n; i++) {
-        int temp = a + b;
-        a = b;
-        b = temp;
-    }
-    return b;
-}
-
-int main() {
-    int n;
-    scanf("%d", &n);
-    printf("%d\\n", climbStairs(n));
-    return 0;
-}
-`,
-
-  CPP: `#include <iostream>
-using namespace std;
-
-class Solution {
-public:
-    int climbStairs(int n) {
-        if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) {
-            int temp = a + b;
-            a = b;
-            b = temp;
-        }
-        return b;
-    }
-};
-
-int main() {
-    int n;
-    cin >> n;
-    Solution sol;
-    cout << sol.climbStairs(n) << endl;
-    return 0;
-}
-`,
-
-  CSHARP: `using System;
-
-public class Solution {
-    public int ClimbStairs(int n) {
-        if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) {
-            int temp = a + b;
-            a = b;
-            b = temp;
-        }
-        return b;
-    }
-
-    public static void Main() {
-        int n = int.Parse(Console.ReadLine());
-        Console.WriteLine(new Solution().ClimbStairs(n));
-    }
-}
-`,
-
-  GO: `package main
-
-import "fmt"
-
-func climbStairs(n int) int {
-    if n <= 2 {
-        return n
-    }
-    a, b := 1, 2
-    for i := 3; i <= n; i++ {
-        a, b = b, a + b
-    }
-    return b
-}
-
-func main() {
-    var n int
-    fmt.Scan(&n)
-    fmt.Println(climbStairs(n))
-}
-`,
-
-  RUST: `use std::io;
-
-fn climb_stairs(n: i32) -> i32 {
-    if n <= 2 {
-        return n;
-    }
-    let (mut a, mut b) = (1, 2);
-    for _ in 3..=n {
-        let temp = a + b;
-        a = b;
-        b = temp;
-    }
-    b
-}
-
-fn main() {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    let n: i32 = input.trim().parse().unwrap();
-    println!("{}", climb_stairs(n));
-}
-`,
-
-  PHP: `<?php
-
-function climbStairs($n) {
-    if ($n <= 2) return $n;
-    $a = 1;
-    $b = 2;
-    for ($i = 3; $i <= $n; $i++) {
-        $temp = $a + $b;
-        $a = $b;
-        $b = $temp;
-    }
-    return $b;
-}
-
-$n = intval(trim(fgets(STDIN)));
-echo climbStairs($n) . "\\n";
-?>
-`,
 }
 };
 
 
-export const sampleStringProblem2 = {
+export const sampleStringProblem = {
   title: "Valid Palindrome",
   description: "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
   difficulty: "EASY",
@@ -507,36 +247,6 @@ export const sampleStringProblem2 = {
       "output": "12",
       "explanation": "Path is 1→2→3→6 = 12."
     },
-    "C": {
-      "input": "[[1,3,1],[1,5,1],[4,2,1]]",
-      "output": "7",
-      "explanation": "Same path as Python example."
-    },
-    "CPP": {
-      "input": "{{1,3,1},{1,5,1},{4,2,1}}",
-      "output": "7",
-      "explanation": "Same path as Python example."
-    },
-    "CSHARP": {
-      "input": "new int[][] { new int[] {1,3,1}, new int[] {1,5,1}, new int[] {4,2,1} }",
-      "output": "7",
-      "explanation": "Same path as Python example."
-    },
-    "GO": {
-      "input": "[][]int{{1,3,1},{1,5,1},{4,2,1}}",
-      "output": "7",
-      "explanation": "Same path as Python example."
-    },
-    "RUST": {
-      "input": "vec![vec![1,3,1], vec![1,5,1], vec![4,2,1]]",
-      "output": "7",
-      "explanation": "Same path as Python example."
-    },
-    "PHP": {
-      "input": "[[1,2,3],[4,5,6]]",
-      "output": "12",
-      "explanation": "Path is 1→2→3→6 = 12."
-    }
 },
   codeSnippets: {
     PYTHON: `class Solution:
@@ -593,129 +303,6 @@ rl.on('line', (line) => {
 });
 
 `,
-
-    C: `#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-
-bool isPalindrome(char* s) {
-    // Write your code here
-    return false;
-}
-
-int main() {
-    char s[200];
-    fgets(s, sizeof(s), stdin);
-    s[strcspn(s, "n")] = '\0';
-    bool result = isPalindrome(s);
-    printf(result ? "true" : "false");
-    return 0;
-}
-`,
-
-    CPP: `#include <iostream>
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    bool isPalindrome(string s) {
-        // Write your code here
-        return false;
-    }
-};
-
-int main() {
-    string s;
-    getline(cin, s);
-    Solution sol;
-    bool result = sol.isPalindrome(s);
-    cout << (result ? "true" : "false") << endl;
-    return 0;
-}
-`,
-
-    CSHARP: `using System;
-
-class Solution {
-    public bool IsPalindrome(string s) {
-        // Write your code here
-        return false;
-    }
-
-    public static void Main() {
-        string s = Console.ReadLine();
-        Solution sol = new Solution();
-        bool result = sol.IsPalindrome(s);
-        Console.WriteLine(result ? "true" : "false");
-    }
-}
-`,
-
-    GO: `package main
-
-import (
-    "bufio"
-    "fmt"
-    "os"
-    "strings"
-)
-
-type Solution struct{}
-
-func (sol Solution) isPalindrome(s string) bool {
-    // Write your code here
-    return false
-}
-
-func main() {
-    scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
-    s := scanner.Text()
-    sol := Solution{}
-    result := sol.isPalindrome(strings.TrimSpace(s))
-    fmt.Println(result)
-}
-
-`,
-
-    RUST: `use std::io::{self, Write};
-
-struct Solution;
-
-impl Solution {
-    fn is_palindrome(&self, s: &str) -> bool {
-        // Write your code here
-        false
-    }
-}
-
-fn main() {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    let sol = Solution;
-    let result = sol.is_palindrome(input.trim());
-    println!("{}", if result { "true" } else { "false" });
-}
-`,
-
-    PHP: `<?php
-
-class Solution {
-    public function isPalindrome(string $s): bool {
-        // Write your code here
-        return false;
-    }
-}
-
-$handle = fopen("php://stdin", "r");
-$s = trim(fgets($handle));
-$sol = new Solution();
-$result = $sol->isPalindrome($s);
-echo $result ? "true" : "false";
-
-?>
-`
   },
   referenceSolutions: {
     PYTHON: `class Solution:
@@ -802,168 +389,10 @@ public class Main {
     console.log(result ? "true" : "false");
     rl.close();
   });`,
-C:`#include <stdio.h>
-#include <ctype.h>
-#include <stdbool.h>
-#include <string.h>
-
-bool isPalindrome(char* s) {
-    int left = 0;
-    int right = strlen(s) - 1;
-    
-    while (left < right) {
-        while (left < right && !isalnum((unsigned char)s[left])) left++;
-        while (left < right && !isalnum((unsigned char)s[right])) right--;
-        if (tolower((unsigned char)s[left]) != tolower((unsigned char)s[right]))
-            return false;
-        left++;
-        right--;
-    }
-    return true;
-}
-
-int main() {
-    char s[200001];
-    int i = 0;
-    int c;
-    
-    // Manual input reading without fgets
-    while ((c = getchar()) != EOF && c != 10 && i < sizeof(s)-1) {  // 10 is newline
-        s[i++] = c;
-    }
-    s[i] = '\0';
-    
-    printf(isPalindrome(s) ? "true" : "false");
-    return 0;
-}`,
-    CPP: `#include <iostream>
-#include <string>
-#include <cctype>
-using namespace std;
-
-class Solution {
-public:
-    bool isPalindrome(string s) {
-        int left = 0, right = s.size() - 1;
-        while (left < right) {
-            while (left < right && !isalnum(s[left])) left++;
-            while (left < right && !isalnum(s[right])) right--;
-            if (tolower(s[left++]) != tolower(s[right--])) return false;
-        }
-        return true;
-    }
-};
-
-int main() {
-    string s;
-    getline(cin, s);
-    Solution sol;
-    cout << (sol.isPalindrome(s) ? "true" : "false") << endl;
-    return 0;
-}
-`,
-
-    CSHARP: `using System;
-using System.Text.RegularExpressions;
-
-public class Solution {
-    public static bool IsPalindrome(string s) {
-        s = Regex.Replace(s, "[^a-zA-Z0-9]", "").ToLower();
-        int left = 0, right = s.Length - 1;
-        while (left < right) {
-            if (s[left++] != s[right--]) return false;
-        }
-        return true;
-    }
-
-    public static void Main() {
-        string input = Console.ReadLine();
-        bool result = IsPalindrome(input);
-        Console.WriteLine(result ? "true" : "false");
-    }
-}
-`,
-
-    GO: `package main
-
-import (
-    "bufio"
-    "fmt"
-    "os"
-    "strings"
-    "unicode"
-)
-
-func isPalindrome(s string) bool {
-    s = strings.Map(func(r rune) rune {
-        if unicode.IsLetter(r) || unicode.IsNumber(r) {
-            return unicode.ToLower(r)
-        }
-        return -1
-    }, s)
-
-    left, right := 0, len(s)-1
-    for left < right {
-        if s[left] != s[right] {
-            return false
-        }
-        left++
-        right--
-    }
-    return true
-}
-
-func main() {
-    scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
-    input := scanner.Text()
-    fmt.Println(isPalindrome(input))
-}
-`,
-
-    RUST: `use std::io::{self, BufRead};
-
-fn is_palindrome(s: String) -> bool {
-    let s: Vec<char> = s.chars()
-        .filter(|c| c.is_ascii_alphanumeric())
-        .map(|c| c.to_ascii_lowercase())
-        .collect();
-    let mut left = 0;
-    let mut right = s.len().saturating_sub(1);
-    while left < right {
-        if s[left] != s[right] {
-            return false;
-        }
-        left += 1;
-        right -= 1;
-    }
-    true
-}
-
-fn main() {
-    let stdin = io::stdin();
-    let s = stdin.lock().lines().next().unwrap().unwrap();
-    let result = is_palindrome(s);
-    println!("{}", if result { "true" } else { "false" });
-}
-`,
-
-    PHP: `<?php
-
-function isPalindrome($s) {
-    $s = preg_replace('/[^a-z0-9]/i', '', strtolower($s));
-    return $s === strrev($s);
-}
-
-$s = trim(fgets(STDIN));
-$result = isPalindrome($s);
-echo $result ? "true\n" : "false\n";
-?>
-`
   }
 };
 
-export const sampleStringProblem = {
+export const sampleStringProblem2 = {
   "title": "Serialize and Deserialize Binary Tree",
   "category": "tree",
   "description": "Design an algorithm to serialize and deserialize a binary tree. Your serialize function should convert a tree into a string, and your deserialize function should reconstruct the original tree structure from this string.",
@@ -997,11 +426,6 @@ export const sampleStringProblem = {
       "input": "root = [1]",
       "output": "[1]",
       "explanation": "Single node tree is correctly serialized/deserialized."
-    },
-    "C": {
-      "input": "[1,2,3,null,null,4,5]",
-      "output": "[1,2,3,null,null,4,5]",
-      "explanation": "Same as Python example."
     },
   },
   "codeSnippets": {

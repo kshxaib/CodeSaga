@@ -49,7 +49,7 @@ const [userStats, setUserStats] = useState({
       getLatestUnpurchasedPaidPlaylists();
       getRecommendedProblems();
 
-      if (authUser) {
+      if (user) {
         const response = await getUserStats();
         
         if (response.success && response.stats) {
@@ -71,7 +71,7 @@ const [userStats, setUserStats] = useState({
   };
 
   fetchData();
-}, [authUser]);
+}, [user]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -140,13 +140,13 @@ const [userStats, setUserStats] = useState({
           }
         },
         prefill: {
-          name: authUser?.name || "",
-          email: authUser?.email || "",
+          name: user?.user?.profile?.name || "",
+          email: user?.user?.profile?.name || "",
           contact: "",
         },
         notes: {
           playlistId: playlistId,
-          userId: authUser?.id,
+          userId: user?.user?.profile?.id,
         },
         theme: {
           color: "#6366f1",

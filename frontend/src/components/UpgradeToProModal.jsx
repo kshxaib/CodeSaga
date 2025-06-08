@@ -74,8 +74,9 @@ const UpgradeToProModal = ({ onClose }) => {
           }
         },
         prefill: {
-          name: authUser?.name || "",
-          email: authUser?.email || "",
+          name: user?.user?.profile?.name || "",
+          email: user?.user?.profile?.email || "",
+          contact: "",
         },
         theme: {
           color: "#6366f1",

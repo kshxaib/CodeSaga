@@ -114,6 +114,7 @@ export const executeCode = async (req, res) => {
       success: true,
       submission: submissionWithTestCase,
       message: "Code executed successfully",
+      allPassed
     });
   } catch (error) {
     console.error("Execution Error:", error);

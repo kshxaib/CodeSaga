@@ -110,7 +110,7 @@ const Navbar = () => {
                 My Playlists
               </Link>
 
-              {authUser?.role === "ADMIN" && (
+              {user?.user?.profile?.role === "ADMIN" && (
                 <>
                   <Link
                     to="/add-problem"

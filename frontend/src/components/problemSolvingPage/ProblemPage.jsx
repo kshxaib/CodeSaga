@@ -21,12 +21,12 @@ import {
   BookOpenText,
   Lock,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 import { useProblemStore } from "../../store/useProblemStore";
 import { useExecutionStore } from "../../store/useExecutionStore";
 import { useSubmissionStore } from "../../store/useSubmissionStore";
 import { useEditorSizeStore } from "../../store/useEditorSizeStore";
-import { useAuthStore } from "../../store/useAuthStore";
 import { getJudge0LangaugeId } from "../../libs/getLanguageId";
 import SubmissionResults from "../Submission";
 import SubmissionsList from "../SubmissionList";
@@ -39,11 +39,12 @@ import { toast } from "sonner";
 import { useRef } from "react";
 import { axiosInstance } from "../../libs/axios";
 import UpgradeToProModal from "../UpgradeToProModal";
+import { useUserStore } from "../../store/useUserStore";
 
 const ProblemPage = () => {
   const { id } = useParams();
   const { isFullscreen } = useEditorSizeStore();
-  const { authUser: user } = useAuthStore();
+  const { user } = useUserStore();
   const {
     getProblemById,
     problem,
@@ -76,6 +77,10 @@ const ProblemPage = () => {
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [codeReview, setCodeReview] = useState("");
+  const [isReviewLoading, setIsReviewLoading] = useState(false);
 
   useEffect(() => {
     getProblemById(id);
@@ -116,8 +121,53 @@ const ProblemPage = () => {
     }
   }, [id, activeTab, getSubmissionForProblem]);
 
+  const handleCodeReview = async () => {
+    if (!submission || submission.status !== "Accepted") {
+      toast.error("Code review is only available for accepted submissions");
+      return;
+    }
+
+    if (
+      !["PRO", "ADMIN"].includes(user?.user?.profile?.role)
+    ) {
+      toast.error("Upgrade to PRO to use AI Code Review", {
+        description: "This feature is only available for PRO or ADMIN users",
+        action: {
+          label: "Upgrade",
+          onClick: () => setShowUpgradeModal(true),
+        },
+      });
+      return;
+    }
+
+    setIsReviewLoading(true);
+    try {
+      const response = await axiosInstance.post("/ai/review", {
+        code,
+        language: selectedLanguage,
+        submissionId: submission.id,
+      });
+
+      const data = response.data;
+      if (data.success) {
+        setCodeReview(data.review);
+        setIsReviewModalOpen(true);
+      }
+    } catch (error) {
+      console.error("AI review error:", error);
+      toast.error("Error getting code review");
+    } finally {
+      setIsReviewLoading(false);
+    }
+  };
+
   const fetchAiCompletion = useCallback(async () => {
-    if (!isAiEnabled || !debouncedCode || user?.role !== "PRO") return;
+    if (
+      !isAiEnabled ||
+      !debouncedCode ||
+      !["PRO", "ADMIN"].includes(user?.user?.profile?.role)
+    )
+      return;
 
     setIsAiLoading(true);
     try {
@@ -194,7 +244,9 @@ const ProblemPage = () => {
   }, [handleKeyDown]);
 
   const handleToggleAI = () => {
-    if (!user?.role?.includes("PRO")) {
+    if (
+      !["PRO", "ADMIN"].includes(user?.user?.profile?.role)
+    ) {
       toast.error("Upgrade to PRO to use AI Autocomplete", {
         description: "This feature is only available for PRO users",
         action: {
@@ -204,6 +256,7 @@ const ProblemPage = () => {
       });
       return;
     }
+
     setIsAiEnabled(!isAiEnabled);
     if (!isAiEnabled) {
       setAiSuggestions("");
@@ -267,7 +320,7 @@ const ProblemPage = () => {
               <div className="flex items-center gap-2 mb-4 p-3 bg-yellow-900/20 rounded-lg border border-yellow-600/50">
                 <Lock className="w-5 h-5 text-yellow-500" />
                 <span className="font-medium text-yellow-400">
-                  Premium Problem - Subscription Required
+                  Premium Problem 
                 </span>
               </div>
             )}
@@ -572,7 +625,7 @@ const ProblemPage = () => {
                       Hints
                     </button>
 
-                    <button
+                    {!location.pathname.startsWith("/contest") && <button
                       className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
                         ${
                           activeTab === "solution"
@@ -583,6 +636,54 @@ const ProblemPage = () => {
                     >
                       <BookOpenText className="w-4 h-4" />
                       Solution
+                    </button>}
+                    <button
+                      className={`btn gap-2 ${
+                        isReviewLoading
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gradient-to-r from-green-600 to-emerald-600 text-gray-100 hover:from-green-700 hover:to-emerald-700"
+                      }`}
+                      onClick={() => {
+                        if (!["PRO", "ADMIN"].includes(user?.user?.profile?.role)) {
+                          toast.error("Upgrade to PRO for AI Code Review", {
+                            description:
+                              "This feature is only available for PRO members",
+                            action: {
+                              label: "Upgrade",
+                              onClick: () => setShowUpgradeModal(true),
+                            },
+                          });
+                          return;
+                        }
+
+                        if (!submission) {
+                          toast.info(
+                            "Please submit your code first to get an AI review"
+                          );
+                          return;
+                        }
+
+                        if (submission.status !== "Accepted") {
+                          toast.info(
+                            "Your submission must be accepted to get an AI review"
+                          );
+                          return;
+                        }
+
+                        handleCodeReview();
+                      }}
+                      disabled={isReviewLoading}
+                    >
+                      {isReviewLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />{" "}
+                          Reviewing...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4" /> AI Review
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -669,6 +770,41 @@ const ProblemPage = () => {
 
       {showUpgradeModal && (
         <UpgradeToProModal onClose={() => setShowUpgradeModal(false)} />
+      )}
+
+      {isReviewModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gray-700">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-indigo-400">
+                  AI Code Review
+                </h3>
+                <button
+                  onClick={() => setIsReviewModalOpen(false)}
+                  className="text-gray-400 hover:text-gray-200"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="prose prose-invert max-w-none">
+                {codeReview.split("\n").map((paragraph, i) => (
+                  <p key={i} className="mb-4 text-gray-300">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={() => setIsReviewModalOpen(false)}
+                  className="btn bg-indigo-600 hover:bg-indigo-700 text-white"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

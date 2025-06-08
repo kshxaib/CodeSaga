@@ -5,6 +5,7 @@ import CreateContest from "./CreateContest";
 import ContestList from "./ContestList";
 import ContestDetail from "./ContestDetail";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useUserStore } from "../../store/useUserStore";
 
 const ContestPage = () => {
   const [activeTab, setActiveTab] = useState("contests");
@@ -12,7 +13,9 @@ const ContestPage = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { authUser } = useAuthStore();
-  const isAdmin = authUser?.role === "ADMIN";
+  const {user} = useUserStore()
+  const isAdmin =   user?.user?.profile?.role === "ADMIN" || 
+  user?.user?.profile?.email === "khanshoaibishtiyak@gmail.com";
 
   const handleContestCreated = (newContest) => {
     setRefreshTrigger((prev) => prev + 1);

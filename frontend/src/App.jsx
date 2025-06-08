@@ -31,19 +31,25 @@ import DevLogComponent from "./components/DevLog/DevLogComponent";
 import ContestPage from "./components/contest/ContestPage";
 import ContestDetail from "./components/contest/ContestDetail";
 import LiveContestPage from "./components/contest/LiveContestPage";
-
+import { useUserStore } from "./store/useUserStore";
 
 const App = () => {
+  const {getUserDetails, user} = useUserStore();
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
     
   useEffect(() => {
-    checkAuth();
+    const fetchUser = async () => {
+      await getUserDetails()
+    await checkAuth();
+    }
 
-  }, [checkAuth]);
+    fetchUser()
+  }, [checkAuth, getUserDetails]);
 console.log("authUser:",authUser);
+console.log("user:",user);
 
 
-  if (isCheckingAuth && !authUser) {
+  if (isCheckingAuth && user) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />

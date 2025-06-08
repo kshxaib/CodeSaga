@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Lock } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
+import { useUserStore } from "../store/useUserStore";
 
 const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   const [isPaid, setIsPaid] = useState(false);
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
 
   const {
     register,
@@ -108,7 +110,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
                 />
               </motion.div>
 
-              {authUser?.role === "ADMIN" && (
+              {user?.user?.profile?.role === "ADMIN" && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}

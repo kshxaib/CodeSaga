@@ -20,6 +20,7 @@ import ContestLeaderboard from "./ContestLeaderboard";
 import ContestStats from "./ContestStats";
 import { axiosInstance } from "../../libs/axios";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../store/useUserStore";
 
 const ContestDetail = ({ contestId, onBack }) => {
   const [contest, setContest] = useState(null);
@@ -28,6 +29,7 @@ const ContestDetail = ({ contestId, onBack }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const navigate = useNavigate();
   const {authUser } = useAuthStore()
+  const {user} = useUserStore()
 
   useEffect(() => {
     if (contestId) {
@@ -331,7 +333,7 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Target className="w-4 h-4" />
               Overview
             </button>
-            {authUser && authUser.role === "ADMIN" &&(<button
+            {user && user?.user?.profile?.role === "ADMIN" &&(<button
               onClick={() => setActiveTab("problems")}
               className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
                 activeTab === "problems"
@@ -353,7 +355,7 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Award className="w-4 h-4" />
               Leaderboard
             </button>
-            {authUser && authUser.role === "ADMIN" &&(<button
+            {user && user?.user?.profile?.role === "ADMIN" &&(<button
               onClick={() => setActiveTab("stats")}
               className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
                 activeTab === "stats"

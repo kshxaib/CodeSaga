@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { MessageSquare, ThumbsUp, Send, X } from "lucide-react";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useDiscussionStore } from "../../store/useDiscussionStore";
+import { useUserStore } from "../../store/useUserStore";
 
 const DiscussionSection = ({ problemId }) => {
   const { authUser: currentUser } = useAuthStore();
+  const {user} = useUserStore()
   const {
     messages,
     isLoading,

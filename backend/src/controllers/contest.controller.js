@@ -4,6 +4,7 @@ import { cleanNullBytes, getLanguageName, pollBatchResults, submitBatch } from "
 export const createContest = async (req, res) => {
   try {
     const { name, description, startTime, endTime, maxParticipants, problemIds } = req.body
+    console.log(req.user)
     const userId = req.user.id
 
     // Validate required fields

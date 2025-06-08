@@ -15,7 +15,7 @@ const AdminRoute = () => {
     )
   }
 
-  if(!authUser || authUser.role !== "ADMIN"){
+  if(!authUser || authUser.user?.profile?.role !== "ADMIN"){
     return <Navigate to="/" />
   }
 

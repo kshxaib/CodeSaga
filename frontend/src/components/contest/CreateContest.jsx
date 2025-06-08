@@ -192,7 +192,7 @@ const CreateContest = ({ onContestCreated }) => {
                   onChange={handleInputChange}
                   placeholder="Enter contest name"
                   required
-                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-900 text-white"
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
                 />
               </motion.div>
 
@@ -208,7 +208,7 @@ const CreateContest = ({ onContestCreated }) => {
                   value={formData.maxParticipants}
                   onChange={handleInputChange}
                   placeholder="Leave empty for unlimited"
-                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-900 text-white"
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
                 />
               </motion.div>
             </div>
@@ -226,7 +226,7 @@ const CreateContest = ({ onContestCreated }) => {
                 placeholder="Describe your contest..."
                 rows={4}
                 required
-                className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-900 text-white"
+                className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
               />
             </motion.div>
 
@@ -247,7 +247,7 @@ const CreateContest = ({ onContestCreated }) => {
                   value={formData.startTime}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-900 text-white"
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
                 />
               </motion.div>
 
@@ -266,7 +266,7 @@ const CreateContest = ({ onContestCreated }) => {
                   value={formData.endTime}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-900 text-white"
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
                 />
               </motion.div>
             </div>

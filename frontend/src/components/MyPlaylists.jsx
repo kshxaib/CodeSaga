@@ -15,6 +15,7 @@ import {
 import moment from "moment";
 import ConfirmationDialog from "./ConfirmationDialog";
 import CreatePlaylistModal from "./CreatePlaylistModal";
+import { useUserStore } from "../store/useUserStore";
 
 const MyPlaylists = () => {
   const {
@@ -24,6 +25,7 @@ const MyPlaylists = () => {
     removeProblemFromPlaylist,
   } = usePlaylistStore();
   const { authUser } = useAuthStore();
+  const {user} = useUserStore()
   const { createPlaylist } = usePlaylistStore();
   const [viewingPlaylistId, setViewingPlaylistId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,10 +77,10 @@ const MyPlaylists = () => {
   };
 
   const getSolvedCount = (playlist) => {
-    if (!playlist.problems || !authUser) return 0;
+    if (!playlist.problems || !user) return 0;
     return playlist.problems.reduce((count, entry) => {
       const isSolved = entry.problem?.solvedBy?.some(
-        (user) => user.userId === authUser.id
+        (user) => user.userId === user?.user?.profile?.id
       );
       return isSolved ? count + 1 : count;
     }, 0);
@@ -132,7 +134,7 @@ const MyPlaylists = () => {
         {sortedPlaylists.length > 0 ? (
           <div className="grid gap-6">
             {sortedPlaylists.map((playlist) => {
-              const isOwner = playlist.userId === authUser?.id;
+              const isOwner = playlist.userId === user?.user?.profile?.id;
               const isViewing = viewingPlaylistId === playlist.id;
               const isPaid = playlist.isPaid;
               const totalProblems = playlist.problems?.length || 0;
@@ -184,7 +186,7 @@ const MyPlaylists = () => {
                           </div>
                           <div className="flex items-center gap-2 text-gray-400">
                             <span className="font-medium text-purple-400">
-                              {playlist.isPaid && authUser?.role !== "ADMIN"
+                              {playlist.isPaid && user?.user?.profile?.role !== "ADMIN"
                                 ? `Purchased on ${moment(
                                     playlist.purchaseDate
                                   ).format("MMM D, YYYY, h:mm A")}`
@@ -269,7 +271,7 @@ const MyPlaylists = () => {
                                 const problem = entry.problem;
                                 const isSolved =
                                   problem?.solvedBy?.some(
-                                    (user) => user.userId === authUser?.id
+                                    (user) => user.userId === user?.user?.profile?.id
                                   ) || false;
 
                                 return (
