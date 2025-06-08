@@ -275,7 +275,11 @@ const ResizableEditor = ({
           </div>
 
           <div className="flex items-center gap-2">
+           
+           
             {!location.pathname.startsWith("/contest") && (
+              <>
+               
               <button
                 onClick={onToggleAi}
                 className={`btn btn-ghost btn-sm ${
@@ -283,7 +287,7 @@ const ResizableEditor = ({
                     ? "bg-indigo-600 text-white hover:bg-indigo-700"
                     : "text-gray-400 hover:text-gray-300 hover:bg-gray-700"
                 }`}
-                title={`AI Autocomplete (Ctrl+Shift)
+                title={`Please write 3-4 words to get suggestions (Ctrl+Shift)
                 `}
               >
                 {isAiLoading ? (
@@ -292,6 +296,7 @@ const ResizableEditor = ({
                   <Wand2 size={16} />
                 )}
               </button>
+              </>
             )}
 
             <div className="dropdown dropdown-end">
