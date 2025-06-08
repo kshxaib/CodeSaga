@@ -376,6 +376,8 @@ export const deleteProblem = async (req, res) => {
         .json({ message: "You are not authorized to delete this problem" });
     }
 
+    console.log("Role:", req.user.role);
+
     await db.problem.delete({
       where: {
         id: id,
@@ -386,6 +388,7 @@ export const deleteProblem = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Problem deleted successfully" });
   } catch (error) {
+    console.error("Delete problem error:", error); // <- THIS is what we need to see
     return res.status(500).json({ message: "Error while deleting problem" });
   }
 };

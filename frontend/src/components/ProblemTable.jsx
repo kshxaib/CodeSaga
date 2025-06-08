@@ -323,7 +323,7 @@ const ProblemTable = ({ problems }) => {
                           </td>
                           <td>
                             <div className="flex gap-2">
-                              {user?.user?.profile?.role === "ADMIN" || user?.user?.profile?.email === "khanshoaibishtiyak@gmail.com" && (
+                              {user?.user?.profile?.role === "ADMIN" && (
                                 <>
                                   <button
                                     onClick={() => handleDeleteClick(problem.id)}

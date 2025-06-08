@@ -6,7 +6,7 @@ const AI_API_KEY = process.env.AI_API_KEY;
 export const getCodeCompletion = async (req, res) => {
     const userRole = req.user.role;
     try {
-        if (userRole !== "PRO") {
+        if (userRole !== "PRO" && userRole !== "ADMIN") {
             return res.status(403).json({
                 success: false,
                 message: "Only pro users can use this feature"
@@ -64,7 +64,7 @@ export const getCodeCompletion = async (req, res) => {
 export const getCodeReview = async (req, res) => {
     const userRole = req.user.role;
     try {
-        if (userRole !== "PRO") {
+        if (userRole !== "PRO" && userRole !== "ADMIN") {
             return res.status(403).json({
                 success: false,
                 message: "Only pro users can use this feature"

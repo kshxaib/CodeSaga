@@ -11,7 +11,7 @@ const Layout = () => {
         !location.pathname.startsWith("/profile") && <Navbar />}
         {(location.pathname.startsWith("/home") || location.pathname.startsWith("/my-playlists") || location.pathname.startsWith("/store")
         || location.pathname.startsWith("/break-zone") || location.pathname.startsWith("/dev-log") || location.pathname.endsWith("/contests")
-      ) && <Navbar />}
+      || location.pathname.startsWith("/reports")) && <Navbar />}
       <Outlet />
     </div>
   );

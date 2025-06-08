@@ -29,7 +29,6 @@ const CodeSagaLanding = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Update active tab based on scroll position
       const sections = ["features", "how-it-works", "pricing", "contact"];
       const scrollPosition = window.scrollY + 100;
 
@@ -99,21 +98,6 @@ const CodeSagaLanding = () => {
     },
   ];
 
-  const companies = [
-    { name: "Google", logo: "G", color: "from-red-500 to-yellow-500" },
-    { name: "Amazon", logo: "A", color: "from-yellow-500 to-orange-500" },
-    { name: "Microsoft", logo: "M", color: "from-green-500 to-blue-500" },
-    { name: "Facebook", logo: "F", color: "from-blue-500 to-indigo-500" },
-    {
-      name: "Apple",
-      logo: "A",
-      logoColor: "text-gray-900",
-      color: "from-gray-200 to-gray-400",
-    },
-    { name: "Netflix", logo: "N", color: "from-red-600 to-red-800" },
-    { name: "Uber", logo: "U", color: "from-black to-gray-800" },
-    { name: "Airbnb", logo: "A", color: "from-pink-500 to-red-500" },
-  ];
 
   return (
     <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-950 to-black px-6 text-gray-100">
@@ -315,6 +299,8 @@ const CodeSagaLanding = () => {
               {" CodeSaga"}
             </motion.span>
           </h1>
+
+          <span>Where Coders Become Heroes</span>
 
           {/* Animated description */}
           <motion.p
@@ -529,176 +515,7 @@ const CodeSagaLanding = () => {
           </div>
         </div>
       </section>
-      <section
-        id="pricing"
-        className="relative py-20 px-4 bg-gradient-to-b from-gray-900 to-gray-950 overflow-hidden"
-      >
-        {/* Background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-500 rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500 rounded-full filter blur-[100px]"></div>
-        </div>
 
-        <div className="container mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-              Company Question Playlists
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Purchase access to curated question lists from top tech companies
-            </p>
-          </div>
-
-          {/* Company Playlist Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {companies.slice(0, 4).map((company, index) => (
-              <div
-                key={index}
-                className="group relative bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-transparent transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10"
-              >
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-500"></div>
-
-                {/* Company logo with glow */}
-                <div
-                  className={`relative w-14 h-14 rounded-full ${company.color} p-0.5 mb-4`}
-                >
-                  <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-2xl font-bold text-white">
-                    {company.logo}
-                  </div>
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-30 blur-md transition-opacity duration-500 -z-10"></div>
-                </div>
-
-                <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors duration-300">
-                  {company.name} Top Questions
-                </h3>
-                <p className="text-gray-400 text-sm mb-4">
-                  50 most frequently asked coding questions
-                </p>
-                <div className="flex items-end mb-4">
-                  <span className="text-2xl font-bold">$19</span>
-                  <span className="text-gray-400 text-sm ml-1">one-time</span>
-                </div>
-                <Link
-                  to="/login"
-                  className="block w-full px-4 py-2.5 text-center bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 rounded-lg font-medium transition-all duration-300 group-hover:shadow-md group-hover:shadow-blue-500/20"
-                >
-                  Add to Library
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          {/* Bundle Pricing */}
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-              Looking for more?
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Get access to all company playlists with our premium bundles
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Starter Plan */}
-            <div className="group relative bg-gray-800/50 border border-gray-700 rounded-xl p-8 hover:border-transparent transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-500"></div>
-              <h3 className="text-xl font-semibold mb-2">Starter Pack</h3>
-              <p className="text-3xl font-bold mb-6">
-                $49<span className="text-lg text-gray-400">/one-time</span>
-              </p>
-              <ul className="space-y-3 mb-8">
-                {[...Array(5)].map((_, i) => (
-                  <li key={i} className="flex items-start">
-                    <FiCheckCircle
-                      className={`mt-1 mr-2 ${
-                        i < 3 ? "text-green-400" : "text-gray-600"
-                      }`}
-                    />
-                    <span className={i < 3 ? "text-gray-300" : "text-gray-500"}>
-                      {
-                        [
-                          "3 Company Playlists",
-                          "Basic Problem Access",
-                          "Code Execution",
-                          "All Company Playlists",
-                          "Premium Analytics",
-                        ][i]
-                      }
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-all duration-300 group-hover:shadow-sm">
-                Choose Starter
-              </button>
-            </div>
-
-            {/* Pro Plan - Featured */}
-            <div className="group relative bg-gray-800 border-2 border-transparent rounded-xl p-8 transform md:-translate-y-4 shadow-xl shadow-blue-500/10 bg-gradient-to-b from-gray-800 to-gray-900 hover:border-blue-500 transition-all duration-500">
-              <div className="absolute top-0 right-0 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold px-4 py-1.5 rounded-bl-lg rounded-tr-lg">
-                BEST VALUE
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-500"></div>
-              <h3 className="text-xl font-semibold mb-2">Pro Bundle</h3>
-              <p className="text-3xl font-bold mb-6">
-                $99<span className="text-lg text-gray-400">/one-time</span>
-              </p>
-              <ul className="space-y-3 mb-8">
-                {[...Array(5)].map((_, i) => (
-                  <li key={i} className="flex items-start">
-                    <FiCheckCircle className="mt-1 mr-2 text-green-400" />
-                    <span className="text-gray-300">
-                      {
-                        [
-                          "All 8 Company Playlists",
-                          "Premium Problem Access",
-                          "Advanced Analytics",
-                          "Priority Support",
-                          "New Playlists Added Free",
-                        ][i]
-                      }
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 rounded-lg font-medium transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/30">
-                Choose Pro
-              </button>
-            </div>
-
-            {/* Team Plan */}
-            <div className="group relative bg-gray-800/50 border border-gray-700 rounded-xl p-8 hover:border-transparent transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-500"></div>
-              <h3 className="text-xl font-semibold mb-2">Team License</h3>
-              <p className="text-3xl font-bold mb-6">
-                $299<span className="text-lg text-gray-400">/one-time</span>
-              </p>
-              <ul className="space-y-3 mb-8">
-                {[...Array(5)].map((_, i) => (
-                  <li key={i} className="flex items-start">
-                    <FiCheckCircle className="mt-1 mr-2 text-green-400" />
-                    <span className="text-gray-300">
-                      {
-                        [
-                          "All Pro Features",
-                          "Up to 5 Members",
-                          "Team Progress Tracking",
-                          "Shared Playlists",
-                          "Dedicated Support",
-                        ][i]
-                      }
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-all duration-300 group-hover:shadow-sm">
-                Contact for Team
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="relative py-20 px-4 bg-gradient-to-br from-blue-700 via-purple-700 to-indigo-800 overflow-hidden">
         {/* Aceternity-style blobs */}
@@ -852,15 +669,7 @@ const CodeSagaLanding = () => {
             {/* Socials */}
             <div className="flex space-x-6 text-xl">
               <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-400 transition"
-              >
-                <FiGithub />
-              </a>
-              <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/shoaib-khan-7308932a9/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-blue-400 transition"
@@ -868,20 +677,12 @@ const CodeSagaLanding = () => {
                 <FiLinkedin />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://x.com/khansho28034439?s=21"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-blue-400 transition"
               >
                 <FiTwitter />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-400 transition"
-              >
-                <FiInstagram />
               </a>
             </div>
 
