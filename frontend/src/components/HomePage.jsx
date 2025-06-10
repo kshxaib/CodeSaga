@@ -366,7 +366,7 @@ const [userStats, setUserStats] = useState({
                       </div>
                     </div>
                     <Link
-                      to={`/problems/${problem.id}`}
+                      to={`/problem/${problem.id}`}
                       className="text-sm bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1"
                     >
                       Solve <ChevronRight className="w-4 h-4" />

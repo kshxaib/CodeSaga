@@ -35,7 +35,7 @@ const Navbar = () => {
     { label: "Contests", path: "/contests" },
   ];
 
-  console.log("Navbar:w32 ",user);
+   const isAdmin = user?.user?.profile?.role === "ADMIN" || user?.user?.profile?.email === "khanshoaibishtiyak@gmail.com"
 
   return (
 <div className="navbar relative z-[9999] min-w-screen bg-gray-900/90 border-b border-purple-500/30 text-gray-100 px-4 md:px-8 lg:px-16">
@@ -59,7 +59,14 @@ const Navbar = () => {
         </div>
       </div>
 
+            
       <div className="flex items-center gap-6">       
+         <div className="flex items-center gap-2 text-sm text-gray-300">
+          <span>🔥 Streak:</span>
+          <span className="px-2 py-1 font-medium text-purple-400 bg-purple-500/10 rounded-md border border-purple-400/20 shadow-sm">
+            {user?.user?.activity?.streak?.currentStreak || 0} days
+          </span>
+        </div>
         <div ref={dropdownRef} className="relativ z-[9999]">
           <button
             onClick={() => setDropdownOpen(!isDropdownOpen)}
@@ -110,7 +117,7 @@ const Navbar = () => {
                 My Playlists
               </Link>
 
-              {user?.user?.profile?.role === "ADMIN" && (
+              { isAdmin && (
                 <>
                   <Link
                     to="/add-problem"
