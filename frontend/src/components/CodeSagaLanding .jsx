@@ -7,7 +7,7 @@ import { SiOpenai } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
-const CodeArenaLanding = () => {
+const CodeSagaLanding = () => {
   const [activeTab, setActiveTab] = useState("hero");
   const [email, setEmail] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -119,7 +119,7 @@ const CodeArenaLanding = () => {
 
   const testimonials = [
     {
-      quote: "CodeArena helped me land my dream job at Google. The company-specific playlists were spot on!",
+      quote: "CodeSaga helped me land my dream job at Google. The company-specific playlists were spot on!",
       author: "Sarah K., Software Engineer at Google",
       role: "ex-Amazon",
     },
@@ -1437,7 +1437,7 @@ const CodeArenaLanding = () => {
               <div className="flex items-center space-x-2 mb-4">
                 <FiCode className="w-8 h-8 text-blue-400" />
                 <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                  CodeArena
+                  CodeSaga
                 </span>
               </div>
               <p className="mb-4">
@@ -1492,7 +1492,7 @@ const CodeArenaLanding = () => {
 
           <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} CodeArena. All rights reserved.
+              &copy; {new Date().getFullYear()} CodeSaga. All rights reserved.
             </p>
             <p className="text-sm flex items-center">
               <span className="mr-1">Built with</span>
@@ -1500,12 +1500,7 @@ const CodeArenaLanding = () => {
               <span className="mr-1">by</span>
               <a href="www.linkedin.com/in/shoaib-khan-7308932a9" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
                 Shoaib
-              </a>
-              <span className="mx-1">|</span>
-              <span className="mx-1">Guidance</span>
-              <span className="mr-1">by</span>
-              <span>Hitesh Choudhary</span>
-              <a href="https://x.com/hiteshdotcom?s=11" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Hitesh Choudhary</a>
+              </a>         
             </p>
           </div>
         </div>
@@ -1514,4 +1509,4 @@ const CodeArenaLanding = () => {
   );
 };
 
-export default CodeArenaLanding;
+export default CodeSagaLanding;
