@@ -1498,7 +1498,7 @@ const CodeSagaLanding = () => {
               <span className="mr-1">Built with</span>
               <span className="text-red-500 mr-1">❤</span>
               <span className="mr-1">by</span>
-              <a href="www.linkedin.com/in/shoaib-khan-7308932a9" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+              <a href="https://www.linkedin.com/in/shoaib-khan-7308932a9/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
                 Shoaib
               </a>         
             </p>
