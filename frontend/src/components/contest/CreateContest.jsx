@@ -65,7 +65,9 @@ const CreateContest = ({ onContestCreated }) => {
   const filteredProblems = problems.filter(
     (problem) =>
       problem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      problem.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      problem.tags.some((tag) =>
+        tag.toLowerCase().includes(searchTerm.toLowerCase())
+      )
   );
 
   const getDifficultyColor = (difficulty) => {
@@ -87,7 +89,12 @@ const CreateContest = ({ onContestCreated }) => {
 
     try {
       // Validate form
-      if (!formData.name || !formData.description || !formData.startTime || !formData.endTime) {
+      if (
+        !formData.name ||
+        !formData.description ||
+        !formData.startTime ||
+        !formData.endTime
+      ) {
         toast.error("Please fill in all required fields");
         return;
       }
@@ -111,11 +118,17 @@ const CreateContest = ({ onContestCreated }) => {
         return;
       }
 
+      const startTimeUTC = new Date(formData.startTime).toISOString();
+      const endTimeUTC = new Date(formData.endTime).toISOString();
+
       const response = await axiosInstance.post("/contests", {
         ...formData,
-        maxParticipants: formData.maxParticipants ? Number.parseInt(formData.maxParticipants) : null
+        startTime: startTimeUTC,
+        endTime: endTimeUTC,
+        maxParticipants: formData.maxParticipants
+          ? Number.parseInt(formData.maxParticipants)
+          : null,
       });
-
       const data = response.data;
 
       if (data.success) {
@@ -147,13 +160,13 @@ const CreateContest = ({ onContestCreated }) => {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }} 
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 10 }}
       className="max-w-4xl mx-auto p-6 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
     >
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2 }}
@@ -165,7 +178,7 @@ const CreateContest = ({ onContestCreated }) => {
           transition={{ delay: 0.3 }}
           className="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-t-xl p-6"
         >
-          <motion.h2 
+          <motion.h2
             initial={{ x: -20 }}
             animate={{ x: 0 }}
             transition={{ delay: 0.4 }}
@@ -180,12 +193,14 @@ const CreateContest = ({ onContestCreated }) => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }} 
-                animate={{ opacity: 1, x: 0 }} 
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <label className="block text-sm font-medium mb-2 text-gray-300">Contest Name *</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">
+                  Contest Name *
+                </label>
                 <input
                   name="name"
                   value={formData.name}
@@ -196,12 +211,14 @@ const CreateContest = ({ onContestCreated }) => {
                 />
               </motion.div>
 
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }} 
-                animate={{ opacity: 1, x: 0 }} 
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <label className="block text-sm font-medium mb-2 text-gray-300">Max Participants</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">
+                  Max Participants
+                </label>
                 <input
                   name="maxParticipants"
                   type="number"
@@ -213,12 +230,14 @@ const CreateContest = ({ onContestCreated }) => {
               </motion.div>
             </div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <label className="block text-sm font-medium mb-2 text-gray-300">Description *</label>
+              <label className="block text-sm font-medium mb-2 text-gray-300">
+                Description *
+              </label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -232,9 +251,9 @@ const CreateContest = ({ onContestCreated }) => {
 
             {/* Date and Time */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }} 
-                animate={{ opacity: 1, x: 0 }} 
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
               >
                 <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-gray-300">
@@ -251,9 +270,9 @@ const CreateContest = ({ onContestCreated }) => {
                 />
               </motion.div>
 
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }} 
-                animate={{ opacity: 1, x: 0 }} 
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 }}
               >
                 <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-gray-300">
@@ -272,12 +291,14 @@ const CreateContest = ({ onContestCreated }) => {
             </div>
 
             {/* Problem Selection */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <label className="block text-sm font-medium mb-2 text-gray-300">Selected Problems *</label>
+              <label className="block text-sm font-medium mb-2 text-gray-300">
+                Selected Problems *
+              </label>
 
               {/* Selected Problems Display */}
               <div className="mb-4">
@@ -290,11 +311,11 @@ const CreateContest = ({ onContestCreated }) => {
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.8 }}
-                          transition={{ 
+                          transition={{
                             type: "spring",
                             stiffness: 500,
                             damping: 30,
-                            delay: index * 0.05
+                            delay: index * 0.05,
                           }}
                         >
                           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-gray-700 text-gray-200">
@@ -303,8 +324,8 @@ const CreateContest = ({ onContestCreated }) => {
                                 problem.difficulty === "EASY"
                                   ? "bg-green-500"
                                   : problem.difficulty === "MEDIUM"
-                                    ? "bg-yellow-500"
-                                    : "bg-red-500"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
                               }`}
                             />
                             {problem.title}
@@ -376,20 +397,31 @@ const CreateContest = ({ onContestCreated }) => {
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <h4 className="font-medium text-white">{problem.title}</h4>
+                              <h4 className="font-medium text-white">
+                                {problem.title}
+                              </h4>
                               <div className="flex items-center gap-2 mt-1">
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(problem.difficulty)}`}>
+                                <span
+                                  className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
+                                    problem.difficulty
+                                  )}`}
+                                >
                                   {problem.difficulty}
                                 </span>
                                 {problem.tags.slice(0, 3).map((tag) => (
-                                  <span key={tag} className="px-2 py-1 rounded-full border border-gray-600 text-xs font-medium text-gray-300">
+                                  <span
+                                    key={tag}
+                                    className="px-2 py-1 rounded-full border border-gray-600 text-xs font-medium text-gray-300"
+                                  >
                                     {tag}
                                   </span>
                                 ))}
                               </div>
                             </div>
-                            {selectedProblems.find((p) => p.id === problem.id) && (
-                              <motion.div 
+                            {selectedProblems.find(
+                              (p) => p.id === problem.id
+                            ) && (
+                              <motion.div
                                 animate={{ rotate: 45 }}
                                 className="text-blue-400"
                               >
@@ -420,9 +452,13 @@ const CreateContest = ({ onContestCreated }) => {
                 className="inline-flex items-center gap-2 px-6 py-3 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 {loading ? (
-                  <motion.div 
+                  <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1,
+                      ease: "linear",
+                    }}
                     className="flex items-center gap-2"
                   >
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" />

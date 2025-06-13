@@ -15,6 +15,7 @@ export const createContest = async (req, res) => {
       })
     }
 
+  
     // Validate dates
     const start = new Date(startTime)
     const end = new Date(endTime)
@@ -33,6 +34,10 @@ export const createContest = async (req, res) => {
         message: "End time must be after start time",
       })
     }
+
+      console.log("Received startTime:", startTime);  // Should be ISO string with 'Z'
+    console.log("Parsed start:", start);
+
 
     // Verify all problems exist
     const problems = await db.problem.findMany({
@@ -577,7 +582,7 @@ export const submitContestSolution = async (req, res) => {
       },
     });
 
-     if (existingAccepted) {
+    if (existingAccepted) {
       return res.status(200).json({
         success: true,
         message: "You have already solved this problem. Further submissions won't be counted.",
@@ -600,7 +605,7 @@ export const submitContestSolution = async (req, res) => {
       },
     });
 
-     // Only update score if this submission is accepted
+    // Only update score if this submission is accepted
     if (status === "Accepted") {
       const totalScore = await db.contestSubmission.aggregate({
         where: {
@@ -626,7 +631,7 @@ export const submitContestSolution = async (req, res) => {
       message: status === "Accepted"
         ? "Solution accepted and score updated"
         : "Submission recorded",
-    });    
+    });
   } catch (error) {
     console.error("Error submitting contest solution:", error);
     res.status(500).json({

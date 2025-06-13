@@ -28,8 +28,8 @@ const ContestDetail = ({ contestId, onBack }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("overview");
   const navigate = useNavigate();
-  const {authUser } = useAuthStore()
-  const {user} = useUserStore()
+  const { authUser } = useAuthStore();
+  const { user } = useUserStore();
 
   useEffect(() => {
     if (contestId) {
@@ -55,45 +55,82 @@ const ContestDetail = ({ contestId, onBack }) => {
 
   const getContestStatus = () => {
     if (!contest) return "UPCOMING";
-    const now = currentTime;
-    const start = new Date(contest.startTime);
-    const end = new Date(contest.endTime);
-    if (now < start) return "UPCOMING";
-    if (now >= start && now <= end) return "LIVE";
+    const now = new Date().toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+    });
+    const nowDate = new Date(now);
+    const start = new Date(
+      new Date(contest.startTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
+    const end = new Date(
+      new Date(contest.endTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
+
+    if (nowDate < start) return "UPCOMING";
+    if (nowDate >= start && nowDate <= end) return "LIVE";
     return "COMPLETED";
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "UPCOMING": return "bg-blue-900 text-blue-300";
-      case "LIVE": return "bg-green-900 text-green-300";
-      case "COMPLETED": return "bg-gray-700 text-gray-300";
-      default: return "bg-gray-700 text-gray-300";
+      case "UPCOMING":
+        return "bg-blue-900 text-blue-300";
+      case "LIVE":
+        return "bg-green-900 text-green-300";
+      case "COMPLETED":
+        return "bg-gray-700 text-gray-300";
+      default:
+        return "bg-gray-700 text-gray-300";
     }
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "UPCOMING": return <Timer className="w-4 h-4" />;
-      case "LIVE": return <Play className="w-4 h-4" />;
-      case "COMPLETED": return <CheckCircle className="w-4 h-4" />;
-      default: return <Timer className="w-4 h-4" />;
+      case "UPCOMING":
+        return <Timer className="w-4 h-4" />;
+      case "LIVE":
+        return <Play className="w-4 h-4" />;
+      case "COMPLETED":
+        return <CheckCircle className="w-4 h-4" />;
+      default:
+        return <Timer className="w-4 h-4" />;
     }
   };
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
-      weekday: "long", month: "long", day: "numeric",
-      year: "numeric", hour: "2-digit", minute: "2-digit"
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
     });
   };
 
   const getTimeRemaining = () => {
     if (!contest) return null;
-    const now = currentTime;
-    const start = new Date(contest.startTime);
-    const end = new Date(contest.endTime);
+
+    const now = new Date(
+      new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+    );
+    const start = new Date(
+      new Date(contest.startTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
+    const end = new Date(
+      new Date(contest.endTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
     const status = getContestStatus();
 
     let targetTime, label;
@@ -122,16 +159,22 @@ const ContestDetail = ({ contestId, onBack }) => {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case "EASY": return "bg-green-900 text-green-300 border-green-700";
-      case "MEDIUM": return "bg-yellow-900 text-yellow-300 border-yellow-700";
-      case "HARD": return "bg-red-900 text-red-300 border-red-700";
-      default: return "bg-gray-700 text-gray-300 border-gray-600";
+      case "EASY":
+        return "bg-green-900 text-green-300 border-green-700";
+      case "MEDIUM":
+        return "bg-yellow-900 text-yellow-300 border-yellow-700";
+      case "HARD":
+        return "bg-red-900 text-red-300 border-red-700";
+      default:
+        return "bg-gray-700 text-gray-300 border-gray-600";
     }
   };
 
   const handleRegister = async () => {
     try {
-      const response = await axiosInstance.post(`/contests/${contestId}/register`);
+      const response = await axiosInstance.post(
+        `/contests/${contestId}/register`
+      );
       const data = response.data;
       if (data.success) {
         toast.success("Successfully registered for contest!");
@@ -177,7 +220,9 @@ const ContestDetail = ({ contestId, onBack }) => {
     return (
       <div className="text-center py-12">
         <Trophy className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-white mb-2">Contest not found</h3>
+        <h3 className="text-lg font-medium text-white mb-2">
+          Contest not found
+        </h3>
         <button
           onClick={onBack}
           className="inline-flex items-center px-4 py-2 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -191,12 +236,22 @@ const ContestDetail = ({ contestId, onBack }) => {
 
   const status = getContestStatus();
   const timeRemaining = getTimeRemaining();
-  const duration = Math.round((new Date(contest.endTime) - new Date(contest.startTime)) / (1000 * 60 * 60));
+  const duration = Math.round(
+    (new Date(contest.endTime) - new Date(contest.startTime)) / (1000 * 60 * 60)
+  );
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-screen mx-auto py-6 px-16 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-w-screen mx-auto py-6 px-16 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white"
+    >
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6"
+      >
         <button
           onClick={onBack}
           className="mb-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -207,12 +262,18 @@ const ContestDetail = ({ contestId, onBack }) => {
 
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">{contest.name}</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              {contest.name}
+            </h1>
             <p className="text-gray-400 max-w-2xl">{contest.description}</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}>
+            <span
+              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                status
+              )}`}
+            >
               {getStatusIcon(status)}
               {status}
             </span>
@@ -252,7 +313,9 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Calendar className="w-8 h-8 text-blue-400" />
               <div>
                 <p className="text-sm text-gray-400">Start Time</p>
-                <p className="font-semibold text-white">{formatDateTime(contest.startTime)}</p>
+                <p className="font-semibold text-white">
+                  {formatDateTime(contest.startTime)}
+                </p>
               </div>
             </div>
           </div>
@@ -291,7 +354,9 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Code className="w-8 h-8 text-orange-400" />
               <div>
                 <p className="text-sm text-gray-400">Problems</p>
-                <p className="font-semibold text-white">{contest.problems.length}</p>
+                <p className="font-semibold text-white">
+                  {contest.problems.length}
+                </p>
               </div>
             </div>
           </div>
@@ -310,16 +375,24 @@ const ContestDetail = ({ contestId, onBack }) => {
             <div className="p-6 text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Timer className="w-6 h-6 text-blue-400" />
-                <h3 className="text-xl font-bold text-blue-300">{timeRemaining.label}</h3>
+                <h3 className="text-xl font-bold text-blue-300">
+                  {timeRemaining.label}
+                </h3>
               </div>
-              <div className="text-3xl font-bold text-blue-400 font-mono">{timeRemaining.time}</div>
+              <div className="text-3xl font-bold text-blue-400 font-mono">
+                {timeRemaining.time}
+              </div>
             </div>
           </div>
         </motion.div>
       )}
 
       {/* Tabs */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
         <div className="w-full">
           <div className="flex border-b border-gray-700">
             <button
@@ -333,17 +406,19 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Target className="w-4 h-4" />
               Overview
             </button>
-            {user && user?.user?.profile?.role === "ADMIN" &&(<button
-              onClick={() => setActiveTab("problems")}
-              className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
-                activeTab === "problems"
-                  ? "border-b-2 border-blue-500 text-blue-400"
-                  : "text-gray-400 hover:text-gray-300"
-              }`}
-            >
-              <Code className="w-4 h-4" />
-              Problems
-            </button>)}
+            {user && user?.user?.profile?.role === "ADMIN" && (
+              <button
+                onClick={() => setActiveTab("problems")}
+                className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
+                  activeTab === "problems"
+                    ? "border-b-2 border-blue-500 text-blue-400"
+                    : "text-gray-400 hover:text-gray-300"
+                }`}
+              >
+                <Code className="w-4 h-4" />
+                Problems
+              </button>
+            )}
             <button
               onClick={() => setActiveTab("leaderboard")}
               className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
@@ -355,17 +430,19 @@ const ContestDetail = ({ contestId, onBack }) => {
               <Award className="w-4 h-4" />
               Leaderboard
             </button>
-            {user && user?.user?.profile?.role === "ADMIN" &&(<button
-              onClick={() => setActiveTab("stats")}
-              className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
-                activeTab === "stats"
-                  ? "border-b-2 border-blue-500 text-blue-400"
-                  : "text-gray-400 hover:text-gray-300"
-              }`}
-            >
-              <BarChart3 className="w-4 h-4" />
-              Statistics
-            </button>)}
+            {user && user?.user?.profile?.role === "ADMIN" && (
+              <button
+                onClick={() => setActiveTab("stats")}
+                className={`py-4 px-6 text-sm font-medium flex items-center gap-2 ${
+                  activeTab === "stats"
+                    ? "border-b-2 border-blue-500 text-blue-400"
+                    : "text-gray-400 hover:text-gray-300"
+                }`}
+              >
+                <BarChart3 className="w-4 h-4" />
+                Statistics
+              </button>
+            )}
           </div>
 
           <div className="mt-6">
@@ -381,7 +458,9 @@ const ContestDetail = ({ contestId, onBack }) => {
                   </div>
                   <div className="p-6 space-y-4">
                     <div>
-                      <h4 className="font-medium text-white mb-2">Description</h4>
+                      <h4 className="font-medium text-white mb-2">
+                        Description
+                      </h4>
                       <p className="text-gray-400">{contest.description}</p>
                     </div>
 
@@ -390,28 +469,40 @@ const ContestDetail = ({ contestId, onBack }) => {
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-400">Start:</span>
-                          <span className="font-medium text-white">{formatDateTime(contest.startTime)}</span>
+                          <span className="font-medium text-white">
+                            {formatDateTime(contest.startTime)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">End:</span>
-                          <span className="font-medium text-white">{formatDateTime(contest.endTime)}</span>
+                          <span className="font-medium text-white">
+                            {formatDateTime(contest.endTime)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Duration:</span>
-                          <span className="font-medium text-white">{duration} hours</span>
+                          <span className="font-medium text-white">
+                            {duration} hours
+                          </span>
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="font-medium text-white mb-2">Created by</h4>
+                      <h4 className="font-medium text-white mb-2">
+                        Created by
+                      </h4>
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium">
                           {contest.creator.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <p className="font-medium text-white">{contest.creator.name}</p>
-                          <p className="text-sm text-gray-400">@{contest.creator.username}</p>
+                          <p className="font-medium text-white">
+                            {contest.creator.name}
+                          </p>
+                          <p className="text-sm text-gray-400">
+                            @{contest.creator.username}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -429,22 +520,30 @@ const ContestDetail = ({ contestId, onBack }) => {
                   <div className="p-6 space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-gray-400">Your Status:</span>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        contest.isRegistered ? "bg-blue-900 text-blue-300" : "bg-gray-700 text-gray-300"
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          contest.isRegistered
+                            ? "bg-blue-900 text-blue-300"
+                            : "bg-gray-700 text-gray-300"
+                        }`}
+                      >
                         {contest.isRegistered ? "Registered" : "Not Registered"}
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <span className="text-gray-400">Total Participants:</span>
-                      <span className="font-medium text-white">{contest.participantCount || 0}</span>
+                      <span className="font-medium text-white">
+                        {contest.participantCount || 0}
+                      </span>
                     </div>
 
                     {contest.maxParticipants && (
                       <div className="flex items-center justify-between">
                         <span className="text-gray-400">Max Participants:</span>
-                        <span className="font-medium text-white">{contest.maxParticipants}</span>
+                        <span className="font-medium text-white">
+                          {contest.maxParticipants}
+                        </span>
                       </div>
                     )}
 
@@ -453,7 +552,12 @@ const ContestDetail = ({ contestId, onBack }) => {
                         <div
                           className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
                           style={{
-                            width: `${Math.min(((contest.participantCount || 0) / contest.maxParticipants) * 100, 100)}%`,
+                            width: `${Math.min(
+                              ((contest.participantCount || 0) /
+                                contest.maxParticipants) *
+                                100,
+                              100
+                            )}%`,
                           }}
                         />
                       </div>
@@ -488,11 +592,15 @@ const ContestDetail = ({ contestId, onBack }) => {
                             <div className="w-8 h-8 bg-blue-900/50 rounded-full flex items-center justify-center text-blue-400 font-bold text-sm">
                               {contestProblem.order}
                             </div>
-                            <h3 className="text-lg text-white">{contestProblem.problem.title}</h3>
+                            <h3 className="text-lg text-white">
+                              {contestProblem.problem.title}
+                            </h3>
                           </div>
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            getDifficultyColor(contestProblem.problem.difficulty)
-                          }`}>
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyColor(
+                              contestProblem.problem.difficulty
+                            )}`}
+                          >
                             {contestProblem.problem.difficulty}
                           </span>
                         </div>
@@ -501,17 +609,27 @@ const ContestDetail = ({ contestId, onBack }) => {
                       <div className="p-4">
                         <div className="space-y-3">
                           <p className="text-sm text-gray-400 line-clamp-3">
-                            {contestProblem.problem.description.substring(0, 150)}...
+                            {contestProblem.problem.description.substring(
+                              0,
+                              150
+                            )}
+                            ...
                           </p>
 
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-400">Points:</span>
-                            <span className="font-medium text-blue-400">{contestProblem.points}</span>
+                            <span className="font-medium text-blue-400">
+                              {contestProblem.points}
+                            </span>
                           </div>
 
                           {status === "LIVE" && contest.isRegistered && (
                             <button
-                              onClick={() => navigate(`/contests/${contestId}/live/${contestProblem.problem.id}`)}
+                              onClick={() =>
+                                navigate(
+                                  `/contests/${contestId}/live/${contestProblem.problem.id}`
+                                )
+                              }
                               className="w-full inline-flex items-center justify-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                               <Code className="w-4 h-4 mr-2" />
@@ -526,7 +644,9 @@ const ContestDetail = ({ contestId, onBack }) => {
               </div>
             )}
 
-            {activeTab === "leaderboard" && <ContestLeaderboard contestId={contestId} />}
+            {activeTab === "leaderboard" && (
+              <ContestLeaderboard contestId={contestId} />
+            )}
             {activeTab === "stats" && <ContestStats contestId={contestId} />}
           </div>
         </div>
