@@ -15,7 +15,6 @@ export const createContest = async (req, res) => {
       })
     }
 
-  
     // Validate dates
     const start = new Date(startTime)
     const end = new Date(endTime)
@@ -34,10 +33,6 @@ export const createContest = async (req, res) => {
         message: "End time must be after start time",
       })
     }
-
-      console.log("Received startTime:", startTime);  // Should be ISO string with 'Z'
-    console.log("Parsed start:", start);
-
 
     // Verify all problems exist
     const problems = await db.problem.findMany({
