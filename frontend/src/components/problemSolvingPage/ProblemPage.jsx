@@ -128,10 +128,10 @@ const ProblemPage = () => {
     }
 
     if (
-      !["PRO", "ADMIN"].includes(user?.user?.profile?.role)
+      !["PRO"].includes(user?.user?.profile?.role)
     ) {
       toast.error("Upgrade to PRO to use AI Code Review", {
-        description: "This feature is only available for PRO or ADMIN users",
+        description: "This feature is only available for PRO users",
         action: {
           label: "Upgrade",
           onClick: () => setShowUpgradeModal(true),
@@ -245,7 +245,7 @@ const ProblemPage = () => {
 
   const handleToggleAI = () => {
     if (
-      !["PRO", "ADMIN"].includes(user?.user?.profile?.role)
+      !["PRO"].includes(user?.user?.profile?.role)
     ) {
       toast.error("Upgrade to PRO to use AI Autocomplete", {
         description: "This feature is only available for PRO users",
@@ -644,7 +644,7 @@ const ProblemPage = () => {
                           : "bg-gradient-to-r from-green-600 to-emerald-600 text-gray-100 hover:from-green-700 hover:to-emerald-700"
                       }`}
                       onClick={() => {
-                        if (!["PRO", "ADMIN"].includes(user?.user?.profile?.role)) {
+                        if (!["PRO"].includes(user?.user?.profile?.role)) {
                           toast.error("Upgrade to PRO for AI Code Review", {
                             description:
                               "This feature is only available for PRO members",

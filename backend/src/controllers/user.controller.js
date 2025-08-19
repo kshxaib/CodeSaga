@@ -85,7 +85,7 @@ export const getUserDetails = async (req, res) => {
       }),
     ]);
 
-    // Manual calculation of average memory and time from strings
+    
     const memoryNumbers = [];
     const timeNumbers = [];
 
@@ -399,6 +399,13 @@ export const initiateProUpgrade = async (req, res) => {
 
 export const verifyProUpgrade = async (req, res) => {
   const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+
+  if(req.user.role === "ADMIN"){
+    return res.status(400).json({
+      success: false,
+      message: "ADMIN cannot switch to PRO."
+    })
+  }
 
   try {
     if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {

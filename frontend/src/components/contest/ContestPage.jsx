@@ -14,8 +14,7 @@ const ContestPage = () => {
 
   const { authUser } = useAuthStore();
   const {user} = useUserStore()
-  const isAdmin =   user?.user?.profile?.role === "ADMIN" || 
-  user?.user?.profile?.email === "khanshoaibishtiyak@gmail.com";
+  const isAdmin =   user?.user?.profile?.role === "ADMIN"
 
   const handleContestCreated = (newContest) => {
     setRefreshTrigger((prev) => prev + 1);
